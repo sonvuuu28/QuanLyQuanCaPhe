@@ -151,12 +151,14 @@ CREATE TABLE [CongThuc] (
 
 CREATE TABLE [Mon] (
 	[MaMon] nvarchar(255) ,
+	[MaLoaiMon] nvarchar(255),
 	[TenMon] nvarchar(255),
 	[MaCongThuc] nvarchar(255),
 	[DonGiaMon] decimal(18,0),
 	[TrangThaiMon] bit,
 	PRIMARY KEY ([MaMon]),
-	FOREIGN KEY ([MaCongThuc]) REFERENCES [CongThuc]([MaCongThuc])
+	FOREIGN KEY ([MaCongThuc]) REFERENCES [CongThuc]([MaCongThuc]),
+	FOREIGN KEY ([MaLoaiMon]) REFERENCES [LoaiMon]([MaLoaiMon])
 );
 
 CREATE TABLE [ChiTietHoaDon] (
@@ -285,17 +287,18 @@ INSERT INTO [CongThuc] ([MaCongThuc], [TenCongThuc], [MoTaCongThuc], [TrangThaiC
 VALUES 
     ('CT001', N'Cà phê đen', '0.25g cà phê', 1),
     ('CT002', N'Capuchino', 'Cà phê, ', 1),
-    ('CT003', N'Matcha', 'Trà matcha, sữa', 1),
-    ('CT004', N'Sinh tố', 'Dâu, sữa', 1),
+    ('CT003',N'Matcha', 'Trà matcha, sữa', 1),
+    ('CT004',N'Sinh tố', 'Dâu, sữa', 1),
     ('CT005', N'Cacao sữa', 'Cacao, sữa', 1);
 
 -- Dữ liệu mẫu cho bảng Mon
-INSERT INTO Mon (MaMon, TenMon, MaCongThuc, DonGiaMon, TrangThaiMon) VALUES
-('M001', N'Cà Phê Đen', 'CT001', 20000, 1),
-('M002', N'Cappuccino', 'CT002', 30000, 1),
-('M003', N'Trà Xanh', 'CT003', 25000, 1),
-('M004', N'Sinh Tố Dâu', 'CT004', 35000, 1),
-('M005', N'Cacao Sữa', 'CT005', 28000, 1);
+INSERT INTO Mon (MaMon, MaLoaiMon, TenMon, MaCongThuc, DonGiaMon, TrangThaiMon) 
+VALUES
+('M001', 'LM001', N'Cà Phê Đen', 'CT001', 20000, 1),
+('M002', 'LM001', N'Cappuccino', 'CT002', 30000, 1),
+('M003', 'LM002', N'Trà Xanh', 'CT003', 25000, 1),
+('M004', 'LM003', N'Sinh Tố Dâu', 'CT004', 35000, 1),
+('M005', 'LM005', N'Cacao Sữa', 'CT005', 28000, 1);
 
 -- Dữ liệu mẫu cho bảng NguyenLieu
 INSERT INTO NguyenLieu (MaNguyenLieu, TenNguyenLieu, KhoiLuongNguyenLieu, DonGiaNguyenLieu, TrangThaiNguyenLieu) VALUES
