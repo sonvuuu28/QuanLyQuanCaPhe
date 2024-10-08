@@ -2,13 +2,13 @@ package DTO;
 
 public class NhanVienDTO {
 
-    private int MaNhanVien;
+    private String MaNhanVien;
     private String TenNhanVien;
     private String GioiTinhNhanVien;
     private String SoDienThoaiNhanVien;
     private String NgaySinhNhanVien;
     private String ChucVuNhanVien;
-    private int DiaChi;
+    private String DiaChi;
     private int LuongNhanVien;
     private int TrangThaiNhanVien;
 
@@ -16,8 +16,8 @@ public class NhanVienDTO {
 
     }
     
-    public NhanVienDTO(int maNhanVien, String tenNhanVien, String gioiTinhNhanVien, String soDienThoaiNhanVien,
-            String ngaySinhNhanVien, String chucVuNhanVien, int diaChi, int luongNhanVien, int trangThaiNhanVien) {
+    public NhanVienDTO(String maNhanVien, String tenNhanVien, String gioiTinhNhanVien, String soDienThoaiNhanVien,
+            String ngaySinhNhanVien, String chucVuNhanVien, String diaChi, int luongNhanVien, int trangThaiNhanVien) {
 
         this.MaNhanVien = maNhanVien;
         this.TenNhanVien = tenNhanVien;
@@ -29,10 +29,10 @@ public class NhanVienDTO {
         this.LuongNhanVien = luongNhanVien;
         this.TrangThaiNhanVien = trangThaiNhanVien;
     }
-    public int getMaNhanVien() {
+    public String getMaNhanVien() {
         return MaNhanVien;
     }
-    public void setMaNhanVien(int maNhanVien) {
+    public void setMaNhanVien(String maNhanVien) {
         this.MaNhanVien = maNhanVien;
     }
     public String getTenNhanVien() {
@@ -65,10 +65,10 @@ public class NhanVienDTO {
     public void setChucVuNhanVien(String chucVuNhanVien) {
         this.ChucVuNhanVien = chucVuNhanVien;
     }
-    public int getDiaChi() {
+    public String getDiaChi() {
         return DiaChi;
     }
-    public void setDiaChi(int diaChi) {
+    public void setDiaChi(String diaChi) {
         this.DiaChi = diaChi;
     }
     public int getLuongNhanVien() {
