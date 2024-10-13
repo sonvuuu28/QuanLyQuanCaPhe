@@ -32,11 +32,12 @@ CREATE TABLE [CaLam] (
 CREATE TABLE [NhanVien] (
 	[MaNhanVien] nvarchar(255) ,
 	[TenNhanVien] nvarchar(255) ,
-	[NgaySinhNhanVien] date ,
-	[SoDienThoaiNhanVien] nvarchar(255) ,
-	[LuongNhanVien] decimal(18,0) ,
-	[ChucVuNhanVien] nvarchar(255) ,
 	[GioiTinhNhanVien] nvarchar(255) ,
+	[SoDienThoaiNhanVien] nvarchar(255) ,
+	[NgaySinhNhanVien] date ,
+	[ChucVuNhanVien] nvarchar(255) ,
+	[DiaChi] nvarchar(255) ,
+	[LuongNhanVien] decimal(18,0) ,
 	[TrangThaiNhanVien] bit,
 	PRIMARY KEY ([MaNhanVien])
 );
