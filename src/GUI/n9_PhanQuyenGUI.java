@@ -661,7 +661,7 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
             }
         });
 
-        BtnSua.addMouseListener(new java.awt.event.MouseAdapter() {
+        BtnXoa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 BtnXoa.setBackground(new Color(106, 105, 105));
                 LblXoa.setOpaque(true);
