@@ -37,7 +37,7 @@ CREATE TABLE [NhanVien] (
 	[NgaySinhNhanVien] date ,
 	[ChucVuNhanVien] nvarchar(255) ,
 	[DiaChi] nvarchar(255) ,
-	[LuongNhanVien] decimal(18,0) ,
+	[LuongNhanVien] int,
 	[TrangThaiNhanVien] bit,
 	PRIMARY KEY ([MaNhanVien])
 );
@@ -52,7 +52,8 @@ CREATE TABLE [LichLam] (
 );
 
 CREATE TABLE [PhanQuyen] (
-	[MaPhanQuyen] nvarchar(255) ,
+	[MaPhanQuyen] nvarchar(255),
+	[TenQuyen] nvarchar(255),
 	[QuyenKhachHang] bit,
 	[QuyenBanHang] bit,
 	[QuyenNhapHang] bit,
@@ -63,6 +64,7 @@ CREATE TABLE [PhanQuyen] (
 	[QuyenNhaCungCap] bit,
 	[QuyenNhanVien] bit,
 	[QuyenThongKe] bit,
+	[TrangThaiPhanQuyen] bit,
 	PRIMARY KEY ([MaPhanQuyen])
 );
 
@@ -72,6 +74,7 @@ CREATE TABLE [TaiKhoan] (
 	[MatKhau] nvarchar(255) ,
 	[MaPhanQuyen] nvarchar(255) ,
 	[MaNhanVien] nvarchar(255) ,
+	[TrangThaiTaiKhoan] bit,
 	PRIMARY KEY ([MaTaiKhoan]),
 	FOREIGN KEY ([MaNhanVien]) REFERENCES [NhanVien]([MaNhanVien]),
 	FOREIGN KEY ([MaPhanQuyen]) REFERENCES [PhanQuyen]([MaPhanQuyen])
@@ -103,8 +106,7 @@ CREATE TABLE [KhachHang] (
 	[NgaySinhKhachHang] date ,
 	[GioiTinhKhachHang] nvarchar(255),
 	[SoDienThoaiKhachHang] nvarchar(255) ,
-	[ChiTieuKhachHang] decimal(18,0),
-	[TrangThaiKhachHang] bit,
+	[ChiTieuKhachHang] int,
 	[MaUuDai] nvarchar(255),
 	PRIMARY KEY ([MaKhachHang]),
 	FOREIGN KEY ([MaUuDai]) REFERENCES [UuDaiThanhVien]([MaUuDai]),
@@ -113,7 +115,7 @@ CREATE TABLE [KhachHang] (
 CREATE TABLE [HoaDon] (
 	[MaHoaDon] nvarchar(255) ,
 	[NgayLapHoaDon] date ,
-	[TongTienHoaDon] decimal(18,0),
+	[TongTienHoaDon] int,
 	[MaNhanVien] nvarchar(255) ,
 	[MaKhachHang] nvarchar(255) ,
 	[MaUuDai] nvarchar(255),
@@ -136,7 +138,7 @@ CREATE TABLE [NguyenLieu] (
 	[MaNguyenLieu] nvarchar(255) ,
 	[TenNguyenLieu] nvarchar(255) ,
 	[KhoiLuongNguyenLieu] float,
-	[DonGiaNguyenLieu] decimal(18,0),
+	[DonGiaNguyenLieu] int,
 	[TrangThaiNguyenLieu] bit,
 	PRIMARY KEY ([MaNguyenLieu])
 );
@@ -144,7 +146,7 @@ CREATE TABLE [NguyenLieu] (
 CREATE TABLE [CongThuc] (
 	[MaCongThuc] nvarchar(255),
 	[TenCongThuc] nvarchar(255),
-	[MoTaCongThuc] nvarchar(255),
+	[MoTaCongThuc] text,
 	[TrangThaiCongThuc] bit,
 	PRIMARY KEY ([MaCongThuc]),
 );
@@ -155,7 +157,7 @@ CREATE TABLE [Mon] (
 	[MaLoaiMon] nvarchar(255),
 	[TenMon] nvarchar(255),
 	[MaCongThuc] nvarchar(255),
-	[DonGiaMon] decimal(18,0),
+	[DonGiaMon] int,
 	[TrangThaiMon] bit,
 	PRIMARY KEY ([MaMon]),
 	FOREIGN KEY ([MaCongThuc]) REFERENCES [CongThuc]([MaCongThuc]),
@@ -165,8 +167,8 @@ CREATE TABLE [Mon] (
 CREATE TABLE [ChiTietHoaDon] (
 	[MaHoaDon] nvarchar(255),
 	[MaMon] nvarchar(255),
-	[DonGia] decimal(18,0),
-	[ThanhTien] decimal(18,0),
+	[DonGia] int,
+	[ThanhTien] int,
 	[SoLuong] int,
 
 	PRIMARY KEY ([MaHoaDon], [MaMon]),
@@ -179,14 +181,13 @@ CREATE TABLE [NhaCungCap] (
 	[TenNhaCungCap] nvarchar(255),
 	[DiaChiNhaCungCap] nvarchar(255),
 	[SoDienThoaiNhaCungCap] nvarchar(255),
-	[TrangThaiNhaCungCap] bit,
 	PRIMARY KEY ([MaNhaCungCap])
 );
 
 CREATE TABLE [PhieuNhap] (
 	[MaPhieuNhap] nvarchar(255) ,
 	[NgayLapPhieuNhap] date ,
-	[TongTienPhieuNhap] decimal(18,0),
+	[TongTienPhieuNhap] int,
 	[MaNhanVien] nvarchar(255) ,
 	[MaNhaCungCap] nvarchar(255) ,
 	PRIMARY KEY ([MaPhieuNhap]),
@@ -197,8 +198,8 @@ CREATE TABLE [PhieuNhap] (
 CREATE TABLE [ChiTietPhieuNhap] (
 	[MaPhieuNhap] nvarchar(255),
 	[MaNguyenLieu] nvarchar(255),
-	[DonGia] decimal(18,0),
-	[ThanhTien] decimal(18,0),
+	[DonGia] int,
+	[ThanhTien] int,
 	[KhoiLuong] float,
 
 	PRIMARY KEY ([MaPhieuNhap], [MaNguyenLieu]),
@@ -208,7 +209,7 @@ CREATE TABLE [ChiTietPhieuNhap] (
 
 INSERT INTO KhuyenMai (MaKhuyenMai, TenKhuyenMai, NgayBatDauKhuyenMai, NgayKetThucKhuyenMai, PhanTramKhuyenMai, DieuKienKhuyenMai)
 VALUES 
-('KM001', N'Khuyến mãi 10,5%','2024-10-10', '2024-10-20', 10.5, 500000),
+('KM001', N'Khuyến mãi 20 tháng 11','2024-10-10', '2024-10-20', 10.5, 500000),
 ('KM002', N'Khuyến mãi khai trương', '2024-11-05', '2024-11-15', 15.0, 800000),
 ('KM003', N'Khuyến mãi cuối năm','2024-12-01', '2024-12-10', 20.0, 1000000),
 ('KM004', N'Khuyến mãi tháng 10','2024-11-05', '2024-11-15', 15.0, 800000),
@@ -231,13 +232,13 @@ VALUES
 ('CL003', 'Ca C',  '2024-10-05 12:00:00', '2024-10-05 22:00:00', 0);
 
 -- Inserting sample records into the NhanVien table
-INSERT INTO [NhanVien] ([MaNhanVien], [TenNhanVien], [NgaySinhNhanVien], [SoDienThoaiNhanVien], [LuongNhanVien], [ChucVuNhanVien], [GioiTinhNhanVien], [TrangThaiNhanVien]) 
+INSERT INTO [NhanVien] ([MaNhanVien], [TenNhanVien], [NgaySinhNhanVien], [SoDienThoaiNhanVien], [LuongNhanVien], [ChucVuNhanVien], [GioiTinhNhanVien], [TrangThaiNhanVien], [DiaChi]) 
 VALUES 
-('NV001', N'Nguyễn Văn A', '1990-01-01', '123456789', 5000000, N'Nhân Viên', 'Nam', 1),
-('NV002', N'Trần Thị B', '1995-05-10', '987654321', 6000000, N'Quản Lý', N'Nữ', 1),
-('NV003', N'Lê Văn C', '1988-12-15', '456123789', 7000000, N'Quản Lý', 'Nam', 0),
-('NV004', N'Phạm Anh D', '1992-08-20', '789456123', 5500000, N'Nhân Viên', 'Nam', 1),
-('NV005', N'Hoàng Thi E', '1998-04-25', '321654987', 5200000, N'Nhân Viên', N'Nữ', 0);
+('NV001', N'Nguyễn Văn A', '1990-01-01', '123456789', 5000000, N'Nhân Viên', 'Nam', 1, '1234 An Dương Vương'),
+('NV002', N'Trần Thị B', '1995-05-10', '987654321', 6000000, N'Quản Lý', N'Nữ', 1, '1234 An Dương Vương'),
+('NV003', N'Lê Văn C', '1988-12-15', '456123789', 7000000, N'Quản Lý', 'Nam', 0, '1234 An Dương Vương'),
+('NV004', N'Phạm Anh D', '1992-08-20', '789456123', 5500000, N'Nhân Viên', 'Nam', 1, '1234 An Dương Vương'),
+('NV005', N'Hoàng Thi E', '1998-04-25', '321654987', 5200000, N'Nhân Viên', N'Nữ', 0, '1234 An Dương Vương');
 
 -- Inserting sample records into the LichLam table
 INSERT INTO [LichLam] ([MaCaLam], [MaNhanVien], [NgayLam]) 
@@ -249,31 +250,31 @@ VALUES
 ('CL002', 'NV005', '2024-09-28');
 
 -- Inserting sample records into the PhanQuyen table
-INSERT INTO [PhanQuyen] ([MaPhanQuyen], [QuyenKhachHang], [QuyenBanHang], [QuyenNhapHang], [QuyenMon], [QuyenNguyenLieu], [QuyenLichLam], [QuyenKhuyenMaiUuDai], [QuyenNhaCungCap], [QuyenNhanVien], [QuyenThongKe]) 
+INSERT INTO [PhanQuyen] ([MaPhanQuyen], [TenQuyen],[QuyenKhachHang], [QuyenBanHang], [QuyenNhapHang], [QuyenMon], [QuyenNguyenLieu], [QuyenLichLam], [QuyenKhuyenMaiUuDai], [QuyenNhaCungCap], [QuyenNhanVien], [QuyenThongKe], [TrangThaiPhanQuyen]) 
 VALUES 
-('PQ001', 1, 1, 1, 1, 1, 1, 0, 0, 1, 1),
-('PQ002', 1, 1, 0, 1, 1, 0, 1, 1, 0, 1),
-('PQ003', 1, 0, 1, 0, 0, 1, 1, 0, 1, 1),
-('PQ004', 1, 1, 1, 1, 0, 1, 1, 1, 1, 1),
-('PQ005', 1, 0, 0, 1, 1, 1, 0, 1, 1, 0);
+('PQ001', 'Quản Lý', 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1),
+('PQ002', 'Nhân Viên', 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1),
+('PQ003', 'Quản Lý Chi Nhánh', 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1);
+
+-- delete from [PhanQuyen]
 
 -- Inserting sample records into the TaiKhoan table
-INSERT INTO [TaiKhoan] ([MaTaiKhoan], [TenDangNhap], [MatKhau], [MaPhanQuyen], [MaNhanVien]) 
+INSERT INTO [TaiKhoan] ([MaTaiKhoan], [TenDangNhap], [MatKhau], [MaPhanQuyen], [MaNhanVien], [TrangThaiTaiKhoan]) 
 VALUES 
-('TK001', 'user1', 'password1', 'PQ001', 'NV001'),
-('TK002', 'user2', 'password2', 'PQ002', 'NV002'),
-('TK003', 'user3', 'password3', 'PQ003', 'NV003'),
-('TK004', 'user4', 'password4', 'PQ004', 'NV004'),
-('TK005', 'user5', 'password5', 'PQ005', 'NV005');
+('TK001', 'user1', 'password1', 'PQ001', 'NV001', 1),
+('TK002', 'user2', 'password2', 'PQ002', 'NV002', 1),
+('TK003', 'user3', 'password3', 'PQ003', 'NV003', 0),
+('TK004', 'user4', 'password4', 'PQ001', 'NV004', 1),
+('TK005', 'user5', 'password5', 'PQ002', 'NV005', 1);
 
 -- Inserting sample records into the KhachHang table
-INSERT INTO [KhachHang] ([MaKhachHang], [TenKhachHang], [NgaySinhKhachHang], [GioiTinhKhachHang], [SoDienThoaiKhachHang], [ChiTieuKhachHang], [TrangThaiKhachHang], [MaUuDai]) 
+INSERT INTO [KhachHang] ([MaKhachHang], [TenKhachHang], [NgaySinhKhachHang], [GioiTinhKhachHang], [SoDienThoaiKhachHang], [ChiTieuKhachHang], [MaUuDai]) 
 VALUES 
-('KH001', N'Nguyễn Văn A', '1990-02-15', 'Nam', '123456789', 500000, 1, 'UD001'),
-('KH002', N'Trần Bảo Long', '1995-06-20', 'Nam', '987654321', 600000, 1, 'UD001'),
-('KH003', N'Lê Thị Thu', '1988-03-10', N'Nữ', '456123789', 700000, 0, 'UD002'),
-('KH004', N'Phạm Huy Hoàng', '1992-09-25', 'Nam', '789456123', 550000, 1, 'UD002'),
-('KH005', N'Nguyễn Thị Hương', '1998-05-30', N'Nữ', '321654987', 520000, 0,'UD003');
+('KH001', N'Nguyễn Văn A', '1990-02-15', 'Nam', '123456789', 500000, 'UD001'),
+('KH002', N'Trần Bảo Long', '1995-06-20', 'Nam', '987654321', 600000, 'UD001'),
+('KH003', N'Lê Thị Thu', '1988-03-10', N'Nữ', '456123789', 700000, 'UD002'),
+('KH004', N'Phạm Huy Hoàng', '1992-09-25', 'Nam', '789456123', 550000, 'UD002'),
+('KH005', N'Nguyễn Thị Hương', '1998-05-30', N'Nữ', '321654987', 520000,'UD003');
 
 
 -- Dữ liệu mẫu cho bảng LoaiMon
@@ -326,13 +327,13 @@ INSERT INTO ChiTietHoaDon (MaHoaDon, MaMon, DonGia, ThanhTien, SoLuong) VALUES
 ('HD003', 'M001', 20000, 20000, 1);
 
 -- Bảng NhaCungCap
-INSERT INTO [NhaCungCap] ([MaNhaCungCap], [TenNhaCungCap], [DiaChiNhaCungCap], [SoDienThoaiNhaCungCap], [TrangThaiNhaCungCap])
+INSERT INTO [NhaCungCap] ([MaNhaCungCap], [TenNhaCungCap], [DiaChiNhaCungCap], [SoDienThoaiNhaCungCap])
 VALUES 
-    ('NCC001', N'Công ty TNHH ABC', N'123 Đường ABC, TP. Hồ Chí Minh', '0123456789', 1),
-    ('NCC002', N'Công ty XYZ', N'456 Đường XYZ, TP. Hà Nội', '0987654321', 1),
-    ('NCC003', N'Cửa hàng MNP', N'789 Đường MNP, TP. Đà Nẵng', '0369852147', 1),
-    ('NCC004', N'Chợ Lớn', N'1012 Đường KLM, TP. Cần Thơ', '0765432198', 1),
-    ('NCC005', N'Siêu thị UVW', N'1518 Đường UVW, TP. Hải Phòng', '0932145786', 1);
+    ('NCC001', N'Công ty TNHH ABC', N'123 Đường ABC, TP. Hồ Chí Minh', '0123456789'),
+    ('NCC002', N'Công ty XYZ', N'456 Đường XYZ, TP. Hà Nội', '0987654321'),
+    ('NCC003', N'Cửa hàng MNP', N'789 Đường MNP, TP. Đà Nẵng', '0369852147'),
+    ('NCC004', N'Chợ Lớn', N'1012 Đường KLM, TP. Cần Thơ', '0765432198'),
+    ('NCC005', N'Siêu thị UVW', N'1518 Đường UVW, TP. Hải Phòng', '0932145786');
 
 -- Bảng PhieuNhap
 INSERT INTO [PhieuNhap] ([MaPhieuNhap], [NgayLapPhieuNhap], [TongTienPhieuNhap], [MaNhanVien], [MaNhaCungCap])
