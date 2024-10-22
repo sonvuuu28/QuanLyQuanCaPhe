@@ -107,9 +107,9 @@ CREATE TABLE [KhachHang] (
 	[GioiTinhKhachHang] nvarchar(255),
 	[SoDienThoaiKhachHang] nvarchar(255) ,
 	[ChiTieuKhachHang] int,
-	[MaUuDai] nvarchar(255),
+	--[MaUuDai] nvarchar(255),
 	PRIMARY KEY ([MaKhachHang]),
-	FOREIGN KEY ([MaUuDai]) REFERENCES [UuDaiThanhVien]([MaUuDai]),
+	--FOREIGN KEY ([MaUuDai]) REFERENCES [UuDaiThanhVien]([MaUuDai]),
 );
 
 CREATE TABLE [HoaDon] (
