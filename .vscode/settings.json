@@ -1,0 +1,7 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "src/Lib/mssql-jdbc-12.8.1.jre11.jar",
+        "src/Lib/xchart-3.8.8.jar"
+    ]
+}

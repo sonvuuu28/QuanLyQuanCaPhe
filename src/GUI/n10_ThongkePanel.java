@@ -621,7 +621,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         Main_DtPn.setToolTipText("");
         Main_DtPn.setMaximumSize(new java.awt.Dimension(1090, 1000));
         Main_DtPn.setPreferredSize(new java.awt.Dimension(1090, 450));
-        Main_DtPn.setLayout(new java.awt.CardLayout());
+        Main_DtPn.setLayout(cardLayout);
 
         Main_DtPn1.setBackground(new java.awt.Color(29, 189, 142));
         Main_DtPn1.setToolTipText("");
@@ -808,7 +808,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         ContentCphi.setToolTipText("");
         ContentCphi.setMaximumSize(new java.awt.Dimension(1090, 1000));
         ContentCphi.setPreferredSize(new java.awt.Dimension(1090, 450));
-        ContentCphi.setLayout(new java.awt.CardLayout());
+        ContentCphi.setLayout(cardLayout1);
 
         ContentCphi1.setBackground(new java.awt.Color(19, 189, 142));
         ContentCphi1.setToolTipText("");
@@ -996,7 +996,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         contentTKLnhuan.setToolTipText("");
         contentTKLnhuan.setMaximumSize(new java.awt.Dimension(1090, 1000));
         contentTKLnhuan.setPreferredSize(new java.awt.Dimension(1090, 450));
-        contentTKLnhuan.setLayout(new java.awt.CardLayout());
+        contentTKLnhuan.setLayout(cardLayout2);
 
         contentTKLnhuan1.setBackground(new java.awt.Color(219, 89, 142));
         contentTKLnhuan1.setToolTipText("");
@@ -1183,7 +1183,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         ContentLuong.setToolTipText("");
         ContentLuong.setMaximumSize(new java.awt.Dimension(1090, 1000));
         ContentLuong.setPreferredSize(new java.awt.Dimension(1090, 450));
-        ContentLuong.setLayout(new java.awt.CardLayout());
+        ContentLuong.setLayout(cardLayout3);
 
         ContentLuong1.setBackground(new java.awt.Color(219, 189, 42));
         ContentLuong1.setToolTipText("");
@@ -1370,7 +1370,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         ContentKhohang.setToolTipText("");
         ContentKhohang.setMaximumSize(new java.awt.Dimension(1090, 1000));
         ContentKhohang.setPreferredSize(new java.awt.Dimension(1090, 450));
-        ContentKhohang.setLayout(new java.awt.CardLayout());
+        ContentKhohang.setLayout(cardLayout4);
 
         ContentKhohang1.setBackground(new java.awt.Color(219, 189, 110));
         ContentKhohang1.setToolTipText("");
