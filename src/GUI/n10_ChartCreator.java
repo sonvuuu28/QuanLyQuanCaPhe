@@ -1,18 +1,19 @@
 package GUI;
+
 import org.knowm.xchart.*;
 import javax.swing.*;
 import java.awt.*;
 
 import java.util.List;
 
-public class ChartCreator {
+public class n10_ChartCreator {
 
     // Tạo biểu đồ đường với các tham số đầu vào
     public static XYChart createLineChart(List<Integer> xData, List<Double> yData, 
                                           String title, String xAxisTitle, String yAxisTitle) {
         XYChart lineChart = new XYChartBuilder()
-                .width(700)
-                .height(600)
+                .width(800)
+                .height(500)
                 .title(title)
                 .xAxisTitle(xAxisTitle)
                 .yAxisTitle(yAxisTitle)
@@ -29,8 +30,8 @@ public class ChartCreator {
                                                List<Double> yData2, String title, 
                                                String xAxisTitle, String yAxisTitle,String NameSeries1, String NameSeries2) {
         CategoryChart barChart = new CategoryChartBuilder()
-                .width(700)
-                .height(600)
+                .width(800)
+                .height(500)
                 .title(title)
                 .xAxisTitle(xAxisTitle)
                 .yAxisTitle(yAxisTitle)
