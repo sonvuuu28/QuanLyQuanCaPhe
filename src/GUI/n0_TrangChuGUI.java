@@ -605,6 +605,16 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
                 LabelThongKe.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
                 LabelThongKe.setBackground(Color.white);
             }
+            
+//            @Override
+//            public void mouseClicked(java.awt.event.MouseEvent evt) {
+//                PanelNoiDung.removeAll();
+////                Thongke lich = new Thongke();
+//                PanelNoiDung.setLayout(new BorderLayout());
+//                PanelNoiDung.add(lich, BorderLayout.CENTER); // Adjust the layout constraint as needed
+//                PanelNoiDung.revalidate();
+//                PanelNoiDung.repaint();
+//            }
         });
 
     }
