@@ -1,4 +1,5 @@
 package DTO;
+import java.sql.*;
 
 public class NhanVienDTO {
 
@@ -6,7 +7,7 @@ public class NhanVienDTO {
     private String TenNhanVien;
     private String GioiTinhNhanVien;
     private String SoDienThoaiNhanVien;
-    private String NgaySinhNhanVien;
+    private Date NgaySinhNhanVien;
     private String ChucVuNhanVien;
     private String DiaChi;
     private int LuongNhanVien;
@@ -17,7 +18,7 @@ public class NhanVienDTO {
     }
     
     public NhanVienDTO(String maNhanVien, String tenNhanVien, String gioiTinhNhanVien, String soDienThoaiNhanVien,
-            String ngaySinhNhanVien, String chucVuNhanVien, String diaChi, int luongNhanVien, int trangThaiNhanVien) {
+    Date ngaySinhNhanVien, String chucVuNhanVien, String diaChi, int luongNhanVien, int trangThaiNhanVien) {
 
         this.MaNhanVien = maNhanVien;
         this.TenNhanVien = tenNhanVien;
@@ -53,10 +54,10 @@ public class NhanVienDTO {
     public void setSoDienThoaiNhanVien(String soDienThoaiNhanVien) {
         this.SoDienThoaiNhanVien = soDienThoaiNhanVien;
     }
-    public String getNgaySinhNhanVien() {
+    public Date getNgaySinhNhanVien() {
         return NgaySinhNhanVien;
     }
-    public void setNgaySinhNhanVien(String ngaySinhNhanVien) {
+    public void setNgaySinhNhanVien(Date ngaySinhNhanVien) {
         this.NgaySinhNhanVien = ngaySinhNhanVien;
     }
     public String getChucVuNhanVien() {
