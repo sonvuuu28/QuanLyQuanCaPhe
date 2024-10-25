@@ -49,7 +49,7 @@ public class PhanQuyenDTO {
         this.tenQuyen = tenQuyen;
     }
 
-    public boolean isQuyenKhachHang() {
+    public boolean getQuyenKhachHang() {
         return quyenKhachHang;
     }
 
@@ -57,7 +57,7 @@ public class PhanQuyenDTO {
         this.quyenKhachHang = quyenKhachHang;
     }
 
-    public boolean isQuyenBanHang() {
+    public boolean getQuyenBanHang() {
         return quyenBanHang;
     }
 
@@ -65,7 +65,7 @@ public class PhanQuyenDTO {
         this.quyenBanHang = quyenBanHang;
     }
 
-    public boolean isQuyenNhapHang() {
+    public boolean getQuyenNhapHang() {
         return quyenNhapHang;
     }
 
@@ -73,7 +73,7 @@ public class PhanQuyenDTO {
         this.quyenNhapHang = quyenNhapHang;
     }
 
-    public boolean isQuyenMon() {
+    public boolean getQuyenMon() {
         return quyenMon;
     }
 
@@ -81,7 +81,7 @@ public class PhanQuyenDTO {
         this.quyenMon = quyenMon;
     }
 
-    public boolean isQuyenNguyenLieu() {
+    public boolean getQuyenNguyenLieu() {
         return quyenNguyenLieu;
     }
 
@@ -89,7 +89,7 @@ public class PhanQuyenDTO {
         this.quyenNguyenLieu = quyenNguyenLieu;
     }
 
-    public boolean isQuyenLichLam() {
+    public boolean getQuyenLichLam() {
         return quyenLichLam;
     }
 
@@ -97,7 +97,7 @@ public class PhanQuyenDTO {
         this.quyenLichLam = quyenLichLam;
     }
 
-    public boolean isQuyenKhuyenMaiUuDai() {
+    public boolean getQuyenKhuyenMaiUuDai() {
         return quyenKhuyenMaiUuDai;
     }
 
@@ -105,7 +105,7 @@ public class PhanQuyenDTO {
         this.quyenKhuyenMaiUuDai = quyenKhuyenMaiUuDai;
     }
 
-    public boolean isQuyenNhaCungCap() {
+    public boolean getQuyenNhaCungCap() {
         return quyenNhaCungCap;
     }
 
@@ -113,7 +113,7 @@ public class PhanQuyenDTO {
         this.quyenNhaCungCap = quyenNhaCungCap;
     }
 
-    public boolean isQuyenNhanVien() {
+    public boolean getQuyenNhanVien() {
         return quyenNhanVien;
     }
 
@@ -121,7 +121,7 @@ public class PhanQuyenDTO {
         this.quyenNhanVien = quyenNhanVien;
     }
 
-    public boolean isQuyenThongKe() {
+    public boolean getQuyenThongKe() {
         return quyenThongKe;
     }
 
@@ -129,15 +129,13 @@ public class PhanQuyenDTO {
         this.quyenThongKe = quyenThongKe;
     }
 
-    public boolean isTrangThaiPhanQuyen() {
+    public boolean getTrangThaiPhanQuyen() {
         return trangThaiPhanQuyen;
     }
 
     public void setTrangThaiPhanQuyen(boolean trangThaiPhanQuyen) {
         this.trangThaiPhanQuyen = trangThaiPhanQuyen;
     }
-    
-    
     
     @Override
     public String toString() {
