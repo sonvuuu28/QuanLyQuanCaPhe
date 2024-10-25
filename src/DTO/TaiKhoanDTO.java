@@ -65,6 +65,9 @@ public class TaiKhoanDTO {
     public void setTrangThaiTaiKhoan(boolean trangThaiTaiKhoan) {
         this.trangThaiTaiKhoan = trangThaiTaiKhoan;
     }
+    public boolean getTrangThaiTaiKhoan() {
+        return trangThaiTaiKhoan;
+    }
 
     @Override
     public String toString() {
