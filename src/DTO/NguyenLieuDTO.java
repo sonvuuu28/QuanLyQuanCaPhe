@@ -48,7 +48,7 @@ public class NguyenLieuDTO {
         this.donGiaNguyenLieu = donGiaNguyenLieu;
     }
 
-    public boolean isTrangThaiNguyenLieu() {
+    public boolean getTrangThaiNguyenLieu() {
         return trangThaiNguyenLieu;
     }
 
