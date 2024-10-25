@@ -1,15 +1,19 @@
 package DTO;
 
+import java.util.Date;
+
 public class HoaDonDTO {
     private String maHoaDon;
-    private String ngayLapHoaDon;
+    private Date ngayLapHoaDon;
     private int tongTienHoaDon;
     private String maNhanVien;
     private String maKhachHang;
     private String maUuDai;
     private String maKhuyenMai;
+    public HoaDonDTO() {
+    }
 
-    public HoaDonDTO(String maHoaDon, String ngayLapHoaDon, int tongTienHoaDon, String maNhanVien, String maKhachHang, String maUuDai, String maKhuyenMai) {
+    public HoaDonDTO(String maHoaDon, Date ngayLapHoaDon, int tongTienHoaDon, String maNhanVien, String maKhachHang, String maUuDai, String maKhuyenMai) {
         this.maHoaDon = maHoaDon;
         this.ngayLapHoaDon = ngayLapHoaDon;
         this.tongTienHoaDon = tongTienHoaDon;
@@ -27,11 +31,11 @@ public class HoaDonDTO {
         this.maHoaDon = maHoaDon;
     }
 
-    public String getNgayLapHoaDon() {
+    public Date getNgayLapHoaDon() {
         return ngayLapHoaDon;
     }
 
-    public void setNgayLapHoaDon(String ngayLapHoaDon) {
+    public void setNgayLapHoaDon(Date ngayLapHoaDon) {
         this.ngayLapHoaDon = ngayLapHoaDon;
     }
 
@@ -89,7 +93,9 @@ public class HoaDonDTO {
     }
 
     public static void main(String[] args) {
-        HoaDonDTO hoaDon = new HoaDonDTO("HD001", "28/10/2024", 500000, "NV001", "KH001", "UD001", "KM001");
+        Date date = new Date();
+        date.getTime();
+        HoaDonDTO hoaDon = new HoaDonDTO("HD001", date, 500000, "NV001", "KH001", "UD001", "KM001");
         System.out.println(hoaDon.toString());
     }
 }
