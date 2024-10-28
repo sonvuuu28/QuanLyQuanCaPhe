@@ -1,14 +1,20 @@
 package DTO;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 
 public class PhieuNhapDTO {
 
-    private String maPhieuNhap;
-    private String ngayLapPhieuNhap;
+    private String maPhieuNhap; //string
+    private Date ngayLapPhieuNhap; //String
     private int tongTienPhieuNhap;
-    private String maNhanVien;
-    private String maNhaCungCap;
+    private String maNhanVien; //string
+    private String maNhaCungCap; // string
 
-    public PhieuNhapDTO(String maPhieuNhap, String ngayLapPhieuNhap, int tongTienPhieuNhap, String maNhanVien, String maNhaCungCap) {
+    public PhieuNhapDTO() {
+    }
+    public PhieuNhapDTO(String maPhieuNhap, Date ngayLapPhieuNhap, int tongTienPhieuNhap, String maNhanVien, String maNhaCungCap) {
         this.maPhieuNhap = maPhieuNhap;
         this.ngayLapPhieuNhap = ngayLapPhieuNhap;
         this.tongTienPhieuNhap = tongTienPhieuNhap;
@@ -24,11 +30,11 @@ public class PhieuNhapDTO {
         this.maPhieuNhap = maPhieuNhap;
     }
 
-    public String getNgayLapPhieuNhap() {
+    public Date getNgayLapPhieuNhap() {
         return ngayLapPhieuNhap;
     }
 
-    public void setNgayLapPhieuNhap(String ngayLapPhieuNhap) {
+    public void setNgayLapPhieuNhap(Date ngayLapPhieuNhap) {
         this.ngayLapPhieuNhap = ngayLapPhieuNhap;
     }
 
@@ -67,8 +73,16 @@ public class PhieuNhapDTO {
                 + '}';
     }
 
-    public static void main(String[] args) {
-        PhieuNhapDTO phieuNhap = new PhieuNhapDTO("PN001", "21/11/2024", 1000000, "NV001", "NCC001");
-        System.out.println(phieuNhap.toString());
+    public class Main {
+        public static void main(String[] args) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                Date date = dateFormat.parse("22/11/2001");
+                PhieuNhapDTO phieuNhap = new PhieuNhapDTO("PN001", date, 1000000, "NV001", "NCC001");
+                System.out.println(phieuNhap.toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
