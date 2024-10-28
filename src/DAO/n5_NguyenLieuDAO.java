@@ -1,9 +1,6 @@
 package DAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 import DTO.NguyenLieuDTO;
@@ -118,5 +115,30 @@ public class n5_NguyenLieuDAO {
             }
             return result;
       }
-      
+      public String getNewId() {
+            String maNguyenLieu = "NL001"; // Giá trị mặc định khi không có món trong CSDL
+            try {
+                Connection c = JDBCUtil.getConnection();
+                String sql = "SELECT MAX(MaNguyenLieu) FROM NguyenLieu"; // Câu truy vấn để lấy mã món lớn nhất
+                Statement st = c.createStatement();
+                ResultSet rs = st.executeQuery(sql);
+                
+                if (rs.next()) {
+                    String lastMaHD = rs.getString("maNguyenLieu");
+                    if (lastMaHD != null) {
+                        // Tách phần số ra khỏi mã món (VD: từ "HD005" -> "005")
+                        String numberPart = lastMaHD.substring(2); // Lấy phần số từ vị trí thứ 3
+                        int number = Integer.parseInt(numberPart); // Chuyển đổi thành số nguyên
+                        number++; // Tăng giá trị số lên 1
+                        
+                        // Đảm bảo mã mới có định dạng HD + 3 chữ số
+                        maNguyenLieu = String.format("NL%03d", number); // Định dạng lại thành HDXXX
+                    }
+                }
+                JDBCUtil.closeConnection(c);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return maNguyenLieu; // Trả về mã món mới
+      }
 }
