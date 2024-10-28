@@ -124,5 +124,30 @@ public class n4_MonDAO {
             }
             return result;
       }
-      
+      public String getNewId() {
+            String maMon = "M001"; // Giá trị mặc định khi không có món trong CSDL
+            try {
+                Connection c = JDBCUtil.getConnection();
+                String sql = "SELECT MAX(MaMon) FROM Mon"; // Câu truy vấn để lấy mã món lớn nhất
+                Statement st = c.createStatement();
+                ResultSet rs = st.executeQuery(sql);
+                
+                if (rs.next()) {
+                    String lastMaHD = rs.getString("maMon");
+                    if (lastMaHD != null) {
+                        // Tách phần số ra khỏi mã món (VD: từ "HD005" -> "005")
+                        String numberPart = lastMaHD.substring(1); // Lấy phần số từ vị trí thứ 3
+                        int number = Integer.parseInt(numberPart); // Chuyển đổi thành số nguyên
+                        number++; // Tăng giá trị số lên 1
+                        
+                        // Đảm bảo mã mới có định dạng HD + 3 chữ số
+                        maMon = String.format("M%03d", number); // Định dạng lại thành HDXXX
+                    }
+                }
+                JDBCUtil.closeConnection(c);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return maMon; // Trả về mã món mới
+      }
 }
