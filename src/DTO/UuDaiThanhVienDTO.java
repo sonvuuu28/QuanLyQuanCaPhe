@@ -1,21 +1,27 @@
 package DTO;
 
+import java.util.Date;
+
 public class UuDaiThanhVienDTO {
 
     private String maUuDai;
     private String tenUuDai;
-    private String ngayBatDauUuDai;
-    private String ngayKetThucUuDai;
-    private double phanTramUuDai;
+    private Date ngayBatDauUuDai;
+    private Date ngayKetThucUuDai;
+    private float phanTramUuDai;
     private int dieuKienUuDai;
 
-    public UuDaiThanhVienDTO(String maUuDai, String tenUuDai, String ngayBatDauUuDai, String ngayKetThucUuDai, double phanTramUuDai, int dieuKienUuDai) {
+    public UuDaiThanhVienDTO(String maUuDai, String tenUuDai, Date ngayBatDauUuDai, Date ngayKetThucUuDai, float phanTramUuDai, int dieuKienUuDai) {
         this.maUuDai = maUuDai;
         this.tenUuDai = tenUuDai;
         this.ngayBatDauUuDai = ngayBatDauUuDai;
         this.ngayKetThucUuDai = ngayKetThucUuDai;
         this.phanTramUuDai = phanTramUuDai;
         this.dieuKienUuDai = dieuKienUuDai;
+    }
+
+    public UuDaiThanhVienDTO() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public String getMaUuDai() {
@@ -34,27 +40,27 @@ public class UuDaiThanhVienDTO {
         this.tenUuDai = tenUuDai;
     }
 
-    public String getNgayBatDauUuDai() {
+    public Date getNgayBatDauUuDai() {
         return ngayBatDauUuDai;
     }
 
-    public void setNgayBatDauUuDai(String ngayBatDauUuDai) {
+    public void setNgayBatDauUuDai(Date ngayBatDauUuDai) {
         this.ngayBatDauUuDai = ngayBatDauUuDai;
     }
 
-    public String getNgayKetThucUuDai() {
+    public Date getNgayKetThucUuDai() {
         return ngayKetThucUuDai;
     }
 
-    public void setNgayKetThucUuDai(String ngayKetThucUuDai) {
+    public void setNgayKetThucUuDai(Date ngayKetThucUuDai) {
         this.ngayKetThucUuDai = ngayKetThucUuDai;
     }
 
-    public double getPhanTramUuDai() {
+    public float getPhanTramUuDai() {
         return phanTramUuDai;
     }
 
-    public void setPhanTramUuDai(double phanTramUuDai) {
+    public void setPhanTramUuDai(float phanTramUuDai) {
         this.phanTramUuDai = phanTramUuDai;
     }
 
@@ -68,18 +74,19 @@ public class UuDaiThanhVienDTO {
 
     @Override
     public String toString() {
-        return "UuDaiThanhVienDTO{"
-                + "maUuDai='" + maUuDai + '\''
-                + ", tenUuDai='" + tenUuDai + '\''
-                + ", ngayBatDauUuDai=" + ngayBatDauUuDai
-                + ", ngayKetThucUuDai=" + ngayKetThucUuDai
-                + ", phanTramUuDai=" + phanTramUuDai
-                + ", dieuKienUuDai=" + dieuKienUuDai
-                + '}';
+        return "UuDaiThanhVienDTO{" +
+                "maUuDai='" + maUuDai + '\'' +
+                ", tenUuDai='" + tenUuDai + '\'' +
+                ", ngayBatDauUuDai=" + ngayBatDauUuDai +
+                ", ngayKetThucUuDai=" + ngayKetThucUuDai +
+                ", phanTramUuDai=" + phanTramUuDai +
+                ", dieuKienUuDai=" + dieuKienUuDai +
+                '}';
     }
 
     public static void main(String[] args) {
-        UuDaiThanhVienDTO uuDai = new UuDaiThanhVienDTO("UD001", "Uu Dai 1", "21/10/2024", "21/10/2024", 15.5, 500000);
+        // Khởi tạo với ngày và phần trăm ưu đãi phù hợp kiểu dữ liệu mới
+        UuDaiThanhVienDTO uuDai = new UuDaiThanhVienDTO("UD001", "Uu Dai 1", new Date(), new Date(), 15.5f, 500000);
         System.out.println(uuDai.toString());
     }
 }
