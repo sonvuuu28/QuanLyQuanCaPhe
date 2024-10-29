@@ -1,20 +1,26 @@
 package DTO;
 
+import java.util.Date;
+
 public class KhuyenMaiDTO {
     private String maKhuyenMai;
     private String tenKhuyenMai;
-    private String ngayBatDauKhuyenMai;
-    private String ngayKetThucKhuyenMai;
-    private double phanTramKhuyenMai;
+    private Date ngayBatDauKhuyenMai;
+    private Date ngayKetThucKhuyenMai;
+    private float phanTramKhuyenMai;
     private int dieuKienKhuyenMai;
 
-    public KhuyenMaiDTO(String maKhuyenMai, String tenKhuyenMai, String ngayBatDauKhuyenMai, String ngayKetThucKhuyenMai, double phanTramKhuyenMai, int dieuKienKhuyenMai) {
+    public KhuyenMaiDTO(String maKhuyenMai, String tenKhuyenMai, Date ngayBatDauKhuyenMai, Date ngayKetThucKhuyenMai, float phanTramKhuyenMai, int dieuKienKhuyenMai) {
         this.maKhuyenMai = maKhuyenMai;
         this.tenKhuyenMai = tenKhuyenMai;
         this.ngayBatDauKhuyenMai = ngayBatDauKhuyenMai;
         this.ngayKetThucKhuyenMai = ngayKetThucKhuyenMai;
         this.phanTramKhuyenMai = phanTramKhuyenMai;
         this.dieuKienKhuyenMai = dieuKienKhuyenMai;
+    }
+
+    public KhuyenMaiDTO() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public String getMaKhuyenMai() {
@@ -33,27 +39,27 @@ public class KhuyenMaiDTO {
         this.tenKhuyenMai = tenKhuyenMai;
     }
 
-    public String getNgayBatDauKhuyenMai() {
+    public Date getNgayBatDauKhuyenMai() {
         return ngayBatDauKhuyenMai;
     }
 
-    public void setNgayBatDauKhuyenMai(String ngayBatDauKhuyenMai) {
+    public void setNgayBatDauKhuyenMai(Date ngayBatDauKhuyenMai) {
         this.ngayBatDauKhuyenMai = ngayBatDauKhuyenMai;
     }
 
-    public String getNgayKetThucKhuyenMai() {
+    public Date getNgayKetThucKhuyenMai() {
         return ngayKetThucKhuyenMai;
     }
 
-    public void setNgayKetThucKhuyenMai(String ngayKetThucKhuyenMai) {
+    public void setNgayKetThucKhuyenMai(Date ngayKetThucKhuyenMai) {
         this.ngayKetThucKhuyenMai = ngayKetThucKhuyenMai;
     }
 
-    public double getPhanTramKhuyenMai() {
+    public float getPhanTramKhuyenMai() {
         return phanTramKhuyenMai;
     }
 
-    public void setPhanTramKhuyenMai(double phanTramKhuyenMai) {
+    public void setPhanTramKhuyenMai(float phanTramKhuyenMai) {
         this.phanTramKhuyenMai = phanTramKhuyenMai;
     }
 
@@ -78,7 +84,8 @@ public class KhuyenMaiDTO {
     }
 
     public static void main(String[] args) {
-        KhuyenMaiDTO khuyenMai = new KhuyenMaiDTO("KM001", "Khuyen Mai 1", "21/10/2024", "21/12/2024", 10.5, 1000000);
+        // Khởi tạo đối tượng với ngày theo kiểu Date
+        KhuyenMaiDTO khuyenMai = new KhuyenMaiDTO("KM001", "Khuyen Mai 1", new Date(), new Date(), 10.5f, 1000000);
         System.out.println(khuyenMai.toString());
     }
 }
