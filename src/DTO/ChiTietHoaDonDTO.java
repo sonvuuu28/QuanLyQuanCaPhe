@@ -7,6 +7,10 @@ public class ChiTietHoaDonDTO {
     private int donGia;
     private int thanhTien;
     private int soLuong;
+    
+    public ChiTietHoaDonDTO(){
+        
+    }
 
     public ChiTietHoaDonDTO(String maHoaDon, String maMon, int donGia, int thanhTien, int soLuong) {
         this.maHoaDon = maHoaDon;
