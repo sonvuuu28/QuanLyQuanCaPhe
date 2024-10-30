@@ -1,15 +1,17 @@
 package DTO;
 
+import java.sql.*;
+
 public class KhachHangDTO {
     private String maKhachHang;
     private String tenKhachHang;
-    private String ngaySinhKhachHang;
+    private Date ngaySinhKhachHang;
     private String gioiTinhKhachHang;
     private String soDienThoaiKhachHang;
     private int chiTieuKhachHang;
     private String maUuDai;
 
-    public KhachHangDTO(String maKhachHang, String tenKhachHang, String ngaySinhKhachHang, String gioiTinhKhachHang, String soDienThoaiKhachHang, int chiTieuKhachHang, String maUuDai) {
+    public KhachHangDTO(String maKhachHang, String tenKhachHang, Date ngaySinhKhachHang, String gioiTinhKhachHang, String soDienThoaiKhachHang, int chiTieuKhachHang, String maUuDai) {
         this.maKhachHang = maKhachHang;
         this.tenKhachHang = tenKhachHang;
         this.ngaySinhKhachHang = ngaySinhKhachHang;
@@ -35,11 +37,11 @@ public class KhachHangDTO {
         this.tenKhachHang = tenKhachHang;
     }
 
-    public String getNgaySinhKhachHang() {
+    public Date getNgaySinhKhachHang() {
         return ngaySinhKhachHang;
     }
 
-    public void setNgaySinhKhachHang(String ngaySinhKhachHang) {
+    public void setNgaySinhKhachHang(Date ngaySinhKhachHang) {
         this.ngaySinhKhachHang = ngaySinhKhachHang;
     }
 
@@ -89,7 +91,7 @@ public class KhachHangDTO {
     }
 
     public static void main(String[] args) {
-        KhachHangDTO khachHang = new KhachHangDTO("KH001", "Nguyễn Văn A", "28/01/2004", "Nam", "123456789", 1000000, "UD001");
+        KhachHangDTO khachHang = new KhachHangDTO("KH001", "Nguyễn Văn A", Date.valueOf("28/01/2004"), "Nam", "123456789", 1000000, "UD001");
         System.out.println(khachHang.toString());
     }
 }
