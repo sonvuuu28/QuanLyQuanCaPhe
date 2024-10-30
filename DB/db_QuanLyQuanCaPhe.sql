@@ -143,27 +143,25 @@ CREATE TABLE [NguyenLieu] (
 	PRIMARY KEY ([MaNguyenLieu])
 );
 
-CREATE TABLE [CongThuc] (
-	[MaCongThuc] nvarchar(255),
-	[TenCongThuc] nvarchar(255),
-	[MoTaCongThuc] ntext,
-	[TrangThaiCongThuc] bit,
-	PRIMARY KEY ([MaCongThuc]),
-);
-
-
 CREATE TABLE [Mon] (
 	[MaMon] nvarchar(255) ,
 	[MaLoaiMon] nvarchar(255),
 	[TenMon] nvarchar(255),
 	[HinhAnh] nvarchar(255),
-	[MaCongThuc] nvarchar(255),
 	[DonGiaMon] int,
 	[TrangThaiMon] bit,
 	PRIMARY KEY ([MaMon]),
-	FOREIGN KEY ([MaCongThuc]) REFERENCES [CongThuc]([MaCongThuc]),
 	FOREIGN KEY ([MaLoaiMon]) REFERENCES [LoaiMon]([MaLoaiMon])
 );
+
+CREATE TABLE [CongThuc] (
+	[MaMon] nvarchar(255),
+	[MaNguyenLieu] nvarchar(255),
+	[KhoiLuong] float,
+	FOREIGN KEY ([MaNguyenLieu]) REFERENCES [NguyenLieu]([MaNguyenLieu]),
+	FOREIGN KEY ([MaMon]) REFERENCES [Mon]([MaMon])
+);
+
 
 CREATE TABLE [ChiTietHoaDon] (
 	[MaHoaDon] nvarchar(255),
@@ -286,22 +284,22 @@ INSERT INTO LoaiMon (MaLoaiMon, TenLoaiMon, TrangThaiLoaiMon) VALUES
 ('LM004', N'Nước Ép', 1),
 ('LM005', N'Cacao', 1);
 
-INSERT INTO [CongThuc] ([MaCongThuc], [TenCongThuc], [MoTaCongThuc], [TrangThaiCongThuc])
-VALUES 
-    ('CT001', N'Cà phê đen', N'0.25g cà phê', 1),
-('CT002', N'Capuchino', N'Cà phê,', 1),
-('CT003', N'Matcha', N'Trà matcha, sữa', 1),
-('CT004', N'Sinh tố', N'Dâu, sữa', 1),
-('CT005', N'Cacao sữa', N'Cacao, sữa', 1);
-
 -- Dữ liệu mẫu cho bảng Mon
-INSERT INTO Mon (MaMon, MaLoaiMon, TenMon, HinhAnh, MaCongThuc, DonGiaMon, TrangThaiMon) 
+INSERT INTO Mon (MaMon, MaLoaiMon, TenMon, HinhAnh, DonGiaMon, TrangThaiMon) 
 VALUES
-('M001', 'LM001', N'Cà Phê Đen', 'anh1.png','CT001', 20000, 1),
-('M002', 'LM001', N'Cappuccino', 'anh1.png', 'CT002', 30000, 1),
-('M003', 'LM002', N'Trà Xanh', 'anh3.png', 'CT003', 25000, 1),
-('M004', 'LM003', N'Sinh Tố Dâu', 'anh2.png', 'CT004', 35000, 1),
-('M005', 'LM005', N'Cacao Sữa', 'anh1.png', 'CT005', 28000, 1);
+('M001', 'LM001', N'Cà Phê Đen', 'anh1.png', 20000, 1),
+('M002', 'LM001', N'Cappuccino', 'anh1.png', 30000, 1),
+('M003', 'LM002', N'Trà Xanh', 'anh3.png', 25000, 1),
+('M004', 'LM003', N'Sinh Tố Dâu', 'anh2.png', 35000, 1),
+('M005', 'LM005', N'Cacao Sữa', 'anh1.png', 28000, 1);
+
+INSERT INTO [CongThuc] (MaMon, MaNguyenLieu, KhoiLuong)
+VALUES 
+    ('M001', 'NL001', 0.5),
+('M001', 'NL002', 0.5),
+('M001', 'NL003', 0.5),
+('M002', 'NL001', 0.5),
+('M003', 'NL001', 0.5);
 
 -- Dữ liệu mẫu cho bảng NguyenLieu
 INSERT INTO NguyenLieu (MaNguyenLieu, TenNguyenLieu, KhoiLuongNguyenLieu, DonGiaNguyenLieu, TrangThaiNguyenLieu) VALUES
