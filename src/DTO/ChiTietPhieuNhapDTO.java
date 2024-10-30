@@ -8,6 +8,9 @@ public class ChiTietPhieuNhapDTO {
     private int thanhTien;
     private float khoiLuong;
 
+    public ChiTietPhieuNhapDTO() {
+    }
+    
     public ChiTietPhieuNhapDTO(String maPhieuNhap, String maNguyenLieu, int donGia, int thanhTien, float khoiLuong) {
         this.maPhieuNhap = maPhieuNhap;
         this.maNguyenLieu = maNguyenLieu;

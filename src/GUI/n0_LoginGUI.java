@@ -7,7 +7,8 @@ public class n0_LoginGUI extends javax.swing.JFrame {
 
     public n0_LoginGUI() {
         initComponents();
-        
+        setVisible(true);
+        setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -253,7 +254,7 @@ public class n0_LoginGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void nhomNutChucNang(n0_LoginGUI login) {
+    public void nhomNutChucNang(n0_LoginGUI login) {
         PanelNutDangNhap.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 PanelNutDangNhap.setBackground(new Color(106, 105, 105));
@@ -282,8 +283,6 @@ public class n0_LoginGUI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 n0_LoginGUI login = new n0_LoginGUI();
-                login.setVisible(true);
-                login.setLocationRelativeTo(null);
                 login.nhomNutChucNang(login);
             }
         });

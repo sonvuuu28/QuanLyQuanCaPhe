@@ -1,6 +1,8 @@
 package GUI;
 
 import Util.TableCustom;
+import com.toedter.calendar.JDateChooser;
+
 
 public class n3_PNPhieuNhap extends javax.swing.JPanel {
 
@@ -29,11 +31,11 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
         jP_NhapThongTin = new javax.swing.JPanel();
         jP_TuNgay = new javax.swing.JPanel();
         jL_TuNgay = new javax.swing.JLabel();
-        jT_TuNgay = new javax.swing.JTextField();
+        // jT_TuNgay = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JSeparator();
         jP_DenNgay = new javax.swing.JPanel();
         jL_DenNgay = new javax.swing.JLabel();
-        jT_DenNgay = new javax.swing.JTextField();
+        // jT_DenNgay = new javax.swing.JTextField();
         jSeparator3 = new javax.swing.JSeparator();
         jP_GiaDen = new javax.swing.JPanel();
         jL_GiaDen = new javax.swing.JLabel();
@@ -179,10 +181,14 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
         jL_TuNgay.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         jL_TuNgay.setText("Từ Ngày:");
 
-        jT_TuNgay.setBorder(null);
-        jT_TuNgay.setMaximumSize(new java.awt.Dimension(260, 25));
-        jT_TuNgay.setMinimumSize(new java.awt.Dimension(260, 25));
-        jT_TuNgay.setPreferredSize(new java.awt.Dimension(260, 25));
+        // jT_TuNgay.setBorder(null);
+        // jT_TuNgay.setMaximumSize(new java.awt.Dimension(260, 25));
+        // jT_TuNgay.setMinimumSize(new java.awt.Dimension(260, 25));
+        // jT_TuNgay.setPreferredSize(new java.awt.Dimension(260, 25));
+        JDateChooser jdc_TuNgay = new JDateChooser();
+        jdc_TuNgay.setMaximumSize(new java.awt.Dimension(260, 25));
+        jdc_TuNgay.setMinimumSize(new java.awt.Dimension(260, 25));
+        jdc_TuNgay.setPreferredSize(new java.awt.Dimension(260, 25));
 
         jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
         jSeparator2.setMaximumSize(new java.awt.Dimension(260, 5));
@@ -198,7 +204,7 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jP_TuNgayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jT_TuNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jdc_TuNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(43, Short.MAX_VALUE))
         );
         jP_TuNgayLayout.setVerticalGroup(
@@ -206,7 +212,7 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_TuNgayLayout.createSequentialGroup()
                 .addGroup(jP_TuNgayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jL_TuNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jT_TuNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jdc_TuNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(1, 1, 1)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -216,10 +222,14 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
         jL_DenNgay.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         jL_DenNgay.setText("Đến Ngày:");
 
-        jT_DenNgay.setBorder(null);
-        jT_DenNgay.setMaximumSize(new java.awt.Dimension(260, 25));
-        jT_DenNgay.setMinimumSize(new java.awt.Dimension(260, 25));
-        jT_DenNgay.setPreferredSize(new java.awt.Dimension(260, 25));
+        // jT_DenNgay.setBorder(null);
+        // jT_DenNgay.setMaximumSize(new java.awt.Dimension(260, 25));
+        // jT_DenNgay.setMinimumSize(new java.awt.Dimension(260, 25));
+        // jT_DenNgay.setPreferredSize(new java.awt.Dimension(260, 25));
+        JDateChooser jdc_DenNgay = new JDateChooser();
+        jdc_DenNgay.setMaximumSize(new java.awt.Dimension(260, 25));
+        jdc_DenNgay.setMinimumSize(new java.awt.Dimension(260, 25));
+        jdc_DenNgay.setPreferredSize(new java.awt.Dimension(260, 25));
 
         jSeparator3.setForeground(new java.awt.Color(0, 0, 0));
         jSeparator3.setMaximumSize(new java.awt.Dimension(260, 5));
@@ -235,7 +245,7 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jP_DenNgayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jT_DenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jdc_DenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jP_DenNgayLayout.setVerticalGroup(
@@ -243,7 +253,7 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_DenNgayLayout.createSequentialGroup()
                 .addGroup(jP_DenNgayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jL_DenNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jT_DenNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jdc_DenNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(1, 1, 1)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -396,7 +406,7 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Mã PN", "Mã NCC", "Mã NV", "Ngày Tạo", "Tổng Tiền"
+                "Mã PN", "Ngày Lập", "Tổng Tiền", "Mã NV", "Mã NCC"
             }
         ));
         Table.setMaximumSize(new java.awt.Dimension(1090, 250));
@@ -506,10 +516,10 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
-    private javax.swing.JTextField jT_DenNgay;
+    // private javax.swing.JTextField jT_DenNgay;
     private javax.swing.JTextField jT_GiaDen;
     private javax.swing.JTextField jT_GiaTu;
     private javax.swing.JTextField jT_TimKiem;
-    private javax.swing.JTextField jT_TuNgay;
+    // private javax.swing.JTextField jT_TuNgay;
     // End of variables declaration//GEN-END:variables
 }
