@@ -3,10 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ACER/Desktop/QuanLyQuanCaPhe/src/DAO/n5_NguyenLieuDAO.java</file>
-            <file>file:/C:/Users/ACER/Desktop/QuanLyQuanCaPhe/src/DAO/NhanVienDAO.java</file>
-            <file>file:/C:/Users/ACER/Desktop/QuanLyQuanCaPhe/src/DAO/ztest.java</file>
-            <file>file:/C:/Users/ACER/Desktop/QuanLyQuanCaPhe/src/DAO/n1_HoaDonDAO.java</file>
+            <file>file:/C:/Users/ACER/Desktop/QuanLyQuanCaPhe/src/GUI/n0_LoginGUI.java</file>
+            <file>file:/C:/Users/ACER/Desktop/QuanLyQuanCaPhe/src/GUI/n4_MonGUI.java</file>
+            <file>file:/C:/Users/ACER/Desktop/QuanLyQuanCaPhe/src/GUI/n3_PNPhieuNhap.java</file>
+            <file>file:/C:/Users/ACER/Desktop/QuanLyQuanCaPhe/src/Main/Main.java</file>
+            <file>file:/C:/Users/ACER/Desktop/QuanLyQuanCaPhe/src/GUI/n3_PNNhapHang.java</file>
+            <file>file:/C:/Users/ACER/Desktop/QuanLyQuanCaPhe/src/GUI/n5_NguyenLieuGUI.java</file>
         </group>
     </open-files>
 </project-private>

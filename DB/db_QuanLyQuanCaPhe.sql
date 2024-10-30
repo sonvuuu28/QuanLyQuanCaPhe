@@ -1,4 +1,4 @@
---create database QuanLyQuanCaPhe
+create database QuanLyQuanCaPhe
 use QuanLyQuanCaPhe
 go
 
@@ -299,7 +299,7 @@ VALUES
 ('M001', 'NL002', 0.5),
 ('M001', 'NL003', 0.5),
 ('M002', 'NL001', 0.5),
-('M003', 'NL001', 0.5);
+('M003', 'NL002', 0.5);
 
 -- Dữ liệu mẫu cho bảng NguyenLieu
 INSERT INTO NguyenLieu (MaNguyenLieu, TenNguyenLieu, KhoiLuongNguyenLieu, DonGiaNguyenLieu, TrangThaiNguyenLieu) VALUES

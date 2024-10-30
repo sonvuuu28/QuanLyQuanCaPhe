@@ -27,19 +27,16 @@ public class n4_MonGUI extends javax.swing.JPanel {
         lb_TenMon = new java.awt.Label();
         lb_LoaiMon = new java.awt.Label();
         lb_DonGia = new java.awt.Label();
-        lb_MaCongThuc = new java.awt.Label();
         tf_MaMon = new javax.swing.JTextField();
         tf_TenMon = new javax.swing.JTextField();
         tf_LoaiMon = new javax.swing.JTextField();
         tf_DonGia = new javax.swing.JTextField();
-        tf_MaCongThuc = new javax.swing.JTextField();
         btn_TaoCongThuc = new javax.swing.JButton();
         btn_ChonAnh = new javax.swing.JButton();
         lb_HinhAnhMonAn = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
-        jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_DanhSachMon = new javax.swing.JTable();
@@ -131,9 +128,6 @@ public class n4_MonGUI extends javax.swing.JPanel {
         lb_DonGia.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         lb_DonGia.setText("Đơn Giá");
 
-        lb_MaCongThuc.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
-        lb_MaCongThuc.setText("Mã Công Thức");
-
         tf_MaMon.setBorder(null);
         tf_MaMon.setMaximumSize(new java.awt.Dimension(230, 24));
         tf_MaMon.setMinimumSize(new java.awt.Dimension(230, 24));
@@ -154,14 +148,9 @@ public class n4_MonGUI extends javax.swing.JPanel {
         tf_DonGia.setMinimumSize(new java.awt.Dimension(230, 24));
         tf_DonGia.setPreferredSize(new java.awt.Dimension(230, 24));
 
-        tf_MaCongThuc.setBorder(null);
-        tf_MaCongThuc.setMaximumSize(new java.awt.Dimension(230, 24));
-        tf_MaCongThuc.setMinimumSize(new java.awt.Dimension(230, 24));
-        tf_MaCongThuc.setPreferredSize(new java.awt.Dimension(230, 24));
-
         btn_TaoCongThuc.setBackground(new java.awt.Color(219, 189, 142));
         btn_TaoCongThuc.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
-        btn_TaoCongThuc.setText("Tạo Công Thức");
+        btn_TaoCongThuc.setText("Công Thức");
         btn_TaoCongThuc.setMaximumSize(new java.awt.Dimension(150, 24));
         btn_TaoCongThuc.setMinimumSize(new java.awt.Dimension(150, 24));
         btn_TaoCongThuc.setPreferredSize(new java.awt.Dimension(150, 24));
@@ -180,8 +169,6 @@ public class n4_MonGUI extends javax.swing.JPanel {
 
         jSeparator3.setForeground(new java.awt.Color(0, 0, 0));
 
-        jSeparator4.setForeground(new java.awt.Color(0, 0, 0));
-
         jSeparator5.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout PanelChuaThongTinTrangLayout = new javax.swing.GroupLayout(PanelChuaThongTinTrang);
@@ -191,29 +178,25 @@ public class n4_MonGUI extends javax.swing.JPanel {
             .addGroup(PanelChuaThongTinTrangLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelChuaThongTinTrangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lb_ThongTinMonAn, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(PanelChuaThongTinTrangLayout.createSequentialGroup()
                         .addGroup(PanelChuaThongTinTrangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(lb_DonGia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lb_MaMon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lb_TenMon, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lb_LoaiMon, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lb_MaCongThuc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lb_LoaiMon, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelChuaThongTinTrangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(tf_MaMon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(tf_TenMon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(tf_LoaiMon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(tf_DonGia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(tf_MaCongThuc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jSeparator1)
-                            .addComponent(jSeparator2)
-                            .addComponent(jSeparator3)
-                            .addComponent(jSeparator4)
-                            .addComponent(jSeparator5)))
-                    .addGroup(PanelChuaThongTinTrangLayout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addComponent(btn_TaoCongThuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lb_ThongTinMonAn, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(PanelChuaThongTinTrangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_TaoCongThuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(PanelChuaThongTinTrangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(tf_MaMon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(tf_TenMon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(tf_LoaiMon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(tf_DonGia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jSeparator1)
+                                .addComponent(jSeparator2)
+                                .addComponent(jSeparator3)
+                                .addComponent(jSeparator5)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
                 .addGroup(PanelChuaThongTinTrangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lb_HinhAnhMonAn, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -249,14 +232,9 @@ public class n4_MonGUI extends javax.swing.JPanel {
                                 .addComponent(tf_LoaiMon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(4, 4, 4)
                                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                        .addGap(37, 37, 37)
                         .addComponent(btn_TaoCongThuc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(PanelChuaThongTinTrangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lb_MaCongThuc, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelChuaThongTinTrangLayout.createSequentialGroup()
-                                .addComponent(tf_MaCongThuc, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(4, 4, 4)
-                                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(14, 14, 14))
                     .addGroup(PanelChuaThongTinTrangLayout.createSequentialGroup()
                         .addGap(59, 59, 59)
                         .addComponent(lb_HinhAnhMonAn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -448,12 +426,10 @@ public class n4_MonGUI extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private java.awt.Label lb_DonGia;
     private javax.swing.JLabel lb_HinhAnhMonAn;
     private java.awt.Label lb_LoaiMon;
-    private java.awt.Label lb_MaCongThuc;
     private java.awt.Label lb_MaMon;
     private java.awt.Label lb_QuanLyMon;
     private java.awt.Label lb_TenMon;
@@ -461,7 +437,6 @@ public class n4_MonGUI extends javax.swing.JPanel {
     private javax.swing.JTable tb_DanhSachMon;
     private javax.swing.JTextField tf_DonGia;
     private javax.swing.JTextField tf_LoaiMon;
-    private javax.swing.JTextField tf_MaCongThuc;
     private javax.swing.JTextField tf_MaMon;
     private javax.swing.JTextField tf_TenMon;
     // End of variables declaration//GEN-END:variables
