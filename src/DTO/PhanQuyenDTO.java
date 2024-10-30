@@ -15,6 +15,10 @@ public class PhanQuyenDTO {
     private boolean quyenThongKe;
     private boolean trangThaiPhanQuyen;
 
+    public PhanQuyenDTO(){
+        
+    }
+
     public PhanQuyenDTO(String maPhanQuyen, String tenQuyen, boolean quyenKhachHang, boolean quyenBanHang, boolean quyenNhapHang,
                         boolean quyenMon, boolean quyenNguyenLieu, boolean quyenLichLam, boolean quyenKhuyenMaiUuDai,
                         boolean quyenNhaCungCap, boolean quyenNhanVien, boolean quyenThongKe, boolean trangThaiPhanQuyen) {
