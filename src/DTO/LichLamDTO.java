@@ -1,12 +1,14 @@
 package DTO;
 
+import java.sql.Date;
+
 public class LichLamDTO {
 
     private String maCaLam;
     private String maNhanVien;
-    private String ngayLam;
+    private Date ngayLam;
 
-    public LichLamDTO(String maCaLam, String maNhanVien, String ngayLam) {
+    public LichLamDTO(String maCaLam, String maNhanVien, Date ngayLam) {
         this.maCaLam = maCaLam;
         this.maNhanVien = maNhanVien;
         this.ngayLam = ngayLam;
@@ -28,25 +30,27 @@ public class LichLamDTO {
         this.maNhanVien = maNhanVien;
     }
 
-    public String getNgayLam() {
+    public Date getNgayLam() {
         return ngayLam;
     }
 
-    public void setNgayLam(String ngayLam) {
+    public void setNgayLam(Date ngayLam) {
         this.ngayLam = ngayLam;
     }
 
     @Override
     public String toString() {
-        return "LichLamDTO{"
-                + "maCaLam='" + maCaLam + '\''
-                + ", maNhanVien='" + maNhanVien + '\''
-                + ", ngayLam=" + ngayLam
-                + '}';
+        return "LichLamDTO{" +
+                "maCaLam='" + maCaLam + '\'' +
+                ", maNhanVien='" + maNhanVien + '\'' +
+                ", ngayLam=" + ngayLam +
+                '}';
     }
 
     public static void main(String[] args) {
-        LichLamDTO lichLamDTO = new LichLamDTO("CL001", "NV001", "21/10/2024");
+        Date ngayLam = Date.valueOf("2024-10-21"); 
+
+        LichLamDTO lichLamDTO = new LichLamDTO("CL001", "NV001", ngayLam);
         System.out.println(lichLamDTO.toString());
     }
 }

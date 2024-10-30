@@ -23,8 +23,8 @@ DROP TABLE IF EXISTS [NhanVien]
 CREATE TABLE [CaLam] (
 	[MaCaLam] nvarchar(255),
 	[TenCaLam] nvarchar(255),
-	[ThoiGianVaoCaLam] datetime ,
-	[ThoiGianRaCalam] datetime ,
+	[ThoiGianVaoCaLam] time ,
+	[ThoiGianRaCalam] time ,
 	[TrangThaiCaLam] bit,
 	PRIMARY KEY ([MaCaLam])
 );
@@ -228,9 +228,9 @@ VALUES
 -- Inserting sample records into the CaLam table
 INSERT INTO [CaLam] ([MaCaLam], [TenCaLam], [ThoiGianVaoCaLam], [ThoiGianRaCalam], [TrangThaiCaLam]) 
 VALUES 
-('CL001', 'Ca A', '2024-10-05 06:00:00', '2024-10-05 14:00:00', 1),
-('CL002', 'Ca B',  '2024-10-05 14:00:00', '2024-10-05 22:00:00', 1),
-('CL003', 'Ca C',  '2024-10-05 12:00:00', '2024-10-05 22:00:00', 0);
+('CL001', 'Ca A', '06:00:00', '14:00:00', 1),
+('CL002', 'Ca B',  '14:00:00', '22:00:00', 1),
+('CL003', 'Ca C',  '12:00:00', '22:00:00', 0);
 
 -- Inserting sample records into the NhanVien table
 INSERT INTO [NhanVien] ([MaNhanVien], [TenNhanVien], [NgaySinhNhanVien], [SoDienThoaiNhanVien], [LuongNhanVien], [ChucVuNhanVien], [GioiTinhNhanVien], [TrangThaiNhanVien], [DiaChi]) 
