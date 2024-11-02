@@ -2,9 +2,17 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.*;
+
+import javax.swing.*;
+import java.awt.event.*;
+
+import BUS.n0_LoginBUS;
+import DTO.TaiKhoanDTO;
 
 public class n0_LoginGUI extends javax.swing.JFrame {
-
+    private n0_LoginGUI login;
+    private n0_LoginBUS loginBUS;
     public n0_LoginGUI() {
         initComponents();
         setVisible(true);
@@ -14,7 +22,8 @@ public class n0_LoginGUI extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+        login = this;
+        loginBUS = new n0_LoginBUS();
         PanelTong = new javax.swing.JPanel();
         PanelRight = new javax.swing.JPanel();
         PanelLogo = new javax.swing.JPanel();
@@ -25,7 +34,7 @@ public class n0_LoginGUI extends javax.swing.JFrame {
         LblTaiKhoan = new javax.swing.JLabel();
         LblDangNhap = new javax.swing.JLabel();
         TextFieldTaiKhoan = new javax.swing.JTextField();
-        TextFieldMatKhau = new javax.swing.JTextField();
+        PasswordFieldMatKhau = new javax.swing.JPasswordField();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         PanelNutDangNhap = new javax.swing.JPanel();
@@ -88,19 +97,26 @@ public class n0_LoginGUI extends javax.swing.JFrame {
 
         TextFieldTaiKhoan.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
         TextFieldTaiKhoan.setForeground(new java.awt.Color(102, 102, 102));
-        TextFieldTaiKhoan.setText("abc12456");
+        // TextFieldTaiKhoan.setText("abc12456");
         TextFieldTaiKhoan.setBorder(null);
         TextFieldTaiKhoan.setMaximumSize(new java.awt.Dimension(280, 25));
         TextFieldTaiKhoan.setMinimumSize(new java.awt.Dimension(280, 25));
         TextFieldTaiKhoan.setPreferredSize(new java.awt.Dimension(280, 25));
 
-        TextFieldMatKhau.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
-        TextFieldMatKhau.setForeground(new java.awt.Color(102, 102, 102));
-        TextFieldMatKhau.setText("************");
-        TextFieldMatKhau.setBorder(null);
-        TextFieldMatKhau.setMaximumSize(new java.awt.Dimension(280, 25));
-        TextFieldMatKhau.setMinimumSize(new java.awt.Dimension(280, 25));
-        TextFieldMatKhau.setPreferredSize(new java.awt.Dimension(280, 25));
+        PasswordFieldMatKhau.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
+        PasswordFieldMatKhau.setForeground(new java.awt.Color(102, 102, 102));
+        // PasswordFieldMatKhau.setPassword("************");
+        PasswordFieldMatKhau.setBorder(null);
+        PasswordFieldMatKhau.setMaximumSize(new java.awt.Dimension(280, 25));
+        PasswordFieldMatKhau.setMinimumSize(new java.awt.Dimension(280, 25));
+        PasswordFieldMatKhau.setPreferredSize(new java.awt.Dimension(280, 25));
+        // Thêm ActionListener để xử lý sự kiện khi nhấn Enter
+        PasswordFieldMatKhau.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionLogin(login);
+            }
+        });
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -148,7 +164,7 @@ public class n0_LoginGUI extends javax.swing.JFrame {
                             .addComponent(LblDangNhap)
                             .addComponent(TextFieldTaiKhoan, javax.swing.GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)
                             .addComponent(jSeparator1)
-                            .addComponent(TextFieldMatKhau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PasswordFieldMatKhau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jSeparator2))))
                 .addContainerGap(89, Short.MAX_VALUE))
         );
@@ -168,7 +184,7 @@ public class n0_LoginGUI extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addComponent(LblDangNhap)
                 .addGap(15, 15, 15)
-                .addComponent(TextFieldMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(PasswordFieldMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
@@ -270,16 +286,33 @@ public class n0_LoginGUI extends javax.swing.JFrame {
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+<<<<<<< Updated upstream
                 login.dispose();
                 n0_TrangChuGUI trang_mau = new n0_TrangChuGUI();
                 trang_mau.setVisible(true);
                 trang_mau.setLocationRelativeTo(null);
+=======
+                actionLogin(login);
+>>>>>>> Stashed changes
             }
         });
     }
-
+    public void actionLogin(n0_LoginGUI login) {
+        String taiKhoan = String.valueOf(TextFieldTaiKhoan.getText());
+                String matKhau = String.valueOf(PasswordFieldMatKhau.getPassword());
+                TaiKhoanDTO userLogin = loginBUS.checkLogin(taiKhoan, matKhau);
+                //? Check Login ở đây
+                if(userLogin != null) {
+                    JOptionPane.showMessageDialog(login, "Đăng nhập thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    login.dispose();
+                    n0_TrangChuGUI trang_mau = new n0_TrangChuGUI();
+                    trang_mau.setVisible(true);
+                    trang_mau.setLocationRelativeTo(null);
+                } else {
+                    JOptionPane.showMessageDialog(login, "Sai tài khoản hoặc mật khẩu !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                }
+    }
     public static void main(String args[]) {
-
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 n0_LoginGUI login = new n0_LoginGUI();
@@ -301,7 +334,7 @@ public class n0_LoginGUI extends javax.swing.JFrame {
     private javax.swing.JPanel PanelNutDangNhap;
     private javax.swing.JPanel PanelRight;
     private javax.swing.JPanel PanelTong;
-    private javax.swing.JTextField TextFieldMatKhau;
+    private javax.swing.JPasswordField PasswordFieldMatKhau;
     private javax.swing.JTextField TextFieldTaiKhoan;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JSeparator jSeparator1;
