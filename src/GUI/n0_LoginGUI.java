@@ -293,7 +293,6 @@ public class n0_LoginGUI extends javax.swing.JFrame {
                 trang_mau.setLocationRelativeTo(null);
 =======
                 actionLogin(login);
->>>>>>> Stashed changes
             }
         });
     }
