@@ -282,7 +282,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="TextFieldMatKhau">
+                <Component class="javax.swing.JPassword" name="PasswordMatKhau">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI Light" size="14" style="0"/>
