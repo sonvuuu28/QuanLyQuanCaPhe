@@ -102,6 +102,13 @@ public class n0_LoginGUI extends javax.swing.JFrame {
         TextFieldTaiKhoan.setMaximumSize(new java.awt.Dimension(280, 25));
         TextFieldTaiKhoan.setMinimumSize(new java.awt.Dimension(280, 25));
         TextFieldTaiKhoan.setPreferredSize(new java.awt.Dimension(280, 25));
+        // Thêm ActionListener để xử lý sự kiện khi nhấn Enter
+        TextFieldTaiKhoan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionLogin(login);
+            }
+        });
 
         PasswordFieldMatKhau.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
         PasswordFieldMatKhau.setForeground(new java.awt.Color(102, 102, 102));
@@ -286,30 +293,37 @@ public class n0_LoginGUI extends javax.swing.JFrame {
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-<<<<<<< Updated upstream
-                login.dispose();
-                n0_TrangChuGUI trang_mau = new n0_TrangChuGUI();
-                trang_mau.setVisible(true);
-                trang_mau.setLocationRelativeTo(null);
-=======
                 actionLogin(login);
             }
         });
     }
     public void actionLogin(n0_LoginGUI login) {
         String taiKhoan = String.valueOf(TextFieldTaiKhoan.getText());
-                String matKhau = String.valueOf(PasswordFieldMatKhau.getPassword());
-                TaiKhoanDTO userLogin = loginBUS.checkLogin(taiKhoan, matKhau);
-                //? Check Login ở đây
-                if(userLogin != null) {
-                    JOptionPane.showMessageDialog(login, "Đăng nhập thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    login.dispose();
-                    n0_TrangChuGUI trang_mau = new n0_TrangChuGUI();
-                    trang_mau.setVisible(true);
-                    trang_mau.setLocationRelativeTo(null);
-                } else {
-                    JOptionPane.showMessageDialog(login, "Sai tài khoản hoặc mật khẩu !", "Thông báo", JOptionPane.ERROR_MESSAGE);
-                }
+        String matKhau = String.valueOf(PasswordFieldMatKhau.getPassword());
+        if(taiKhoan == "" && matKhau == "") {
+            JOptionPane.showMessageDialog(login, "Vui lòng nhập tài khoản và mật khẩu !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(taiKhoan == "") {
+            JOptionPane.showMessageDialog(login, "Tài khoản không được để trống !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(matKhau == "") {
+            JOptionPane.showMessageDialog(login, "Mật khẩu không được để trống !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+
+        }
+        TaiKhoanDTO userLogin = loginBUS.checkLogin(taiKhoan, matKhau);
+        //? Check Login ở đây
+        if(userLogin != null) {
+            JOptionPane.showMessageDialog(login, "Đăng nhập thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            login.dispose();
+            n0_TrangChuGUI trang_mau = new n0_TrangChuGUI(userLogin);
+            trang_mau.setVisible(true);
+            trang_mau.setLocationRelativeTo(null);
+        } else {
+            JOptionPane.showMessageDialog(login, "Sai tài khoản hoặc mật khẩu !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        }
     }
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

@@ -1,15 +1,35 @@
 package GUI;
 
 import java.awt.Color;
+
+import DTO.NhanVienDTO;
+import DTO.TaiKhoanDTO;
+import java.time.LocalDate;
+import java.time.DayOfWeek;
+import java.time.format.TextStyle;
+import java.util.Locale;
+import javax.swing.*;
+import java.time.LocalDateTime;
+import java.time.DayOfWeek;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.Locale;
+
+import BUS.n0_TrangChuBUS;
+
+import java.awt.event.*;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.awt.BorderLayout;
 
-/**
- * @author SonVuuu
- */
-public class n0_TrangChuGUI extends javax.swing.JFrame {
 
-    public n0_TrangChuGUI() {
-        initComponents();
+public class n0_TrangChuGUI extends javax.swing.JFrame {
+    private n0_TrangChuBUS trangChuBUS;
+    private TaiKhoanDTO userLogin;
+    private NhanVienDTO nhanVienLogin;
+
+    public n0_TrangChuGUI(TaiKhoanDTO taikhoan) {
+        initComponents(taikhoan);
         PanelNoiDung.removeAll();
         n1_BanHangGUI banhang = new n1_BanHangGUI();
         PanelNoiDung.setLayout(new BorderLayout());
@@ -19,8 +39,7 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
     }
 
     @SuppressWarnings("unchecked")
-    private void initComponents() {
-
+    private void initComponents(TaiKhoanDTO taikhoan) {
         PanelTong = new javax.swing.JPanel();
         PanelLogo = new Util.PanelRound();
         LabelCaPheSGU = new javax.swing.JLabel();
@@ -50,6 +69,33 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
         LabelThongKe = new javax.swing.JLabel();
         PanelNoiDung = new Util.PanelRound();
 
+        
+        this.trangChuBUS = new n0_TrangChuBUS();
+        this.userLogin = taikhoan;
+        this.nhanVienLogin = this.trangChuBUS.getById(taikhoan.getMaNhanVien());
+        //? Set thời gian theo thời gian thực
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                // Lấy thời gian hiện tại
+                LocalDateTime currentTime = LocalDateTime.now();
+
+                // Lấy thứ trong ngày hiện tại
+                DayOfWeek dayOfWeekToday = currentTime.getDayOfWeek();
+                String dayNameToday = dayOfWeekToday.getDisplayName(TextStyle.FULL, new Locale("vi", "VN"));
+
+                // Định dạng thành "dd tháng MM năm yyyy HH:mm:ss"
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd 'tháng' MM 'năm' yyyy");
+                String formattedTime = currentTime.format(formatter);
+
+                // Đặt text cho Label
+                LabelDate.setText(dayNameToday + ", " + formattedTime);
+            }
+        }, 0, 1000); // Cập nhật mỗi 1000 ms (1 giây)
+        PanelTen.setText(nhanVienLogin.getTenNhanVien());
+        LabelTen.setText(nhanVienLogin.getTenNhanVien());
+        LabelChucVu.setText(nhanVienLogin.getChucVuNhanVien());
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         PanelTong.setBackground(new java.awt.Color(122, 74, 74));
@@ -67,7 +113,7 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
         LabelCaPheSGU.setText("Cà Phê SGU");
 
         LabelXinChao.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        LabelXinChao.setText("xin chào");
+        LabelXinChao.setText("Xin chào");
 
         LabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGE/Logo.png"))); // NOI18N
         LabelIcon.setText("jLabel3");
@@ -114,7 +160,7 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
         LabelCalendarIcon.setText("jLabel2");
 
         LabelDate.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        LabelDate.setText("Thứ Tư, 25 tháng 09 năm 2024");
+        // LabelDate.setText("Thứ Tư, 25 tháng 09 năm 2024");
 
         javax.swing.GroupLayout PanelCalendarLayout = new javax.swing.GroupLayout(PanelCalendar);
         PanelCalendar.setLayout(PanelCalendarLayout);
@@ -146,7 +192,8 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
         PanelDangXuat.setRoundBottomLeft(20);
 
         PanelTen.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        PanelTen.setText("DƯƠNG VĂN PHƯỚC");
+        // PanelTen.setText("Dương Văn Phước ");
+
 
         ButtonDangXuat.setBackground(new java.awt.Color(239, 219, 203));
         ButtonDangXuat.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -157,6 +204,13 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
         ButtonDangXuat.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         ButtonDangXuat.setIconTextGap(10);
         ButtonDangXuat.setPreferredSize(new java.awt.Dimension(138, 28));
+        // Thêm ActionListener để xử lý sự kiện nhấn button đăng xuất
+        ButtonDangXuat.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
 
         javax.swing.GroupLayout PanelDangXuatLayout = new javax.swing.GroupLayout(PanelDangXuat);
         PanelDangXuat.setLayout(PanelDangXuatLayout);
@@ -164,7 +218,7 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
                 PanelDangXuatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(PanelDangXuatLayout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(PanelTen, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(PanelTen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(ButtonDangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(12, Short.MAX_VALUE))
@@ -187,9 +241,9 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
         PanelThongTin.setRoundBottomLeft(20);
 
         LabelChucVu.setFont(new java.awt.Font("Segoe UI Black", 0, 13)); // NOI18N
-        LabelChucVu.setText("Quản Lý");
+        //LabelChucVu.setText("Quản Lý");
 
-        LabelTen.setText("Dương Văn Phước ");
+        // LabelTen.setText("Dương Văn Phước ");
 
         LabelTitle.setFont(new java.awt.Font("Segoe UI Black", 0, 13)); // NOI18N
         LabelTitle.setText("Thông tin người dùng");
@@ -213,7 +267,7 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
                                                 .addComponent(LabelThongTinIcon))
                                         .addGroup(PanelThongTinLayout.createSequentialGroup()
                                                 .addGap(56, 56, 56)
-                                                .addComponent(LabelChucVu, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(LabelChucVu, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addContainerGap(18, Short.MAX_VALUE))
         );
         PanelThongTinLayout.setVerticalGroup(
@@ -619,17 +673,6 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
 
     }
 
-    public static void main(String args[]) {
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                n0_TrangChuGUI trang_mau = new n0_TrangChuGUI();
-                trang_mau.setVisible(true);
-                trang_mau.setLocationRelativeTo(null);
-
-            }
-        });
-    }
 
     // Khai báo                    
     private javax.swing.JButton ButtonDangXuat;
