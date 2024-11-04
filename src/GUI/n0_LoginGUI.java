@@ -300,18 +300,17 @@ public class n0_LoginGUI extends javax.swing.JFrame {
     public void actionLogin(n0_LoginGUI login) {
         String taiKhoan = String.valueOf(TextFieldTaiKhoan.getText());
         String matKhau = String.valueOf(PasswordFieldMatKhau.getPassword());
-        if(taiKhoan == "" && matKhau == "") {
+        if(taiKhoan.equals("") && matKhau.equals("")) {
             JOptionPane.showMessageDialog(login, "Vui lòng nhập tài khoản và mật khẩu !", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(taiKhoan == "") {
+        if(taiKhoan.equals("")) {
             JOptionPane.showMessageDialog(login, "Tài khoản không được để trống !", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(matKhau == "") {
+        if(matKhau.equals("")) {
             JOptionPane.showMessageDialog(login, "Mật khẩu không được để trống !", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
-
         }
         TaiKhoanDTO userLogin = loginBUS.checkLogin(taiKhoan, matKhau);
         //? Check Login ở đây
