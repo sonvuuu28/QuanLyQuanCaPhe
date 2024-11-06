@@ -19,11 +19,9 @@ import BUS.n5_NguyenLieuBUS;
 import DTO.NguyenLieuDTO;
 
 public class n5_NguyenLieuGUI extends javax.swing.JPanel {
-    private JFrame trangChu;
     private n5_NguyenLieuBUS nguyenLieuBUS;
 
-    public n5_NguyenLieuGUI(JFrame trangChu) {
-        this.trangChu = trangChu;
+    public n5_NguyenLieuGUI() {
         this.nguyenLieuBUS = new n5_NguyenLieuBUS();
         initComponents();
         TableCustom.apply(scrollpane, TableCustom.TableType.MULTI_LINE);
@@ -287,11 +285,11 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
                 if (confirm == JOptionPane.YES_OPTION) {
                     String ma = String.valueOf(tf_MaNL.getText());
                     if(nguyenLieuBUS.deleteNguyenLieu(ma)) {
-                        JOptionPane.showMessageDialog(trangChu, "Xóa nguyên liệu thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Xóa nguyên liệu thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         reloadData();
                     }
                     else 
-                    JOptionPane.showMessageDialog(trangChu, "Xóa nguyên liệu thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Xóa nguyên liệu thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -367,11 +365,11 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
                     int donGia = Integer.valueOf(tf_DonGia.getText());
                     NguyenLieuDTO nguyenLieu = new NguyenLieuDTO(ma, ten, khoiLuong, donGia, true);
                     if(nguyenLieuBUS.addNguyenLieu(nguyenLieu)){
-                        JOptionPane.showMessageDialog(trangChu, "Thêm nguyên liệu thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Thêm nguyên liệu thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         reloadData();
                     }
                     else 
-                        JOptionPane.showMessageDialog(trangChu, "Thêm nguyên liệu thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Thêm nguyên liệu thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -397,11 +395,11 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
                     //? Không cập nhật khối lượng
                     NguyenLieuDTO nguyenLieu = new NguyenLieuDTO(ma, ten, khoiLuong, donGia, true);
                     if(nguyenLieuBUS.updateNguyenLieu(nguyenLieu)){
-                        JOptionPane.showMessageDialog(trangChu, "Sửa nguyên liệu thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Sửa nguyên liệu thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         reloadData();
                     }
                     else 
-                        JOptionPane.showMessageDialog(trangChu, "Sửa nguyên liệu thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Sửa nguyên liệu thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
             }
         }
         });

@@ -8,29 +8,36 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.event.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import BUS.n4_MonBUS;
 import BUS.n4_LoaiMonBUS;
 import DTO.MonDTO;
+import DTO.NguyenLieuDTO;
 import DTO.LoaiMonDTO;
 import Util.TableCustom;
 import net.sf.jasperreports.engine.component.Component;
 
 public class n4_MonGUI extends javax.swing.JPanel {
-    private JFrame trangChu;
     private n4_MonBUS monBUS;
     private n4_LoaiMonBUS loaiMonBUS;
+    private File selectedFile;
+    private String targetFolder = "C:\\Users\\dvmv2\\OneDrive\\Documents\\Nam3\\CNPM\\QuanLyQuanCaPhe\\src\\IMAGE\\SanPham";
 
     public n4_MonGUI() {
-        this.trangChu = trangChu;
         this.monBUS = new n4_MonBUS();
         this.loaiMonBUS = new n4_LoaiMonBUS();  
         initComponents();
@@ -64,7 +71,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboboxLoaiMon = new javax.swing.JComboBox<>();
         PanelChuaNut = new javax.swing.JPanel();
         btn_Sua = new javax.swing.JButton();
         btn_Them = new javax.swing.JButton();
@@ -133,6 +140,12 @@ public class n4_MonGUI extends javax.swing.JPanel {
         btn_TaiLai.setMaximumSize(new java.awt.Dimension(100, 24));
         btn_TaiLai.setMinimumSize(new java.awt.Dimension(100, 24));
         btn_TaiLai.setPreferredSize(new java.awt.Dimension(100, 24));
+        btn_TaiLai.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                reloadData();
+            }
+        });
 
         PanelChuaThongTin_Cam.setBackground(new java.awt.Color(219, 189, 142));
 
@@ -159,6 +172,9 @@ public class n4_MonGUI extends javax.swing.JPanel {
         tf_MaMon.setMaximumSize(new java.awt.Dimension(230, 24));
         tf_MaMon.setMinimumSize(new java.awt.Dimension(230, 24));
         tf_MaMon.setPreferredSize(new java.awt.Dimension(230, 24));
+        tf_MaMon.setDisabledTextColor(Color.BLACK); 
+        tf_MaMon.setEditable(false);
+        tf_MaMon.setEnabled(false);
 
         tf_TenMon.setBorder(null);
         tf_TenMon.setMaximumSize(new java.awt.Dimension(230, 24));
@@ -178,7 +194,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
         btn_TaoCongThuc.setPreferredSize(new java.awt.Dimension(150, 24));
         btn_TaoCongThuc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ///
+                // btn_TaoCongThucActionPerformed(evt);
             }
         });
 
@@ -186,9 +202,25 @@ public class n4_MonGUI extends javax.swing.JPanel {
         btn_ChonAnh.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         btn_ChonAnh.setText("Chọn Ảnh");
         btn_ChonAnh.setPreferredSize(new java.awt.Dimension(150, 24));
+        btn_ChonAnh.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle("Chọn tệp");
+
+                int result = fileChooser.showOpenDialog(null);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    selectedFile = fileChooser.getSelectedFile();
+                    hienThiAnhMoiChon(selectedFile);
+                } else {
+                    System.out.println("Không có tệp nào được chọn.");
+                }
+            }
+        });
 
         lb_HinhAnhMonAn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lb_HinhAnhMonAn.setText("Hình Ảnh");
+        lb_HinhAnhMonAn.setPreferredSize(new Dimension(300, 300));
+        // lb_HinhAnhMonAn.setText("Hình Ảnh");
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -196,7 +228,12 @@ public class n4_MonGUI extends javax.swing.JPanel {
 
         jSeparator5.setForeground(new java.awt.Color(0, 0, 0));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        
+        ArrayList<LoaiMonDTO> dsLoaiMon = loaiMonBUS.getAll();
+        comboboxLoaiMon.removeAllItems();
+        for(int i = 0; i < dsLoaiMon.size(); i++) {
+            comboboxLoaiMon.addItem(dsLoaiMon.get(i));
+        }
 
         PanelChuaNut.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -207,6 +244,50 @@ public class n4_MonGUI extends javax.swing.JPanel {
         btn_Sua.setMaximumSize(new java.awt.Dimension(100, 26));
         btn_Sua.setMinimumSize(new java.awt.Dimension(100, 26));
         btn_Sua.setPreferredSize(new java.awt.Dimension(100, 26));
+        btn_Sua.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn sửa món này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    String maMon = String.valueOf(tf_MaMon.getText());
+                    LoaiMonDTO temp = (LoaiMonDTO) comboboxLoaiMon.getSelectedItem();
+                    String maLoaiMon = temp.getMaLoaiMon();
+                    String tenMon = String.valueOf(tf_TenMon.getText());
+                    int donGia;
+                    if(checkMoneyMount(tf_DonGia.getText())) {
+                        donGia = Integer.valueOf(tf_DonGia.getText());
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Đơn giá không hợp lệ !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+                    //? Check chọn ảnh chưa 
+                    String hinhAnh = null;
+                    if(selectedFile != null) {
+                        hinhAnh = maMon+".jpg";
+                        //? Tên mới cho ảnh dựa trên mã món ăn
+                        //? Lưu ảnh
+                        try {
+                            Path targetPath = new File(targetFolder, hinhAnh).toPath();
+                            // Sao chép ảnh vào thư mục đích
+                            Files.copy(selectedFile.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                            System.out.println("Lỗi khi lưu ảnh.");
+                        }
+                    }
+                    
+                    MonDTO mon = new MonDTO(maMon, maLoaiMon, tenMon, hinhAnh, donGia, true);
+                    if(monBUS.updateMon(mon)){
+                        JOptionPane.showMessageDialog(null, "Sửa món thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        reloadData();
+                    }
+                    else 
+                        JOptionPane.showMessageDialog(null, "Sửa món thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        });
+
 
         btn_Them.setBackground(new java.awt.Color(0, 0, 0));
         btn_Them.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
@@ -215,6 +296,51 @@ public class n4_MonGUI extends javax.swing.JPanel {
         btn_Them.setMaximumSize(new java.awt.Dimension(100, 26));
         btn_Them.setMinimumSize(new java.awt.Dimension(100, 26));
         btn_Them.setPreferredSize(new java.awt.Dimension(100, 26));
+        btn_Them.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn thêm món này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    String maMon = String.valueOf(tf_MaMon.getText());
+                    LoaiMonDTO temp = (LoaiMonDTO) comboboxLoaiMon.getSelectedItem();
+                    String maLoaiMon = temp.getMaLoaiMon();
+                    String tenMon = String.valueOf(tf_TenMon.getText());
+                    int donGia;
+                    if(checkMoneyMount(tf_DonGia.getText())) {
+                        donGia = Integer.valueOf(tf_DonGia.getText());
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Đơn giá không hợp lệ !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+                    //? Check chọn ảnh chưa 
+                    String hinhAnh = null;
+                    if(selectedFile != null) {
+                        hinhAnh = maMon+".jpg";
+                        //? Tên mới cho ảnh dựa trên mã món ăn
+                        //? Lưu ảnh
+                        try {
+                            Path targetPath = new File(targetFolder, hinhAnh).toPath();
+                            // Sao chép ảnh vào thư mục đích
+                            Files.copy(selectedFile.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                            System.out.println("Lỗi khi lưu ảnh.");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Vui lòng chọn ảnh để thêm món !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+                    MonDTO mon = new MonDTO(maMon, maLoaiMon, tenMon, hinhAnh, donGia, true);
+                    if(monBUS.addMon(mon)){
+                        JOptionPane.showMessageDialog(null, "Thêm món thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        reloadData();
+                    }
+                    else 
+                        JOptionPane.showMessageDialog(null, "Thêm món thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        });
 
         btn_Xoa.setBackground(new java.awt.Color(0, 0, 0));
         btn_Xoa.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
@@ -285,7 +411,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
                                         .addGroup(PanelChuaThongTinTrangLayout.createSequentialGroup()
                                             .addGroup(PanelChuaThongTinTrangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addGroup(PanelChuaThongTinTrangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(comboboxLoaiMon, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addComponent(tf_DonGia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addComponent(tf_TenMon, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGroup(PanelChuaThongTinTrangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -295,8 +421,8 @@ public class n4_MonGUI extends javax.swing.JPanel {
                                             .addGap(20, 20, 20)
                                             .addComponent(lb_HinhAnhMonAn, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelChuaThongTinTrangLayout.createSequentialGroup()
-                                    .addGap(34, 34, 34)
+                                .addGroup(PanelChuaThongTinTrangLayout.createSequentialGroup()
+                                    .addGap(55, 55, 55)
                                     .addComponent(btn_TaoCongThuc, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btn_ChonAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -310,9 +436,6 @@ public class n4_MonGUI extends javax.swing.JPanel {
             .addGroup(PanelChuaThongTinTrangLayout.createSequentialGroup()
                 .addComponent(lb_ThongTinMonAn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(PanelChuaThongTinTrangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelChuaThongTinTrangLayout.createSequentialGroup()
-                        .addGap(137, 137, 137)
-                        .addComponent(tf_DonGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(PanelChuaThongTinTrangLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lb_HinhAnhMonAn, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -334,10 +457,12 @@ public class n4_MonGUI extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(PanelChuaThongTinTrangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lb_LoaiMon, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(comboboxLoaiMon, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lb_DonGia, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(PanelChuaThongTinTrangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lb_DonGia, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tf_DonGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(PanelChuaThongTinTrangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -351,7 +476,35 @@ public class n4_MonGUI extends javax.swing.JPanel {
         PanelChuaThongTin_Cam.add(PanelChuaThongTinTrang);
 
         fillTable();
+        tb_DanhSachMon.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                // Kiểm tra xem có hàng nào đang được chọn không
+                if (!event.getValueIsAdjusting()) {
+                    int selectedRow = tb_DanhSachMon.getSelectedRow();
+                    if (selectedRow != -1) {
+                        // Lấy dữ liệu của hàng được chọn
+                        selectedFile = null;
+                        String maMon = String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 0));
+                        LoaiMonDTO loaiMon =  loaiMonBUS.getLoaiMonById(String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 1)));
+                        String tenMon =  String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 2));
+                        String donGia =  String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 3));
+                        tf_MaMon.setText(maMon);
+                        tf_TenMon.setText(tenMon);
+                        tf_DonGia.setText(String.valueOf(convertCurrencyToInt(donGia)));
 
+                        for (int i = 0; i < comboboxLoaiMon.getItemCount(); i++) {
+                            if (comboboxLoaiMon.getItemAt(i).toString().equals(loaiMon.toString())) {
+                                comboboxLoaiMon.setSelectedIndex(i);
+                                break;
+                            }
+                        }
+                        
+                        hienThiAnhMon(monBUS.getMonById(maMon).getHinhAnh());
+                    }
+                }
+            }
+        });
         jScrollPane1.setViewportView(tb_DanhSachMon);
 
         comboboxTrangThai.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
@@ -390,8 +543,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
                 .addGroup(PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelTongLayout.createSequentialGroup()
                         .addGap(15, 15, 15)
-                        .addComponent(PanelTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(PanelTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTongLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -424,7 +576,71 @@ public class n4_MonGUI extends javax.swing.JPanel {
                 .addGap(0, 9, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    public void hienThiAnhMoiChon(File fileanh) {
+        // Đường dẫn tới hình ảnh
+        String linkHinhAnh = fileanh.getAbsolutePath();
+        ImageIcon imageIcon = new ImageIcon(linkHinhAnh);
+    
+        // Kích thước cố định của JLabel
+        int labelWidth = lb_HinhAnhMonAn.getWidth();
+        int labelHeight = lb_HinhAnhMonAn.getHeight();
+    
+        // Kích thước gốc của ảnh
+        int imageWidth = imageIcon.getIconWidth();
+        int imageHeight = imageIcon.getIconHeight();
+    
+        // Tính toán tỷ lệ thu phóng để giữ nguyên tỷ lệ ảnh
+        double widthRatio = (double) labelWidth / imageWidth;
+        double heightRatio = (double) labelHeight / imageHeight;
+        double scaleFactor = Math.min(widthRatio, heightRatio);  // Chọn tỷ lệ nhỏ hơn để ảnh không bị cắt
+    
+        int newWidth = (int) (imageWidth * scaleFactor);
+        int newHeight = (int) (imageHeight * scaleFactor);
+    
+        // Điều chỉnh kích thước ảnh theo tỷ lệ đã tính toán
+        Image scaledImage = imageIcon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(scaledImage);
+    
+        // Đặt ImageIcon vào JLabel
+        lb_HinhAnhMonAn.setIcon(imageIcon);
+    }
+    public void hienThiAnhMon(String tenAnh) {
+        // Đường dẫn tới hình ảnh
+        String linkHinhAnh = "/IMAGE/SanPham/" + tenAnh;
+        java.net.URL imgURL = getClass().getResource(linkHinhAnh);
+    
+        ImageIcon imageIcon;
+        if (imgURL != null) {
+            imageIcon = new ImageIcon(imgURL);  // Ảnh tồn tại
+        } else {
+            // Đường dẫn ảnh mặc định nếu ảnh không tồn tại
+            imageIcon = new ImageIcon("C:\\Users\\dvmv2\\OneDrive\\Documents\\Nam3\\CNPM\\QuanLyQuanCaPhe\\src\\IMAGE\\Logo2.png");
+            // System.out.println("Ảnh không tồn tại, hiển thị ảnh mặc định.");
+        }
+    
+        // Kích thước cố định của JLabel
+        int labelWidth = lb_HinhAnhMonAn.getWidth();
+        int labelHeight = lb_HinhAnhMonAn.getHeight();
+    
+        // Kích thước gốc của ảnh
+        int imageWidth = imageIcon.getIconWidth();
+        int imageHeight = imageIcon.getIconHeight();
+    
+        // Tính toán tỷ lệ thu phóng để giữ nguyên tỷ lệ ảnh
+        double widthRatio = (double) labelWidth / imageWidth;
+        double heightRatio = (double) labelHeight / imageHeight;
+        double scaleFactor = Math.min(widthRatio, heightRatio);  // Chọn tỷ lệ nhỏ hơn để ảnh không bị cắt
+    
+        int newWidth = (int) (imageWidth * scaleFactor);
+        int newHeight = (int) (imageHeight * scaleFactor);
+    
+        // Điều chỉnh kích thước ảnh theo tỷ lệ đã tính toán
+        Image scaledImage = imageIcon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(scaledImage);
+    
+        // Đặt ImageIcon vào JLabel
+        lb_HinhAnhMonAn.setIcon(imageIcon);
+    }
     public String toCurrency(int giaTien) {
          // Sử dụng NumberFormat để định dạng tiền tệ
         NumberFormat numberFormat = NumberFormat.getInstance(Locale.forLanguageTag("vi-VN"));
@@ -438,6 +654,14 @@ public class n4_MonGUI extends javax.swing.JPanel {
         
         // Chuyển đổi chuỗi sang số nguyên
         return Integer.parseInt(cleanString); // Trả về giá trị kiểu int
+    }
+    public void reloadData() {
+        tf_MaMon.setText("");
+        tf_TenMon.setText("");
+        hienThiAnhMon("abc");//? Chọn tên ảnh không tồn tại để hiển thị ảnh mặc định
+        tf_DonGia.setText("");
+        this.selectedFile = null;
+        fillTable();
     }
     public void fillTable() {
         DefaultTableModel modelTable = new DefaultTableModel();
@@ -458,6 +682,21 @@ public class n4_MonGUI extends javax.swing.JPanel {
         tb_DanhSachMon.setModel(modelTable);
 
     }
+    
+    public boolean checkMoneyMount(String moneyMount) {
+        try {
+            int amount = Integer.parseInt(moneyMount);
+            //? Kiểm tra số tiền phải lớn hơn hoặc bằng 0
+            if (amount < 0) {
+                return false;
+            }
+            //? Kiểm tra chuỗi không chỉ chứa ký tự số và dấu thập phân hợp lệ (không có ký tự không hợp lệ)
+            String regex = "^[0-9]+(\\.[0-9]{1,2})?$";
+            return moneyMount.matches(regex);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelAnhTimKiem;
     private javax.swing.JPanel PanelChuaNut;
@@ -475,7 +714,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
     private javax.swing.JButton btn_Xoa;
     private javax.swing.JButton btn_XuatExcel;
     private javax.swing.JComboBox<String> comboboxTrangThai;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<LoaiMonDTO> comboboxLoaiMon;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;

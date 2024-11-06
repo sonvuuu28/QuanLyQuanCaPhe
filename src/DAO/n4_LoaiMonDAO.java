@@ -61,7 +61,7 @@ public class n4_LoaiMonDAO {
                   Connection c = JDBCUtil.getConnection();
                   String sql = "INSERT INTO LoaiMon VALUES(?,?,?)";
                   PreparedStatement prep = c.prepareStatement(sql);
-                  prep.setString(1, loaiMon.getMaLoaiMon());
+                  prep.setString(1, getNewId());
                   prep.setString(2, loaiMon.getMaLoaiMon());
                   prep.setBoolean(6, loaiMon.getTrangThaiLoaiMon());
 

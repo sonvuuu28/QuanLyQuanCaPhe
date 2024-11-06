@@ -24,13 +24,11 @@ import java.awt.BorderLayout;
 
 
 public class n0_TrangChuGUI extends javax.swing.JFrame {
-    private JFrame trangChu;
     private n0_TrangChuBUS trangChuBUS;
     private TaiKhoanDTO userLogin;
     private NhanVienDTO nhanVienLogin;
 
     public n0_TrangChuGUI(TaiKhoanDTO taikhoan) {
-        this.trangChu = this;
         initComponents(taikhoan);
         PanelNoiDung.removeAll();
         n1_BanHangGUI banhang = new n1_BanHangGUI();
@@ -561,7 +559,7 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 PanelNoiDung.removeAll();
-                n5_NguyenLieuGUI nl = new n5_NguyenLieuGUI(trangChu);
+                n5_NguyenLieuGUI nl = new n5_NguyenLieuGUI();
                 PanelNoiDung.setLayout(new BorderLayout());
                 PanelNoiDung.add(nl, BorderLayout.CENTER); // Adjust the layout constraint as needed
                 PanelNoiDung.revalidate();

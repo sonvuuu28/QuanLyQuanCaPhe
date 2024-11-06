@@ -38,11 +38,7 @@ public class LoaiMonDTO {
 
     @Override
     public String toString() {
-        return "LoaiMonDTO{"
-                + "maLoaiMon='" + maLoaiMon + '\''
-                + ", tenLoaiMon='" + tenLoaiMon + '\''
-                + ", trangThaiLoaiMon=" + trangThaiLoaiMon
-                + '}';
+        return tenLoaiMon;
     }
 
     public static void main(String[] args) {

@@ -32,23 +32,6 @@ public class n4_MonDAO {
             return listMon;
       }
 
-
-      public String getTenLoaiMonByMaMon(String maMon) {
-            String tenLoaiMon = new String();
-            try {
-                  String sql ="SELECT * FROM Mon mon JOIN LoaiMon lm ON mon.MaLoaiMon = lm.MaLoaiMon WHERE mon.MaMon = '"+maMon+"'";
-                  Connection c = JDBCUtil.getConnection();
-                  PreparedStatement pre = c.prepareStatement(sql);
-                  ResultSet rs = pre.executeQuery();
-                  while (rs.next()) {
-                        tenLoaiMon = rs.getString("TenLoaiMon");
-                  }
-            } catch (SQLException ex) {
-                  System.err.println(ex.getMessage());
-            }
-            return tenLoaiMon;
-      }
-
       public MonDTO getMonById(String maMon) {
             MonDTO mon = null;
             try {
@@ -77,9 +60,9 @@ public class n4_MonDAO {
             boolean result = false;
             try {
                   Connection c = JDBCUtil.getConnection();
-                  String sql = "INSERT INTO Mon VALUES(?,?,?,?,?,?,?)";
+                  String sql = "INSERT INTO Mon VALUES(?,?,?,?,?,?)";
                   PreparedStatement prep = c.prepareStatement(sql);
-                  prep.setString(1, mon.getMaMon());
+                  prep.setString(1, getNewId());
                   prep.setString(2, mon.getMaLoaiMon());
                   prep.setString(3, mon.getTenMon());
                   prep.setString(4, mon.getHinhAnh());
@@ -138,12 +121,12 @@ public class n4_MonDAO {
             String maMon = "M001"; // Giá trị mặc định khi không có món trong CSDL
             try {
                 Connection c = JDBCUtil.getConnection();
-                String sql = "SELECT MAX(MaMon) FROM Mon"; // Câu truy vấn để lấy mã món lớn nhất
+                String sql = "SELECT MAX(MaMon) AS MaMon FROM Mon"; // Câu truy vấn để lấy mã món lớn nhất
                 Statement st = c.createStatement();
                 ResultSet rs = st.executeQuery(sql);
                 
                 if (rs.next()) {
-                    String lastMaM = rs.getString("maMon");
+                    String lastMaM = rs.getString("MaMon");
                     if (lastMaM != null) {
                         // Tách phần số ra khỏi mã món (VD: từ "M005" -> "005")
                         String numberPart = lastMaM.substring(1); // Lấy phần số từ vị trí thứ 3
