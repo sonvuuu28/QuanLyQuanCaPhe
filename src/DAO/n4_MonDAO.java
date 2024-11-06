@@ -20,17 +20,33 @@ public class n4_MonDAO {
                         String maLoaiMon = rs.getString(2);
                         String tenMon = rs.getString(3);
                         String hinhAnh = rs.getString(4);
-                        String maCongThuc = rs.getString(5);
-                        int donGiaMon = rs.getInt(6);
-                        boolean trangThaiMon = rs.getBoolean(7);
+                        int donGiaMon = rs.getInt(5);
+                        boolean trangThaiMon = rs.getBoolean(6);
 
-                        MonDTO mon = new MonDTO(maMon, maLoaiMon, tenMon, hinhAnh, maCongThuc, donGiaMon, trangThaiMon);
+                        MonDTO mon = new MonDTO(maMon, maLoaiMon, tenMon, hinhAnh, donGiaMon, trangThaiMon);
                         listMon.add(mon);
                   }
             } catch (SQLException ex) {
                   System.err.println(ex.getMessage());
             }
             return listMon;
+      }
+
+
+      public String getTenLoaiMonByMaMon(String maMon) {
+            String tenLoaiMon = new String();
+            try {
+                  String sql ="SELECT * FROM Mon mon JOIN LoaiMon lm ON mon.MaLoaiMon = lm.MaLoaiMon WHERE mon.MaMon = '"+maMon+"'";
+                  Connection c = JDBCUtil.getConnection();
+                  PreparedStatement pre = c.prepareStatement(sql);
+                  ResultSet rs = pre.executeQuery();
+                  while (rs.next()) {
+                        tenLoaiMon = rs.getString("TenLoaiMon");
+                  }
+            } catch (SQLException ex) {
+                  System.err.println(ex.getMessage());
+            }
+            return tenLoaiMon;
       }
 
       public MonDTO getMonById(String maMon) {
@@ -46,11 +62,10 @@ public class n4_MonDAO {
                         String maLoaiMon = rs.getString(2);
                         String tenMon = rs.getString(3);
                         String hinhAnh = rs.getString(4);
-                        String maCongThuc = rs.getString(5);
-                        int donGiaMon = rs.getInt(6);
-                        boolean trangThaiMon = rs.getBoolean(7);
+                        int donGiaMon = rs.getInt(5);
+                        boolean trangThaiMon = rs.getBoolean(6);
 
-                        mon = new MonDTO(maMon, maLoaiMon, tenMon, hinhAnh, maCongThuc, donGiaMon, trangThaiMon);
+                        mon = new MonDTO(maMon, maLoaiMon, tenMon, hinhAnh, donGiaMon, trangThaiMon);
                   }
             } catch (SQLException ex) {
                   System.err.println(ex.getMessage());
@@ -68,9 +83,8 @@ public class n4_MonDAO {
                   prep.setString(2, mon.getMaLoaiMon());
                   prep.setString(3, mon.getTenMon());
                   prep.setString(4, mon.getHinhAnh());
-                  prep.setString(5, mon.getMaCongThuc());
-                  prep.setInt(6, mon.getDonGiaMon());
-                  prep.setBoolean(7, mon.getTrangThaiMon());
+                  prep.setInt(5, mon.getDonGiaMon());
+                  prep.setBoolean(6, mon.getTrangThaiMon());
 
                   if(prep.executeUpdate() > 0) {
                         return true;
@@ -103,15 +117,14 @@ public class n4_MonDAO {
             boolean result = false;
             try {
                   Connection c = JDBCUtil.getConnection();
-                  String sql = "UPDATE Mon SET MaLoaiMon=?, TenMon=?, HinhAnh=?, MaCongThuc=?, DonGiaMon=?, TrangThaiMon=? WHERE MaMon=?";
+                  String sql = "UPDATE Mon SET MaLoaiMon=?, TenMon=?, HinhAnh=?, DonGiaMon=?, TrangThaiMon=? WHERE MaMon=?";
                   PreparedStatement prep = c.prepareStatement(sql);
                   prep.setString(1, mon.getMaLoaiMon());
                   prep.setString(2, mon.getTenMon());
                   prep.setString(3, mon.getHinhAnh());
-                  prep.setString(4, mon.getMaCongThuc());
-                  prep.setInt(5, mon.getDonGiaMon());
-                  prep.setBoolean(6, mon.getTrangThaiMon());
-                  prep.setString(7, mon.getMaMon());
+                  prep.setInt(4, mon.getDonGiaMon());
+                  prep.setBoolean(5, mon.getTrangThaiMon());
+                  prep.setString(6, mon.getMaMon());
                   if (prep.executeUpdate() > 0) {
                         result = true;
                   }
@@ -130,15 +143,15 @@ public class n4_MonDAO {
                 ResultSet rs = st.executeQuery(sql);
                 
                 if (rs.next()) {
-                    String lastMaHD = rs.getString("maMon");
-                    if (lastMaHD != null) {
-                        // Tách phần số ra khỏi mã món (VD: từ "HD005" -> "005")
-                        String numberPart = lastMaHD.substring(1); // Lấy phần số từ vị trí thứ 3
+                    String lastMaM = rs.getString("maMon");
+                    if (lastMaM != null) {
+                        // Tách phần số ra khỏi mã món (VD: từ "M005" -> "005")
+                        String numberPart = lastMaM.substring(1); // Lấy phần số từ vị trí thứ 3
                         int number = Integer.parseInt(numberPart); // Chuyển đổi thành số nguyên
                         number++; // Tăng giá trị số lên 1
                         
-                        // Đảm bảo mã mới có định dạng HD + 3 chữ số
-                        maMon = String.format("M%03d", number); // Định dạng lại thành HDXXX
+                        // Đảm bảo mã mới có định dạng M + 3 chữ số
+                        maMon = String.format("M%03d", number); // Định dạng lại thành MXXX
                     }
                 }
                 JDBCUtil.closeConnection(c);

@@ -5,17 +5,15 @@ public class MonDTO {
     private String maLoaiMon;
     private String tenMon;
     private String hinhAnh;
-    private String maCongThuc;
     private int donGiaMon;
     private boolean trangThaiMon;
 
 
-    public MonDTO(String maMon, String maLoaiMon, String tenMon, String hinhAnh,String maCongThuc, int donGiaMon, boolean trangThaiMon) {
+    public MonDTO(String maMon, String maLoaiMon, String tenMon, String hinhAnh, int donGiaMon, boolean trangThaiMon) {
         this.maMon = maMon;
         this.maLoaiMon = maLoaiMon;
         this.tenMon = tenMon;
         this.hinhAnh = hinhAnh;
-        this.maCongThuc = maCongThuc;
         this.donGiaMon = donGiaMon;
         this.trangThaiMon = trangThaiMon;
     }
@@ -52,14 +50,6 @@ public class MonDTO {
         this.hinhAnh = hinhAnh;
     }
 
-    public String getMaCongThuc() {
-        return maCongThuc;
-    }
-
-    public void setMaCongThuc(String maCongThuc) {
-        this.maCongThuc = maCongThuc;
-    }
-
     public int getDonGiaMon() {
         return donGiaMon;
     }
@@ -83,14 +73,13 @@ public class MonDTO {
                 ", maLoaiMon='" + maLoaiMon + '\'' +
                 ", tenMon='" + tenMon + '\'' +
                 ", hinhAnh='" + hinhAnh + '\'' +
-                ", maCongThuc='" + maCongThuc + '\'' +
                 ", donGiaMon=" + donGiaMon +
                 ", trangThaiMon=" + trangThaiMon +
                 '}';
     }
 
     public static void main(String[] args) {
-        MonDTO mon = new MonDTO("M001", "LM001", "Cà Phê Muối", "Anh1","CT001", 50000, true);
+        MonDTO mon = new MonDTO("M001", "LM001", "Cà Phê Muối", "Anh1", 50000, true);
         System.out.println(mon.toString());
     }
 }

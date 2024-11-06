@@ -28,7 +28,7 @@ public class LoaiMonDTO {
         this.tenLoaiMon = tenLoaiMon;
     }
 
-    public boolean isTrangThaiLoaiMon() {
+    public boolean getTrangThaiLoaiMon() {
         return trangThaiLoaiMon;
     }
 
