@@ -1,20 +1,27 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.net.URL;
 import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import javax.swing.event.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -247,45 +254,60 @@ public class n4_MonGUI extends javax.swing.JPanel {
         btn_Sua.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn sửa món này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-                if (confirm == JOptionPane.YES_OPTION) {
-                    String maMon = String.valueOf(tf_MaMon.getText());
-                    LoaiMonDTO temp = (LoaiMonDTO) comboboxLoaiMon.getSelectedItem();
-                    String maLoaiMon = temp.getMaLoaiMon();
-                    String tenMon = String.valueOf(tf_TenMon.getText());
-                    int donGia;
-                    if(checkMoneyMount(tf_DonGia.getText())) {
-                        donGia = Integer.valueOf(tf_DonGia.getText());
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(null, "Đơn giá không hợp lệ !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        return;
-                    }
-                    //? Check chọn ảnh chưa 
-                    String hinhAnh = null;
-                    if(selectedFile != null) {
-                        hinhAnh = maMon+".jpg";
-                        //? Tên mới cho ảnh dựa trên mã món ăn
-                        //? Lưu ảnh
-                        try {
-                            Path targetPath = new File(targetFolder, hinhAnh).toPath();
-                            // Sao chép ảnh vào thư mục đích
-                            Files.copy(selectedFile.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                            System.out.println("Lỗi khi lưu ảnh.");
+                int selectedRow = tb_DanhSachMon.getSelectedRow();
+                if (selectedRow != -1) {
+                    int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn sửa món này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        String maMon = String.valueOf(tf_MaMon.getText());
+                        LoaiMonDTO temp = (LoaiMonDTO) comboboxLoaiMon.getSelectedItem();
+                        String maLoaiMon = temp.getMaLoaiMon();
+                        String tenMon = String.valueOf(tf_TenMon.getText());
+                        if(tenMon.length() > 50) {
+                            JOptionPane.showMessageDialog(null, "Tên món không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            return;
                         }
+                        // Biểu thức regex để kiểm tra không có ký tự đặc biệt
+                        String regex = "^[a-zA-Z0-9]+$";
+                        if(!tenMon.matches(regex)) {
+                            JOptionPane.showMessageDialog(null, "Tên món không được chứa ký tự đặc biệt !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        }
+                        int donGia;
+                        if(checkMoneyMount(tf_DonGia.getText())) {
+                            donGia = Integer.valueOf(tf_DonGia.getText());
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Đơn giá không hợp lệ !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        }
+                        //? Check chọn ảnh chưa 
+                        String hinhAnh = null;
+                        if(selectedFile != null) {
+                            hinhAnh = maMon+".jpg";
+                            //? Tên mới cho ảnh dựa trên mã món ăn
+                            //? Lưu ảnh
+                            try {
+                                Path targetPath = new File(targetFolder, hinhAnh).toPath();
+                                // Sao chép ảnh vào thư mục đích
+                                Files.copy(selectedFile.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                                System.out.println("Lỗi khi lưu ảnh.");
+                            }
+                        }
+                        
+                        MonDTO mon = new MonDTO(maMon, maLoaiMon, tenMon, hinhAnh, donGia, true);
+                        if(monBUS.updateMon(mon)){
+                            JOptionPane.showMessageDialog(null, "Sửa món thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            reloadData();
+                        }
+                        else 
+                            JOptionPane.showMessageDialog(null, "Sửa món thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                     }
-                    
-                    MonDTO mon = new MonDTO(maMon, maLoaiMon, tenMon, hinhAnh, donGia, true);
-                    if(monBUS.updateMon(mon)){
-                        JOptionPane.showMessageDialog(null, "Sửa món thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        reloadData();
-                    }
-                    else 
-                        JOptionPane.showMessageDialog(null, "Sửa món thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 sản phẩm để sửa !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                }
             }
-        }
         });
 
 
@@ -305,6 +327,16 @@ public class n4_MonGUI extends javax.swing.JPanel {
                     LoaiMonDTO temp = (LoaiMonDTO) comboboxLoaiMon.getSelectedItem();
                     String maLoaiMon = temp.getMaLoaiMon();
                     String tenMon = String.valueOf(tf_TenMon.getText());
+                    if(tenMon.length() > 50) {
+                        JOptionPane.showMessageDialog(null, "Tên món không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+                    // Biểu thức regex để kiểm tra không có ký tự đặc biệt
+                    String regex = "^[a-zA-Z0-9]+$";
+                    if(!tenMon.matches(regex)) {
+                        JOptionPane.showMessageDialog(null, "Tên món không được chứa ký tự đặc biệt !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
                     int donGia;
                     if(checkMoneyMount(tf_DonGia.getText())) {
                         donGia = Integer.valueOf(tf_DonGia.getText());
@@ -349,6 +381,26 @@ public class n4_MonGUI extends javax.swing.JPanel {
         btn_Xoa.setMaximumSize(new java.awt.Dimension(100, 26));
         btn_Xoa.setMinimumSize(new java.awt.Dimension(100, 26));
         btn_Xoa.setPreferredSize(new java.awt.Dimension(100, 26));
+        btn_Xoa.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tb_DanhSachMon.getSelectedRow();
+                if (selectedRow != -1) {
+                    int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn xóa món này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        String maMon = String.valueOf(tf_MaMon.getText());
+                        if(monBUS.deleteMon(maMon)){
+                            JOptionPane.showMessageDialog(null, "Xóa món thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            reloadData();
+                        }
+                        else 
+                            JOptionPane.showMessageDialog(null, "Xóa món thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 sản phẩm để xóa !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
 
         btn_XuatExcel.setBackground(new java.awt.Color(0, 0, 0));
         btn_XuatExcel.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
@@ -357,6 +409,49 @@ public class n4_MonGUI extends javax.swing.JPanel {
         btn_XuatExcel.setMaximumSize(new java.awt.Dimension(100, 26));
         btn_XuatExcel.setMinimumSize(new java.awt.Dimension(100, 26));
         btn_XuatExcel.setPreferredSize(new java.awt.Dimension(100, 26));
+        btn_XuatExcel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                String fileName = "listMon.xlsx";
+                String filePath = "C:\\Users\\dvmv2\\OneDrive\\Documents\\Nam3\\CNPM\\QuanLyQuanCaPhe\\src\\EXCEL\\"+fileName;
+                Workbook workbook = new XSSFWorkbook();
+                Sheet sheet = workbook.createSheet("Sheet1");
+
+                // Lấy mô hình dữ liệu từ JTable
+                TableModel model = tb_DanhSachMon.getModel();
+                // Tạo hàng tiêu đề (header)
+                Row headerRow = sheet.createRow(0);
+                for (int col = 0; col < model.getColumnCount(); col++) {
+                    Cell cell = headerRow.createCell(col);
+                    cell.setCellValue(model.getColumnName(col));
+                }
+
+                // Ghi dữ liệu từ JTable vào tệp Excel
+                for (int row = 0; row < model.getRowCount(); row++) {
+                    Row excelRow = sheet.createRow(row + 1);
+                    for (int col = 0; col < model.getColumnCount(); col++) {
+                        Cell cell = excelRow.createCell(col);
+                        cell.setCellValue(model.getValueAt(row, col).toString());
+                    }
+                }
+                // Ghi workbook vào tệp và mở tệp sau khi lưu
+                try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
+                    workbook.write(outputStream);
+                    workbook.close();
+                    System.out.println("Xuất file Excel thành công!");
+
+                    // Mở tệp ngay sau khi lưu
+                    File file = new File(filePath);
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop.getDesktop().open(file);
+                    } else {
+                        System.out.println("Mở tệp không được hỗ trợ trên hệ thống này.");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }   
+            }
+        });
 
         javax.swing.GroupLayout PanelChuaNutLayout = new javax.swing.GroupLayout(PanelChuaNut);
         PanelChuaNut.setLayout(PanelChuaNutLayout);

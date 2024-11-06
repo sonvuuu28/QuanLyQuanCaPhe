@@ -1,24 +1,35 @@
 package GUI;
 
 import Util.TableCustom;
-
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import BUS.n5_NguyenLieuBUS;
 import DTO.NguyenLieuDTO;
 
 public class n5_NguyenLieuGUI extends javax.swing.JPanel {
+    private String regex = "^[a-zA-Z0-9]+$";
     private n5_NguyenLieuBUS nguyenLieuBUS;
 
     public n5_NguyenLieuGUI() {
@@ -281,15 +292,20 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         btn_Xoa.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn xóa nguyên liệu này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-                if (confirm == JOptionPane.YES_OPTION) {
-                    String ma = String.valueOf(tf_MaNL.getText());
-                    if(nguyenLieuBUS.deleteNguyenLieu(ma)) {
-                        JOptionPane.showMessageDialog(null, "Xóa nguyên liệu thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        reloadData();
+                int selectedRow = tb_DanhSachNL.getSelectedRow();
+                if (selectedRow != -1) {
+                    int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn xóa nguyên liệu này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        String ma = String.valueOf(tf_MaNL.getText());
+                        if(nguyenLieuBUS.deleteNguyenLieu(ma)) {
+                            JOptionPane.showMessageDialog(null, "Xóa nguyên liệu thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            reloadData();
+                        }
+                        else 
+                        JOptionPane.showMessageDialog(null, "Xóa nguyên liệu thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                     }
-                    else 
-                    JOptionPane.showMessageDialog(null, "Xóa nguyên liệu thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 sản phẩm để xóa !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -301,6 +317,49 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         btn_XuatExcel.setMaximumSize(new java.awt.Dimension(100, 26));
         btn_XuatExcel.setMinimumSize(new java.awt.Dimension(100, 26));
         btn_XuatExcel.setPreferredSize(new java.awt.Dimension(100, 26));
+        btn_XuatExcel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                String fileName = "listNguyenLieu.xlsx";
+                String filePath = "C:\\Users\\dvmv2\\OneDrive\\Documents\\Nam3\\CNPM\\QuanLyQuanCaPhe\\src\\EXCEL\\"+fileName;
+                Workbook workbook = new XSSFWorkbook();
+                Sheet sheet = workbook.createSheet("Sheet1");
+
+                // Lấy mô hình dữ liệu từ JTable
+                TableModel model = tb_DanhSachNL.getModel();
+                // Tạo hàng tiêu đề (header)
+                Row headerRow = sheet.createRow(0);
+                for (int col = 0; col < model.getColumnCount(); col++) {
+                    Cell cell = headerRow.createCell(col);
+                    cell.setCellValue(model.getColumnName(col));
+                }
+
+                // Ghi dữ liệu từ JTable vào tệp Excel
+                for (int row = 0; row < model.getRowCount(); row++) {
+                    Row excelRow = sheet.createRow(row + 1);
+                    for (int col = 0; col < model.getColumnCount(); col++) {
+                        Cell cell = excelRow.createCell(col);
+                        cell.setCellValue(model.getValueAt(row, col).toString());
+                    }
+                }
+                // Ghi workbook vào tệp và mở tệp sau khi lưu
+                try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
+                    workbook.write(outputStream);
+                    workbook.close();
+                    System.out.println("Xuất file Excel thành công!");
+
+                    // Mở tệp ngay sau khi lưu
+                    File file = new File(filePath);
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop.getDesktop().open(file);
+                    } else {
+                        System.out.println("Mở tệp không được hỗ trợ trên hệ thống này.");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }   
+            }
+        });
 
         javax.swing.GroupLayout PanelChuaNutLayout = new javax.swing.GroupLayout(PanelChuaNut);
         PanelChuaNut.setLayout(PanelChuaNutLayout);
@@ -360,9 +419,24 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
                 if (confirm == JOptionPane.YES_OPTION) {
                     String ma = String.valueOf(tf_MaNL.getText());
                     String ten = String.valueOf(tf_TenNL.getText());
+                    if(ten.length() > 50) {
+                        JOptionPane.showMessageDialog(null, "Tên nguyên liệu không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+                    if(!ten.matches(regex)) {
+                        JOptionPane.showMessageDialog(null, "Tên nguyên liệu không được chứa ký tự đặc biệt !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
                     // Double khoiLuong = Double.valueOf(tf_KhoiLuong.getText());
                     Double khoiLuong = 0.0;
-                    int donGia = Integer.valueOf(tf_DonGia.getText());
+                    int donGia;
+                    if(checkMoneyMount(tf_DonGia.getText())) {
+                        donGia = Integer.valueOf(tf_DonGia.getText());
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Đơn giá không hợp lệ !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
                     NguyenLieuDTO nguyenLieu = new NguyenLieuDTO(ma, ten, khoiLuong, donGia, true);
                     if(nguyenLieuBUS.addNguyenLieu(nguyenLieu)){
                         JOptionPane.showMessageDialog(null, "Thêm nguyên liệu thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -385,23 +459,44 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         btn_Sua.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn sửa nguyên liệu này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-                if (confirm == JOptionPane.YES_OPTION) {
-                    String ma = String.valueOf(tf_MaNL.getText());
-                    String ten = String.valueOf(tf_TenNL.getText());
-                    // Double khoiLuong = Double.valueOf(tf_KhoiLuong.getText());
-                    Double khoiLuong = 0.0;
-                    int donGia = Integer.valueOf(tf_DonGia.getText());
-                    //? Không cập nhật khối lượng
-                    NguyenLieuDTO nguyenLieu = new NguyenLieuDTO(ma, ten, khoiLuong, donGia, true);
-                    if(nguyenLieuBUS.updateNguyenLieu(nguyenLieu)){
-                        JOptionPane.showMessageDialog(null, "Sửa nguyên liệu thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        reloadData();
+                
+                int selectedRow = tb_DanhSachNL.getSelectedRow();
+                if (selectedRow != -1) {
+                    int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn sửa nguyên liệu này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        String ma = String.valueOf(tf_MaNL.getText());
+                        String ten = String.valueOf(tf_TenNL.getText());
+                        if(ten.length() > 50) {
+                            JOptionPane.showMessageDialog(null, "Tên nguyên liệu không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        }
+                        if(!ten.matches(regex)) {
+                            JOptionPane.showMessageDialog(null, "Tên nguyên liệu không được chứa ký tự đặc biệt !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        }
+                        // Double khoiLuong = Double.valueOf(tf_KhoiLuong.getText());
+                        Double khoiLuong = 0.0;
+                        int donGia;
+                        if(checkMoneyMount(tf_DonGia.getText())) {
+                            donGia = Integer.valueOf(tf_DonGia.getText());
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Đơn giá không hợp lệ !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        }
+                        //? Không cập nhật khối lượng
+                        NguyenLieuDTO nguyenLieu = new NguyenLieuDTO(ma, ten, khoiLuong, donGia, true);
+                        if(nguyenLieuBUS.updateNguyenLieu(nguyenLieu)){
+                            JOptionPane.showMessageDialog(null, "Sửa nguyên liệu thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            reloadData();
+                        }
+                        else 
+                            JOptionPane.showMessageDialog(null, "Sửa nguyên liệu thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                     }
-                    else 
-                        JOptionPane.showMessageDialog(null, "Sửa nguyên liệu thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 sản phẩm để sửa !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                }
             }
-        }
         });
 
         javax.swing.GroupLayout PanelTongLayout = new javax.swing.GroupLayout(PanelTong);
@@ -521,7 +616,20 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         
         tb_DanhSachNL.setModel(modelTable);
     }
-
+    public boolean checkMoneyMount(String moneyMount) {
+        try {
+            int amount = Integer.parseInt(moneyMount);
+            //? Kiểm tra số tiền phải lớn hơn hoặc bằng 0
+            if (amount < 0) {
+                return false;
+            }
+            //? Kiểm tra chuỗi không chỉ chứa ký tự số và dấu thập phân hợp lệ (không có ký tự không hợp lệ)
+            String regex = "^[0-9]+(\\.[0-9]{1,2})?$";
+            return moneyMount.matches(regex);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelAnhTimKiem;
     private javax.swing.JPanel PanelChuaNut;
