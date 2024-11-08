@@ -131,7 +131,7 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         tf_KhoiLuong.setMaximumSize(new java.awt.Dimension(150, 25));
         tf_KhoiLuong.setMinimumSize(new java.awt.Dimension(150, 25));
         tf_KhoiLuong.setPreferredSize(new java.awt.Dimension(150, 25));
-        tf_KhoiLuong.setText("0");
+        tf_KhoiLuong.setText("");
         tf_KhoiLuong.setDisabledTextColor(Color.BLACK); 
         tf_KhoiLuong.setEditable(false);
         tf_KhoiLuong.setEnabled(false);
@@ -226,7 +226,12 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         PanelTimKiem.setPreferredSize(new java.awt.Dimension(270, 32));
 
         TextFieldTimKiem.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-
+        TextFieldTimKiem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                timKiem();
+            }
+        });
         LabelAnhTimKiem.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         LabelAnhTimKiem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGE/search.png"))); // NOI18N
 
@@ -265,6 +270,13 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         btn_TimKiem.setMaximumSize(new java.awt.Dimension(100, 24));
         btn_TimKiem.setMinimumSize(new java.awt.Dimension(100, 24));
         btn_TimKiem.setPreferredSize(new java.awt.Dimension(100, 24));
+        btn_TimKiem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                timKiem();
+            }
+        });
+
 
         btn_TaiLai.setBackground(new java.awt.Color(0, 0, 0));
         btn_TaiLai.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -595,6 +607,7 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         tf_TenNL.setText("");
         tf_KhoiLuong.setText("");
         tf_DonGia.setText("");
+        TextFieldTimKiem.setText("");
         fillTable();
     }
     public void fillTable() {
@@ -629,6 +642,51 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+    public void timKiem() {
+        ArrayList<NguyenLieuDTO> dsTimDuoc = new ArrayList<>();
+        ArrayList<NguyenLieuDTO> dsNL = nguyenLieuBUS.getAll();
+        String input = String.valueOf(TextFieldTimKiem.getText()).toLowerCase().trim();
+        if(input.length() ==  0) {
+            JOptionPane.showMessageDialog(null, "Tìm kiếm không được để trống !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        if(input.length() > 50) {
+            JOptionPane.showMessageDialog(null, "Tìm kiếm không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        if(comboboxTrangThai.getSelectedItem().toString().equals("Mã Nguyên Liệu")) {
+            for (int i = 0; i < dsNL.size(); i++) {
+                if(dsNL.get(i).getMaNguyenLieu().toLowerCase().contains(input)) {
+                    dsTimDuoc.add(dsNL.get(i));
+                }
+            }
+        } else if(comboboxTrangThai.getSelectedItem().toString().equals("Tên Nguyên Liệu")){
+            for (int i = 0; i < dsNL.size(); i++) {
+                if(dsNL.get(i).getTenNguyenLieu().toLowerCase().contains(input)) {
+                    dsTimDuoc.add(dsNL.get(i));
+                }
+            }
+        }
+        if(dsTimDuoc.size() == 0) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy nguyên liệu phù hợp !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        DefaultTableModel modelTable = new DefaultTableModel();
+        modelTable.addColumn("Mã Nguyên Liệu");
+        modelTable.addColumn("Tên Nguyên Liệu");
+        modelTable.addColumn("Khối Lượng");
+        modelTable.addColumn("Đơn Giá");
+        for(int i = 0; i < dsTimDuoc.size(); i++) {
+            modelTable.addRow(new Object[] {
+                dsTimDuoc.get(i).getMaNguyenLieu(),
+                dsTimDuoc.get(i).getTenNguyenLieu(),
+                dsTimDuoc.get(i).getKhoiLuongNguyenLieu(),
+                toCurrency(dsTimDuoc.get(i).getDonGiaNguyenLieu()),
+            });
+        }
+        
+        tb_DanhSachNL.setModel(modelTable);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelAnhTimKiem;

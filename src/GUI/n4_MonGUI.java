@@ -42,7 +42,8 @@ public class n4_MonGUI extends javax.swing.JPanel {
     private n4_MonBUS monBUS;
     private n4_LoaiMonBUS loaiMonBUS;
     private File selectedFile;
-    private String targetFolder = "C:\\Users\\dvmv2\\OneDrive\\Documents\\Nam3\\CNPM\\QuanLyQuanCaPhe\\src\\IMAGE\\SanPham";
+    private String imageDefault = "src\\IMAGE\\Logo2.png";
+    private String targetFolder = "src\\IMAGE\\SanPham";
 
     public n4_MonGUI() {
         this.monBUS = new n4_MonBUS();
@@ -102,6 +103,12 @@ public class n4_MonGUI extends javax.swing.JPanel {
         PanelTimKiem.setMinimumSize(new java.awt.Dimension(314, 32));
 
         TextFieldTimKiem.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        TextFieldTimKiem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                timKiem();
+            }
+        });
 
         LabelAnhTimKiem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGE/search.png"))); // NOI18N
 
@@ -139,6 +146,12 @@ public class n4_MonGUI extends javax.swing.JPanel {
         btn_TimKiem.setMaximumSize(new java.awt.Dimension(100, 24));
         btn_TimKiem.setMinimumSize(new java.awt.Dimension(100, 24));
         btn_TimKiem.setPreferredSize(new java.awt.Dimension(100, 24));
+        btn_TimKiem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                timKiem();
+            }
+        });
 
         btn_TaiLai.setBackground(new java.awt.Color(0, 0, 0));
         btn_TaiLai.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -226,8 +239,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
         });
 
         lb_HinhAnhMonAn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lb_HinhAnhMonAn.setPreferredSize(new Dimension(300, 300));
-        // lb_HinhAnhMonAn.setText("Hình Ảnh");
+        hienThiAnhMon("abc");
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -566,9 +578,11 @@ public class n4_MonGUI extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(PanelChuaNut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+                
         );
 
         PanelChuaThongTin_Cam.add(PanelChuaThongTinTrang);
+        
 
         fillTable();
         tb_DanhSachMon.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -581,7 +595,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
                         // Lấy dữ liệu của hàng được chọn
                         selectedFile = null;
                         String maMon = String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 0));
-                        LoaiMonDTO loaiMon =  loaiMonBUS.getLoaiMonById(String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 1)));
+                        String loaiMon =  String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 1));
                         String tenMon =  String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 2));
                         String donGia =  String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 3));
                         tf_MaMon.setText(maMon);
@@ -589,7 +603,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
                         tf_DonGia.setText(String.valueOf(convertCurrencyToInt(donGia)));
 
                         for (int i = 0; i < comboboxLoaiMon.getItemCount(); i++) {
-                            if (comboboxLoaiMon.getItemAt(i).toString().equals(loaiMon.toString())) {
+                            if (comboboxLoaiMon.getItemAt(i).getTenLoaiMon().equals(loaiMon)) {
                                 comboboxLoaiMon.setSelectedIndex(i);
                                 break;
                             }
@@ -683,6 +697,10 @@ public class n4_MonGUI extends javax.swing.JPanel {
         // Kích thước gốc của ảnh
         int imageWidth = imageIcon.getIconWidth();
         int imageHeight = imageIcon.getIconHeight();
+        if (labelWidth == 0 || labelHeight == 0) {
+            System.out.println("JLabel chưa có kích thước hợp lệ.");
+            return;
+        }
     
         // Tính toán tỷ lệ thu phóng để giữ nguyên tỷ lệ ảnh
         double widthRatio = (double) labelWidth / imageWidth;
@@ -709,13 +727,13 @@ public class n4_MonGUI extends javax.swing.JPanel {
             imageIcon = new ImageIcon(imgURL);  // Ảnh tồn tại
         } else {
             // Đường dẫn ảnh mặc định nếu ảnh không tồn tại
-            imageIcon = new ImageIcon("C:\\Users\\dvmv2\\OneDrive\\Documents\\Nam3\\CNPM\\QuanLyQuanCaPhe\\src\\IMAGE\\Logo2.png");
+            imageIcon = new ImageIcon("src\\IMAGE\\Logo2.png");
             // System.out.println("Ảnh không tồn tại, hiển thị ảnh mặc định.");
         }
     
         // Kích thước cố định của JLabel
-        int labelWidth = lb_HinhAnhMonAn.getWidth();
-        int labelHeight = lb_HinhAnhMonAn.getHeight();
+        int labelWidth = 200;
+        int labelHeight = 200;
     
         // Kích thước gốc của ảnh
         int imageWidth = imageIcon.getIconWidth();
@@ -755,6 +773,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
         tf_TenMon.setText("");
         hienThiAnhMon("abc");//? Chọn tên ảnh không tồn tại để hiển thị ảnh mặc định
         tf_DonGia.setText("");
+        comboboxLoaiMon.setSelectedIndex(0);
         this.selectedFile = null;
         fillTable();
     }
@@ -769,7 +788,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
         for(int i = 0; i < list.size(); i++) {
             modelTable.addRow(new Object[] {
                 list.get(i).getMaMon(),
-                list.get(i).getMaLoaiMon(),
+                loaiMonBUS.getLoaiMonById(list.get(i).getMaLoaiMon()).getTenLoaiMon(),
                 list.get(i).getTenMon(),
                 toCurrency(list.get(i).getDonGiaMon()),
             });
@@ -791,6 +810,51 @@ public class n4_MonGUI extends javax.swing.JPanel {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+    public void timKiem() {
+        ArrayList<MonDTO> dsTimDuoc = new ArrayList<>();
+        ArrayList<MonDTO> dsNL = monBUS.getAll();
+        String input = String.valueOf(TextFieldTimKiem.getText()).toLowerCase().trim();
+        if(input.length() ==  0) {
+            JOptionPane.showMessageDialog(null, "Tìm kiếm không được để trống !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        if(input.length() > 50) {
+            JOptionPane.showMessageDialog(null, "Tìm kiếm không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        if(comboboxTrangThai.getSelectedItem().toString().equals("Mã Món")) {
+            for (int i = 0; i < dsNL.size(); i++) {
+                if(dsNL.get(i).getMaMon().toLowerCase().contains(input)) {
+                    dsTimDuoc.add(dsNL.get(i));
+                }
+            }
+        } else if(comboboxTrangThai.getSelectedItem().toString().equals("Tên Món")){
+            for (int i = 0; i < dsNL.size(); i++) {
+                if(dsNL.get(i).getTenMon().toLowerCase().contains(input)) {
+                    dsTimDuoc.add(dsNL.get(i));
+                }
+            }
+        }
+        if(dsTimDuoc.size() == 0) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy món phù hợp !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        DefaultTableModel modelTable = new DefaultTableModel();
+        modelTable.addColumn("Mã Món");
+        modelTable.addColumn("Loại Món");
+        modelTable.addColumn("Tên Món");
+        modelTable.addColumn("Đơn Giá");
+        for(int i = 0; i < dsTimDuoc.size(); i++) {
+            modelTable.addRow(new Object[] {
+                dsTimDuoc.get(i).getMaMon(),
+                loaiMonBUS.getLoaiMonById(dsTimDuoc.get(i).getMaLoaiMon()).getTenLoaiMon(),
+                dsTimDuoc.get(i).getTenMon(),
+                toCurrency(dsTimDuoc.get(i).getDonGiaMon()),
+            });
+        }
+        
+        tb_DanhSachMon.setModel(modelTable);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelAnhTimKiem;
