@@ -151,4 +151,14 @@ public class KhachHangBUS {
             model.addRow(vec);
         }
     }
+
+    public boolean checkSDT(String sdt){
+        for (KhachHangDTO kh : listKH) {
+            if (kh.getMaKhachHang().equals(sdt) ) {
+                return false;
+            }
+        }
+        return true;
+       }
+
 }
