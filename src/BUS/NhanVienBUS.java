@@ -58,35 +58,35 @@ public class NhanVienBUS {
         return flag;
    }
 
-   public boolean updateNhanVien(String ma,String ten, String gioitinh, String dienThoai,Date ngaysinh, String chucvu,String diachi,int luong, int trangThai) {
-       ten = ten.trim();
-       dienThoai = dienThoai.trim();
-       if (ten.equals("")) {
+    public boolean updateNhanVien(String ma,String ten, String gioitinh, String dienThoai,Date ngaysinh, String chucvu,String diachi,int luong, int trangThai) {
+        ten = ten.trim();
+        dienThoai = dienThoai.trim();
+        if (ten.equals("")) {
            new dialog("Tên không được để trống!", dialog.ERROR_DIALOG);
            return false;
-       }
-       if (dienThoai.equals("")) {
+        }
+        if (dienThoai.equals("")) {
            new dialog("Điện thoại không được để trống!", dialog.ERROR_DIALOG);
            return false;
-       }
-       NhanVienDTO nv = new NhanVienDTO();
-       nv.setTenNhanVien(ten);
-       nv.setGioiTinhNhanVien(gioitinh);
-       nv.setSoDienThoaiNhanVien(dienThoai);
-       nv.setNgaySinhNhanVien(ngaysinh);
-       nv.setChucVuNhanVien(chucvu);
-       nv.setDiaChi(diachi);
-       nv.setLuongNhanVien(luong);
-       System.out.println(luong);
-       System.out.println(ma);
-       nv.setTrangThaiNhanVien(trangThai);
-       boolean flag = nvDAO.updateInfoNhanVien(nv,ma);
-       if (flag) {
-           new dialog("Cập nhập thất bại!", dialog.ERROR_DIALOG);
-       } else {
-           new dialog("Cập nhập thành công!", dialog.SUCCESS_DIALOG);
-       }
-       return flag;
+         }
+        NhanVienDTO nv = new NhanVienDTO();
+        nv.setTenNhanVien(ten);
+        nv.setGioiTinhNhanVien(gioitinh);
+        nv.setSoDienThoaiNhanVien(dienThoai);
+        nv.setNgaySinhNhanVien(ngaysinh);
+        nv.setChucVuNhanVien(chucvu);
+        nv.setDiaChi(diachi);
+        nv.setLuongNhanVien(luong);
+        System.out.println(luong);
+        System.out.println(ma);
+        nv.setTrangThaiNhanVien(trangThai);
+        boolean flag = nvDAO.updateInfoNhanVien(nv,ma);
+        if (flag) {
+            new dialog("Cập nhập thất bại!", dialog.ERROR_DIALOG);
+        } else {
+            new dialog("Cập nhập thành công!", dialog.SUCCESS_DIALOG);
+        }
+        return flag;
    }
 
    public void timNhanVienMa(String tuKhoa,JTable tbl) {
