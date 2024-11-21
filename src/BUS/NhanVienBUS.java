@@ -275,6 +275,15 @@ public class NhanVienBUS {
 
    public String layMaNhanVien(String manv){
         return nvDAO.layMaNhanVien(manv);
-        
    }
+
+   public boolean checkSDT(String sdt){
+    for (NhanVienDTO nv : listNV) {
+        if (nv.getMaNhanVien().equals(sdt) ) {
+            return false;
+        }
+    }
+    return true;
+   }
+
 }
