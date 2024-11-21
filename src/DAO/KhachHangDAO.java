@@ -11,8 +11,9 @@ import java.util.List;
 public class KhachHangDAO {
 
     public ArrayList<KhachHangDTO> getDanhSachKhachHang() {
-        try (Connection connection = JDBCUtil.getConnection();
-             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM KhachHang")) {
+        try {
+            Connection connection = JDBCUtil.getConnection();
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM KhachHang");
             ResultSet rs = stmt.executeQuery();
             ArrayList<KhachHangDTO> listKH = new ArrayList<>();
             while (rs.next()) {
@@ -34,26 +35,28 @@ public class KhachHangDAO {
     }
 
     public boolean updateInfoKhachHang(KhachHangDTO kh) {
-        try (Connection connection = JDBCUtil.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(
-                     "UPDATE KhachHang SET TenKhachHang = ?, NgaySinhKhachHang = ?, GioiTinhKhachHang = ?, SoDienThoaiKhachHang = ?, ChiTieuKhachHang = ?, MaUuDai = ? WHERE MaKhachHang = ?")) {
+        boolean kq = false;
+        try { 
+            Connection connection = JDBCUtil.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(
+                     "UPDATE KhachHang SET TenKhachHang = ?, NgaySinhKhachHang = ?, GioiTinhKhachHang = ?, SoDienThoaiKhachHang = ?, ChiTieuKhachHang = ? WHERE MaKhachHang = ?");
             stmt.setString(1, kh.getTenKhachHang());
             stmt.setDate(2, new java.sql.Date(kh.getNgaySinhKhachHang().getTime()));
             stmt.setString(3, kh.getGioiTinhKhachHang());
             stmt.setString(4, kh.getSoDienThoaiKhachHang());
             stmt.setInt(5, kh.getChiTieuKhachHang());
-            stmt.setString(7, kh.getMaKhachHang());
-            int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0;
+            stmt.setString(6, kh.getMaKhachHang());
+            kq = stmt.executeUpdate() > 0;
+            
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return kq ;
     }
 
     public boolean deleteKhachHang(String maKH) {
-        try (Connection connection = JDBCUtil.getConnection();
-             PreparedStatement stmt = connection.prepareStatement("DELETE FROM KhachHang WHERE MaKhachHang = ?")) {
+        try { Connection connection = JDBCUtil.getConnection();
+             PreparedStatement stmt = connection.prepareStatement("DELETE FROM KhachHang WHERE MaKhachHang = ?");
             stmt.setString(1, maKH);
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
@@ -64,9 +67,9 @@ public class KhachHangDAO {
     }
 
     public KhachHangDTO getKhachHangByMaKH(String maKH) {
-        try (
+        try {
             Connection connection = JDBCUtil.getConnection();
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM KhachHang WHERE MaKhachHang = ?")) {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM KhachHang WHERE MaKhachHang = ?");
             stmt.setString(1, maKH);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -109,10 +112,11 @@ public class KhachHangDAO {
 
    public String layMaKhachHangCuoiCung() {
        String maKH = "KH001";
-       try (Connection connection = JDBCUtil.getConnection();
-            PreparedStatement stmt = connection.prepareStatement("SELECT TOP 1 MaKhachHang FROM KhachHang ORDER BY MaKhachHang DESC")) {
-           ResultSet rs = stmt.executeQuery();
-           if (rs.next()) {
+       try { 
+            Connection connection = JDBCUtil.getConnection();
+            PreparedStatement stmt = connection.prepareStatement("SELECT TOP 1 MaKhachHang FROM KhachHang ORDER BY MaKhachHang DESC");
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
                maKH = rs.getString("MaKhachHang");
                int maKHInt = Integer.parseInt(maKH.substring(2)) + 1;
                if (maKHInt < 10) {
@@ -122,7 +126,7 @@ public class KhachHangDAO {
                } else {
                    maKH = "KH" + maKHInt;
                }
-           }
+             }
        } catch (SQLException e) {
            e.printStackTrace();
        }
