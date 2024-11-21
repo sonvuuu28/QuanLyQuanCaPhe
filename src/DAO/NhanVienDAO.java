@@ -319,7 +319,6 @@ public class NhanVienDAO {
                 manv = rs.getString(1);
 
             }
-
             return manv;
         } catch (SQLException e) {
             e.printStackTrace();
