@@ -763,8 +763,10 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             }
 
             public void mouseClicked(MouseEvent e){
-                xuLyThemNhanVien();
-                loadDataTblNhanVien();
+                if(validateFields()){
+                    xuLyThemNhanVien();
+                    loadDataTblNhanVien();
+                }
             }
         });
 
@@ -782,8 +784,10 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             }
 
             public void mouseClicked(MouseEvent e){
-                xuLySuaNhanVien();
-                loadDataTblNhanVien();
+                if(validateFields()){
+                    xuLySuaNhanVien();
+                    loadDataTblNhanVien();
+                }
             }
         });
 
@@ -858,6 +862,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
 
             public void mouseClicked(MouseEvent e){
                 xuLyCapTaiKhoan();
+                loadDataTblNhanVien();
             }
         });
 
@@ -884,40 +889,55 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         });
     }
 
-    public void validateFields() {
+    public boolean validateFields() {
         // Biểu thức chính quy để kiểm tra không chứa ký tự đặc biệt (chỉ chứa ký tự và số)
         String regexNoSpecialChars = "^[a-zA-Z0-9]*$"; // Không chứa ký tự đặc biệt
         // Kiểm tra txtTen (Tên người dùng)
         if (txtTen.getText().equals("")) {
-            new dialog("Tên không được để trống", dialog.ERROR_DIALOG);
+            new dialog("Tên không được để trống!", dialog.ERROR_DIALOG);
+            return false;
         } else if (txtTen.getText().length() > 50) {
-            new dialog("Tên không được quá 50 ký tự", dialog.ERROR_DIALOG);
+            new dialog("Tên không được quá 50 ký tự!", dialog.ERROR_DIALOG);
+            return false;
         } else if (txtTen.getText().length() < 2) {
-            new dialog("Tên không được ít hơn 2 ký tự", dialog.ERROR_DIALOG);
+            new dialog("Tên không được ít hơn 2 ký tự!", dialog.ERROR_DIALOG);
+            return false;
         } else if (!txtTen.getText().matches("[a-zA-Zàáảãạăắằẳẵặâấầẩẫậđèéẻẽẹêếềểễệìíỉĩịòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựỳýỷỹỵ]*")) {
-            new dialog("Tên không được chứa ký tự số hoặc ký tự đặc biệt", dialog.ERROR_DIALOG);
+            new dialog("Tên không được chứa ký tự số hoặc ký tự đặc biệt!", dialog.ERROR_DIALOG);
+            return false;
         }
 
         // Kiểm tra txtSDT (Số điện thoại)
         else if (txtSDT.getText().equals("")) {
-            new dialog("Số điện thoại không được để trống", dialog.ERROR_DIALOG);
+            new dialog("Số điện thoại không được để trống!", dialog.ERROR_DIALOG);
+            return false;
         } else if (!txtSDT.getText().matches("0\\d{9}")) { // Số điện thoại phải có 10 chữ số, bắt đầu với số 0
-            new dialog("Số điện thoại không hợp lệ, phải có 10 số và bắt đầu bằng số 0", dialog.ERROR_DIALOG);
+            new dialog("Số điện thoại không hợp lệ, phải có 10 số và bắt đầu bằng số 0!", dialog.ERROR_DIALOG);
+            return false;
         } else if (txtSDT.getText().contains(" ")) { // Không có khoảng trắng giữa các số
-            new dialog("Số điện thoại không được chứa khoảng trắng", dialog.ERROR_DIALOG);
+            new dialog("Số điện thoại không được chứa khoảng trắng!", dialog.ERROR_DIALOG);
+            return false;
+        } else if (NVBUS.checkSDT(txtSDT.getText())) { // Không có khoảng trắng giữa các số
+            new dialog("Số điện thoại đã tồn tại!", dialog.ERROR_DIALOG);
+            return false;
         }
+
 
         // Kiểm tra txtLuong (Lương)
         else if (txtLuong.getText().equals("")) {
-            new dialog("Lương không được để trống", dialog.ERROR_DIALOG);
+            new dialog("Lương không được để trống!", dialog.ERROR_DIALOG);
+            return false;
         } else if (!txtLuong.getText().matches(regexNoSpecialChars)) {
-            new dialog("Lương không được chứa ký tự đặc biệt", dialog.ERROR_DIALOG);
+            new dialog("Lương không được chứa ký tự đặc biệt!", dialog.ERROR_DIALOG);
+            return false;
         }
 
         // Kiểm tra JDNgaySinh (Ngày sinh)
         else if (JDNgaySinh.getDate() == null) {
-            new dialog("Ngày sinh không được để trống", dialog.ERROR_DIALOG);
-        } else {
+            new dialog("Ngày sinh không được để trống!", dialog.ERROR_DIALOG);
+            return false;
+        } 
+        else {
             // Lấy ngày hiện tại
             LocalDate currentDate = LocalDate.now();
 
@@ -931,13 +951,15 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
 
             // Kiểm tra nếu tuổi nhỏ hơn 18
             if (period.getYears() < 18) {
-                new dialog("Bạn phải đủ 18 tuổi để sử dụng hệ thống", dialog.ERROR_DIALOG);
+                new dialog("Bạn phải đủ 18 tuổi để sử dụng hệ thống!", dialog.ERROR_DIALOG);
+                return false;
             }
         }
+        return true;
     }
 
     private void xuLyKhoaTaiKhoan() {
-        dialog dlg = new dialog("Có chắc muốn khóa tài khoản này", dialog.WARNING_DIALOG);
+        dialog dlg = new dialog("Có chắc muốn khóa tài khoản này!", dialog.WARNING_DIALOG);
         if (dlg.getAction() != dialog.OK_OPTION) {
             return;
         }
@@ -985,7 +1007,6 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         dlgCapTaiKhoan pnCapTaiKhoan = new dlgCapTaiKhoan(txtMa.getText());
         dialogCTK.add(pnCapTaiKhoan);
         dialogCTK.setVisible(true);
-        loadDataTblNhanVien();
         
     }
 
@@ -1055,7 +1076,6 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         if (NVBUS.updateNhanVien(txtMa.getText(), ten, gioiTinh, sdt,ngaysinh,chucvu, diachi,luong,1)) {
             refresh();
             NVBUS.docDanhSach();
-            loadDataTblNhanVien();
         }
     }
 
