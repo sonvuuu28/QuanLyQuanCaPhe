@@ -84,6 +84,7 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         setBackground(new java.awt.Color(122, 74, 74));
         setMaximumSize(new java.awt.Dimension(1125, 667));
         setMinimumSize(new java.awt.Dimension(1125, 667));
+        setVerifyInputWhenFocusTarget(false);
 
         PanelTong.setBackground(new java.awt.Color(255, 255, 255));
         PanelTong.setMaximumSize(new java.awt.Dimension(1125, 658));
@@ -133,6 +134,11 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         TextFieldTen.setMaximumSize(new java.awt.Dimension(160, 28));
         TextFieldTen.setMinimumSize(new java.awt.Dimension(160, 28));
         TextFieldTen.setPreferredSize(new java.awt.Dimension(160, 28));
+        TextFieldTen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextFieldTenActionPerformed(evt);
+            }
+        });
 
         LblSDT.setBackground(new java.awt.Color(255, 255, 255));
         LblSDT.setText("Số Điện Thoại");
@@ -143,6 +149,11 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         TextFieldSDT.setMinimumSize(new java.awt.Dimension(160, 28));
         TextFieldSDT.setPreferredSize(new java.awt.Dimension(160, 28));
         TextFieldSDT.setVerifyInputWhenFocusTarget(false);
+        TextFieldSDT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextFieldSDTActionPerformed(evt);
+            }
+        });
 
         LblGioiTinh.setBackground(new java.awt.Color(255, 255, 255));
         LblGioiTinh.setText("Giới Tính");
@@ -185,6 +196,8 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         jSeparator5.setMaximumSize(new java.awt.Dimension(93, 5));
         jSeparator5.setMinimumSize(new java.awt.Dimension(93, 5));
         jSeparator5.setPreferredSize(new java.awt.Dimension(93, 5));
+
+        jDNgaySinh.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout PanelThuocTinhLayout = new javax.swing.GroupLayout(PanelThuocTinh);
         PanelThuocTinh.setLayout(PanelThuocTinhLayout);
@@ -514,6 +527,10 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_TextFieldMaActionPerformed
 
+    private void TextFieldSDTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFieldSDTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TextFieldSDTActionPerformed
+
 
     public void nhomNutChucNang() {
 
@@ -531,13 +548,15 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         
         btn_Them.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                xuLyThemKhachHang();
+                if(validateFields())
+                    xuLyThemKhachHang();
             }
         });
 
         btn_Sua.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                suaThongTinKhacHang();
+                if(validateFields())
+                    suaThongTinKhacHang();
             }
         });
 
@@ -567,6 +586,42 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
             }
         });
     }
+
+    public boolean validateFields() {
+        //Kiểm tra trường tên
+        String ten = TextFieldTen.getText().trim();
+        if (ten.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Tên không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (ten.length() < 3 || ten.length() > 50) {
+            JOptionPane.showMessageDialog(null, "Tên phải có độ dài từ 3 đến 50 ký tự!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (!ten.matches("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỳỵỷỹỲỴỶỸ\\s]+$")) {
+            JOptionPane.showMessageDialog(null, "Tên không được chứa ký tự số hoặc ký tự đặc biệt!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    
+        // Kiểm tra TextFieldSDT
+        String sdt = TextFieldSDT.getText().trim();
+        if (sdt.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (!sdt.matches("^0\\d{9}$")) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại phải bắt đầu bằng số 0 và chứa đúng 10 chữ số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if(KHBUS.checkSDT(sdt)){
+            JOptionPane.showMessageDialog(null, "Số điện thoại đã tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    
+        return true;
+    }
+    
 
     private void xuLyXuatExcel() {
         XuLyFileExcel xuatExcel = new XuLyFileExcel();
