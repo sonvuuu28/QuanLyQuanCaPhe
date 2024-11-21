@@ -422,17 +422,16 @@ public class n10_ThongKeDAO {
     
         return tongTienTatCaPhieuNhap;
     }
-    
     public Double[] getLuongTheoThang(String maNhanVien) {
         Double[] luongTheoThang = new Double[12];
-        Arrays.fill(luongTheoThang, 0.0);  // Khởi tạo mảng với giá trị 0 cho các tháng
+        Arrays.fill(luongTheoThang, 0.0);  // Initialize array with 0 for each month
     
-        int namHienTai = Year.now().getValue();  // Lấy năm hiện tại
-        int thangHienTai = LocalDate.now().getMonthValue();  // Lấy tháng hiện tại
+        int namHienTai = Year.now().getValue();  // Get current year
+        int thangHienTai = LocalDate.now().getMonthValue();  // Get current month
     
-        String sql = "SELECT LuongNhanVien, NgayNhanViec, NgayNghiViec " +
-                     "FROM NhanVien " +
-                     "WHERE MaNhanVien = ?";
+        String sql = "SELECT e.LuongNhanVien, a.NgayCap, a.NgayNghiViec " +
+                     "FROM TaiKhoan a JOIN NhanVien e ON a.MaNhanVien = e.MaNhanVien " +
+                     "WHERE a.MaNhanVien = ?";
     
         try (Connection c = JDBCUtil.getConnection();
              PreparedStatement stmt = c.prepareStatement(sql)) {
@@ -442,35 +441,35 @@ public class n10_ThongKeDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     double luong = rs.getDouble("LuongNhanVien");
-                    Date ngayNhanViec = rs.getDate("NgayNhanViec");
+                    Date ngayCap = rs.getDate("NgayCap");
                     Date ngayNghiViec = rs.getDate("NgayNghiViec");
     
-                    int namBatDau = ngayNhanViec.toLocalDate().getYear();
-                    int thangBatDau = ngayNhanViec.toLocalDate().getMonthValue();
+                    int namBatDau = ngayCap.toLocalDate().getYear();
+                    int thangBatDau = ngayCap.toLocalDate().getMonthValue();
                     int namKetThuc, thangKetThuc;
     
-                    // Nếu nhân viên chưa nghỉ việc, tính lương đến tháng hiện tại
+                    // If the employee has not terminated, calculate salary until the current month
                     if (ngayNghiViec == null) {
                         namKetThuc = namHienTai;
                         thangKetThuc = thangHienTai;
-                    } else {  // Nếu có ngày nghỉ việc, chỉ tính đến tháng của ngày nghỉ việc
+                    } else {  // If there is a termination date, only calculate until that month
                         namKetThuc = ngayNghiViec.toLocalDate().getYear();
                         thangKetThuc = ngayNghiViec.toLocalDate().getMonthValue();
                     }
     
-                    // Tính lương từ tháng bắt đầu đến tháng kết thúc
+                    // Calculate salary from start month to end month
                     if (namBatDau == namKetThuc) {
-                        // Nếu ngày bắt đầu và ngày kết thúc trong cùng một năm
+                        // If start and end dates are in the same year
                         for (int i = thangBatDau - 1; i < thangKetThuc; i++) {
                             luongTheoThang[i] = luong;
                         }
                     } else if (namBatDau < namKetThuc) {
-                        // Nếu nhân viên làm qua nhiều năm
-                        // Tính từ tháng bắt đầu trong năm bắt đầu
+                        // If the employee worked across multiple years
+                        // Fill remaining months of the start year
                         for (int i = thangBatDau - 1; i < 12; i++) {
                             luongTheoThang[i] = luong;
                         }
-                        // Tính từ tháng 1 đến tháng kết thúc trong năm kết thúc
+                        // Fill months of the end year up to the termination month
                         for (int i = 0; i < thangKetThuc; i++) {
                             luongTheoThang[i] = luong;
                         }
@@ -485,11 +484,12 @@ public class n10_ThongKeDAO {
     }
     public Double getTongLuongNhanVienThangHienTai() {
         Double tongLuongThangHienTai = 0.0;
-        int thangHienTai = LocalDate.now().getMonthValue(); // Tháng hiện tại
-        int namHienTai = LocalDate.now().getYear(); // Năm hiện tại
+        int thangHienTai = LocalDate.now().getMonthValue(); // Current month
+        int namHienTai = LocalDate.now().getYear(); // Current year
     
-        String sql = "SELECT LuongNhanVien, NgayNhanViec, NgayNghiViec " +
-                     "FROM NhanVien";
+        // Update SQL query to join the Account and Employee tables
+        String sql = "SELECT e.LuongNhanVien, a.NgayCap, a.NgayNghiViec " +
+                     "FROM TaiKhoan a JOIN NhanVien e ON a.MaNhanVien = e.MaNhanVien";
     
         try (Connection c = JDBCUtil.getConnection();
              PreparedStatement stmt = c.prepareStatement(sql);
@@ -497,14 +497,14 @@ public class n10_ThongKeDAO {
     
             while (rs.next()) {
                 double luong = rs.getDouble("LuongNhanVien");
-                Date ngayNhanViec = rs.getDate("NgayNhanViec");
+                Date ngayCap = rs.getDate("NgayCap");
                 Date ngayNghiViec = rs.getDate("NgayNghiViec");
     
-                LocalDate ngayNhanViecLocal = ngayNhanViec.toLocalDate();
-                int namBatDau = ngayNhanViecLocal.getYear();
-                int thangBatDau = ngayNhanViecLocal.getMonthValue();
+                LocalDate ngayCapLocal = ngayCap.toLocalDate();
+                int namBatDau = ngayCapLocal.getYear();
+                int thangBatDau = ngayCapLocal.getMonthValue();
     
-                // Xác định năm và tháng kết thúc dựa trên ngày nghỉ việc
+                // Determine the end year and month based on the termination date
                 int namKetThuc, thangKetThuc;
                 if (ngayNghiViec == null) {
                     namKetThuc = namHienTai;
@@ -515,10 +515,10 @@ public class n10_ThongKeDAO {
                     thangKetThuc = ngayNghiViecLocal.getMonthValue();
                 }
     
-                // Kiểm tra nếu tháng hiện tại nằm trong khoảng thời gian làm việc của nhân viên
+                // Check if the current month is within the employment period of the employee
                 if ((namBatDau < namHienTai || (namBatDau == namHienTai && thangBatDau <= thangHienTai)) &&
                     (namKetThuc > namHienTai || (namKetThuc == namHienTai && thangKetThuc >= thangHienTai))) {
-                    // Cộng lương của nhân viên vào tổng lương tháng hiện tại
+                    // Add the employee's salary to the total salary for the current month
                     tongLuongThangHienTai += luong;
                 }
             }
@@ -530,12 +530,13 @@ public class n10_ThongKeDAO {
     }
     public Double[] getTongLuongTheoThangTrongNamHienTai() {
         Double[] tongLuongTheoThang = new Double[12];
-        Arrays.fill(tongLuongTheoThang, 0.0); // Khởi tạo mảng với giá trị 0 cho mỗi tháng
+        Arrays.fill(tongLuongTheoThang, 0.0); // Initialize the array with 0 for each month
     
-        int namHienTai = LocalDate.now().getYear(); // Năm hiện tại
+        int namHienTai = LocalDate.now().getYear(); // Current year
     
-        String sql = "SELECT LuongNhanVien, NgayNhanViec, NgayNghiViec " +
-                     "FROM NhanVien";
+        // Update SQL query to join the Account and Employee tables
+        String sql = "SELECT e.LuongNhanVien, a.NgayCap, a.NgayNghiViec " +
+                     "FROM TaiKhoan a JOIN NhanVien e ON a.MaNhanVien = e.MaNhanVien";
     
         try (Connection c = JDBCUtil.getConnection();
              PreparedStatement stmt = c.prepareStatement(sql);
@@ -543,30 +544,30 @@ public class n10_ThongKeDAO {
     
             while (rs.next()) {
                 double luong = rs.getDouble("LuongNhanVien");
-                Date ngayNhanViec = rs.getDate("NgayNhanViec");
+                Date ngayCap = rs.getDate("NgayCap");
                 Date ngayNghiViec = rs.getDate("NgayNghiViec");
     
-                LocalDate ngayNhanViecLocal = ngayNhanViec.toLocalDate();
-                int namBatDau = ngayNhanViecLocal.getYear();
-                int thangBatDau = ngayNhanViecLocal.getMonthValue();
+                LocalDate ngayCapLocal = ngayCap.toLocalDate();
+                int namBatDau = ngayCapLocal.getYear();
+                int thangBatDau = ngayCapLocal.getMonthValue();
     
-                // Xác định tháng và năm kết thúc dựa trên ngày nghỉ việc
+                // Determine the end year and month based on the termination date
                 int namKetThuc, thangKetThuc;
                 if (ngayNghiViec == null) {
                     namKetThuc = namHienTai;
-                    thangKetThuc = 12; // Nếu chưa nghỉ việc, tính đến tháng 12 của năm hiện tại
+                    thangKetThuc = 12; // If not terminated, calculate until December of the current year
                 } else {
                     LocalDate ngayNghiViecLocal = ngayNghiViec.toLocalDate();
                     namKetThuc = ngayNghiViecLocal.getYear();
                     thangKetThuc = ngayNghiViecLocal.getMonthValue();
                 }
     
-                // Chỉ tính các tháng trong năm hiện tại và khi nhân viên vẫn đang làm việc hoặc đã nghỉ trong năm nay
+                // Only calculate the months for the current year if the employee is working or has left this year
                 if (namBatDau <= namHienTai && namKetThuc >= namHienTai) {
                     int thangBatDauHienTai = (namBatDau == namHienTai) ? thangBatDau : 1;
                     int thangKetThucHienTai = (namKetThuc == namHienTai) ? thangKetThuc : 12;
     
-                    // Cộng lương vào mỗi tháng làm việc trong khoảng từ thangBatDauHienTai đến thangKetThucHienTai
+                    // Add salary to each month worked from thangBatDauHienTai to thangKetThucHienTai
                     for (int i = thangBatDauHienTai - 1; i < thangKetThucHienTai; i++) {
                         tongLuongTheoThang[i] += luong;
                     }
@@ -580,12 +581,13 @@ public class n10_ThongKeDAO {
     }
     public Double[] getTongLuongTheoQuyTrongNamHienTai() {
         Double[] tongLuongTheoQuy = new Double[4];
-        Arrays.fill(tongLuongTheoQuy, 0.0); // Khởi tạo mảng với giá trị 0 cho mỗi quý
+        Arrays.fill(tongLuongTheoQuy, 0.0); // Initialize the array with 0 for each quarter
     
-        int namHienTai = LocalDate.now().getYear(); // Năm hiện tại
+        int namHienTai = LocalDate.now().getYear(); // Current year
     
-        String sql = "SELECT LuongNhanVien, NgayNhanViec, NgayNghiViec " +
-                     "FROM NhanVien";
+        // Update SQL query to join the Account and Employee tables
+        String sql = "SELECT e.LuongNhanVien, a.NgayCap, a.NgayNghiViec " +
+                     "FROM TaiKhoan a JOIN NhanVien e ON a.MaNhanVien = e.MaNhanVien";
     
         try (Connection c = JDBCUtil.getConnection();
              PreparedStatement stmt = c.prepareStatement(sql);
@@ -593,39 +595,39 @@ public class n10_ThongKeDAO {
     
             while (rs.next()) {
                 double luong = rs.getDouble("LuongNhanVien");
-                Date ngayNhanViec = rs.getDate("NgayNhanViec");
+                Date ngayCap = rs.getDate("NgayCap");
                 Date ngayNghiViec = rs.getDate("NgayNghiViec");
     
-                LocalDate ngayNhanViecLocal = ngayNhanViec.toLocalDate();
-                int namBatDau = ngayNhanViecLocal.getYear();
-                int thangBatDau = ngayNhanViecLocal.getMonthValue();
+                LocalDate ngayCapLocal = ngayCap.toLocalDate();
+                int namBatDau = ngayCapLocal.getYear();
+                int thangBatDau = ngayCapLocal.getMonthValue();
     
-                // Xác định tháng và năm kết thúc dựa trên ngày nghỉ việc
+                // Determine the end year and month based on the termination date
                 int namKetThuc, thangKetThuc;
                 if (ngayNghiViec == null) {
                     namKetThuc = namHienTai;
-                    thangKetThuc = 12; // Nếu chưa nghỉ việc, tính đến tháng 12 của năm hiện tại
+                    thangKetThuc = 12; // If not terminated, calculate until December of the current year
                 } else {
                     LocalDate ngayNghiViecLocal = ngayNghiViec.toLocalDate();
                     namKetThuc = ngayNghiViecLocal.getYear();
                     thangKetThuc = ngayNghiViecLocal.getMonthValue();
                 }
     
-                // Chỉ tính các tháng trong năm hiện tại và khi nhân viên vẫn đang làm việc hoặc đã nghỉ trong năm nay
+                // Only calculate the months for the current year if the employee is working or has left this year
                 if (namBatDau <= namHienTai && namKetThuc >= namHienTai) {
                     int thangBatDauHienTai = (namBatDau == namHienTai) ? thangBatDau : 1;
                     int thangKetThucHienTai = (namKetThuc == namHienTai) ? thangKetThuc : 12;
     
-                    // Cộng lương vào các quý tương ứng
+                    // Add salary to the corresponding quarters
                     for (int i = thangBatDauHienTai; i <= thangKetThucHienTai; i++) {
                         if (i >= 1 && i <= 3) {
-                            tongLuongTheoQuy[0] += luong; // Quý 1
+                            tongLuongTheoQuy[0] += luong; // Quarter 1
                         } else if (i >= 4 && i <= 6) {
-                            tongLuongTheoQuy[1] += luong; // Quý 2
+                            tongLuongTheoQuy[1] += luong; // Quarter 2
                         } else if (i >= 7 && i <= 9) {
-                            tongLuongTheoQuy[2] += luong; // Quý 3
+                            tongLuongTheoQuy[2] += luong; // Quarter 3
                         } else if (i >= 10 && i <= 12) {
-                            tongLuongTheoQuy[3] += luong; // Quý 4
+                            tongLuongTheoQuy[3] += luong; // Quarter 4
                         }
                     }
                 }

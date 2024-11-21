@@ -16,7 +16,8 @@ public class n10_ChartCreator {
                 .xAxisTitle(xAxisTitle)
                 .yAxisTitle(yAxisTitle)
                 .build();
-                                         
+
+                lineChart.getStyler().setDecimalPattern("###############");                        
         lineChart.addSeries("Series1", xData, yData);
                                             
         return lineChart;
@@ -33,6 +34,7 @@ public class n10_ChartCreator {
                 .xAxisTitle(xAxisTitle)
                 .yAxisTitle(yAxisTitle)
                 .build();
+                barChart.getStyler().setDecimalPattern("###############");                        
 
         // Thêm từng series vào biểu đồ
         for (int i = 0; i < seriesNames.size(); i++) {
