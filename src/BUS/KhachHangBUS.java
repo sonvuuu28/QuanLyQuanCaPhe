@@ -18,23 +18,97 @@ public class KhachHangBUS {
     private ArrayList<KhachHangDTO> listKH = null;
     private KhachHangDAO khDAO = new KhachHangDAO();
 
-   public KhachHangBUS() {
+    public KhachHangBUS() {
        docDanhSach();
-   }
+    }
 
-   public void docDanhSach() {
+    public void docDanhSach() {
        listKH = khDAO.getDanhSachKhachHang();
-   }
+    }
 
-   public ArrayList<KhachHangDTO> getlistKH() {
+    public ArrayList<KhachHangDTO> getlistKH() {
        if (listKH == null) {
            docDanhSach();
        }
        return listKH;
+    }
+
+    public KhachHangDTO getById(String maKH) {
+       return khDAO.getKhachHangByMaKH(maKH);
+    }
+
+    public void timKhachHangTheoMa(String tuKhoa,JTable tbl) {
+        DefaultTableModel model = new DefaultTableModel(
+            new String[] {
+                "Mã KH", "Tên KH", "Giới tính", "Số điện thoại", "Ngày sinh", "Tổng chi tiêu"
+            }, 
+            0 
+        );
+        tbl.setModel(model); 
+        tuKhoa = tuKhoa.toLowerCase();
+        ArrayList<KhachHangDTO> dskh = new ArrayList<>();
+        for (KhachHangDTO kh : listKH) {
+             if (kh.getMaKhachHang().toLowerCase().contains(tuKhoa) ) {
+               dskh.add(kh);
+            }
+        }
+
+       for (KhachHangDTO kh : dskh) {
+            Vector<Object> vec = new Vector<>();
+            vec.add(kh.getMaKhachHang());
+            vec.add(kh.getTenKhachHang());
+            vec.add(kh.getGioiTinhKhachHang());
+            vec.add(kh.getSoDienThoaiKhachHang());
+            vec.add(kh.getNgaySinhKhachHang());
+            vec.add(kh.getChiTieuKhachHang());
+            model.addRow(vec);
+        }
    }
 
-   public KhachHangDTO getById(String maKH) {
-       return khDAO.getKhachHangByMaKH(maKH);
+   public void timKhachHangTheoTen(String tuKhoa,JTable tbl) {
+        DefaultTableModel model = new DefaultTableModel(
+            new String[] {
+                "Mã KH", "Tên KH", "Giới tính", "Số điện thoại", "Ngày sinh", "Tổng chi tiêu"
+            }, 
+            0 
+        );
+        tbl.setModel(model);
+        tuKhoa = tuKhoa.toLowerCase();
+        ArrayList<KhachHangDTO> dsKH = new ArrayList<>();
+        for (KhachHangDTO KH : listKH) {
+            if (KH.getTenKhachHang().toLowerCase().contains(tuKhoa)) {
+                dsKH.add(KH);
+            }
+        }
+        for (KhachHangDTO KH : dsKH) {
+            Vector<Object> vec = new Vector<>();
+            vec.add(KH.getMaKhachHang());
+            vec.add(KH.getTenKhachHang());
+            vec.add(KH.getGioiTinhKhachHang());
+            vec.add(KH.getSoDienThoaiKhachHang());
+            vec.add(KH.getNgaySinhKhachHang());
+            vec.add(KH.getChiTieuKhachHang());
+            model.addRow(vec);
+        }
+    }
+
+    public boolean capNhatThongTinKhachHang(String ma, String ten, String dienThoai,String gioiTinh,Date ngaySinh, int tongCT){
+        
+        KhachHangDTO kh = new KhachHangDTO();
+        kh.setMaKhachHang(ma);
+        kh.setTenKhachHang(ten);
+        kh.setGioiTinhKhachHang(gioiTinh);
+        kh.setSoDienThoaiKhachHang(dienThoai);
+        kh.setNgaySinhKhachHang(ngaySinh);
+        kh.setChiTieuKhachHang(tongCT);
+        boolean flag = khDAO.updateInfoKhachHang(kh);
+
+        if (flag) {
+            new dialog("Cập nhập thành công!", dialog.SUCCESS_DIALOG);
+        } else {
+            new dialog("Cập nhập thất bại!", dialog.ERROR_DIALOG);
+        }
+    return flag;
    }
 
    public boolean themKhachHang(String ten, Date ngaysinh, String gioitinh, String dienThoai, int chiTieu) {
@@ -60,7 +134,7 @@ public class KhachHangBUS {
             new String[] {
                 "Mã KH", "Tên KH", "Giới tính", "Số điện thoại", "Ngày sinh",  "Tổng Chi tiêu"
             }, 
-            0 // Bắt đầu với 0 hàng
+            0 
         );
         tbl.setModel(model);
         docDanhSach();
