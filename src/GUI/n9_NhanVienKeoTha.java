@@ -873,7 +873,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             }
 
             public void mouseClicked(MouseEvent e){
-                refreshDate();
+                refresh();
             }
         });
 
@@ -1053,6 +1053,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         String chucvu = BoxChucVu.getSelectedItem() + "";
         int luong = parseCurrency(txtLuong.getText());
         if (NVBUS.updateNhanVien(txtMa.getText(), ten, gioiTinh, sdt,ngaysinh,chucvu, diachi,luong,1)) {
+            refresh();
             NVBUS.docDanhSach();
             loadDataTblNhanVien();
         }
@@ -1088,13 +1089,16 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             if (ngaysinh == null) {
                 new dialog("Ngày sinh không được để trống", dialog.ERROR_DIALOG); 
             }
-            NVBUS.themNhanVien(ho, gioiTinh, dienthoai, ngaysinh, chucvu, diachi, luong, 1);
-            NVBUS.docDanhSach();
-            loadDataTblNhanVien();
-            loadDataCmbQuyen();
+            boolean check;
+            check = NVBUS.themNhanVien(ho, gioiTinh, dienthoai, ngaysinh, chucvu, diachi, luong, 1);
+            if(check){
+                refresh();
+                NVBUS.docDanhSach();
+                loadDataCmbQuyen();
+            }
     }
     
-    private void refreshDate(){
+    private void refresh(){
         txtDiaChi.setText("");
         txtMa.setText("");
         txtLuong.setText("");
