@@ -11,10 +11,6 @@ import Util.JDBCUtil;
 
 public class n1_HoaDonDAO {
 
-    public static n1_HoaDonDAO getInstance(){
-        return new n1_HoaDonDAO();
-    }
-    
     public ArrayList<HoaDonDTO> getListHoaDon() {
         ArrayList<HoaDonDTO> dshd = new ArrayList<>();
         try {
@@ -155,6 +151,59 @@ public class n1_HoaDonDAO {
         }
         return null;
     }
+
+    public ArrayList<HoaDonDTO> getListHoaDonTheoDateMax(Date dateMax) { // lấy list dshd theo ngày và tổng tiền
+        try {
+            Connection c = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM HoaDon WHERE NgayLapHoaDon >= ? ORDER BY MaHoaDon DESC";
+            PreparedStatement pre = c.prepareStatement(sql);
+            pre.setDate(1, dateMax);
+            ResultSet rs = pre.executeQuery();
+            ArrayList<HoaDonDTO> dshd = new ArrayList<>();
+            while (rs.next()) {
+                HoaDonDTO hd = new HoaDonDTO();
+                hd.setMaHoaDon(rs.getString(1));
+                hd.setNgayLapHoaDon(rs.getDate(2));
+                hd.setTongTienHoaDon(rs.getInt(3));
+                hd.setMaNhanVien(rs.getString(4));
+                hd.setMaKhachHang(rs.getString(5));
+                hd.setMaUuDai(rs.getString(6));
+                hd.setMaKhuyenMai(rs.getString(7));
+                dshd.add(hd);
+            }
+            return dshd;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<HoaDonDTO> getListHoaDonTheoDateMin(Date dateMin) { // lấy list dshd theo ngày và tổng tiền
+        try {
+            Connection c = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM HoaDon WHERE NgayLapHoaDon <= ? ORDER BY MaHoaDon DESC";
+            PreparedStatement pre = c.prepareStatement(sql);
+            pre.setDate(1, dateMin);
+            ResultSet rs = pre.executeQuery();
+            ArrayList<HoaDonDTO> dshd = new ArrayList<>();
+            while (rs.next()) {
+                HoaDonDTO hd = new HoaDonDTO();
+                hd.setMaHoaDon(rs.getString(1));
+                hd.setNgayLapHoaDon(rs.getDate(2));
+                hd.setTongTienHoaDon(rs.getInt(3));
+                hd.setMaNhanVien(rs.getString(4));
+                hd.setMaKhachHang(rs.getString(5));
+                hd.setMaUuDai(rs.getString(6));
+                hd.setMaKhuyenMai(rs.getString(7));
+                dshd.add(hd);
+            }
+            return dshd;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public String getNewId() {
         String maHD = "HD001"; // Giá trị mặc định khi không có hóa đơn trong CSDL
