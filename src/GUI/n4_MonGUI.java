@@ -783,7 +783,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
                             return;
                         }
                         //? Check chọn ảnh chưa 
-                        String hinhAnh = null;
+                        String hinhAnh  = monBUS.getMonById(maMon).getHinhAnh();
                         if(selectedFile != null) {
                             hinhAnh = maMon+".jpg";
                             //? Tên mới cho ảnh dựa trên mã món ăn

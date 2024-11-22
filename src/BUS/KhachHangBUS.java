@@ -154,7 +154,7 @@ public class KhachHangBUS {
 
     public boolean checkSDT(String sdt){
         for (KhachHangDTO kh : listKH) {
-            if (kh.getMaKhachHang().equals(sdt) ) {
+            if (kh.getSoDienThoaiKhachHang().equals(sdt) ) {
                 return false;
             }
         }

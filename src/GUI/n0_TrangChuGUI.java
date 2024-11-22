@@ -5,16 +5,18 @@ import BUS.n0_LoginBUS;
 import BUS.n0_TrangChuBUS;
 import DTO.NhanVienDTO;
 import DTO.PhanQuyenDTO;
+import DTO.TaiKhoanDTO;
+
 import java.awt.Color;
 import java.awt.BorderLayout;
 
 public class n0_TrangChuGUI extends javax.swing.JFrame {
 
-    public n0_TrangChuGUI(String TenDangNhap) {
-        MaNhanVien = TenDangNhap;
+    public n0_TrangChuGUI(TaiKhoanDTO userLogin) {
+        this.userLogin = userLogin;
         initComponents();
         PanelNoiDung.removeAll();
-        n1_BanHangKeoTha banhang = new n1_BanHangKeoTha(MaNhanVien);
+        n1_BanHangKeoTha banhang = new n1_BanHangKeoTha(userLogin.getMaNhanVien());
         PanelNoiDung.setLayout(new BorderLayout());
         PanelNoiDung.add(banhang, BorderLayout.CENTER); // Adjust the layout constraint as needed
         PanelNoiDung.revalidate();
@@ -417,13 +419,14 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
 
     public void setQuyen() {
         n0_TrangChuBUS bus = new n0_TrangChuBUS();
-        phanQuyen = bus.getPhanQuyen(MaNhanVien, LabelBanHang, LabelKhachHang, LabelNhapHang, LabelMon, LabelNguyenLieu, LabelLichLam, LabelKhuyenMai, LabelNhaCungCap, LabelNhanVien, LabelThongKe);
+        phanQuyen = bus.getPhanQuyen(userLogin.getMaNhanVien(), LabelBanHang, LabelKhachHang, LabelNhapHang, LabelMon, LabelNguyenLieu, LabelLichLam, LabelKhuyenMai, LabelNhaCungCap, LabelNhanVien, LabelThongKe);
     }
 
     private void nhomNutChucNang() {
         set_ngay();
-        set_NhanVien(MaNhanVien);
+        set_NhanVien(userLogin.getMaNhanVien());
         setQuyen();
+        set_NhanVien(userLogin.getMaNhanVien());
         LabelBanHang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 if (phanQuyen.getQuyenBanHang()) {
@@ -450,6 +453,12 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
                     PanelNoiDung.revalidate();
                     PanelNoiDung.repaint();
                 }
+                PanelNoiDung.removeAll();
+                n1_BanHangKeoTha banhang = new n1_BanHangKeoTha(userLogin.getMaNhanVien());
+                PanelNoiDung.setLayout(new BorderLayout());
+                PanelNoiDung.add(banhang, BorderLayout.CENTER); // Adjust the layout constraint as needed
+                PanelNoiDung.revalidate();
+                PanelNoiDung.repaint();
             }
         });
         LabelKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -758,4 +767,5 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
     private javax.swing.JPanel PanelTong;
     private String MaNhanVien;
     private PhanQuyenDTO phanQuyen;
+    private TaiKhoanDTO userLogin;
 }
