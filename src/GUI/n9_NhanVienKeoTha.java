@@ -368,6 +368,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         txtMa.setMaximumSize(new java.awt.Dimension(359, 20));
         txtMa.setMinimumSize(new java.awt.Dimension(359, 20));
         txtMa.setPreferredSize(new java.awt.Dimension(359, 20));
+        txtMa.setEnabled(false);
 
         txtTen.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         txtTen.setMaximumSize(new java.awt.Dimension(359, 20));
@@ -431,6 +432,8 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         cmbTimKiemNV.setPreferredSize(new java.awt.Dimension(72, 32));
 
         JDNgaySinh.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        JDNgaySinh.setDateFormatString("dd-MM-yyyy");
+        JDNgaySinh.getDateEditor().setEnabled(false);
 
         javax.swing.GroupLayout PanelChuaTextFieldLayout = new javax.swing.GroupLayout(PanelChuaTextField);
         PanelChuaTextField.setLayout(PanelChuaTextFieldLayout);
@@ -861,11 +864,13 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         } else if (txtTen.getText().length() > 50) {
             new dialog("Tên không được quá 50 ký tự!", dialog.ERROR_DIALOG);
             return false;
-        } else if (txtTen.getText().length() < 2) {
-            new dialog("Tên không được ít hơn 2 ký tự!", dialog.ERROR_DIALOG);
+        } else if ((txtTen.getText().matches(".*[!@#$%^&*()_+=\\[\\]{};':\"\\\\|,.<>/?`~].*")||txtTen.getText().matches(".*\\d.*"))) {
+            new dialog( "Tên không được chứa số hoặc ký tự đặc biệt!", dialog.ERROR_DIALOG);
             return false;
-        } else if (!(txtTen.getText().matches(".*[!@#$%^&*()_+=[\\]{};':\"\\\\|,.<>/?`~].*")||txtTen.getText().matches(".*\\d.*"))) {
-            JOptionPane.showMessageDialog(null, "Tên không được chứa ký tự số hoặc ký tự đặc biệt!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+
+        if(BoxGioiTinh.getSelectedItem().toString().equals("Chọn giới tính")){
+            new dialog("Bạn phải chọn giới tính!", dialog.ERROR_DIALOG);
             return false;
         }
 
@@ -874,28 +879,23 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             new dialog("Số điện thoại không được để trống!", dialog.ERROR_DIALOG);
             return false;
         } else if (!txtSDT.getText().matches("0\\d{9}")) { // Số điện thoại phải có 10 chữ số, bắt đầu với số 0
-            new dialog("Số điện thoại không hợp lệ, phải có 10 số và bắt đầu bằng số 0!", dialog.ERROR_DIALOG);
+            new dialog("Số điện thoại phải bắt đầu bằng số 0 và có 10 số !", dialog.ERROR_DIALOG);
             return false;
         } else if (txtSDT.getText().contains(" ")) { // Không có khoảng trắng giữa các số
             new dialog("Số điện thoại không được chứa khoảng trắng!", dialog.ERROR_DIALOG);
             return false;
-        } else if (NVBUS.checkSDT(txtSDT.getText())) { // Không có khoảng trắng giữa các số
+        } else if (!NVBUS.checkSDT(txtSDT.getText())) { // Không có khoảng trắng giữa các số
             new dialog("Số điện thoại đã tồn tại!", dialog.ERROR_DIALOG);
             return false;
         }
-
-
-        // Kiểm tra txtLuong (Lương)
-        else if (txtLuong.getText().equals("")) {
-            new dialog("Lương không được để trống!", dialog.ERROR_DIALOG);
-            return false;
-        } else if (!txtLuong.getText().matches(regexNoSpecialChars)) {
-            new dialog("Lương không được chứa ký tự đặc biệt!", dialog.ERROR_DIALOG);
+        // Kiểm tra txtDiaChi (địa chỉ)
+        if(txtDiaChi.getText().equals("")){
+            new dialog("Địa chỉ không được để trống!", dialog.ERROR_DIALOG);
             return false;
         }
 
         // Kiểm tra JDNgaySinh (Ngày sinh)
-        else if (JDNgaySinh.getDate() == null) {
+        if (JDNgaySinh.getDate() == null) {
             new dialog("Ngày sinh không được để trống!", dialog.ERROR_DIALOG);
             return false;
         } 
@@ -917,6 +917,16 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
                 return false;
             }
         }
+
+        // Kiểm tra txtLuong (Lương)
+        if (txtLuong.getText().equals("")) {
+            new dialog("Lương không được để trống!", dialog.ERROR_DIALOG);
+            return false;
+        } else if (!txtLuong.getText().matches(regexNoSpecialChars)) {
+            new dialog("Lương không được chứa ký tự đặc biệt!", dialog.ERROR_DIALOG);
+            return false;
+        }
+        
         return true;
     }
 
@@ -970,38 +980,6 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         dialogCTK.add(pnCapTaiKhoan);
         dialogCTK.setVisible(true);
         
-    }
-
-    private void xuLyNhapExcel() {
-        dialog dlg = new dialog("Dữ liệu cũ sẽ bị xoá, tiếp tục?", dialog.WARNING_DIALOG);
-        if (dlg.getAction() != dialog.OK_OPTION) {
-            return;
-        }
-        XuLyFileExcel nhapExcel = new XuLyFileExcel();
-        nhapExcel.nhapExcel(Table);
-        NVBUS.xoaFKHoadon_PhieuNhap_NV();
-        NVBUS.xoaAllNhanVien();
-        int row = Table.getRowCount();
-        for (int i = 0; i < row; i++) {
-            String manv = Table.getValueAt(i, 0) + "";
-            String ten = Table.getValueAt(i, 1) + "";
-            String gioitinh = Table.getValueAt(i, 2) + "";
-            String dienthoai = Table.getValueAt(i, 3) + "";
-            String ngaySinh = Table.getValueAt(i, 4) + "";
-            Date sqlDate = null;
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            try {
-                java.util.Date utilDate = dateFormat.parse(ngaySinh); 
-                sqlDate = new Date(utilDate.getTime()); 
-            } catch (ParseException e) {
-                e.printStackTrace(); // Xử lý lỗi nếu không thể phân tích chuỗi ngày
-            }
-            String chucvu = Table.getValueAt(i, 5) + "";
-            String diachi = Table.getValueAt(i, 6) + "";
-            int luong = Integer.parseInt(Table.getValueAt(i, 7) + "");
-            NVBUS.nhapExcel(manv, ten, gioitinh, dienthoai, sqlDate, chucvu, diachi, luong, 1);
-        }
-        NVBUS.updateFKHoadon_PhieuNhap_NV();
     }
 
     private void xuLyXuatExcel() {
