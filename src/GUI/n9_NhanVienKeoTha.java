@@ -66,8 +66,6 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         LblKhoaTK = new javax.swing.JLabel();
         BtnXuat = new javax.swing.JPanel();
         LblXuat = new javax.swing.JLabel();
-        BtnNhap = new javax.swing.JPanel();
-        LblNhap = new javax.swing.JLabel();
         PanelInput = new javax.swing.JPanel();
         LblTieuDe = new javax.swing.JLabel();
         BtnRefresh = new javax.swing.JPanel();
@@ -99,7 +97,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         Line5 = new javax.swing.JSeparator();
         Line6 = new javax.swing.JSeparator();
         cmbTimKiemNV = new javax.swing.JComboBox<>();
-        JDNgaySinh = new JDateChooser();
+        JDNgaySinh = new com.toedter.calendar.JDateChooser();
         BtnThemTaiKhoan = new javax.swing.JPanel();
         LblThemTK = new javax.swing.JLabel();
         ScrTable = new javax.swing.JScrollPane();
@@ -208,7 +206,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         LblKhoaTK.setBackground(new java.awt.Color(255, 255, 255));
         LblKhoaTK.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         LblKhoaTK.setForeground(new java.awt.Color(255, 255, 255));
-        LblKhoaTK.setText("Khóa/Mở khóa TK");
+        LblKhoaTK.setText("Khóa TK");
         BtnKhoaTK.add(LblKhoaTK);
 
         BtnXuat.setBackground(new java.awt.Color(0, 0, 0));
@@ -221,23 +219,12 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         LblXuat.setText("Xuất");
         BtnXuat.add(LblXuat);
 
-        BtnNhap.setBackground(new java.awt.Color(0, 0, 0));
-        BtnNhap.setForeground(new java.awt.Color(51, 51, 51));
-        BtnNhap.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
-        BtnNhap.setPreferredSize(new java.awt.Dimension(100, 35));
-
-        LblNhap.setBackground(new java.awt.Color(255, 255, 255));
-        LblNhap.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        LblNhap.setForeground(new java.awt.Color(255, 255, 255));
-        LblNhap.setText("Nhập");
-        BtnNhap.add(LblNhap);
-
         javax.swing.GroupLayout PanelChuaNutLayout = new javax.swing.GroupLayout(PanelChuaNut);
         PanelChuaNut.setLayout(PanelChuaNutLayout);
         PanelChuaNutLayout.setHorizontalGroup(
             PanelChuaNutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelChuaNutLayout.createSequentialGroup()
-                .addGap(50, 50, 50)
+                .addGap(143, 143, 143)
                 .addGroup(PanelChuaNutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(BtnThongTinTK, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(PanelChuaNutLayout.createSequentialGroup()
@@ -249,16 +236,13 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
                 .addComponent(BtnKhoaTK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
                 .addComponent(BtnXuat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(BtnNhap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50))
+                .addGap(107, 107, 107))
         );
         PanelChuaNutLayout.setVerticalGroup(
             PanelChuaNutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelChuaNutLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(PanelChuaNutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BtnNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnKhoaTK, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -445,12 +429,8 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         cmbTimKiemNV.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tìm theo Mã NV", "Tìm theo Tên NV" }));
         cmbTimKiemNV.setMinimumSize(new java.awt.Dimension(72, 32));
         cmbTimKiemNV.setPreferredSize(new java.awt.Dimension(72, 32));
-        
-        JDNgaySinh.getDateEditor().getUiComponent().setBackground(new Color(250, 250, 250));
-        JDNgaySinh.getDateEditor().getUiComponent().setForeground(Color.BLACK);
-        JDNgaySinh.setDateFormatString("dd-MM-yyyy");
-        JDNgaySinh.getDateEditor().setEnabled(false);
 
+        JDNgaySinh.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout PanelChuaTextFieldLayout = new javax.swing.GroupLayout(PanelChuaTextField);
         PanelChuaTextField.setLayout(PanelChuaTextFieldLayout);
@@ -791,24 +771,6 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             }
         });
 
-        BtnNhap.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                BtnNhap.setBackground(new Color(106, 105, 105));
-                LblNhap.setOpaque(true);
-                LblNhap.setBackground(new Color(106, 105, 105));
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                BtnNhap.setBackground(new Color(0, 0, 0));
-                LblNhap.setOpaque(true);
-                LblNhap.setBackground(new Color(0, 0, 0));
-            }
-
-            public void mouseClicked(MouseEvent e){
-                xuLyNhapExcel();
-            }
-        });
-        
         BtnXuat.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 BtnXuat.setBackground(new Color(106, 105, 105));
@@ -1207,7 +1169,6 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> BoxChucVu;
     private javax.swing.JComboBox<String> BoxGioiTinh;
     private javax.swing.JPanel BtnKhoaTK;
-    private javax.swing.JPanel BtnNhap;
     private javax.swing.JPanel BtnQLNhanVien;
     private javax.swing.JPanel BtnQLPhanQuyen;
     private javax.swing.JPanel BtnRefresh;
@@ -1216,6 +1177,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
     private javax.swing.JPanel BtnThemTaiKhoan;
     private javax.swing.JPanel BtnThongTinTK;
     private javax.swing.JPanel BtnXuat;
+    private com.toedter.calendar.JDateChooser JDNgaySinh;
     private javax.swing.JScrollPane JScrNhanVien;
     private javax.swing.JLabel LbNhanVien;
     private javax.swing.JLabel LbPhanQuyen;
@@ -1228,7 +1190,6 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
     private javax.swing.JLabel LbeSDT;
     private javax.swing.JLabel LbeTimKiem;
     private javax.swing.JLabel LblKhoaTK;
-    private javax.swing.JLabel LblNhap;
     private javax.swing.JLabel LblRefresh;
     private javax.swing.JLabel LblSua;
     private javax.swing.JLabel LblTen;
@@ -1255,7 +1216,6 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cmbTimKiemNV;
     private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtLuong;
-    private com.toedter.calendar.JDateChooser JDNgaySinh;
     private javax.swing.JTextField txtMa;
     private javax.swing.JTextField txtSDT;
     private javax.swing.JTextField txtTen;
