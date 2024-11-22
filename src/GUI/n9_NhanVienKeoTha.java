@@ -864,7 +864,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         } else if (txtTen.getText().length() < 2) {
             new dialog("Tên không được ít hơn 2 ký tự!", dialog.ERROR_DIALOG);
             return false;
-        } else if (!txtTen.getText().matches("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỳỵỷỹỲỴỶỸ\\s]+$")) {
+        } else if (!(txtTen.getText().matches(".*[!@#$%^&*()_+=[\\]{};':\"\\\\|,.<>/?`~].*")||txtTen.getText().matches(".*\\d.*"))) {
             JOptionPane.showMessageDialog(null, "Tên không được chứa ký tự số hoặc ký tự đặc biệt!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
