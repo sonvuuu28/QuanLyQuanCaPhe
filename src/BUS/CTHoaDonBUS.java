@@ -40,6 +40,7 @@ public class CTHoaDonBUS {
         n4_MonDAO mon = new n4_MonDAO();
         for (int i = 0; i < listCTHD.size(); i++) {
             if (listCTHD.get(i).getMaHoaDon().equals(MHD)) {
+                System.out.println(listCTHD.get(i).getMaMon());
                 Object[] data = {listCTHD.get(i).getMaMon(), mon.getMonById(listCTHD.get(i).getMaMon()).getTenMon(), listCTHD.get(i).getDonGia(), listCTHD.get(i).getSoLuong(), listCTHD.get(i).getThanhTien()};
                 model.addRow(data);
             }
