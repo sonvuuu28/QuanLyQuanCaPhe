@@ -1,164 +1,289 @@
 package BUS;
 
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import Util.InputValidator;
+import DAO.NhanVienDAO;
+import DTO.NhanVienDTO;
+import Util.dialog;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+public class NhanVienBUS {
 
-import DAO.KhachHangDAO;
-import DAO.NhanVienDAO;
-import DTO.KhachHangDTO;
-import DTO.NhanVienDTO;
-import Util.InputValidator;
-import Util.dialog;
+   private ArrayList<NhanVienDTO> listNV = null;
+   private NhanVienDAO nvDAO = new NhanVienDAO();
 
-public class KhachHangBUS {
-    private ArrayList<KhachHangDTO> listKH = null;
-    private KhachHangDAO khDAO = new KhachHangDAO();
-
-    public KhachHangBUS() {
+   public NhanVienBUS() {
        docDanhSach();
-    }
+   }
 
-    public void docDanhSach() {
-       listKH = khDAO.getDanhSachKhachHang();
-    }
+   public void docDanhSach() {
+       listNV = nvDAO.getDanhSachNhanVien();
+   }
 
-    public ArrayList<KhachHangDTO> getlistKH() {
-       if (listKH == null) {
+   public ArrayList<NhanVienDTO> getlistNV() {
+       if (listNV == null) {
            docDanhSach();
        }
-       return listKH;
-    }
-
-    public KhachHangDTO getById(String maKH) {
-       return khDAO.getKhachHangByMaKH(maKH);
-    }
-
-    public void timKhachHangTheoMa(String tuKhoa,JTable tbl) {
-        DefaultTableModel model = new DefaultTableModel(
-            new String[] {
-                "Mã KH", "Tên KH", "Giới tính", "Số điện thoại", "Ngày sinh", "Tổng chi tiêu"
-            }, 
-            0 
-        );
-        tbl.setModel(model); 
-        tuKhoa = tuKhoa.toLowerCase();
-        ArrayList<KhachHangDTO> dskh = new ArrayList<>();
-        for (KhachHangDTO kh : listKH) {
-             if (kh.getMaKhachHang().toLowerCase().contains(tuKhoa) ) {
-               dskh.add(kh);
-            }
-        }
-
-       for (KhachHangDTO kh : dskh) {
-            Vector<Object> vec = new Vector<>();
-            vec.add(kh.getMaKhachHang());
-            vec.add(kh.getTenKhachHang());
-            vec.add(kh.getGioiTinhKhachHang());
-            vec.add(kh.getSoDienThoaiKhachHang());
-            vec.add(kh.getNgaySinhKhachHang());
-            vec.add(kh.getChiTieuKhachHang());
-            model.addRow(vec);
-        }
+       return listNV;
    }
 
-   public void timKhachHangTheoTen(String tuKhoa,JTable tbl) {
-        DefaultTableModel model = new DefaultTableModel(
-            new String[] {
-                "Mã KH", "Tên KH", "Giới tính", "Số điện thoại", "Ngày sinh", "Tổng chi tiêu"
-            }, 
-            0 
-        );
-        tbl.setModel(model);
-        tuKhoa = tuKhoa.toLowerCase();
-        ArrayList<KhachHangDTO> dsKH = new ArrayList<>();
-        for (KhachHangDTO KH : listKH) {
-            if (KH.getTenKhachHang().toLowerCase().contains(tuKhoa)) {
-                dsKH.add(KH);
-            }
-        }
-        for (KhachHangDTO KH : dsKH) {
-            Vector<Object> vec = new Vector<>();
-            vec.add(KH.getMaKhachHang());
-            vec.add(KH.getTenKhachHang());
-            vec.add(KH.getGioiTinhKhachHang());
-            vec.add(KH.getSoDienThoaiKhachHang());
-            vec.add(KH.getNgaySinhKhachHang());
-            vec.add(KH.getChiTieuKhachHang());
-            model.addRow(vec);
-        }
-    }
-
-    public boolean capNhatThongTinKhachHang(String ma, String ten, String dienThoai,String gioiTinh,Date ngaySinh, int tongCT){
-        
-        KhachHangDTO kh = new KhachHangDTO();
-        kh.setMaKhachHang(ma);
-        kh.setTenKhachHang(ten);
-        kh.setGioiTinhKhachHang(gioiTinh);
-        kh.setSoDienThoaiKhachHang(dienThoai);
-        kh.setNgaySinhKhachHang(ngaySinh);
-        kh.setChiTieuKhachHang(tongCT);
-        boolean flag = khDAO.updateInfoKhachHang(kh);
-
-        if (flag) {
-            new dialog("Cập nhập thành công!", dialog.SUCCESS_DIALOG);
-        } else {
-            new dialog("Cập nhập thất bại!", dialog.ERROR_DIALOG);
-        }
-    return flag;
+   public NhanVienDTO getById(String maNV) {
+       return nvDAO.getNhanVien(maNV);
    }
 
-   public boolean themKhachHang(String ten, Date ngaysinh, String gioitinh, String dienThoai, int chiTieu) {
+   public boolean themNhanVien(String ten, String gioitinh, String dienThoai,Date ngaysinh, String chucvu,String diachi,int luong, int trangThai) {
         ten = ten.trim();
         dienThoai = dienThoai.trim();
-        KhachHangDTO kh = new KhachHangDTO();
-        kh.setTenKhachHang(ten);
-        kh.setGioiTinhKhachHang(gioitinh);
-        kh.setSoDienThoaiKhachHang(dienThoai);
-        kh.setNgaySinhKhachHang(ngaysinh);
-        kh.setChiTieuKhachHang(chiTieu);
-        boolean flag = khDAO.themKhachHang(kh);
+       
+        NhanVienDTO nv = new NhanVienDTO();
+        nv.setTenNhanVien(ten);
+        nv.setGioiTinhNhanVien(gioitinh);
+        nv.setSoDienThoaiNhanVien(dienThoai);
+        nv.setNgaySinhNhanVien(ngaysinh);
+        nv.setChucVuNhanVien(chucvu);
+        nv.setDiaChi(diachi);
+        nv.setLuongNhanVien(luong);
+        nv.setTrangThaiNhanVien(trangThai);
+
+        boolean flag = nvDAO.themNhanVien(nv);
         if (flag) {
-                new dialog("Thêm thành công!", dialog.SUCCESS_DIALOG);
+            new dialog("Thêm thành công!", dialog.SUCCESS_DIALOG);
         } else {
-                new dialog("Thêm thất bại!", dialog.ERROR_DIALOG);
+            new dialog("Thêm thất bại!", dialog.ERROR_DIALOG);
         }
         return flag;
    }
 
-   public void loadDataTblNhanVien(JTable tbl){
+    public boolean updateNhanVien(String ma,String ten, String gioitinh, String dienThoai,Date ngaysinh, String chucvu,String diachi,int luong, int trangThai) {
+        ten = ten.trim();
+        dienThoai = dienThoai.trim();
+        if (ten.equals("")) {
+           new dialog("Tên không được để trống!", dialog.ERROR_DIALOG);
+           return false;
+        }
+        if (dienThoai.equals("")) {
+           new dialog("Điện thoại không được để trống!", dialog.ERROR_DIALOG);
+           return false;
+         }
+        NhanVienDTO nv = new NhanVienDTO();
+        nv.setTenNhanVien(ten);
+        nv.setGioiTinhNhanVien(gioitinh);
+        nv.setSoDienThoaiNhanVien(dienThoai);
+        nv.setNgaySinhNhanVien(ngaysinh);
+        nv.setChucVuNhanVien(chucvu);
+        nv.setDiaChi(diachi);
+        nv.setLuongNhanVien(luong);
+        System.out.println(luong);
+        System.out.println(ma);
+        nv.setTrangThaiNhanVien(trangThai);
+        boolean flag = nvDAO.updateInfoNhanVien(nv,ma);
+        if (flag) {
+            new dialog("Cập nhập thất bại!", dialog.ERROR_DIALOG);
+        } else {
+            new dialog("Cập nhập thành công!", dialog.SUCCESS_DIALOG);
+        }
+        return flag;
+   }
+
+   public void timNhanVienMa(String tuKhoa,JTable tbl) {
         DefaultTableModel model = new DefaultTableModel(
             new String[] {
-                "Mã KH", "Tên KH", "Giới tính", "Số điện thoại", "Ngày sinh",  "Tổng Chi tiêu"
+                "Mã NV", "Tên NV", "Giới tính", "SĐT", "Ngày sinh", "Chức vụ", "Địa chỉ", "Lương", "Trạng thái"
             }, 
-            0 
+            0 // Bắt đầu với 0 hàng
+        );
+        tbl.setModel(model); 
+       tuKhoa = tuKhoa.toLowerCase();
+       ArrayList<NhanVienDTO> dsnv = new ArrayList<>();
+       for (NhanVienDTO nv : listNV) {
+           if (nv.getMaNhanVien().toLowerCase().contains(tuKhoa) ) {
+               dsnv.add(nv);
+           }
+       }
+
+       for (NhanVienDTO nv : dsnv) {
+        Vector<Object> vec = new Vector<>();
+        vec.add(nv.getMaNhanVien());
+        vec.add(nv.getTenNhanVien());
+        vec.add(nv.getGioiTinhNhanVien());
+        vec.add(nv.getSoDienThoaiNhanVien());
+        vec.add(nv.getNgaySinhNhanVien());
+        vec.add(nv.getChucVuNhanVien());
+        vec.add(nv.getDiaChi());
+        vec.add(nv.getLuongNhanVien());
+        // vec.add(nv.getTrangThaiNhanVien());
+
+        int trangThai = nv.getTrangThaiNhanVien();
+        if (trangThai == 1) {
+            vec.add("Hoạt động");
+        }
+        if (trangThai == 0) {
+            vec.add("Nghỉ việc");
+        } else {
+            vec.add("Chưa có");
+        }
+        model.addRow(vec);
+    }
+   }
+
+   public void timNhanVienTheoTen(String tuKhoa,JTable tbl) {
+        DefaultTableModel model = new DefaultTableModel(
+            new String[] {
+                "Mã NV", "Tên NV", "Giới tính", "SĐT", "Ngày sinh", "Chức vụ", "Địa chỉ", "Lương", "Trạng thái"
+            }, 
+            0 // Bắt đầu với 0 hàng
         );
         tbl.setModel(model);
-        docDanhSach();
-        ArrayList<KhachHangDTO> dsnv = getlistKH();
-
-        for (KhachHangDTO nv : dsnv) {
+        tuKhoa = tuKhoa.toLowerCase();
+        ArrayList<NhanVienDTO> dsnv = new ArrayList<>();
+        for (NhanVienDTO nv : listNV) {
+            if (nv.getTenNhanVien().toLowerCase().contains(tuKhoa)) {
+                dsnv.add(nv);
+            }
+        }
+        for (NhanVienDTO nv : dsnv) {
             Vector<Object> vec = new Vector<>();
-            vec.add(nv.getMaKhachHang());
-            vec.add(nv.getTenKhachHang());
-            vec.add(nv.getGioiTinhKhachHang());
-            vec.add(nv.getSoDienThoaiKhachHang());
-            vec.add(nv.getNgaySinhKhachHang());
-            vec.add(nv.getChiTieuKhachHang());
+            vec.add(nv.getMaNhanVien());
+            vec.add(nv.getTenNhanVien());
+            vec.add(nv.getGioiTinhNhanVien());
+            vec.add(nv.getSoDienThoaiNhanVien());
+            vec.add(nv.getNgaySinhNhanVien());
+            vec.add(nv.getChucVuNhanVien());
+            vec.add(nv.getDiaChi());
+            vec.add(nv.getLuongNhanVien());
+            // vec.add(nv.getTrangThaiNhanVien());
+
+            int trangThai = nv.getTrangThaiNhanVien();
+            if (trangThai == 1) {
+                vec.add("Hoạt động");
+            }
+            if (trangThai == 0) {
+                vec.add("Nghỉ việc");
+            } else {
+                vec.add("Chưa có");
+            }
             model.addRow(vec);
         }
     }
 
-    public boolean checkSDT(String sdt){
-        for (KhachHangDTO kh : listKH) {
-            if (kh.getMaKhachHang().equals(sdt) ) {
-                return false;
-            }
-        }
-        return true;
+   public boolean xoaNhanVien(String ma) {
+       try {
+           dialog dlg = new dialog("Bạn có chắc chắn muốn xoá không?", dialog.WARNING_DIALOG);
+           boolean flag = false;
+           if (dlg.getAction() == dialog.OK_OPTION) {
+               flag = nvDAO.deleteNhanVien(ma);
+               if (flag) {
+                   new dialog("Xoá thành công!", dialog.SUCCESS_DIALOG);
+               } else {
+                   new dialog("Xoá thất bại!", dialog.ERROR_DIALOG);
+               }
+           }
+           return flag;
+       } catch (Exception e) {
+           new dialog("Bạn chưa chọn nhân viên!", dialog.ERROR_DIALOG);
        }
+       return false;
+   }
+
+   public boolean xoaFKHoadon_PhieuNhap_NV() {
+       nvDAO.deletaFKHoandon_PhieuNhap();
+       boolean ketqua = nvDAO.deletaFKHoandon_PhieuNhap();
+       return ketqua;
+   }
+
+   public boolean updateFKHoadon_PhieuNhap_NV() {
+       nvDAO.updateFKHoandon_PhieuNhap();
+       boolean ketqua = nvDAO.updateFKHoandon_PhieuNhap();
+       return ketqua;
+   }
+
+   public boolean xoaAllNhanVien() {
+       nvDAO.xoaAllInfor();
+       boolean ketqua = nvDAO.xoaAllInfor();
+       return ketqua;
+   }
+
+   public boolean nhapExcel(String ma,String ten, String gioitinh, String dienThoai,Date NgaySinh, String chucvu,String diachi,int luong, int trangThai) {
+    //    int tThai = Integer.parseInt(trangThai);
+       // int maNV = Integer.parseInt(manv);
+    //    int Luong = Integer.parseInt(luong);
+       NhanVienDTO nv = new NhanVienDTO();
+       nv.setMaNhanVien(ma);
+       nv.setTenNhanVien(ten);
+       nv.setGioiTinhNhanVien(gioitinh);
+       nv.setSoDienThoaiNhanVien(dienThoai);
+       nv.setNgaySinhNhanVien(NgaySinh);
+       nv.setChucVuNhanVien(chucvu);
+       nv.setDiaChi(diachi);
+       nv.setLuongNhanVien(luong);
+       nv.setTrangThaiNhanVien(trangThai);;
+       boolean flag = nvDAO.importNhanVienFromExcel(nv);
+       return flag;
+   }
+    
+    public void loadDataTblNhanVien(JTable tbl){
+        DefaultTableModel model = new DefaultTableModel(
+            new String[] {
+                "Mã NV", "Tên NV", "Giới tính", "SĐT", "Ngày sinh", "Chức vụ", "Địa chỉ", "Lương", "Trạng thái"
+            }, 
+            0 // Bắt đầu với 0 hàng
+        );
+        tbl.setModel(model);
+        docDanhSach();
+        ArrayList<NhanVienDTO> dsnv = getlistNV();
+
+        for (NhanVienDTO nv : dsnv) {
+            Vector<Object> vec = new Vector<>();
+            vec.add(nv.getMaNhanVien());
+            vec.add(nv.getTenNhanVien());
+            vec.add(nv.getGioiTinhNhanVien());
+            vec.add(nv.getSoDienThoaiNhanVien());
+            vec.add(nv.getNgaySinhNhanVien());
+            vec.add(nv.getChucVuNhanVien());
+            vec.add(nv.getDiaChi());
+            vec.add(nv.getLuongNhanVien());
+            // vec.add(nv.getTrangThaiNhanVien());
+
+            int trangThai = nv.getTrangThaiNhanVien();
+            if (trangThai == 1) {
+                vec.add("Hoạt động");
+            }
+            if (trangThai == 0) {
+                vec.add("Nghỉ việc");
+            } else {
+                vec.add("Chưa có");
+            }
+            model.addRow(vec);
+        }
+    }
+
+    public String LayQuyenTheoMa(String manv){
+        NhanVienDTO nv = new NhanVienDTO();
+        nv = nvDAO.getNhanVien(manv);
+        return nv.getChucVuNhanVien();
+    }
+
+   public void CapNhatChucVu(NhanVienDTO nv) {
+       if (!nvDAO.capNhatChucVu(nv)) {
+           new dialog("Cập nhật chức vụ thất bại", dialog.ERROR_DIALOG);
+       }
+   }
+
+   public String layMaNhanVien(String manv){
+        return nvDAO.layMaNhanVien(manv);
+   }
+
+   public boolean checkSDT(String sdt){
+    for (NhanVienDTO nv : listNV) {
+        if (nv.getMaNhanVien().equals(sdt) ) {
+            return false;
+        }
+    }
+    return true;
+   }
 
 }
