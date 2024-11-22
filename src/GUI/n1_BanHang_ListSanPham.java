@@ -6,6 +6,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -79,7 +81,10 @@ public class n1_BanHang_ListSanPham extends javax.swing.JPanel {
         for (MonDTO mon : ds) {
             String TenMon = mon.getTenMon();
             String DonGiaMon = Util.BanHang.set_Tien_VND(mon.getDonGiaMon());
-            String Path = "./AnhMon/" + mon.getHinhAnh();
+
+            // Chỉnh sửa đường dẫn ảnh
+            String basePath = new File("").getAbsolutePath();
+            String Path = basePath + "/src/IMAGE/SanPham/" + mon.getHinhAnh();
 
             JPanel panelSanPham = new JPanel(new BorderLayout());
             panelSanPham.setBackground(Color.white);
@@ -90,7 +95,14 @@ public class n1_BanHang_ListSanPham extends javax.swing.JPanel {
             ));
 
             JLabel labelAnh = new JLabel();
-            labelAnh.setIcon(new javax.swing.ImageIcon(Util.BanHang.testLoadImage(Path)));
+
+            // Tải ảnh và thiết lập icon
+            BufferedImage img = Util.BanHang.testLoadImage(Path);
+            if (img != null) {
+                labelAnh.setIcon(new javax.swing.ImageIcon(img));
+            } else {
+                labelAnh.setIcon(null);  // Hoặc có thể thêm ảnh mặc định thay thế
+            }
             labelAnh.setHorizontalAlignment(SwingConstants.CENTER);
 
             JLabel tenMon = new JLabel(TenMon, SwingConstants.CENTER);

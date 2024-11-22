@@ -20,7 +20,7 @@ public class n6_CaLamDAO {
         String sql = "IF NOT EXISTS (\n"
                 + "    SELECT MaCaLam\n"
                 + "    FROM CaLam\n"
-                + "    WHERE MaCaLam = 'CLOff'\n"
+                + "    WHERE MaCaLam = 'CL000'\n"
                 + "    GROUP BY MaCaLam\n"
                 + "    HAVING COUNT(*) = 0\n"
                 + ")\n"
@@ -41,8 +41,8 @@ public class n6_CaLamDAO {
 
             JDBCUtil.closeConnection(c);
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Tạo mã off thất bại (DAO)");
+//            ex.printStackTrace();
+//            System.out.println("Tạo mã off thất bại (DAO)");
         }
     }
 
@@ -51,7 +51,7 @@ public class n6_CaLamDAO {
         try {
             Connection c = JDBCUtil.getConnection();
             Statement st = c.createStatement();
-            String sql = "SELECT COUNT(*) AS total FROM CaLam";
+            String sql = "SELECT COUNT(*) AS total FROM CaLam where MaCaLam != 'CL000'";
             ResultSet rs = st.executeQuery(sql);
 
             int num = 0;

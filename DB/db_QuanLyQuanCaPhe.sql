@@ -48,7 +48,7 @@ CREATE TABLE [LichLam] (
 	[MaCaLam] nvarchar(255) ,
 	[MaNhanVien] nvarchar(255),
 	[NgayLam] date,
-	PRIMARY KEY ([MaCaLam], [MaNhanVien]),
+	PRIMARY KEY ([MaCaLam], [MaNhanVien], [NgayLam]), 
 	FOREIGN KEY ([MaCaLam]) REFERENCES [CaLam]([MaCaLam]),
 	FOREIGN KEY ([MaNhanVien]) REFERENCES [NhanVien]([MaNhanVien])
 );

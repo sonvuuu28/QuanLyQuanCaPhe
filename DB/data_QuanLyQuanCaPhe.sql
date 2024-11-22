@@ -33,6 +33,7 @@ VALUES
 ('NV004', N'Phạm Anh D', '1992-08-20', '789456123', 5500000, N'Nhân Viên', 'Nam', 1, '1234 An Dương Vương'),
 ('NV005', N'Hoàng Thi E', '1998-04-25', '321654987', 5200000, N'Nhân Viên', N'Nữ', 0, '1234 An Dương Vương');
 
+/*
 -- Inserting sample records into the LichLam table
 INSERT INTO [LichLam] ([MaCaLam], [MaNhanVien], [NgayLam]) 
 VALUES 
@@ -41,6 +42,7 @@ VALUES
 ('CL001', 'NV003', '2024-09-28'),
 ('CL002', 'NV004', '2024-09-28'),
 ('CL002', 'NV005', '2024-09-28');
+*/
 
 -- Inserting sample records into the PhanQuyen table
 INSERT INTO [PhanQuyen] ([MaPhanQuyen], [TenQuyen],[QuyenKhachHang], [QuyenBanHang], [QuyenNhapHang], [QuyenMon], [QuyenNguyenLieu], [QuyenLichLam], [QuyenKhuyenMaiUuDai], [QuyenNhaCungCap], [QuyenNhanVien], [QuyenThongKe], [TrangThaiPhanQuyen]) 
@@ -230,3 +232,5 @@ SELECT * FROM [NhaCungCap];
 SELECT * FROM [PhieuNhap];
 
 SELECT * FROM [ChiTietPhieuNhap];
+
+select * from TaiKhoan

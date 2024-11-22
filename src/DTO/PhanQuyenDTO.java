@@ -1,6 +1,7 @@
 package DTO;
 
 public class PhanQuyenDTO {
+
     private String maPhanQuyen;
     private String tenQuyen;
     private boolean quyenKhachHang;
@@ -15,13 +16,13 @@ public class PhanQuyenDTO {
     private boolean quyenThongKe;
     private boolean trangThaiPhanQuyen;
 
-    public PhanQuyenDTO(){
-        
+    public PhanQuyenDTO() {
+
     }
 
     public PhanQuyenDTO(String maPhanQuyen, String tenQuyen, boolean quyenKhachHang, boolean quyenBanHang, boolean quyenNhapHang,
-                        boolean quyenMon, boolean quyenNguyenLieu, boolean quyenLichLam, boolean quyenKhuyenMaiUuDai,
-                        boolean quyenNhaCungCap, boolean quyenNhanVien, boolean quyenThongKe, boolean trangThaiPhanQuyen) {
+            boolean quyenMon, boolean quyenNguyenLieu, boolean quyenLichLam, boolean quyenKhuyenMaiUuDai,
+            boolean quyenNhaCungCap, boolean quyenNhanVien, boolean quyenThongKe, boolean trangThaiPhanQuyen) {
         this.maPhanQuyen = maPhanQuyen;
         this.tenQuyen = tenQuyen;
         this.quyenKhachHang = quyenKhachHang;
@@ -140,24 +141,24 @@ public class PhanQuyenDTO {
     public void setTrangThaiPhanQuyen(boolean trangThaiPhanQuyen) {
         this.trangThaiPhanQuyen = trangThaiPhanQuyen;
     }
-    
+
     @Override
     public String toString() {
-        return "PhanQuyenDTO{" +
-                "maPhanQuyen='" + maPhanQuyen + '\'' +
-                ", tenQuyen='" + tenQuyen + '\'' +
-                ", quyenKhachHang=" + quyenKhachHang +
-                ", quyenBanHang=" + quyenBanHang +
-                ", quyenNhapHang=" + quyenNhapHang +
-                ", quyenMon=" + quyenMon +
-                ", quyenNguyenLieu=" + quyenNguyenLieu +
-                ", quyenLichLam=" + quyenLichLam +
-                ", quyenKhuyenMaiUuDai=" + quyenKhuyenMaiUuDai +
-                ", quyenNhaCungCap=" + quyenNhaCungCap +
-                ", quyenNhanVien=" + quyenNhanVien +
-                ", quyenThongKe=" + quyenThongKe +
-                ", trangThaiPhanQuyen=" + trangThaiPhanQuyen +
-                '}';
+        return "PhanQuyenDTO{"
+                + "maPhanQuyen='" + maPhanQuyen + '\''
+                + ", tenQuyen='" + tenQuyen + '\''
+                + ", quyenKhachHang=" + quyenKhachHang
+                + ", quyenBanHang=" + quyenBanHang
+                + ", quyenNhapHang=" + quyenNhapHang
+                + ", quyenMon=" + quyenMon
+                + ", quyenNguyenLieu=" + quyenNguyenLieu
+                + ", quyenLichLam=" + quyenLichLam
+                + ", quyenKhuyenMaiUuDai=" + quyenKhuyenMaiUuDai
+                + ", quyenNhaCungCap=" + quyenNhaCungCap
+                + ", quyenNhanVien=" + quyenNhanVien
+                + ", quyenThongKe=" + quyenThongKe
+                + ", trangThaiPhanQuyen=" + trangThaiPhanQuyen
+                + '}';
     }
 
     public static void main(String[] args) {

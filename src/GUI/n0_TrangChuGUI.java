@@ -2,7 +2,9 @@ package GUI;
 
 import BUS.TrangChuBUS;
 import BUS.n0_LoginBUS;
+import BUS.n0_TrangChuBUS;
 import DTO.NhanVienDTO;
+import DTO.PhanQuyenDTO;
 import java.awt.Color;
 import java.awt.BorderLayout;
 
@@ -413,228 +415,304 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
         PanelTen.setText(nv.getTenNhanVien().toUpperCase());
     }
 
+    public void setQuyen() {
+        n0_TrangChuBUS bus = new n0_TrangChuBUS();
+        phanQuyen = bus.getPhanQuyen(MaNhanVien, LabelBanHang, LabelKhachHang, LabelNhapHang, LabelMon, LabelNguyenLieu, LabelLichLam, LabelKhuyenMai, LabelNhaCungCap, LabelNhanVien, LabelThongKe);
+    }
+
     private void nhomNutChucNang() {
         set_ngay();
         set_NhanVien(MaNhanVien);
+        setQuyen();
         LabelBanHang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                LabelBanHang.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelBanHang.setBackground(new Color(237, 237, 237));
+                if (phanQuyen.getQuyenBanHang()) {
+
+                    LabelBanHang.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelBanHang.setBackground(new Color(237, 237, 237));
+                }
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                LabelBanHang.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelBanHang.setBackground(Color.white);
+                if (phanQuyen.getQuyenBanHang()) {
+                    LabelBanHang.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelBanHang.setBackground(Color.white);
+                }
             }
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                PanelNoiDung.removeAll();
-                n1_BanHangKeoTha banhang = new n1_BanHangKeoTha(MaNhanVien);
-                PanelNoiDung.setLayout(new BorderLayout());
-                PanelNoiDung.add(banhang, BorderLayout.CENTER); // Adjust the layout constraint as needed
-                PanelNoiDung.revalidate();
-                PanelNoiDung.repaint();
+                if (phanQuyen.getQuyenBanHang()) {
+                    PanelNoiDung.removeAll();
+                    n1_BanHangKeoTha banhang = new n1_BanHangKeoTha(MaNhanVien);
+                    PanelNoiDung.setLayout(new BorderLayout());
+                    PanelNoiDung.add(banhang, BorderLayout.CENTER); // Adjust the layout constraint as needed
+                    PanelNoiDung.revalidate();
+                    PanelNoiDung.repaint();
+                }
             }
         });
         LabelKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                LabelKhachHang.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelKhachHang.setBackground(new Color(237, 237, 237));
+                if (phanQuyen.getQuyenKhachHang()) {
+                    LabelKhachHang.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelKhachHang.setBackground(new Color(237, 237, 237));
+                }
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                LabelKhachHang.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelKhachHang.setBackground(Color.white);
+                if (phanQuyen.getQuyenKhachHang()) {
+                    LabelKhachHang.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelKhachHang.setBackground(Color.white);
+                }
             }
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                PanelNoiDung.removeAll();
-                n2_KhachHangGUI kh = new n2_KhachHangGUI();
-                PanelNoiDung.setLayout(new BorderLayout());
-                PanelNoiDung.add(kh, BorderLayout.CENTER); // Adjust the layout constraint as needed
-                PanelNoiDung.revalidate();
-                PanelNoiDung.repaint();
+                if (phanQuyen.getQuyenKhachHang()) {
+                    PanelNoiDung.removeAll();
+                    n2_KhachHangGUI kh = new n2_KhachHangGUI();
+                    PanelNoiDung.setLayout(new BorderLayout());
+                    PanelNoiDung.add(kh, BorderLayout.CENTER); // Adjust the layout constraint as needed
+                    PanelNoiDung.revalidate();
+                    PanelNoiDung.repaint();
+                }
             }
         });
         LabelNhapHang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                LabelNhapHang.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelNhapHang.setBackground(new Color(237, 237, 237));
+                if (phanQuyen.getQuyenNhapHang()) {
+                    LabelNhapHang.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelNhapHang.setBackground(new Color(237, 237, 237));
+                }
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                LabelNhapHang.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelNhapHang.setBackground(Color.white);
+                if (phanQuyen.getQuyenNhapHang()) {
+                    LabelNhapHang.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelNhapHang.setBackground(Color.white);
+                }
             }
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                PanelNoiDung.removeAll();
-                n3_PNQuanLyNhapHang nhaphang = new n3_PNQuanLyNhapHang();
-                PanelNoiDung.setLayout(new BorderLayout());
-                PanelNoiDung.add(nhaphang, BorderLayout.CENTER); // Adjust the layout constraint as needed
-                PanelNoiDung.revalidate();
-                PanelNoiDung.repaint();
+                if (phanQuyen.getQuyenNhapHang()) {
+                    PanelNoiDung.removeAll();
+                    n3_PNQuanLyNhapHang nhaphang = new n3_PNQuanLyNhapHang();
+                    PanelNoiDung.setLayout(new BorderLayout());
+                    PanelNoiDung.add(nhaphang, BorderLayout.CENTER); // Adjust the layout constraint as needed
+                    PanelNoiDung.revalidate();
+                    PanelNoiDung.repaint();
+                }
             }
         });
         LabelMon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                LabelMon.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelMon.setBackground(new Color(237, 237, 237));
+                if (phanQuyen.getQuyenMon()) {
+                    LabelMon.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelMon.setBackground(new Color(237, 237, 237));
+                }
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                LabelMon.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelMon.setBackground(Color.white);
+                if (phanQuyen.getQuyenMon()) {
+                    LabelMon.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelMon.setBackground(Color.white);
+                }
             }
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                PanelNoiDung.removeAll();
-                n4_MonGUI mon = new n4_MonGUI();
-                PanelNoiDung.setLayout(new BorderLayout());
-                PanelNoiDung.add(mon, BorderLayout.CENTER); // Adjust the layout constraint as needed
-                PanelNoiDung.revalidate();
-                PanelNoiDung.repaint();
+                if (phanQuyen.getQuyenMon()) {
+                    PanelNoiDung.removeAll();
+                    n4_MonGUI mon = new n4_MonGUI();
+                    PanelNoiDung.setLayout(new BorderLayout());
+                    PanelNoiDung.add(mon, BorderLayout.CENTER); // Adjust the layout constraint as needed
+                    PanelNoiDung.revalidate();
+                    PanelNoiDung.repaint();
+                }
             }
         });
         LabelNguyenLieu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                LabelNguyenLieu.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelNguyenLieu.setBackground(new Color(237, 237, 237));
+                if (phanQuyen.getQuyenNguyenLieu()) {
+                    LabelNguyenLieu.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelNguyenLieu.setBackground(new Color(237, 237, 237));
+                }
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                LabelNguyenLieu.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelNguyenLieu.setBackground(Color.white);
+                if (phanQuyen.getQuyenNguyenLieu()) {
+                    LabelNguyenLieu.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelNguyenLieu.setBackground(Color.white);
+                }
             }
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                PanelNoiDung.removeAll();
-                n5_NguyenLieuGUI nl = new n5_NguyenLieuGUI();
-                PanelNoiDung.setLayout(new BorderLayout());
-                PanelNoiDung.add(nl, BorderLayout.CENTER); // Adjust the layout constraint as needed
-                PanelNoiDung.revalidate();
-                PanelNoiDung.repaint();
+                if (phanQuyen.getQuyenNguyenLieu()) {
+                    PanelNoiDung.removeAll();
+                    n5_NguyenLieuGUI nl = new n5_NguyenLieuGUI();
+                    PanelNoiDung.setLayout(new BorderLayout());
+                    PanelNoiDung.add(nl, BorderLayout.CENTER); // Adjust the layout constraint as needed
+                    PanelNoiDung.revalidate();
+                    PanelNoiDung.repaint();
+                }
             }
         });
         LabelLichLam.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                LabelLichLam.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelLichLam.setBackground(new Color(237, 237, 237));
+                if (phanQuyen.getQuyenLichLam()) {
+                    LabelLichLam.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelLichLam.setBackground(new Color(237, 237, 237));
+                }
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                LabelLichLam.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelLichLam.setBackground(Color.white);
+                if (phanQuyen.getQuyenLichLam()) {
+                    LabelLichLam.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelLichLam.setBackground(Color.white);
+                }
             }
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                PanelNoiDung.removeAll();
-                n6_LichLamGUI lich = new n6_LichLamGUI();
-                PanelNoiDung.setLayout(new BorderLayout());
-                PanelNoiDung.add(lich, BorderLayout.CENTER); // Adjust the layout constraint as needed
-                PanelNoiDung.revalidate();
-                PanelNoiDung.repaint();
+                if (phanQuyen.getQuyenLichLam()) {
+
+                    PanelNoiDung.removeAll();
+                    n6_LichLamGUI lich = new n6_LichLamGUI();
+                    PanelNoiDung.setLayout(new BorderLayout());
+                    PanelNoiDung.add(lich, BorderLayout.CENTER); // Adjust the layout constraint as needed
+                    PanelNoiDung.revalidate();
+                    PanelNoiDung.repaint();
+                }
             }
         });
         LabelKhuyenMai.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                LabelKhuyenMai.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelKhuyenMai.setBackground(new Color(237, 237, 237));
+                if (phanQuyen.getQuyenKhuyenMaiUuDai()) {
+                    LabelKhuyenMai.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelKhuyenMai.setBackground(new Color(237, 237, 237));
+                }
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                LabelKhuyenMai.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelKhuyenMai.setBackground(Color.white);
+                if (phanQuyen.getQuyenKhuyenMaiUuDai()) {
+                    LabelKhuyenMai.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelKhuyenMai.setBackground(Color.white);
+                }
             }
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                PanelNoiDung.removeAll();
-                n7_KhuyenMaiGUI km = new n7_KhuyenMaiGUI();
-                PanelNoiDung.setLayout(new BorderLayout());
-                PanelNoiDung.add(km, BorderLayout.CENTER); // Adjust the layout constraint as needed
-                PanelNoiDung.revalidate();
-                PanelNoiDung.repaint();
+                if (phanQuyen.getQuyenKhuyenMaiUuDai()) {
+                    PanelNoiDung.removeAll();
+                    n7_KhuyenMaiGUI km = new n7_KhuyenMaiGUI();
+                    PanelNoiDung.setLayout(new BorderLayout());
+                    PanelNoiDung.add(km, BorderLayout.CENTER); // Adjust the layout constraint as needed
+                    PanelNoiDung.revalidate();
+                    PanelNoiDung.repaint();
+                }
             }
         });
         LabelNhaCungCap.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                LabelNhaCungCap.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelNhaCungCap.setBackground(new Color(237, 237, 237));
+                if (phanQuyen.getQuyenNhaCungCap()) {
+                    LabelNhaCungCap.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelNhaCungCap.setBackground(new Color(237, 237, 237));
+                }
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                LabelNhaCungCap.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelNhaCungCap.setBackground(Color.white);
+                if (phanQuyen.getQuyenNhaCungCap()) {
+                    LabelNhaCungCap.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelNhaCungCap.setBackground(Color.white);
+                }
             }
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                PanelNoiDung.removeAll();
-                n8_NhaCungCapGUI lich = new n8_NhaCungCapGUI();
-                PanelNoiDung.setLayout(new BorderLayout());
-                PanelNoiDung.add(lich, BorderLayout.CENTER); // Adjust the layout constraint as needed
-                PanelNoiDung.revalidate();
-                PanelNoiDung.repaint();
+                if (phanQuyen.getQuyenNhaCungCap()) {
+                    PanelNoiDung.removeAll();
+                    n8_NhaCungCapGUI lich = new n8_NhaCungCapGUI();
+                    PanelNoiDung.setLayout(new BorderLayout());
+                    PanelNoiDung.add(lich, BorderLayout.CENTER); // Adjust the layout constraint as needed
+                    PanelNoiDung.revalidate();
+                    PanelNoiDung.repaint();
+                }
             }
-        });
+        }
+        );
         LabelNhanVien.addMouseListener(new java.awt.event.MouseAdapter() {
+
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                LabelNhanVien.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelNhanVien.setBackground(new Color(237, 237, 237));
+                if (phanQuyen.getQuyenNhanVien()) {
+                    LabelNhanVien.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelNhanVien.setBackground(new Color(237, 237, 237));
+                }
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                LabelNhanVien.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelNhanVien.setBackground(Color.white);
+                if (phanQuyen.getQuyenNhanVien()) {
+                    LabelNhanVien.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelNhanVien.setBackground(Color.white);
+                }
             }
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                PanelNoiDung.removeAll();
-                n9_NhanVienKeoTha lich = new n9_NhanVienKeoTha();
-                PanelNoiDung.setLayout(new BorderLayout());
-                PanelNoiDung.add(lich, BorderLayout.CENTER); // Adjust the layout constraint as needed
-                PanelNoiDung.revalidate();
-                PanelNoiDung.repaint();
+                if (phanQuyen.getQuyenNhanVien()) {
+                    PanelNoiDung.removeAll();
+                    n9_NhanVienKeoTha lich = new n9_NhanVienKeoTha();
+                    PanelNoiDung.setLayout(new BorderLayout());
+                    PanelNoiDung.add(lich, BorderLayout.CENTER); // Adjust the layout constraint as needed
+                    PanelNoiDung.revalidate();
+                    PanelNoiDung.repaint();
+                }
             }
-        });
+        }
+        );
         LabelThongKe.addMouseListener(new java.awt.event.MouseAdapter() {
+
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                LabelThongKe.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelThongKe.setBackground(new Color(237, 237, 237));
+                if (phanQuyen.getQuyenThongKe()) {
+                    LabelThongKe.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelThongKe.setBackground(new Color(237, 237, 237));
+                }
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                LabelThongKe.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
-                LabelThongKe.setBackground(Color.white);
+                if (phanQuyen.getQuyenThongKe()) {
+                    LabelThongKe.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
+                    LabelThongKe.setBackground(Color.white);
+                }
             }
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                PanelNoiDung.removeAll();
-                n10_ThongkePanel lich = new n10_ThongkePanel();
-                PanelNoiDung.setLayout(new BorderLayout());
-                PanelNoiDung.add(lich, BorderLayout.CENTER); // Adjust the layout constraint as needed
-                PanelNoiDung.revalidate();
-                PanelNoiDung.repaint();
+                if (phanQuyen.getQuyenThongKe()) {
+                    PanelNoiDung.removeAll();
+                    n10_ThongkePanel lich = new n10_ThongkePanel();
+                    PanelNoiDung.setLayout(new BorderLayout());
+                    PanelNoiDung.add(lich, BorderLayout.CENTER); // Adjust the layout constraint as needed
+                    PanelNoiDung.revalidate();
+                    PanelNoiDung.repaint();
+                }
             }
-        });
+        }
+        );
 
-        ButtonDangXuat.addMouseListener(new java.awt.event.MouseAdapter() {
+        ButtonDangXuat.addMouseListener(
+                new java.awt.event.MouseAdapter() {
             @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            public void mouseClicked(java.awt.event.MouseEvent evt
+            ) {
                 n0_LoginGUI login = new n0_LoginGUI();
                 login.nhomNutChucNang(login);
                 dispose();
             }
-        });
+        }
+        );
 
     }
 
@@ -649,7 +727,6 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
 //            }
 //        });
 //    }
-
     // Khai báo                    
     private javax.swing.JButton ButtonDangXuat;
     private javax.swing.JLabel LabelBanHang;
@@ -680,4 +757,5 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
     private Util.PanelRound PanelThongTin;
     private javax.swing.JPanel PanelTong;
     private String MaNhanVien;
+    private PhanQuyenDTO phanQuyen;
 }

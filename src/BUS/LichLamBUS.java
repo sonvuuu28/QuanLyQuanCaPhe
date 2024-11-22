@@ -1,5 +1,6 @@
 package BUS;
 
+import DAO.n6_CaLamDAO;
 import DAO.n6_LichLamDAO;
 import DTO.LichLamDTO;
 import javax.swing.JOptionPane;
@@ -104,6 +105,7 @@ public class LichLamBUS {
     }
 
     public void data(JTable table, String dateStr) {
+        n6_CaLamDAO.getInstance().taoMaCaLam_off();
         Date date = Date.valueOf(dateStr);
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
