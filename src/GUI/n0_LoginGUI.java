@@ -3,23 +3,27 @@ package GUI;
 import BUS.n0_LoginBUS;
 import DTO.TaiKhoanDTO;
 
+import javax.swing.*;
+import java.awt.event.*;
 import java.awt.Color;
 
 import javax.swing.JOptionPane;
 
 public class n0_LoginGUI extends javax.swing.JFrame {
     private n0_LoginBUS loginBUS;
+    private n0_LoginGUI login;
 
     public n0_LoginGUI() {
+        login = this;
         loginBUS = new n0_LoginBUS();
-        initComponents();
+        initComponents(login);
         setVisible(true);
         setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents(n0_LoginGUI login) {
 
         PanelTong = new javax.swing.JPanel();
         PanelRight = new javax.swing.JPanel();
@@ -98,6 +102,20 @@ public class n0_LoginGUI extends javax.swing.JFrame {
         TextFieldTaiKhoan.setMaximumSize(new java.awt.Dimension(280, 25));
         TextFieldTaiKhoan.setMinimumSize(new java.awt.Dimension(280, 25));
         TextFieldTaiKhoan.setPreferredSize(new java.awt.Dimension(280, 25));
+        // Thêm ActionListener để xử lý sự kiện khi nhấn Enter
+        TextFieldTaiKhoan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionLogin(login);
+            }
+        });
+        // Thêm ActionListener để xử lý sự kiện khi nhấn Enter
+        PasswordFieldMatKhau.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionLogin(login);
+            }
+        });
 
         PasswordFieldMatKhau.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
         PasswordFieldMatKhau.setForeground(new java.awt.Color(102, 102, 102));
