@@ -92,7 +92,7 @@ public class NhanVienBUS {
    public void timNhanVienMa(String tuKhoa,JTable tbl) {
         DefaultTableModel model = new DefaultTableModel(
             new String[] {
-                "Mã NV", "Tên NV", "Giới tính", "Số điện thoại", "Ngày sinh", "Chức vụ", "Địa chỉ", "Lương", "Trạng thái"
+                "Mã NV", "Tên NV", "Giới tính", "SĐT", "Ngày sinh", "Chức vụ", "Địa chỉ", "Lương", "Trạng thái"
             }, 
             0 // Bắt đầu với 0 hàng
         );
@@ -133,7 +133,7 @@ public class NhanVienBUS {
    public void timNhanVienTheoTen(String tuKhoa,JTable tbl) {
         DefaultTableModel model = new DefaultTableModel(
             new String[] {
-                "Mã NV", "Tên NV", "Giới tính", "Số điện thoại", "Ngày sinh", "Chức vụ", "Địa chỉ", "Lương", "Trạng thái"
+                "Mã NV", "Tên NV", "Giới tính", "SĐT", "Ngày sinh", "Chức vụ", "Địa chỉ", "Lương", "Trạng thái"
             }, 
             0 // Bắt đầu với 0 hàng
         );
@@ -228,7 +228,7 @@ public class NhanVienBUS {
     public void loadDataTblNhanVien(JTable tbl){
         DefaultTableModel model = new DefaultTableModel(
             new String[] {
-                "Mã NV", "Tên NV", "Giới tính", "Số điện thoại", "Ngày sinh", "Chức vụ", "Địa chỉ", "Lương", "Trạng thái"
+                "Mã NV", "Tên NV", "Giới tính", "SĐT", "Ngày sinh", "Chức vụ", "Địa chỉ", "Lương", "Trạng thái"
             }, 
             0 // Bắt đầu với 0 hàng
         );
