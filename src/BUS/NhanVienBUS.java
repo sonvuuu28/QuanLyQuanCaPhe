@@ -279,10 +279,11 @@ public class NhanVienBUS {
 
    public boolean checkSDT(String sdt){
     for (NhanVienDTO nv : listNV) {
-        if (nv.getSoDienThoaiNhanVien().equals(sdt) ) {
+        if (nv.getMaNhanVien().equals(sdt) ) {
             return false;
         }
     }
     return true;
    }
+
 }
