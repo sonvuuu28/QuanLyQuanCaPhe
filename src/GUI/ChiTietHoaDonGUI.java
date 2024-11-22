@@ -4,14 +4,15 @@
  */
 package GUI;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.table.DefaultTableModel;
 
 import BUS.CTHoaDonBUS;
 import DAO.KhachHangDAO;
-import DAO.n7_KhuyenMaiDAO;
-import DAO.n7_UuDaiThanhVienDAO;
+import DAO.KhuyenMaiDAO;
+import DAO.UuDaiThanhVienDAO;
 import DAO.n1_CTHoaDonDAO;
 import DAO.n1_HoaDonDAO;
 import DTO.KhachHangDTO;
@@ -69,7 +70,10 @@ public class ChiTietHoaDonGUI extends javax.swing.JFrame {
         lbTenKH.setBackground(new java.awt.Color(255, 255, 255));
         lbTenKH.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         lbTenKH.setText("Tên khách hàng:");
-        lbTenKH.setText("Tên khách hàng: " + KHDAO.getKhachHangByMaKH(HDDAO.getHoaDonTheoMHD(MHD).getMaKhachHang()).getTenKhachHang());
+        if(HDDAO.getHoaDonTheoMHD(MHD).getMaKhachHang()==null)
+            lbTenKH.setText("Tên khách hàng:");
+        else
+            lbTenKH.setText("Tên khách hàng: " + KHDAO.getKhachHangByMaKH(HDDAO.getHoaDonTheoMHD(MHD).getMaKhachHang()).getTenKhachHang());
         lbHienThiTenKH.setBackground(new java.awt.Color(255, 255, 255));
         lbHienThiTenKH.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
 
@@ -100,19 +104,26 @@ public class ChiTietHoaDonGUI extends javax.swing.JFrame {
 
         lbCTKhuyenMai.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         lbCTKhuyenMai.setText("Chương trình khuyến mãi:");
-        lbCTKhuyenMai.setText("Chương trình khuyến mãi: "+ KMDAO.getKhuyenMaiById(HDDAO.getHoaDonTheoMHD(MHD).getMaKhuyenMai()).getTenKhuyenMai());
+        if(HDDAO.getHoaDonTheoMHD(MHD).getMaKhuyenMai()==null)
+            lbCTKhuyenMai.setText("Chương trình khuyến mãi: ");
+        else
+            lbCTKhuyenMai.setText("Chương trình khuyến mãi: "+ KMDAO.getKhuyenMaiById(HDDAO.getHoaDonTheoMHD(MHD).getMaKhuyenMai()).getTenKhuyenMai());
 
         lbHienThiCTKM.setForeground(new java.awt.Color(153, 102, 0));
 
         lbTongTien.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         lbTongTien.setText("Tổng tiền:");
-        lbTongTien.setText("Tổng tiền: " + HDDAO.getHoaDonTheoMHD(MHD).getTongTienHoaDon() + "VND");
+        String tongTien = String.valueOf(HDDAO.getHoaDonTheoMHD(MHD).getTongTienHoaDon());
+        lbTongTien.setText("Tổng tiền: " + formatCurrency(tongTien));
         lbHienThiTongTien.setBackground(new java.awt.Color(255, 255, 255));
         lbHienThiTongTien.setForeground(new java.awt.Color(255, 51, 0));
 
         lbCTUuDai.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         lbCTUuDai.setText("Chương trình ưu đãi:");
-        lbCTUuDai.setText("Chương trình ưu đãi: " + UDTVDAO.getUuDaiById(HDDAO.getHoaDonTheoMHD(MHD).getMaUuDai()).getTenUuDai());
+        if(HDDAO.getHoaDonTheoMHD(MHD).getMaUuDai()==null)
+            lbCTUuDai.setText("Chương trình ưu đãi:");
+        else
+            lbCTUuDai.setText("Chương trình ưu đãi: " + UDTVDAO.getUuDaiById(HDDAO.getHoaDonTheoMHD(MHD).getMaUuDai()).getTenUuDai());
         
         lbHienThiCTUD.setForeground(new java.awt.Color(153, 102, 0));
 
@@ -215,6 +226,17 @@ public class ChiTietHoaDonGUI extends javax.swing.JFrame {
 
     }
 
+    public String formatCurrency(String amountStr) {
+        try {
+            double amount = Double.parseDouble(amountStr);
+            DecimalFormat formatter = new DecimalFormat("#,###");
+            String formatted = formatter.format(amount);
+            return formatted + " VNĐ";
+        } catch (NumberFormatException e) {
+            return "Số không hợp lệ";
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -223,10 +245,10 @@ public class ChiTietHoaDonGUI extends javax.swing.JFrame {
     private KhachHangDAO KHDAO = new KhachHangDAO();
     private KhachHangDTO KHDTO = new KhachHangDTO();
     private KhuyenMaiDTO KMDTO = new KhuyenMaiDTO();
-    private n7_KhuyenMaiDAO KMDAO = new n7_KhuyenMaiDAO();
+    private KhuyenMaiDAO KMDAO = new KhuyenMaiDAO();
     private n1_HoaDonDAO HDDAO  = new n1_HoaDonDAO();
     private CTHoaDonBUS CTHDBUS = new CTHoaDonBUS();
-    private n7_UuDaiThanhVienDAO UDTVDAO = new n7_UuDaiThanhVienDAO();
+    private UuDaiThanhVienDAO UDTVDAO = new UuDaiThanhVienDAO();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTat;
     private javax.swing.JScrollPane jScrollPnCTHD;
