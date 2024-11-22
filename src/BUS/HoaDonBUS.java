@@ -53,8 +53,36 @@ public class HoaDonBUS {
         }
         GiaMin = GiaMin.trim();
         GiaMax = GiaMax.trim();
-        java.sql.Date sqlMin = new java.sql.Date(Min.getTime());
-        java.sql.Date sqlMax = new java.sql.Date(Max.getTime());
+        java.sql.Date sqlMin = null;
+        java.sql.Date sqlMax = null;
+        // java.sql.Date sqlMin = new java.sql.Date(Min.getTime());
+        // java.sql.Date sqlMax = new java.sql.Date(Max.getTime());
+        if (Min != null) {
+            sqlMin = new java.sql.Date(Min.getTime());
+        }
+        if (Max != null) {
+            sqlMax = new java.sql.Date(Max.getTime());
+        }
+        
+        if (GiaMin.equals("") && GiaMax.equals("")) {
+            if (sqlMin == null && sqlMax == null) {
+                currentList = HDDAO.getListHoaDon(); 
+            } 
+            else if (sqlMin != null && sqlMax == null) {
+                // Chỉ có ngày bắt đầu
+                currentList = HDDAO.getListHoaDonTheoDateMin(sqlMin);
+            } 
+            else if (sqlMin == null && sqlMax != null) {
+                
+                currentList = HDDAO.getListHoaDonTheoDateMax( sqlMax);
+            } 
+            else {
+                
+                currentList = HDDAO.getListHoaDonTheoDate(sqlMin, sqlMax);
+            }
+            return currentList;
+        }
+
         if (!Min.after(Max)) {
             if (InputValidator.IsEmpty(GiaMin) && InputValidator.IsEmpty(GiaMax)) {
                 currentList = HDDAO.getListHoaDonTheoDate(sqlMin, sqlMax);
@@ -70,7 +98,7 @@ public class HoaDonBUS {
 
                 }
                 catch (Exception e){
-                    new dialog("Vui lòng nhập đúng định dạng", dialog.ERROR_DIALOG);
+                    new dialog("Vui lòng nhập đúng định dạng là số tiền", dialog.ERROR_DIALOG);
                     return currentList;
                 }
             }
@@ -81,7 +109,7 @@ public class HoaDonBUS {
                     return currentList;
                 }
                 catch (Exception e){
-                    new dialog("Vui lòng nhập đúng định dạng", dialog.ERROR_DIALOG);
+                    new dialog("Vui lòng nhập đúng định dạng là số tiền", dialog.ERROR_DIALOG);
                     return currentList;
                 }
 
@@ -106,7 +134,6 @@ public class HoaDonBUS {
             new dialog("Vui lòng nhập đúng khoảng ngày!", dialog.ERROR_DIALOG);
             return currentList;
         }
-        System.out.println("test");
         return currentList;
     }
 
@@ -141,34 +168,31 @@ public class HoaDonBUS {
     }
 
     public void TimHoaDonTheoMa(JTable table, JTextField txtMaHD){
-
         DefaultTableModel model = new DefaultTableModel(
             new String[] {
-                "Mã hóa đơn", "Ngày lập", "Mã nhân viên", "Mã khuyến mãi", "Mã khách hàng", "Mã ưu đãi", "Tổng tiền"
+                "Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Mã khuyến mãi", "Ngày lập" ,"Mã ưu đãi", "Tổng tiền"
             }, 
             0 // Bắt đầu với 0 hàng
         );
         table.setModel(model);
         if (txtMaHD.getText().trim().isEmpty()){
-                new dialog("Vui lòng nhập mã hóa đơn để tiến hành tìm kiếm.", 1);
+                new dialog("Mã hóa đơn đang để trống, không thể tìm", 1);
+                return;
         }
         else{
             
-            // Duyệt qua tất cả các hàng hiện có trong bảng
             for (int i = 0; i < modelTmp.getRowCount(); i++) {
-                String maHD = modelTmp.getValueAt(i, 0).toString(); // Cột "Mã hóa đơn" ở vị trí 0
-                // So sánh mã hóa đơn nhập vào với mã trong bảng
+                String maHD = modelTmp.getValueAt(i, 0).toString(); 
+                
                 if (maHD.toLowerCase().contains(txtMaHD.getText())) {
                     Object[] rowData = new Object[modelTmp.getColumnCount()];
-                    // Lấy toàn bộ dữ liệu của dòng có mã khớp
                     
                     for (int j = 0; j < modelTmp.getColumnCount(); j++) {
                         rowData[j] = modelTmp.getValueAt(i, j);
                     }
-                    // model.setRowCount(0);
-                    // Thêm dòng khớp vào filteredModel
+                    
                     model.addRow(rowData);
-                    break; // Dừng khi tìm thấy mã hóa đơn
+                    break; 
                 }
             }
         }
@@ -177,7 +201,7 @@ public class HoaDonBUS {
     public void TimKiemHoaDonTheoNgay_TongTien(JDateChooser JDTuNgay,JDateChooser JDDenNgay,JTextField TextFieldGiaTu,JTextField TextFieldDenGia,JTable TblHoaDon){
         DefaultTableModel model = new DefaultTableModel(
             new String[] {
-                "Mã hóa đơn", "Ngày lập", "Mã nhân viên", "Mã khuyến mãi", "Mã khách hàng", "Mã ưu đãi", "Tổng tiền"
+                "Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Mã khuyến mãi", "Ngày lập", "Mã ưu đãi", "Tổng tiền"
             }, 
             0 // Bắt đầu với 0 hàng
         );
@@ -197,7 +221,4 @@ public class HoaDonBUS {
         }
     }
 
-    public void clicktable(){
-
-    }
 }
