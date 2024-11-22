@@ -66,7 +66,11 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
         btn_TimKiemNgayTien = new javax.swing.JButton();
         ScrollPane = new javax.swing.JScrollPane();
         TblHoaDon = new javax.swing.JTable();
-
+        
+        JDTuNgay.setDateFormatString("dd-MM-yyyy");
+        JDTuNgay.getDateEditor().setEnabled(false);
+        JDDenNgay.setDateFormatString("dd-MM-yyyy");
+        JDDenNgay.getDateEditor().setEnabled(false);
         setBackground(new java.awt.Color(122, 74, 74));
         setMaximumSize(new java.awt.Dimension(1125, 667));
         setMinimumSize(new java.awt.Dimension(1125, 667));
@@ -416,7 +420,7 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
 
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 PanelTong.removeAll();
-                n1_BanHangKeoTha bh = new n1_BanHangKeoTha("user1");
+                n1_BanHangGUI bh = new n1_BanHangGUI();
                 PanelTong.setLayout(new BorderLayout());
                 PanelTong.add(bh, BorderLayout.CENTER); // Adjust the layout constraint as needed
                 PanelTong.revalidate();
@@ -445,6 +449,7 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
 
         btn_TimKiemMa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                taiLaiGia_Ngay();
                 TimTheoMa();
             }
         });
@@ -457,6 +462,7 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
 
         btn_TaiLai.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                taiLai();
                 loadData();
             }
         });
@@ -471,6 +477,21 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
                 }
             }
         });
+    }
+
+    private void taiLaiGia_Ngay(){
+        txtDenGia.setText("");
+        txtGiaTu.setText("");
+        JDDenNgay.setDate(null);
+        JDTuNgay.setDate(null);
+    }
+
+    private void taiLai(){
+        txtDenGia.setText("");
+        txtGiaTu.setText("");
+        txtMaHoaDon.setText("");
+        JDDenNgay.setDate(null);
+        JDTuNgay.setDate(null);
     }
 
     private void TimTheoMa(){
