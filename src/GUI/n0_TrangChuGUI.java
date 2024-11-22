@@ -3,16 +3,18 @@ package GUI;
 import BUS.TrangChuBUS;
 import BUS.n0_LoginBUS;
 import DTO.NhanVienDTO;
+import DTO.TaiKhoanDTO;
+
 import java.awt.Color;
 import java.awt.BorderLayout;
 
 public class n0_TrangChuGUI extends javax.swing.JFrame {
 
-    public n0_TrangChuGUI(String TenDangNhap) {
-        MaNhanVien = TenDangNhap;
+    public n0_TrangChuGUI(TaiKhoanDTO userLogin) {
+        this.userLogin = userLogin;
         initComponents();
         PanelNoiDung.removeAll();
-        n1_BanHangKeoTha banhang = new n1_BanHangKeoTha(MaNhanVien);
+        n1_BanHangKeoTha banhang = new n1_BanHangKeoTha(userLogin.getMaNhanVien());
         PanelNoiDung.setLayout(new BorderLayout());
         PanelNoiDung.add(banhang, BorderLayout.CENTER); // Adjust the layout constraint as needed
         PanelNoiDung.revalidate();
@@ -415,7 +417,7 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
 
     private void nhomNutChucNang() {
         set_ngay();
-        set_NhanVien(MaNhanVien);
+        set_NhanVien(userLogin.getMaNhanVien());
         LabelBanHang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 LabelBanHang.setOpaque(true); // Đảm bảo JLabel hiển thị màu nền
@@ -430,7 +432,7 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 PanelNoiDung.removeAll();
-                n1_BanHangKeoTha banhang = new n1_BanHangKeoTha(MaNhanVien);
+                n1_BanHangKeoTha banhang = new n1_BanHangKeoTha(userLogin.getMaNhanVien());
                 PanelNoiDung.setLayout(new BorderLayout());
                 PanelNoiDung.add(banhang, BorderLayout.CENTER); // Adjust the layout constraint as needed
                 PanelNoiDung.revalidate();
@@ -679,5 +681,5 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
     private javax.swing.JLabel PanelTen;
     private Util.PanelRound PanelThongTin;
     private javax.swing.JPanel PanelTong;
-    private String MaNhanVien;
+    private TaiKhoanDTO userLogin;
 }
