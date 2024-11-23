@@ -3,25 +3,23 @@ package GUI;
 import java.util.Date;
 import Util.TableCustom;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
 import javax.swing.JDialog;
+
+
 import BUS.NhapHangBUS;
 import BUS.PhieuNhapBUS;
 
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import BUS.NhapHangBUS.NonEditableTableModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class n3_PNNhapHang extends javax.swing.JPanel {
-
-    private boolean isNccSelected = false;
+    boolean isNccSelected = false;
     private NhapHangBUS nhapHangBUS;
 
     public n3_PNNhapHang() {
@@ -30,10 +28,9 @@ public class n3_PNNhapHang extends javax.swing.JPanel {
         TableCustom.apply(ScrollPane2, TableCustom.TableType.MULTI_LINE);
         nhapHangBUS = new NhapHangBUS();
         nhapHangBUS.loadDataToTable_KhoHang(jTable_KhoHang);
-        jBtn_XacNhan.setEnabled(false); // Vô hiệu hóa nút xác nhận khi khởi tạo giao diện
-        jT_DonGia.setEnabled(false); // Vô hiệu hóa ô nhập liệu đơn giá
-        // jT_LoiNhuan.setEnabled(false); // Vô hiệu hóa ô nhập liệu lợi nhuận
-        jT_SoLuongNhap.setEnabled(false); // Vô hiệu hóa ô nhập liệu số lượng
+        jBtn_XacNhan.setEnabled(false); 
+        jT_DonGia.setEnabled(false);
+        jT_SoLuongNhap.setEnabled(false);
         jT_NhanVien.setEditable(false);
         PhieuNhapBUS phieuNhapBUS = new PhieuNhapBUS();
         try {
@@ -42,9 +39,7 @@ public class n3_PNNhapHang extends javax.swing.JPanel {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        // updateNhapButtonState();
-
-//        nhomNutChucNang();
+       
     }
 
     @SuppressWarnings("unchecked")
@@ -144,12 +139,19 @@ public class n3_PNNhapHang extends javax.swing.JPanel {
                 } 
             }
         });
+        JTFTimKiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                JTFTimKiemKeyPressed(evt);
+            }
+        });
+        
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGE/search.png"))); // NOI18N
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_TimKiemActionPerformed(evt);
             }
         });
+        
         
 
         javax.swing.GroupLayout PanelTimKiemLayout = new javax.swing.GroupLayout(PanelTimKiem);
@@ -400,26 +402,24 @@ public class n3_PNNhapHang extends javax.swing.JPanel {
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+    
         javax.swing.GroupLayout jP_NhapThongTinLayout = new javax.swing.GroupLayout(jP_NhapThongTin);
         jP_NhapThongTin.setLayout(jP_NhapThongTinLayout);
         jP_NhapThongTinLayout.setHorizontalGroup(
             jP_NhapThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_NhapThongTinLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(43, Short.MAX_VALUE)
                 .addGroup(jP_NhapThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jP_SoLuongNhap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    // .addComponent(jP_LoiNhuan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jP_DonGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17))
         );
         jP_NhapThongTinLayout.setVerticalGroup(
             jP_NhapThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jP_NhapThongTinLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(36, 36, 36)
                 .addComponent(jP_DonGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                // .addComponent(jP_LoiNhuan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(42, 42, 42)
                 .addComponent(jP_SoLuongNhap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -441,21 +441,20 @@ public class n3_PNNhapHang extends javax.swing.JPanel {
             }
         });
 
+        
         javax.swing.GroupLayout jP_btn_Re_XacNhanLayout = new javax.swing.GroupLayout(jP_btn_Re_XacNhan);
         jP_btn_Re_XacNhan.setLayout(jP_btn_Re_XacNhanLayout);
         jP_btn_Re_XacNhanLayout.setHorizontalGroup(
             jP_btn_Re_XacNhanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jP_btn_Re_XacNhanLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                // .addComponent(jBtn_SuaThongTinChoNhap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_btn_Re_XacNhanLayout.createSequentialGroup()
+                .addContainerGap(67, Short.MAX_VALUE)
                 .addComponent(jBtn_XacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addGap(63, 63, 63))
         );
         jP_btn_Re_XacNhanLayout.setVerticalGroup(
             jP_btn_Re_XacNhanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jP_btn_Re_XacNhanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                // .addComponent(jBtn_SuaThongTinChoNhap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP_btn_Re_XacNhanLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jBtn_XacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -466,9 +465,10 @@ public class n3_PNNhapHang extends javax.swing.JPanel {
             jP_ThongTinNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jL_ThongTinNhap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jP_NhapThongTin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            // .addComponent(jP_btn_ThongTinNhap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jP_btn_Re_XacNhan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-
+            .addGroup(jP_ThongTinNhapLayout.createSequentialGroup()
+                .addGap(108, 108, 108)
+                .addComponent(jP_btn_Re_XacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jP_ThongTinNhapLayout.setVerticalGroup(
             jP_ThongTinNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -476,11 +476,9 @@ public class n3_PNNhapHang extends javax.swing.JPanel {
                 .addComponent(jL_ThongTinNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jP_NhapThongTin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                // .addComponent(jP_btn_ThongTinNhap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jP_btn_Re_XacNhan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-
-                )
+                .addGap(37, 37, 37)
+                .addComponent(jP_btn_Re_XacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jP_Ncc.setBackground(new java.awt.Color(255, 255, 255));
@@ -716,29 +714,11 @@ public class n3_PNNhapHang extends javax.swing.JPanel {
             return;
         }
         String maNhanVien = jT_NhanVien.getText();
-        // n3_PNThongTinPhieuNhap thongTinPN = new n3_PNThongTinPhieuNhap(maNhanVien);
-        String maNhaCungCap = "";
-        // try {
-        //     PhieuNhapBUS phieuNhapBUS = new PhieuNhapBUS();
-        //     // maNhanVien = phieuNhapBUS.getFirstMaNhanVien();
-        //     if (maNhanVien == null || maNhanVien.isEmpty()) {
-        //         JOptionPane.showMessageDialog(this, "Không tìm thấy mã nhân viên nào.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        //         return;
-        //     }
-        //     String tenNhaCungNhap = jT_ChonNcc.getText();
-        //     maNhaCungCap = phieuNhapBUS.getMaNhaCungCap(tenNhaCungNhap);
-        //     if (maNhaCungCap == null || maNhaCungCap.isEmpty()) {
-        //         JOptionPane.showMessageDialog(this, "Không tìm thấy mã nhà cung cấp.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        //         return;
-
-        //     }
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        // }
+        // String maNhaCungCap = "";
         String nhaCungCap = jT_ChonNcc.getText();
         String ngayLap = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
         JDialog jD_ThongTinPN = new JDialog();
-        n3_PNThongTinPhieuNhap thongTinPN = new n3_PNThongTinPhieuNhap(this, jTable_ChoNhap, jTable_KhoHang, maNhanVien, nhaCungCap, ngayLap);
+        n3_PNThongTinPhieuNhap thongTinPN = new n3_PNThongTinPhieuNhap(this, jTable_ChoNhap, jTable_KhoHang, maNhanVien, nhaCungCap, ngayLap,jT_ChonNcc, jBtn_Nhap);
         jD_ThongTinPN.setLayout(new BorderLayout());
         jD_ThongTinPN.add(thongTinPN, BorderLayout.CENTER);
         jD_ThongTinPN.pack();
@@ -833,7 +813,6 @@ public class n3_PNNhapHang extends javax.swing.JPanel {
             jBtn_XacNhan.setEnabled(false);
             updateComponentsState();
         }
-        // updateNhapButtonState();
     }
 
     private void jBnt_XoaMouseClicked(java.awt.event.MouseEvent evt) {
@@ -891,24 +870,19 @@ public class n3_PNNhapHang extends javax.swing.JPanel {
     }
 
     private void btn_TimKiemActionPerformed(java.awt.event.MouseEvent evt) {
-        String maNguyenLieu = JTFTimKiem.getText().trim();
-        if (maNguyenLieu.matches("[a-zA-Z0-9]+")) { // Kiểm tra điều kiện nhập vào
-            nhapHangBUS.searchNguyenLieuByMa(jTable_KhoHang, maNguyenLieu);
+        String tenNguyenLieu = JTFTimKiem.getText().trim();
+        if (tenNguyenLieu.matches("[a-zA-ZÀ-ỹ\\s]+")) { // Kiểm tra điều kiện nhập vào
+            nhapHangBUS.searchNguyenLieuByTen(jTable_KhoHang, tenNguyenLieu);
         } else {
-            JOptionPane.showMessageDialog(this, "Mã phiếu nhập chỉ được chứa chữ và số, không chứa khoảng trắng hoặc ký tự đặc biệt.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Tên nguyên liệu chỉ được chứa chữ cái và khoảng trắng, không chứa số hoặc ký tự đặc biệt.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
         }
     }
-    // private void btn_TimKiemActionPerformed(java.awt.event.MouseEvent evt) {
-    //     String maNguyenLieu = JTFTimKiem.getText().trim();
-    //     if (maNguyenLieu.isEmpty()) {
-    //         // Nếu ô tìm kiếm trống, tải lại toàn bộ dữ liệu nguyên liệu trong kho hàng
-    //         nhapHangBUS.loadDataToTable_KhoHang(jTable_KhoHang);
-    //     } else if (maNguyenLieu.matches("[a-zA-Z0-9]+")) { // Kiểm tra điều kiện nhập vào
-    //         nhapHangBUS.searchNguyenLieuByMa(jTable_KhoHang, maNguyenLieu);
-    //     } else {
-    //         JOptionPane.showMessageDialog(this, "Mã nguyên liệu chỉ được chứa chữ và số, không chứa khoảng trắng hoặc ký tự đặc biệt.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
-    //     }
-    // }
+    private void JTFTimKiemKeyPressed(java.awt.event.KeyEvent evt) {
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            btn_TimKiemActionPerformed(null);
+        }
+    }
+    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
