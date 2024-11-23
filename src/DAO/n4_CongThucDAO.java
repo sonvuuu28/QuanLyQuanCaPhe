@@ -14,7 +14,7 @@ public class n4_CongThucDAO {
       public ArrayList<CongThucDTO> getAll() {
             ArrayList<CongThucDTO> listCongThuc = new ArrayList<>();
             try {
-                  String sql = "SELECT * FROM CongThuc WHERE TrangThaiCongThuc = 1";
+                  String sql = "SELECT * FROM CongThuc";
                   Connection c = JDBCUtil.getConnection();
                   PreparedStatement pre = c.prepareStatement(sql);
                   ResultSet rs = pre.executeQuery();
@@ -35,7 +35,7 @@ public class n4_CongThucDAO {
       public ArrayList<CongThucDTO> getCongThucByMaMon(String maMon) {
             ArrayList<CongThucDTO> listCongThuc = new ArrayList<>();
             try {
-                  String sql = "SELECT * FROM CongThuc WHERE MaMon = ? AND TrangThaiCongThuc = 1" ;
+                  String sql = "SELECT * FROM CongThuc WHERE MaMon = ?" ;
                   Connection c = JDBCUtil.getConnection();
                   PreparedStatement pre = c.prepareStatement(sql);
                   pre.setString(1, maMon);
@@ -59,7 +59,7 @@ public class n4_CongThucDAO {
             boolean result = false;
             try {
                   Connection c = JDBCUtil.getConnection();
-                  String sql = "INSERT INTO CongThuc(MaMon, MaNguyenLieu, KhoiLuong, TrangThaiCongThuc) VALUES(?,?,?,1)";
+                  String sql = "INSERT INTO CongThuc(MaMon, MaNguyenLieu, KhoiLuong) VALUES(?,?,?)";
                   PreparedStatement prep = c.prepareStatement(sql);
                   prep.setString(1, congThuc.getMaMon());
                   prep.setString(2, congThuc.getMaNguyenLieu());
@@ -79,7 +79,7 @@ public class n4_CongThucDAO {
             boolean result = false;
             try {
                   Connection c = JDBCUtil.getConnection();
-                  String sql = "UPDATE CongThuc SET TrangThaiCongThuc = 0 WHERE MaMon= ? and MaNguyenLieu = ?";
+                  String sql = "delete from CongThuc WHERE MaMon= ? and MaNguyenLieu = ?";
                   PreparedStatement prep = c.prepareStatement(sql);
                   prep.setString(1, congThuc.getMaMon());
                   prep.setString(2, congThuc.getMaNguyenLieu());
@@ -113,7 +113,7 @@ public class n4_CongThucDAO {
       }
       public CongThucDTO getCongThucByMaMonVaMaNguyenLieu(CongThucDTO congThuc) {
             try {
-                  String sql = "SELECT * FROM CongThuc WHERE MaMon = ? AND MaNguyenLieu = ? And TrangThaiCongThuc = 1";
+                  String sql = "SELECT * FROM CongThuc WHERE MaMon = ? AND MaNguyenLieu = ?";
                   Connection c = JDBCUtil.getConnection();
                   PreparedStatement pre = c.prepareStatement(sql);
                   pre.setString(1, congThuc.getMaMon());
