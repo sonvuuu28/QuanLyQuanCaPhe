@@ -2,10 +2,11 @@
 package DAO;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 
 import Util.JDBCUtil;
 
@@ -17,7 +18,7 @@ public class NhapHangDAO {
         ArrayList<Object[]> data = new ArrayList<>();
         try (Connection c = JDBCUtil.getConnection()) {
             Statement stmt = c.createStatement();
-            String loadDataTable_KhoHang = "select MaNguyenLieu, TenNguyenLieu, KhoiLuongNguyenLieu from NguyenLieu where TrangThaiNguyenLieu=1";
+            String loadDataTable_KhoHang = "select MaNguyenLieu, TenNguyenLieu, KhoiLuongNguyenLieu from NguyenLieu";
             ResultSet rs = stmt.executeQuery(loadDataTable_KhoHang);
 
             while (rs.next()) {
@@ -36,29 +37,28 @@ public class NhapHangDAO {
         return data;
     }
    
-    public ArrayList<Object[]> searchNguyenLieuByMa(String maNguyenLieu) {
+    public ArrayList<Object[]> searchNguyenLieuByTen(String tenNguyenLieu) {
         ArrayList<Object[]> data = new ArrayList<>();
         try (Connection c = JDBCUtil.getConnection()) {
-            Statement stmt = c.createStatement();
             String sql = "SELECT MaNguyenLieu, TenNguyenLieu, KhoiLuongNguyenLieu " +
-                         "FROM NguyenLieu " +
-                         "WHERE MaNguyenLieu LIKE '%" + maNguyenLieu + "%' " +
-                         "ORDER BY CAST(SUBSTRING(MaNguyenLieu, 3, LEN(MaNguyenLieu) - 2) AS INT) ";
-            ResultSet rs = stmt.executeQuery(sql);
+                        "FROM NguyenLieu " +
+                        "WHERE TenNguyenLieu LIKE ? " +
+                        "ORDER BY CAST(SUBSTRING(MaNguyenLieu, 3, LEN(MaNguyenLieu) - 2) AS INT)";
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, "%" + tenNguyenLieu + "%");
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String maNguyenLieuResult = rs.getString("MaNguyenLieu");
-                String tenNguyenLieu = rs.getString("TenNguyenLieu");
+                String maNguyenLieu = rs.getString("MaNguyenLieu");
+                String tenNguyenLieuResult = rs.getString("TenNguyenLieu");
                 double khoiLuongNguyenLieu = rs.getDouble("KhoiLuongNguyenLieu");
-                data.add(new Object[]{maNguyenLieuResult, tenNguyenLieu, khoiLuongNguyenLieu});
+                data.add(new Object[]{maNguyenLieu, tenNguyenLieuResult, khoiLuongNguyenLieu});
             }
             rs.close();
-            stmt.close();
-        } catch (Exception e) {
+            ps.close();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return data;
     }
-
-     
           
 }
