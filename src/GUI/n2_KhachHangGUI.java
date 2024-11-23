@@ -114,17 +114,13 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         LblMa.setText("Mã KH");
 
         TextFieldMa.setEditable(false);
-        TextFieldMa.setBackground(new java.awt.Color(255, 255, 255));
         TextFieldMa.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         TextFieldMa.setBorder(null);
         TextFieldMa.setMaximumSize(new java.awt.Dimension(160, 28));
         TextFieldMa.setMinimumSize(new java.awt.Dimension(160, 28));
         TextFieldMa.setPreferredSize(new java.awt.Dimension(160, 28));
-        TextFieldMa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TextFieldMaActionPerformed(evt);
-            }
-        });
+        TextFieldMa.setEnabled(false);
+        TextFieldMa.setBackground(new java.awt.Color(255, 255, 255));
 
         LblTen.setBackground(new java.awt.Color(255, 255, 255));
         LblTen.setText("Tên KH");
@@ -176,6 +172,8 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         TextFeildTongChiTieu.setMaximumSize(new java.awt.Dimension(160, 28));
         TextFeildTongChiTieu.setMinimumSize(new java.awt.Dimension(160, 28));
         TextFeildTongChiTieu.setPreferredSize(new java.awt.Dimension(160, 28));
+        TextFeildTongChiTieu.setEnabled(false);
+
 
         jSeparator1.setForeground(new java.awt.Color(51, 51, 51));
         jSeparator1.setMaximumSize(new java.awt.Dimension(93, 5));
@@ -198,6 +196,9 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         jSeparator5.setPreferredSize(new java.awt.Dimension(93, 5));
 
         jDNgaySinh.setBackground(new java.awt.Color(255, 255, 255));
+        jDNgaySinh.setDateFormatString("dd-MM-yyyy");
+        jDNgaySinh.getDateEditor().setEnabled(false);
+
 
         javax.swing.GroupLayout PanelThuocTinhLayout = new javax.swing.GroupLayout(PanelThuocTinh);
         PanelThuocTinh.setLayout(PanelThuocTinhLayout);
@@ -594,12 +595,12 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Tên không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        if (ten.length() < 3 || ten.length() > 50) {
-            JOptionPane.showMessageDialog(null, "Tên phải có độ dài từ 3 đến 50 ký tự!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        if (ten.length() > 50) {
+            JOptionPane.showMessageDialog(null, "Độ dài tên không quá 50 ký tự!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        if (!ten.matches("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỳỵỷỹỲỴỶỸ\\s]+$")) {
-            JOptionPane.showMessageDialog(null, "Tên không được chứa ký tự số hoặc ký tự đặc biệt!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        else if ((ten.matches(".*[!@#$%^&*()_+=\\[\\]{};':\"\\\\|,.<>/?`~].*")||ten.matches(".*\\d.*"))) {
+            new dialog( "Tên không được chứa số hoặc ký tự đặc biệt!", dialog.ERROR_DIALOG);
             return false;
         }
     
@@ -614,8 +615,13 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
             return false;
         }
 
-        if(KHBUS.checkSDT(sdt)){
+        if(!KHBUS.checkSDT(sdt)){
             JOptionPane.showMessageDialog(null, "Số điện thoại đã tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (ComboBoxGioiTinh.getSelectedIndex() == 0) {
+            new dialog("Bạn chưa chọn giới tính!", dialog.ERROR_DIALOG);
             return false;
         }
     
@@ -637,10 +643,7 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
     }
 
     private void suaThongTinKhacHang(){
-        if (ComboBoxGioiTinh.getSelectedIndex() == 0) {
-            new dialog("Bạn chưa chọn giới tính!", dialog.ERROR_DIALOG);
-            return;
-        }
+        
         String ten = TextFieldTen.getText();
         String gioiTinh = ComboBoxGioiTinh.getSelectedItem() + "";
         String sdt = TextFieldSDT.getText();

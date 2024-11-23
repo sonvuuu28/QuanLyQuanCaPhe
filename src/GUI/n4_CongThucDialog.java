@@ -17,6 +17,7 @@ import DTO.LoaiMonDTO;
 import DTO.MonDTO;
 import DTO.NguyenLieuDTO;
 import BUS.n4_CongThucBUS;
+import BUS.n4_MonBUS;
 import BUS.n5_NguyenLieuBUS;
 import Util.TableCustom;
 /**
@@ -26,6 +27,7 @@ import Util.TableCustom;
 public class n4_CongThucDialog extends javax.swing.JFrame {
     private n5_NguyenLieuBUS nguyenLieuBUS;
     private n4_CongThucBUS congThucBUS;
+    private n4_MonBUS monBUS = new n4_MonBUS();
     private String maMon;
     /**
      * Creates new form LoaiMonJFrame
@@ -296,7 +298,7 @@ public class n4_CongThucDialog extends javax.swing.JFrame {
         };
         modelTable.addColumn("Mã NL");
         modelTable.addColumn("Tên NL");
-        modelTable.addColumn("Khối Lượng Sử dụng");
+        modelTable.addColumn("Khối lượng dùng");
         
         ArrayList<CongThucDTO> list = congThucBUS.getCongThucByMaMon(maMon);
         for(int i = 0; i < list.size(); i++) {
@@ -468,6 +470,7 @@ public class n4_CongThucDialog extends javax.swing.JFrame {
         tf_Mon.setEditable(false);
         tf_Mon.setEnabled(false);
         tf_Mon.setBackground(Color.WHITE);
+        tf_Mon.setText(monBUS.getMonById(maMon).getTenMon());
         tf_NguyenLieu.setEditable(false);
         tf_NguyenLieu.setEnabled(false);
         tf_NguyenLieu.setBackground(Color.WHITE);

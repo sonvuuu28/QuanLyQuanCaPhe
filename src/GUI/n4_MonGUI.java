@@ -79,16 +79,15 @@ public class n4_MonGUI extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
-        btn_LoaiMon = new javax.swing.JButton();
         comboboxLoaiMon = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_DanhSachMon = new javax.swing.JTable();
-        PanelChuaNut = new javax.swing.JPanel();
-        btn_Sua = new javax.swing.JButton();
+        comboboxTrangThai = new javax.swing.JComboBox<>();
+        btn_LoaiMon = new javax.swing.JButton();
         btn_Them = new javax.swing.JButton();
+        btn_Sua = new javax.swing.JButton();
         btn_Xoa = new javax.swing.JButton();
         btn_XuatExcel = new javax.swing.JButton();
-        comboboxTrangThai = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(122, 74, 74));
         setMaximumSize(new java.awt.Dimension(1125, 667));
@@ -210,13 +209,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
 
         jSeparator5.setForeground(new java.awt.Color(0, 0, 0));
 
-        btn_LoaiMon.setBackground(new java.awt.Color(219, 189, 142));
-        btn_LoaiMon.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
-        btn_LoaiMon.setText("Loại Món");
-        btn_LoaiMon.setMaximumSize(new java.awt.Dimension(150, 24));
-        btn_LoaiMon.setMinimumSize(new java.awt.Dimension(150, 24));
-        btn_LoaiMon.setPreferredSize(new java.awt.Dimension(150, 24));
-
+        comboboxLoaiMon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout PanelChuaThongTinTrangLayout = new javax.swing.GroupLayout(PanelChuaThongTinTrang);
         PanelChuaThongTinTrang.setLayout(PanelChuaThongTinTrangLayout);
@@ -234,10 +227,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
                             .addComponent(lb_LoaiMon, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(PanelChuaThongTinTrangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelChuaThongTinTrangLayout.createSequentialGroup()
-                                .addComponent(btn_TaoCongThuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btn_LoaiMon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_TaoCongThuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(PanelChuaThongTinTrangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(comboboxLoaiMon, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(tf_MaMon, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -278,11 +268,9 @@ public class n4_MonGUI extends javax.swing.JPanel {
                         .addGroup(PanelChuaThongTinTrangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lb_LoaiMon, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                             .addComponent(comboboxLoaiMon))
-                        .addGap(28, 28, 28)
-                        .addGroup(PanelChuaThongTinTrangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btn_TaoCongThuc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_LoaiMon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(14, 14, 14))
+                        .addGap(32, 32, 32)
+                        .addComponent(btn_TaoCongThuc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(11, 11, 11))
                     .addGroup(PanelChuaThongTinTrangLayout.createSequentialGroup()
                         .addGap(59, 59, 59)
                         .addComponent(lb_HinhAnhMonAn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -329,15 +317,20 @@ public class n4_MonGUI extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(tb_DanhSachMon);
 
-        PanelChuaNut.setBackground(new java.awt.Color(255, 255, 255));
+        comboboxTrangThai.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
+        comboboxTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã Món", "Tên Món" }));
+        comboboxTrangThai.setBorder(null);
+        comboboxTrangThai.setMaximumSize(new java.awt.Dimension(100, 22));
+        comboboxTrangThai.setMinimumSize(new java.awt.Dimension(100, 22));
+        comboboxTrangThai.setPreferredSize(new java.awt.Dimension(100, 22));
 
-        btn_Sua.setBackground(new java.awt.Color(0, 0, 0));
-        btn_Sua.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
-        btn_Sua.setForeground(new java.awt.Color(255, 255, 255));
-        btn_Sua.setText("Sửa");
-        btn_Sua.setMaximumSize(new java.awt.Dimension(100, 30));
-        btn_Sua.setMinimumSize(new java.awt.Dimension(100, 30));
-        btn_Sua.setPreferredSize(new java.awt.Dimension(100, 30));
+        btn_LoaiMon.setBackground(new java.awt.Color(0, 0, 0));
+        btn_LoaiMon.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
+        btn_LoaiMon.setForeground(new java.awt.Color(255, 255, 255));
+        btn_LoaiMon.setText("Loại Món");
+        btn_LoaiMon.setMaximumSize(new java.awt.Dimension(100, 30));
+        btn_LoaiMon.setMinimumSize(new java.awt.Dimension(100, 30));
+        btn_LoaiMon.setPreferredSize(new java.awt.Dimension(100, 30));
 
         btn_Them.setBackground(new java.awt.Color(0, 0, 0));
         btn_Them.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
@@ -346,6 +339,14 @@ public class n4_MonGUI extends javax.swing.JPanel {
         btn_Them.setMaximumSize(new java.awt.Dimension(100, 30));
         btn_Them.setMinimumSize(new java.awt.Dimension(100, 30));
         btn_Them.setPreferredSize(new java.awt.Dimension(100, 30));
+
+        btn_Sua.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Sua.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
+        btn_Sua.setForeground(new java.awt.Color(255, 255, 255));
+        btn_Sua.setText("Sửa");
+        btn_Sua.setMaximumSize(new java.awt.Dimension(100, 30));
+        btn_Sua.setMinimumSize(new java.awt.Dimension(100, 30));
+        btn_Sua.setPreferredSize(new java.awt.Dimension(100, 30));
 
         btn_Xoa.setBackground(new java.awt.Color(0, 0, 0));
         btn_Xoa.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
@@ -363,39 +364,6 @@ public class n4_MonGUI extends javax.swing.JPanel {
         btn_XuatExcel.setMinimumSize(new java.awt.Dimension(100, 30));
         btn_XuatExcel.setPreferredSize(new java.awt.Dimension(100, 30));
 
-        javax.swing.GroupLayout PanelChuaNutLayout = new javax.swing.GroupLayout(PanelChuaNut);
-        PanelChuaNut.setLayout(PanelChuaNutLayout);
-        PanelChuaNutLayout.setHorizontalGroup(
-            PanelChuaNutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelChuaNutLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(PanelChuaNutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_XuatExcel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_Sua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_Them, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_Xoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-        PanelChuaNutLayout.setVerticalGroup(
-            PanelChuaNutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelChuaNutLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(btn_Them, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(btn_Sua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(btn_Xoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addComponent(btn_XuatExcel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
-        );
-
-        comboboxTrangThai.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
-        comboboxTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã Món", "Tên Món" }));
-        comboboxTrangThai.setBorder(null);
-        comboboxTrangThai.setMaximumSize(new java.awt.Dimension(100, 22));
-        comboboxTrangThai.setMinimumSize(new java.awt.Dimension(100, 22));
-        comboboxTrangThai.setPreferredSize(new java.awt.Dimension(100, 22));
-
         javax.swing.GroupLayout PanelTongLayout = new javax.swing.GroupLayout(PanelTong);
         PanelTong.setLayout(PanelTongLayout);
         PanelTongLayout.setHorizontalGroup(
@@ -404,7 +372,12 @@ public class n4_MonGUI extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTongLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PanelChuaNut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btn_Sua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_Xoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_XuatExcel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btn_LoaiMon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(PanelTongLayout.createSequentialGroup()
                         .addComponent(PanelTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(101, 101, 101)
@@ -412,7 +385,8 @@ public class n4_MonGUI extends javax.swing.JPanel {
                         .addGap(36, 36, 36)
                         .addComponent(btn_TimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(44, 44, 44)
-                        .addComponent(btn_TaiLai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btn_TaiLai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_Them, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(241, 241, 241))
             .addGroup(PanelTongLayout.createSequentialGroup()
                 .addGap(65, 65, 65)
@@ -430,7 +404,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
                         .addGap(15, 15, 15)
                         .addComponent(PanelTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTongLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                         .addGroup(PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btn_TaiLai, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -438,13 +412,21 @@ public class n4_MonGUI extends javax.swing.JPanel {
                                 .addComponent(btn_TimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGroup(PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelTongLayout.createSequentialGroup()
-                        .addGap(104, 104, 104)
-                        .addComponent(PanelChuaNut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(57, 57, 57))
+                        .addGap(40, 40, 40)
+                        .addComponent(btn_Them, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(btn_Sua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(btn_Xoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(btn_XuatExcel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(btn_LoaiMon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTongLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(PanelChuaThongTin_Cam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addComponent(PanelChuaThongTin_Cam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42))
         );
@@ -455,15 +437,17 @@ public class n4_MonGUI extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(PanelTong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(PanelTong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 9, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     public void hienThiAnhMoiChon(File fileanh) {
@@ -869,7 +853,7 @@ btn_LoaiMon.addActionListener(new java.awt.event.ActionListener() {
         ArrayList<LoaiMonDTO> dsLoaiMon = loaiMonBUS.getAll();
         comboboxLoaiMon.removeAllItems();
         for(int i = 0; i < dsLoaiMon.size(); i++) {
-            comboboxLoaiMon.addItem(dsLoaiMon.get(i));
+            comboboxLoaiMon.addItem(dsLoaiMon.get(i).getTenLoaiMon());
         }
 fillTable();
         tb_DanhSachMon.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -936,7 +920,6 @@ comboboxTrangThai.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelAnhTimKiem;
-    private javax.swing.JPanel PanelChuaNut;
     private javax.swing.JPanel PanelChuaThongTinTrang;
     private javax.swing.JPanel PanelChuaThongTin_Cam;
     private javax.swing.JPanel PanelTimKiem;
@@ -951,7 +934,7 @@ comboboxTrangThai.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI
     private javax.swing.JButton btn_TimKiem;
     private javax.swing.JButton btn_Xoa;
     private javax.swing.JButton btn_XuatExcel;
-    private javax.swing.JComboBox<LoaiMonDTO> comboboxLoaiMon;
+    private javax.swing.JComboBox<String> comboboxLoaiMon;
     private javax.swing.JComboBox<String> comboboxTrangThai;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
