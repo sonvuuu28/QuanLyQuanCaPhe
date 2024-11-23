@@ -25,8 +25,9 @@ import DTO.HoaDonDTO;
 
 public class n1_HoaDonGUI extends javax.swing.JPanel {
 
-    public n1_HoaDonGUI() {
+    public n1_HoaDonGUI(String manv) {
         initComponents();
+        this.maNV = manv;
         loadData();
         TableCustom.apply(ScrollPane, TableCustom.TableType.MULTI_LINE);
         nhomNutChucNang();
@@ -420,7 +421,7 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
 
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 PanelTong.removeAll();
-                n1_BanHangGUI bh = new n1_BanHangGUI();
+                n1_BanHangKeoTha bh = new n1_BanHangKeoTha(maNV);
                 PanelTong.setLayout(new BorderLayout());
                 PanelTong.add(bh, BorderLayout.CENTER); // Adjust the layout constraint as needed
                 PanelTong.revalidate();
@@ -428,24 +429,24 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
             }
         });
 
-        PanelHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                PanelHoaDon.setBackground(new Color(199, 159, 95));
-            }
+        // PanelHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
+        //     public void mouseEntered(java.awt.event.MouseEvent evt) {
+        //         PanelHoaDon.setBackground(new Color(199, 159, 95));
+        //     }
 
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                PanelHoaDon.setBackground(new Color(219, 189, 142));
-            }
+        //     public void mouseExited(java.awt.event.MouseEvent evt) {
+        //         PanelHoaDon.setBackground(new Color(219, 189, 142));
+        //     }
             
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                PanelTong.removeAll();
-                n1_HoaDonGUI bh = new n1_HoaDonGUI();
-                PanelTong.setLayout(new BorderLayout());
-                PanelTong.add(bh, BorderLayout.CENTER); // Adjust the layout constraint as needed
-                PanelTong.revalidate();
-                PanelTong.repaint();
-            }
-        });
+        //     public void mouseClicked(java.awt.event.MouseEvent evt) {
+        //         PanelTong.removeAll();
+        //         n1_HoaDonGUI bh = new n1_HoaDonGUI();
+        //         PanelTong.setLayout(new BorderLayout());
+        //         PanelTong.add(bh, BorderLayout.CENTER); // Adjust the layout constraint as needed
+        //         PanelTong.revalidate();
+        //         PanelTong.repaint();
+        //     }
+        // });
 
         btn_TimKiemMa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -507,6 +508,7 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
     }
     private HoaDonBUS HDBUS = new HoaDonBUS();
     private CTHoaDonBUS CTBUS = new CTHoaDonBUS();
+    private String maNV="";
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser JDDenNgay;
