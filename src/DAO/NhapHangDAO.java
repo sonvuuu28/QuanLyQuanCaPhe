@@ -1,36 +1,4 @@
-// package DAO;
 
-// import java.sql.Connection;
-// import java.sql.DriverManager;
-// import java.sql.ResultSet;
-// import java.sql.Statement;
-// import javax.swing.JTable;
-// import javax.swing.table.DefaultTableModel;
-
-// import Util.JDBCUtil;
-
-// public class NhapHangDAO {
-
-//     public void loadDataToTable_KhoHang(JTable table) {
-//         try(Connection c = JDBCUtil.getConnection()) {
-//           Statement stmt = c.createStatement();
-//           String loadDataTable_KhoHang = "select MaNguyenLieu, TenNguyenLieu, KhoiLuongNguyenLieu from NguyenLieu";
-//           ResultSet rs = stmt.executeQuery(loadDataTable_KhoHang);
-//           DefaultTableModel model = (DefaultTableModel) table.getModel();
-//           model.setRowCount(0);
-//           while (rs.next()) {
-//             model.addRow(new Object[] {rs.getString("MaNguyenLieu"), rs.getString("TenNguyenLieu"), rs.getString("KhoiLuongNguyenLieu")});
-            
-//           }          
-//           rs.close();
-//           stmt.close();
-//           c.close();
-          
-//         } catch (Exception e) {
-//           e.printStackTrace();
-//         }
-//     }
-// }
 package DAO;
 
 import java.sql.Connection;
@@ -49,7 +17,7 @@ public class NhapHangDAO {
         ArrayList<Object[]> data = new ArrayList<>();
         try (Connection c = JDBCUtil.getConnection()) {
             Statement stmt = c.createStatement();
-            String loadDataTable_KhoHang = "select MaNguyenLieu, TenNguyenLieu, KhoiLuongNguyenLieu from NguyenLieu";
+            String loadDataTable_KhoHang = "select MaNguyenLieu, TenNguyenLieu, KhoiLuongNguyenLieu from NguyenLieu where TrangThaiNguyenLieu=1";
             ResultSet rs = stmt.executeQuery(loadDataTable_KhoHang);
 
             while (rs.next()) {
