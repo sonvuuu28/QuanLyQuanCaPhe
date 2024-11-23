@@ -1,19 +1,14 @@
 package GUI;
 
 import Util.TableCustom;
-
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane; 
-
-import javax.swing.JScrollBar;
 import javax.swing.JTable;
-
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import com.toedter.calendar.JDateChooser;
-
+import BUS.ChiTietPhieuNhapBUS;
 import BUS.PhieuNhapBUS;
 import BUS.PhieuNhapBUS.NonEditableTableModel;
 import java.util.Date;
@@ -21,10 +16,12 @@ import java.util.Date;
 
 public class n3_PNPhieuNhap extends javax.swing.JPanel {
     private PhieuNhapBUS phieuNhapBUS;
+    private ChiTietPhieuNhapBUS chiTietPhieuNhapBUS;
     private JTable chiTietPhieuNhapTable;
-    private JScrollPane chiTietPhieuNhapScrollPane;
-    private n3_PNChiTietPhieuNhap chiTietPhieuNhapPanel;
+    // private JScrollPane chiTietPhieuNhapScrollPane;
+    // private n3_PNChiTietPhieuNhap chiTietPhieuNhapPanel;
     public n3_PNPhieuNhap() {
+        this.chiTietPhieuNhapBUS = new ChiTietPhieuNhapBUS();
         initComponents();
         TableCustom.apply(ScrollPane, TableCustom.TableType.MULTI_LINE);
         phieuNhapBUS = new PhieuNhapBUS();
@@ -47,6 +44,8 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         btn_TimKiem = new javax.swing.JButton();
         btn_TaiLai = new javax.swing.JButton();
+        jCbb_TimKiem = new javax.swing.JComboBox<>();
+
         jP_TimKiemPhieuNhap = new javax.swing.JPanel();
         jL_TimKiemPN = new javax.swing.JLabel();
         jP_NhapThongTin = new javax.swing.JPanel();
@@ -70,8 +69,8 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
         ScrollPane = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable();
         chiTietPhieuNhapTable = new javax.swing.JTable();
-        chiTietPhieuNhapScrollPane = new javax.swing.JScrollPane();
-        chiTietPhieuNhapPanel = new n3_PNChiTietPhieuNhap();
+        // chiTietPhieuNhapScrollPane = new javax.swing.JScrollPane();
+        // chiTietPhieuNhapPanel = new n3_PNChiTietPhieuNhap();
 
         setMaximumSize(new java.awt.Dimension(1100, 600));
         setMinimumSize(new java.awt.Dimension(1100, 600));
@@ -112,6 +111,34 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
         jT_TimKiem.setMaximumSize(new java.awt.Dimension(200, 20));
         jT_TimKiem.setMinimumSize(new java.awt.Dimension(200, 20));
         jT_TimKiem.setPreferredSize(new java.awt.Dimension(200, 20));
+        jT_TimKiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                JTFTimKiemKeyPressed(evt);
+            }
+        });
+        jT_TimKiem.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                handleSearch();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                handleSearch();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                handleSearch();
+            }
+
+            private void handleSearch() {
+                String maNguyenLieu = jT_TimKiem.getText().trim();
+                if (maNguyenLieu.isEmpty()) {
+                    // Nếu ô tìm kiếm trống, tải lại toàn bộ dữ liệu nguyên liệu trong kho hàng
+                    phieuNhapBUS.loadDataToTable_PhieuNhap(Table);} 
+            }
+        });
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
         jSeparator1.setMaximumSize(new java.awt.Dimension(300, 5));
@@ -150,8 +177,17 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
         btn_TimKiem.setText("Tìm Kiếm");
         btn_TimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                // btn_TimKiemActionPerformed(evt);
-                btn_TimKiemNgayGiaActionPerformed(evt);
+                
+                String luaChonTimKiem = jCbb_TimKiem.getSelectedItem().toString();
+                if(luaChonTimKiem.equals("Tìm kiếm theo mã")){
+                    btn_TimKiemActionPerformed(evt);
+                    
+                }else if(luaChonTimKiem.equals("Tìm kiếm theo Ngày và Giá")){
+                  
+                    timKiemPhieuNhapByNgayGia();
+                    
+                }
+
             }
         });
         btn_TimKiem.setMaximumSize(new java.awt.Dimension(100, 24));
@@ -172,6 +208,15 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
         btn_TaiLai.setMinimumSize(new java.awt.Dimension(100, 24));
         btn_TaiLai.setPreferredSize(new java.awt.Dimension(100, 24));
 
+        jCbb_TimKiem.setSelectedItem("Tìm Kiếm theo mã");
+        jCbb_TimKiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tìm kiếm theo mã", "Tìm kiếm theo Ngày và Giá" }));
+      
+        jCbb_TimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JCbb_TimKiemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jP_TimKiemMaPNLayout = new javax.swing.GroupLayout(jP_TimKiemMaPN);
         jP_TimKiemMaPN.setLayout(jP_TimKiemMaPNLayout);
         jP_TimKiemMaPNLayout.setHorizontalGroup(
@@ -184,9 +229,12 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
                         .addComponent(jP_TimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jP_TimKiemMaPNLayout.createSequentialGroup()
                         .addGap(170, 170, 170)
-                        .addComponent(btn_TimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(btn_TaiLai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jP_TimKiemMaPNLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jCbb_TimKiem, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jP_TimKiemMaPNLayout.createSequentialGroup()
+                                .addComponent(btn_TimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30)
+                                .addComponent(btn_TaiLai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jP_TimKiemMaPNLayout.setVerticalGroup(
@@ -195,12 +243,15 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
                 .addComponent(jL_TimKiemMaPN, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jP_TimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(jCbb_TimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jP_TimKiemMaPNLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_TimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_TaiLai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37))
         );
+
 
         jP_TimKiemPhieuNhap.setBackground(new java.awt.Color(255, 255, 255));
         jP_TimKiemPhieuNhap.setMaximumSize(new java.awt.Dimension(450, 250));
@@ -265,6 +316,14 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
         jSeparator3.setMaximumSize(new java.awt.Dimension(260, 5));
         jSeparator3.setMinimumSize(new java.awt.Dimension(260, 5));
         jSeparator3.setPreferredSize(new java.awt.Dimension(260, 5));
+
+        jCbb_TimKiem.setSelectedItem("Tìm kiếm theo mã");
+
+        // Khóa các thành phần liên quan đến tìm kiếm theo ngày giá
+        jdc_TuNgay.setEnabled(false);
+        jdc_DenNgay.setEnabled(false);
+        jT_GiaTu.setEnabled(false);
+        jT_GiaDen.setEnabled(false);
 
         javax.swing.GroupLayout jP_DenNgayLayout = new javax.swing.GroupLayout(jP_DenNgay);
         jP_DenNgay.setLayout(jP_DenNgayLayout);
@@ -425,58 +484,24 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
         Table.setRowHeight(25); // Thiết lập độ cao dòng
 
 
-        // Table.setMaximumSize(new java.awt.Dimension(1090, 250));
-        // Table.setMinimumSize(new java.awt.Dimension(1090, 250));
-        // Table.setPreferredSize(new java.awt.Dimension(1090, 250));
         ScrollPane.setViewportView(Table);
-        // ScrollPane.setPreferredSize(new Dimension(1090, 500)); // Tăng chiều cao nếu cần
-        // ScrollPane.setPreferredSize(new Dimension(1090, 600));
-
 
 
         Table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                // int row = Table.getSelectedRow();
-                // if (row != -1) {
-                //     Object maPNObj = Table.getValueAt(row, 0);
-                //     Object ngayLapObj = Table.getValueAt(row, 1);
-                //     Object tongTienObj = Table.getValueAt(row, 2);
-                //     Object maNVObj = Table.getValueAt(row, 3);
-                //     Object maNCCObj = Table.getValueAt(row, 4);
-        
-                //     if (maPNObj == null || ngayLapObj == null || tongTienObj == null || maNVObj == null || maNCCObj == null) {
-                //         JOptionPane.showMessageDialog(null, "Dữ liệu không hợp lệ trong bảng.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                //         return;
-                //     }
-        
-                    // String maPN = maPNObj.toString();
-                    // String ngayLap = ngayLapObj.toString();
-                    // int tongTien = Integer.parseInt(tongTienObj.toString());
-                    // String maNV = maNVObj.toString();
-                    // String maNCC = maNCCObj.toString();
-        
-                    // PhieuNhapBUS phieuNhapBUS = new PhieuNhapBUS();
-                    // Thực hiện các thao tác với phieuNhapBUS nếu cần
-                // }
+                
                 int row = Table.getSelectedRow();
                 if (row != -1) {
                     Object maPNObj = Table.getValueAt(row, 0);
                     if (maPNObj != null) {
                         String maPN = maPNObj.toString();
-                        phieuNhapBUS.loadChiTietPhieuNhapToTable(chiTietPhieuNhapTable, maPN);
+                        chiTietPhieuNhapBUS.loadChiTietPhieuNhapToTable(chiTietPhieuNhapTable, maPN);
                         showChiTietPhieuNhapPanel(maPN);
                     }
                 }
             }
         });
-        // chiTietPhieuNhapTable.setModel( new NonEditableTableModel(
-        //     new Object [][] {},
-        //     new String [] {
-        //         "Mã PN", "Mã NL", "Đơn Giá", "Thành Tiền", "Khối Lượng"
-        //     }
-        // ));
-        // chiTietPhieuNhapScrollPane.setViewportView(chiTietPhieuNhapTable);
-
+       
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -551,12 +576,11 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
     private void btn_TaiLaiActionPerformed(java.awt.event.ActionEvent evt) {
         phieuNhapBUS.loadDataToTable_PhieuNhap(Table);
         jT_TimKiem.setText("");
-        // jD_TuNgay.setDate(null); // Xóa nội dung của JDateChooser khi bấm nút Tải lại
-        // jD_DenNgay.setDate(null); // Xóa nội dung của JDateChooser khi bấm nút Tải lại
         jT_GiaTu.setText(""); // Xóa nội dung của JTextField khi bấm nút Tải lại
         jT_GiaDen.setText(""); 
-        // jdc_TuNgay.setDate(null); // Xóa nội dung của JDateChooser khi bấm nút Tải lại
-        // jdc_DenNgay.setDate(null);
+        jdc_TuNgay.setDate(null);
+        jdc_DenNgay.setDate(null);
+    
     }
     private void btn_TimKiemActionPerformed(java.awt.event.ActionEvent evt) {
         String maPhieuNhap = jT_TimKiem.getText().trim();
@@ -566,94 +590,9 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Mã phiếu nhập chỉ được chứa chữ và số, không chứa khoảng trắng hoặc ký tự đặc biệt.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
         }
     }
-    // private void btn_TimKiemNgayGiaActionPerformed(java.awt.event.ActionEvent evt) {
-    //     Date tuNgay = jdc_TuNgay.getDate();
-    //     Date denNgay = jdc_DenNgay.getDate();
-    //     int giaTu = Integer.parseInt(jT_GiaTu.getText().trim());
-    //     int giaDen = Integer.parseInt(jT_GiaDen.getText().trim());
-
-    //     phieuNhapBUS.searchPhieuNhapByNgayVaGia(Table, tuNgay, denNgay, giaTu, giaDen);
-    // }
-    // private void btn_TimKiemNgayGiaActionPerformed(java.awt.event.ActionEvent evt) {
-    //     Date tuNgay = jdc_TuNgay.getDate();
-    //     Date denNgay = jdc_DenNgay.getDate();
-    //     String giaTuStr = jT_GiaTu.getText().trim();
-    //     String giaDenStr = jT_GiaDen.getText().trim();
     
-    //     int giaTu = 0; // Giá trị mặc định nếu trường giá từ trống
-    //     int giaDen = Integer.MAX_VALUE; // Giá trị mặc định nếu trường giá đến trống
     
-    //     try {
-    //         if (!giaTuStr.isEmpty()) {
-    //             giaTu = Integer.parseInt(giaTuStr);
-    //         }
-    //         if (!giaDenStr.isEmpty()) {
-    //             giaDen = Integer.parseInt(giaDenStr);
-    //         }
-    
-    //         if (tuNgay != null && denNgay != null) {
-    //             // Tìm kiếm theo khoảng ngày và khoảng giá
-    //             phieuNhapBUS.searchPhieuNhapByNgayVaGia(Table, tuNgay, denNgay, giaTu, giaDen);
-    //         } else if (tuNgay != null) {
-    //             // Tìm kiếm từ ngày đến hiện tại và khoảng giá
-    //             Date today = new Date();
-    //             phieuNhapBUS.searchPhieuNhapByNgayVaGia(Table, tuNgay, today, giaTu, giaDen);
-    //         } else if (denNgay != null) {
-    //             // Tìm kiếm từ quá khứ đến ngày và khoảng giá
-    //             Date past = new Date(0); // Ngày bắt đầu từ epoch
-    //             phieuNhapBUS.searchPhieuNhapByNgayVaGia(Table, past, denNgay, giaTu, giaDen);
-    //         } else {
-    //             // Tìm kiếm theo khoảng giá
-    //             phieuNhapBUS.searchPhieuNhapByNgayVaGia(Table, new Date(0), new Date(), giaTu, giaDen);
-    //         }
-    //     } catch (NumberFormatException e) {
-    //         JOptionPane.showMessageDialog(this, "Giá trị nhập vào phải là số nguyên.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
-    //     }
-    // }
-    // private void btn_TimKiemNgayGiaActionPerformed(java.awt.event.ActionEvent evt) {
-    //     Date tuNgay = jdc_TuNgay.getDate();
-    //     Date denNgay = jdc_DenNgay.getDate();
-    //     String giaTuStr = jT_GiaTu.getText().trim();
-    //     String giaDenStr = jT_GiaDen.getText().trim();
-
-    //     if (tuNgay == null || denNgay == null || giaTuStr.isEmpty() || giaDenStr.isEmpty()) {
-    //         JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin ngày và giá.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
-    //         return;
-    //     }
-
-    //     try {
-    //         int giaTu = Integer.parseInt(giaTuStr);
-    //         int giaDen = Integer.parseInt(giaDenStr);
-
-    //         phieuNhapBUS.searchPhieuNhapByNgayVaGia(Table, tuNgay, denNgay, giaTu, giaDen);
-    //     } catch (NumberFormatException e) {
-    //         JOptionPane.showMessageDialog(this, "Giá trị nhập vào phải là số nguyên.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
-    //     }
-    // }
-    private void btn_TimKiemNgayGiaActionPerformed(java.awt.event.ActionEvent evt) {
-        Date tuNgay = jdc_TuNgay.getDate();
-        Date denNgay = jdc_DenNgay.getDate();
-        String giaTuStr = jT_GiaTu.getText().trim();
-        String giaDenStr = jT_GiaDen.getText().trim();
-    
-        if (tuNgay == null || denNgay == null || giaTuStr.isEmpty() || giaDenStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin ngày và giá.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-    
-        try {
-            int giaTu = Integer.parseInt(giaTuStr);
-            int giaDen = Integer.parseInt(giaDenStr);
-            System.out.println("From: " + tuNgay);
-            System.out.println("To: " + denNgay);
-            System.out.println("Price From: " + giaTu);
-            System.out.println("Price To: " + giaDen);
-    
-            phieuNhapBUS.searchPhieuNhapByNgayVaGia(Table, tuNgay, denNgay, giaTu, giaDen);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Giá trị nhập vào phải là số nguyên.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
-        }
-    }
+        
     private void showChiTietPhieuNhapPanel(String maPhieuNhap){
         JDialog dialog = new JDialog();
         dialog.setTitle("Chi Tiết Phiếu Nhập");
@@ -667,6 +606,93 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
         dialog.add(chiTietPhieuNhapPanel);
         dialog.setVisible(true);
     }
+    private void JCbb_TimKiemActionPerformed(java.awt.event.ActionEvent evt) {
+        String selectedOption = jCbb_TimKiem.getSelectedItem().toString();
+        
+        if (selectedOption.equals("Tìm kiếm theo mã")) {
+            // Khóa các thành phần liên quan đến tìm kiếm theo ngày giá
+            jdc_TuNgay.setEnabled(false);
+            jdc_DenNgay.setEnabled(false);
+            jT_GiaTu.setEnabled(false);
+            jT_GiaDen.setEnabled(false);
+            
+            // Mở khóa thành phần tìm kiếm theo mã
+            jT_TimKiem.setEnabled(true);
+        } else if (selectedOption.equals("Tìm kiếm theo Ngày và Giá")) {
+            // Mở khóa các thành phần liên quan đến tìm kiếm theo ngày giá
+            jdc_TuNgay.setEnabled(true);
+            jdc_DenNgay.setEnabled(true);
+            jT_GiaTu.setEnabled(true);
+            jT_GiaDen.setEnabled(true);
+            
+            // Khóa thành phần tìm kiếm theo mã
+            jT_TimKiem.setEnabled(false);
+        }
+    }
+    private void JTFTimKiemKeyPressed(java.awt.event.KeyEvent evt) {
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            btn_TimKiemActionPerformed(null);
+        }
+    }
+    private void timKiemPhieuNhapByNgayGia() {
+        Date tuNgay = jdc_TuNgay.getDate(); // Lấy ngày từ JDatePicker hoặc JDateChooser
+        Date denNgay = jdc_DenNgay.getDate();
+        Integer giaTu = null;
+        Integer giaDen = null;
+    
+        try {
+            if (!jT_GiaTu.getText().isEmpty()) {
+                giaTu = Integer.parseInt(jT_GiaTu.getText());
+            }
+            if (!jT_GiaDen.getText().isEmpty()) {
+                giaDen = Integer.parseInt(jT_GiaDen.getText());
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Giá trị phải là số nguyên.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+    
+        // Kiểm tra xem có ít nhất một điều kiện tìm kiếm hay không
+        if (tuNgay == null && denNgay == null && giaTu == null && giaDen == null) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập ít nhất một tiêu chí tìm kiếm.", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (tuNgay != null && tuNgay.after(new Date())) {
+            JOptionPane.showMessageDialog(null, "Từ ngày không được lớn hơn ngày hiện tại.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+    
+        // Kiểm tra ngày đến không lớn hơn ngày hiện tại
+        if (denNgay != null && denNgay.after(new Date())) {
+            JOptionPane.showMessageDialog(null, "Đến ngày không được lớn hơn ngày hiện tại.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+    
+        // Kiểm tra ngày từ không lớn hơn ngày đến
+        if (tuNgay != null && denNgay != null && tuNgay.after(denNgay)) {
+            JOptionPane.showMessageDialog(null, "Từ ngày không được lớn hơn Đến ngày.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+    
+        // Kiểm tra giá từ không được lớn hơn giá đến
+        if (giaTu != null && giaDen != null && giaTu > giaDen) {
+            JOptionPane.showMessageDialog(null, "Giá từ không được lớn hơn giá đến.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(giaTu != null && giaTu <= 0){
+            JOptionPane.showMessageDialog(null, "Hãy nhập giá từ lớn hơn 0.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(giaDen != null && giaDen <= 0){
+            JOptionPane.showMessageDialog(null, "Hãy nhập giá đến lớn hơn 0.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+    
+        // Gọi hàm tìm kiếm với các tham số
+        phieuNhapBUS.searchPhieuNhap(Table, tuNgay, denNgay, giaTu, giaDen);
+    }
+    
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -674,6 +700,7 @@ public class n3_PNPhieuNhap extends javax.swing.JPanel {
     private javax.swing.JTable Table;
     private javax.swing.JButton btn_TaiLai;
     private javax.swing.JButton btn_TimKiem;
+    private javax.swing.JComboBox<String> jCbb_TimKiem;
     private javax.swing.JLabel jL_DenNgay;
     private javax.swing.JLabel jL_GiaDen;
     private javax.swing.JLabel jL_GiaTu;
