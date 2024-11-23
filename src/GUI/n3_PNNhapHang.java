@@ -718,7 +718,7 @@ public class n3_PNNhapHang extends javax.swing.JPanel {
         String nhaCungCap = jT_ChonNcc.getText();
         String ngayLap = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
         JDialog jD_ThongTinPN = new JDialog();
-        n3_PNThongTinPhieuNhap thongTinPN = new n3_PNThongTinPhieuNhap(this, jTable_ChoNhap, jTable_KhoHang, maNhanVien, nhaCungCap, ngayLap,jT_ChonNcc, jBtn_Nhap);
+        n3_PNThongTinPhieuNhap thongTinPN = new n3_PNThongTinPhieuNhap(this, jTable_ChoNhap, jTable_KhoHang, maNhanVien, nhaCungCap, ngayLap,jT_ChonNcc, jBtn_ChonNcc, jBtn_Nhap);
         jD_ThongTinPN.setLayout(new BorderLayout());
         jD_ThongTinPN.add(thongTinPN, BorderLayout.CENTER);
         jD_ThongTinPN.pack();
