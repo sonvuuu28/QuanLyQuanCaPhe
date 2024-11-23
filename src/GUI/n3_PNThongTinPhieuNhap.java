@@ -32,13 +32,16 @@ public class n3_PNThongTinPhieuNhap extends javax.swing.JPanel {
     private n3_PNNhapHang framePhieuNhap;
     private JTextField jT_ChonNcc;
     private JButton jBtn_Nhap;
-    public n3_PNThongTinPhieuNhap( n3_PNNhapHang framePhieuNhap, JTable jTable_ChoNhap, JTable jTable_KhoHang,String maNhanVien, String nhaCungCap, String ngayLap,JTextField jT_ChonNcc,  JButton jBtn_Nhap) {
+    private JButton jBtn_ChonNcc;
+
+    public n3_PNThongTinPhieuNhap( n3_PNNhapHang framePhieuNhap, JTable jTable_ChoNhap, JTable jTable_KhoHang,String maNhanVien, String nhaCungCap, String ngayLap,JTextField jT_ChonNcc,JButton jBtn_ChonNcc,  JButton jBtn_Nhap) {
         this.framePhieuNhap = framePhieuNhap;
         this.jTable_ChoNhap = jTable_ChoNhap;
         this.jTable_KhoHang = jTable_KhoHang;
         this.nhaCungCap = nhaCungCap;
         this.ngayLap = ngayLap;
         this.jT_ChonNcc = jT_ChonNcc;
+        this.jBtn_ChonNcc = jBtn_ChonNcc;
         this.jBtn_Nhap = jBtn_Nhap;
         initComponents();
         jT_NhanVien.setText(maNhanVien); // Hiển thị thông tin nhân viên
@@ -465,6 +468,7 @@ public class n3_PNThongTinPhieuNhap extends javax.swing.JPanel {
                 nhapHangBUS.loadDataToTable_KhoHang(jTable_KhoHang);
             }
             jT_ChonNcc.setText("");
+            jBtn_ChonNcc.setEnabled(false);
             jBtn_Nhap.setEnabled(false);
             System.out.println("Trước khi xóa: " + model.getRowCount() + " hàng");
             model.setRowCount(0);
