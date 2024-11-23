@@ -11,10 +11,10 @@ import javax.swing.table.DefaultTableModel;
 
 import BUS.CTHoaDonBUS;
 import DAO.KhachHangDAO;
-import DAO.KhuyenMaiDAO;
-import DAO.UuDaiThanhVienDAO;
 import DAO.n1_CTHoaDonDAO;
 import DAO.n1_HoaDonDAO;
+import DAO.n7_KhuyenMaiDAO;
+import DAO.n7_UuDaiThanhVienDAO;
 import DTO.KhachHangDTO;
 import DTO.KhuyenMaiDTO;
 
@@ -245,10 +245,10 @@ public class ChiTietHoaDonGUI extends javax.swing.JFrame {
     private KhachHangDAO KHDAO = new KhachHangDAO();
     private KhachHangDTO KHDTO = new KhachHangDTO();
     private KhuyenMaiDTO KMDTO = new KhuyenMaiDTO();
-    private KhuyenMaiDAO KMDAO = new KhuyenMaiDAO();
+    private n7_KhuyenMaiDAO KMDAO = new n7_KhuyenMaiDAO();
     private n1_HoaDonDAO HDDAO  = new n1_HoaDonDAO();
     private CTHoaDonBUS CTHDBUS = new CTHoaDonBUS();
-    private UuDaiThanhVienDAO UDTVDAO = new UuDaiThanhVienDAO();
+    private n7_UuDaiThanhVienDAO UDTVDAO = new n7_UuDaiThanhVienDAO();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTat;
     private javax.swing.JScrollPane jScrollPnCTHD;
