@@ -6,19 +6,15 @@ package GUI;
 
 import javax.swing.table.DefaultTableModel;
 
+import BUS.ChiTietPhieuNhapBUS;
 import BUS.NhapHangBUS;
 import BUS.PhieuNhapBUS;
 import BUS.NhapHangBUS.NonEditableTableModel;
 import Util.JDBCUtil;
 
-import java.sql.Statement;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,12 +30,16 @@ public class n3_PNThongTinPhieuNhap extends javax.swing.JPanel {
     private String nhaCungCap;
     private String ngayLap;
     private n3_PNNhapHang framePhieuNhap;
-    public n3_PNThongTinPhieuNhap( n3_PNNhapHang framePhieuNhap, JTable jTable_ChoNhap, JTable jTable_KhoHang,String maNhanVien, String nhaCungCap, String ngayLap) {
+    private JTextField jT_ChonNcc;
+    private JButton jBtn_Nhap;
+    public n3_PNThongTinPhieuNhap( n3_PNNhapHang framePhieuNhap, JTable jTable_ChoNhap, JTable jTable_KhoHang,String maNhanVien, String nhaCungCap, String ngayLap,JTextField jT_ChonNcc,  JButton jBtn_Nhap) {
         this.framePhieuNhap = framePhieuNhap;
         this.jTable_ChoNhap = jTable_ChoNhap;
         this.jTable_KhoHang = jTable_KhoHang;
         this.nhaCungCap = nhaCungCap;
         this.ngayLap = ngayLap;
+        this.jT_ChonNcc = jT_ChonNcc;
+        this.jBtn_Nhap = jBtn_Nhap;
         initComponents();
         jT_NhanVien.setText(maNhanVien); // Hiển thị thông tin nhân viên
         jT_Ncc.setText(nhaCungCap); // Hiển thị thông tin nhà cung cấp
@@ -407,19 +407,19 @@ public class n3_PNThongTinPhieuNhap extends javax.swing.JPanel {
             String maNhaCungCap = jT_Ncc.getText();
             String maNhanVien = jT_NhanVien.getText();
             PhieuNhapBUS phieuNhapBUS = new PhieuNhapBUS();
+            ChiTietPhieuNhapBUS chiTietPhieuNhapBUS = new ChiTietPhieuNhapBUS();
             if (!phieuNhapBUS.isMaNhanVienExists(maNhanVien)) {
                 JOptionPane.showMessageDialog(this, "Mã nhân viên không tồn tại.", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             String maPhieuNhap = phieuNhapBUS.addPhieuNhap(ngayLapPhieuNhap, tongTienPhieuNhap, maNhaCungCap, maNhanVien);
-            // phieuNhapBUS.loadDataToTable_PhieuNhap();
-            //Thêm chi tiết phiếu nhập
+           
             for(int i = 0; i < model.getRowCount(); i++) {
                 String maNguyenLieu = (String) model.getValueAt(i, 0);
                 double khoiLuong = (double) model.getValueAt(i, 2);
                 int donGia = (int) model.getValueAt(i, 3);
                 int thanhTien = (int) model.getValueAt(i, 4);
-                phieuNhapBUS.addChiTietPhieuNhap(maPhieuNhap, maNguyenLieu, khoiLuong, donGia, thanhTien);
+                chiTietPhieuNhapBUS.addChiTietPhieuNhap(maPhieuNhap, maNguyenLieu, khoiLuong, donGia, thanhTien);
             }
             // Cập nhật khối lượng nguyên liệu trong cơ sở dữ liệu
             for (int i = 0; i < model.getRowCount(); i++) {
@@ -448,6 +448,7 @@ public class n3_PNThongTinPhieuNhap extends javax.swing.JPanel {
 
             JOptionPane.showMessageDialog(this, "Nhập nguyên liệu thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             framePhieuNhap.refresh_BangChoNhap();
+            
             // Tải lại dữ liệu và hiển thị trong bảng table_KhoHang
             model.setRowCount(0);
             model.fireTableDataChanged(); // Cập nhật lại bảng
@@ -463,8 +464,8 @@ public class n3_PNThongTinPhieuNhap extends javax.swing.JPanel {
             } else {
                 nhapHangBUS.loadDataToTable_KhoHang(jTable_KhoHang);
             }
-            
-            
+            jT_ChonNcc.setText("");
+            jBtn_Nhap.setEnabled(false);
             System.out.println("Trước khi xóa: " + model.getRowCount() + " hàng");
             model.setRowCount(0);
         
