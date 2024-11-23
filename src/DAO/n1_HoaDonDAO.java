@@ -11,6 +11,10 @@ import Util.JDBCUtil;
 
 public class n1_HoaDonDAO {
 
+    public static n1_HoaDonDAO getInstance(){
+        return new n1_HoaDonDAO();
+    }
+
     public ArrayList<HoaDonDTO> getListHoaDon() {
         ArrayList<HoaDonDTO> dshd = new ArrayList<>();
         try {
