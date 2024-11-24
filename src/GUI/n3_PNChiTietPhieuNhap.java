@@ -8,6 +8,7 @@ import javax.swing.JScrollPane;
 
 import BUS.ChiTietPhieuNhapBUS;
 import BUS.NhapHangBUS.NonEditableTableModel;
+import Util.TableCustom;
 
 /**
  *
@@ -102,6 +103,7 @@ public class n3_PNChiTietPhieuNhap extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     public void loadChiTietPhieuNhap(String maPhieuNhap){
+        TableCustom.apply(jScrollPane1, TableCustom.TableType.MULTI_LINE);
         chiTietPhieuNhapBUS.loadChiTietPhieuNhapToTable(jTable1, maPhieuNhap);
     }
 
