@@ -15,11 +15,13 @@ public class n3_PNQuanLyNhapHang extends javax.swing.JPanel {
 
     /**
      * Creates new form n3_PNQuanLyNhapHang
-     
+     *
      */
     private javax.swing.JLabel selectedLabel; // Biến để theo dõi JLabel nào được chọn
 
-    public n3_PNQuanLyNhapHang() {
+    public n3_PNQuanLyNhapHang(String MaNhanVien) {
+        this.MaNhanVien = MaNhanVien;
+        System.out.println("Mã nhân viên lấy được: " + MaNhanVien);
         initComponents();
         nhomNutChucNang();
         jP_NoiDung.removeAll();
@@ -124,81 +126,81 @@ public class n3_PNQuanLyNhapHang extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void nhomNutChucNang() {
-    selectedLabel = jL_NhapHang; // Mặc định chọn jL_NhapHang
+        selectedLabel = jL_NhapHang; // Mặc định chọn jL_NhapHang
 
-    jL_NhapHang.addMouseListener(new java.awt.event.MouseAdapter() {
-        @Override
-        public void mouseEntered(java.awt.event.MouseEvent evt) {
-            if (selectedLabel != jL_NhapHang) {
-                jL_NhapHang.setOpaque(true);
-                jL_NhapHang.setBackground(new Color(237, 237, 237)); // Màu khi rê chuột vào
-            } else {
-                jL_NhapHang.setOpaque(true);
+        jL_NhapHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                if (selectedLabel != jL_NhapHang) {
+                    jL_NhapHang.setOpaque(true);
+                    jL_NhapHang.setBackground(new Color(237, 237, 237)); // Màu khi rê chuột vào
+                } else {
+                    jL_NhapHang.setOpaque(true);
 //                jL_NhapHang.setBackground(Color.white); // Màu khi rê chuột vào JLabel đã chọn
+                }
             }
-        }
 
-        @Override
-        public void mouseExited(java.awt.event.MouseEvent evt) {
-            if (selectedLabel != jL_NhapHang) {
-                jL_NhapHang.setBackground(Color.white); // Màu mặc định khi kéo chuột ra
-            } else {
-                jL_NhapHang.setBackground(new Color(219,189,142)); // Màu của JLabel đã chọn
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                if (selectedLabel != jL_NhapHang) {
+                    jL_NhapHang.setBackground(Color.white); // Màu mặc định khi kéo chuột ra
+                } else {
+                    jL_NhapHang.setBackground(new Color(219, 189, 142)); // Màu của JLabel đã chọn
+                }
             }
-        }
 
-        @Override
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-            selectedLabel = jL_NhapHang;
-            jL_NhapHang.setBackground(new Color(219,189,142)); // Đặt màu cho JLabel được chọn
-            jL_PhieuNhap.setBackground(Color.WHITE); // Đặt lại màu cho JLabel khác
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                selectedLabel = jL_NhapHang;
+                jL_NhapHang.setBackground(new Color(219, 189, 142)); // Đặt màu cho JLabel được chọn
+                jL_PhieuNhap.setBackground(Color.WHITE); // Đặt lại màu cho JLabel khác
 
-            jP_NoiDung.removeAll();
-            n3_PNNhapHang nhaphang = new n3_PNNhapHang();
-            jP_NoiDung.setLayout(new BorderLayout());
-            jP_NoiDung.add(nhaphang, BorderLayout.CENTER);
-            jP_NoiDung.revalidate();
-            jP_NoiDung.repaint();
-        }
-    });
+                jP_NoiDung.removeAll();
+                n3_PNNhapHang nhaphang = new n3_PNNhapHang();
+                jP_NoiDung.setLayout(new BorderLayout());
+                jP_NoiDung.add(nhaphang, BorderLayout.CENTER);
+                jP_NoiDung.revalidate();
+                jP_NoiDung.repaint();
+            }
+        });
 
-    jL_PhieuNhap.addMouseListener(new java.awt.event.MouseAdapter() {
-        @Override
-        public void mouseEntered(java.awt.event.MouseEvent evt) {
-            if (selectedLabel != jL_PhieuNhap) {
-                jL_PhieuNhap.setOpaque(true);
-                jL_PhieuNhap.setBackground(new Color(237, 237, 237)); // Màu khi rê chuột vào
-            } else {
-                jL_PhieuNhap.setOpaque(true);
+        jL_PhieuNhap.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                if (selectedLabel != jL_PhieuNhap) {
+                    jL_PhieuNhap.setOpaque(true);
+                    jL_PhieuNhap.setBackground(new Color(237, 237, 237)); // Màu khi rê chuột vào
+                } else {
+                    jL_PhieuNhap.setOpaque(true);
 //                jL_PhieuNhap.setBackground(Color.white); // Màu khi rê chuột vào JLabel đã chọn
+                }
             }
-        }
 
-        @Override
-        public void mouseExited(java.awt.event.MouseEvent evt) {
-            if (selectedLabel != jL_PhieuNhap) {
-                jL_PhieuNhap.setBackground(Color.white); // Màu mặc định khi kéo chuột ra
-            } else {
-                jL_PhieuNhap.setBackground(new Color(219,189,142)); // Màu của JLabel đã chọn
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                if (selectedLabel != jL_PhieuNhap) {
+                    jL_PhieuNhap.setBackground(Color.white); // Màu mặc định khi kéo chuột ra
+                } else {
+                    jL_PhieuNhap.setBackground(new Color(219, 189, 142)); // Màu của JLabel đã chọn
+                }
             }
-        }
 
-        @Override
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-            selectedLabel = jL_PhieuNhap;
-            jL_PhieuNhap.setBackground(new Color(219,189,142)); // Đặt màu cho JLabel được chọn
-            jL_NhapHang.setBackground(Color.WHITE); // Đặt lại màu cho JLabel khác
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                selectedLabel = jL_PhieuNhap;
+                jL_PhieuNhap.setBackground(new Color(219, 189, 142)); // Đặt màu cho JLabel được chọn
+                jL_NhapHang.setBackground(Color.WHITE); // Đặt lại màu cho JLabel khác
 
-            jP_NoiDung.removeAll();
-            n3_PNPhieuNhap phieunhap = new n3_PNPhieuNhap();
-            jP_NoiDung.setLayout(new BorderLayout());
-            jP_NoiDung.add(phieunhap, BorderLayout.CENTER);
-            jP_NoiDung.revalidate();
-            jP_NoiDung.repaint();
-        }
-    });
-}
-  
+                jP_NoiDung.removeAll();
+                n3_PNPhieuNhap phieunhap = new n3_PNPhieuNhap();
+                jP_NoiDung.setLayout(new BorderLayout());
+                jP_NoiDung.add(phieunhap, BorderLayout.CENTER);
+                jP_NoiDung.revalidate();
+                jP_NoiDung.repaint();
+            }
+        });
+    }
+    String MaNhanVien = null;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jL_NhapHang;
     private javax.swing.JLabel jL_PhieuNhap;

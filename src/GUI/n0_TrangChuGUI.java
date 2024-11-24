@@ -507,7 +507,7 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 if (phanQuyen.getQuyenNhapHang()) {
                     PanelNoiDung.removeAll();
-                    n3_PNQuanLyNhapHang nhaphang = new n3_PNQuanLyNhapHang();
+                    n3_PNQuanLyNhapHang nhaphang = new n3_PNQuanLyNhapHang(userLogin.getMaNhanVien());
                     PanelNoiDung.setLayout(new BorderLayout());
                     PanelNoiDung.add(nhaphang, BorderLayout.CENTER); // Adjust the layout constraint as needed
                     PanelNoiDung.revalidate();
