@@ -6,7 +6,7 @@ package GUI;
 
 import javax.swing.JScrollPane;
 
-import BUS.PhieuNhapBUS;
+import BUS.ChiTietPhieuNhapBUS;
 import BUS.NhapHangBUS.NonEditableTableModel;
 
 /**
@@ -14,12 +14,12 @@ import BUS.NhapHangBUS.NonEditableTableModel;
  * @author as
  */
 public class n3_PNChiTietPhieuNhap extends javax.swing.JPanel {
-    // private JTable chiTietPhieuNhapTable;
-    // private JScrollPane chiTietPhieuNhapScrollPane;
+    private ChiTietPhieuNhapBUS chiTietPhieuNhapBUS;
     /**
      * Creates new form PNChiTietPhieuNhap
      */
     public n3_PNChiTietPhieuNhap() {
+        this.chiTietPhieuNhapBUS = new ChiTietPhieuNhapBUS();
         initComponents();
     }
 
@@ -31,7 +31,6 @@ public class n3_PNChiTietPhieuNhap extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -103,8 +102,7 @@ public class n3_PNChiTietPhieuNhap extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     public void loadChiTietPhieuNhap(String maPhieuNhap){
-        PhieuNhapBUS phieuNhapBUS = new PhieuNhapBUS();
-        phieuNhapBUS.loadChiTietPhieuNhapToTable(jTable1, maPhieuNhap);
+        chiTietPhieuNhapBUS.loadChiTietPhieuNhapToTable(jTable1, maPhieuNhap);
     }
 
 

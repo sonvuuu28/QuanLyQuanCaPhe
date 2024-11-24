@@ -133,6 +133,8 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         tf_DonGia.setMaximumSize(new java.awt.Dimension(150, 25));
         tf_DonGia.setMinimumSize(new java.awt.Dimension(150, 25));
         tf_DonGia.setPreferredSize(new java.awt.Dimension(150, 25));
+        tf_DonGia.setEditable(false);
+        tf_DonGia.setEnabled(false);
 
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator1.setForeground(new java.awt.Color(51, 51, 51));

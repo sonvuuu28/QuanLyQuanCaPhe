@@ -22,7 +22,6 @@ public class PhieuNhapDAO {
         ArrayList<Object[]> data = new ArrayList<>();
         try (Connection c = JDBCUtil.getConnection()) {
             Statement stmt = c.createStatement();
-            // String sql = "SELECT MaPhieuNhap, NgayLapPhieuNhap, TongTienPhieuNhap, MaNhanVien, MaNhaCungCap FROM PhieuNhap";
             
             String sql = "SELECT MaPhieuNhap, NgayLapPhieuNhap, TongTienPhieuNhap, MaNhanVien, MaNhaCungCap " +
                          "FROM PhieuNhap " +
@@ -44,31 +43,7 @@ public class PhieuNhapDAO {
         }
         return data;
     }
-    // Hàm này trả về thông tin chi tiết phiếu nhập của một phiếu nhập
-    public ArrayList<Object[]> getChiTietPhieuNhap(String maPhieuNhap) {
-        ArrayList<Object[]> data = new ArrayList<>();
-        try (Connection c = JDBCUtil.getConnection()) {
-            Statement stmt = c.createStatement();
-            String sql = "SELECT ct.MaNguyenLieu, nl.TenNguyenLieu, ct.KhoiLuong, ct.DonGia, ct.ThanhTien " +
-                         "FROM ChiTietPhieuNhap ct " +
-                         "JOIN NguyenLieu nl ON ct.MaNguyenLieu = nl.MaNguyenLieu " +
-                         "WHERE ct.MaPhieuNhap = '" + maPhieuNhap + "'";
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                String maNguyenLieu = rs.getString("MaNguyenLieu");
-                String tenNguyenLieu = rs.getString("TenNguyenLieu");
-                double khoiLuong = rs.getDouble("KhoiLuong");
-                int donGia = rs.getInt("DonGia");
-                int thanhTien = rs.getInt("ThanhTien");
-                data.add(new Object[]{maNguyenLieu, tenNguyenLieu, khoiLuong, donGia, thanhTien});
-            }
-            rs.close();
-            stmt.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
+
 
     public ArrayList<Object[]> searchPhieuNhapByMa(String maPhieuNhap) {
         ArrayList<Object[]> data = new ArrayList<>();
@@ -96,33 +71,59 @@ public class PhieuNhapDAO {
     }
 
 
-    public ArrayList<PhieuNhapDTO> searchPhieuNhapByNgayVaGia(Date tuNgay, Date denNgay, int giaTu, int giaDen) {
-        ArrayList<PhieuNhapDTO> data = new ArrayList<>();
-        try (Connection c = JDBCUtil.getConnection()) {
-            String sql = "SELECT MaPhieuNhap, NgayLapPhieuNhap, TongTienPhieuNhap, MaNhanVien, MaNhaCungCap " +
-                         "FROM PhieuNhap " +
-                         "WHERE NgayLapPhieuNhap BETWEEN ? AND ? " +
-                         "AND TongTienPhieuNhap BETWEEN ? AND ?";
-            PreparedStatement stmt = c.prepareStatement(sql);
-            stmt.setDate(1, new java.sql.Date(tuNgay.getTime()));
-            stmt.setDate(2, new java.sql.Date(denNgay.getTime()));
-            stmt.setInt(3, giaTu);
-            stmt.setInt(4, giaDen);
-            ResultSet rs = stmt.executeQuery();
+    ///////tìm kiếm phiếu nhập theo ngày và giá
+    public ArrayList<Object[]> searchPhieuNhap(Date tuNgay, Date denNgay, Integer giaTu, Integer giaDen) {
+        ArrayList<Object[]> data = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT MaPhieuNhap, NgayLapPhieuNhap, TongTienPhieuNhap, MaNhanVien, MaNhaCungCap FROM PhieuNhap WHERE 1=1");
+    
+        // Thêm điều kiện động dựa trên các tham số không null
+        if (tuNgay != null) {
+            sql.append(" AND NgayLapPhieuNhap >= ?");
+        }
+        if (denNgay != null) {
+            sql.append(" AND NgayLapPhieuNhap <= ?");
+        }
+        if (giaTu != null) {
+            sql.append(" AND TongTienPhieuNhap >= ?");
+        }
+        if (giaDen != null) {
+            sql.append(" AND TongTienPhieuNhap <= ?");
+        }
+    
+        sql.append(" ORDER BY CAST(SUBSTRING(MaPhieuNhap, 3, LEN(MaPhieuNhap) - 2) AS INT) DESC");
+    
+        try (Connection c = JDBCUtil.getConnection();
+             PreparedStatement pstmt = c.prepareStatement(sql.toString())) {
+    
+            int paramIndex = 1;
+            if (tuNgay != null) {
+                pstmt.setDate(paramIndex++, new java.sql.Date(tuNgay.getTime()));
+            }
+            if (denNgay != null) {
+                pstmt.setDate(paramIndex++, new java.sql.Date(denNgay.getTime()));
+            }
+            if (giaTu != null) {
+                pstmt.setInt(paramIndex++, giaTu);
+            }
+            if (giaDen != null) {
+                pstmt.setInt(paramIndex, giaDen);
+            }
+    
+            ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                PhieuNhapDTO pn = new PhieuNhapDTO();
-                pn.setMaPhieuNhap(rs.getString("MaPhieuNhap"));
-                pn.setNgayLapPhieuNhap(rs.getDate("NgayLapPhieuNhap"));
-                pn.setTongTienPhieuNhap(rs.getInt("TongTienPhieuNhap"));
-                pn.setMaNhanVien(rs.getString("MaNhanVien"));
-                pn.setMaNhaCungCap(rs.getString("MaNhaCungCap"));
-                data.add(pn);
+                String maPhieuNhap = rs.getString("MaPhieuNhap");
+                Date ngayLapPhieuNhap = rs.getDate("NgayLapPhieuNhap");
+                int tongTienPhieuNhap = rs.getInt("TongTienPhieuNhap");
+                String maNhanVien = rs.getString("MaNhanVien");
+                String maNhaCungCap = rs.getString("MaNhaCungCap");
+                data.add(new Object[]{maPhieuNhap, ngayLapPhieuNhap, tongTienPhieuNhap, maNhanVien, maNhaCungCap});
             }
             rs.close();
-            stmt.close();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return data;
     }
+    
+    
 }
