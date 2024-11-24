@@ -7,7 +7,9 @@ public class NhaCungCapDTO {
     private String diaChiNhaCungCap;
     private String soDienThoaiNhaCungCap;
     private boolean trangThaiNhaCungCap;
-
+    public NhaCungCapDTO(){
+        
+    }
     public NhaCungCapDTO(String maNhaCungCap, String tenNhaCungCap, String diaChiNhaCungCap, String soDienThoaiNhaCungCap, boolean trangThaiNhaCungCap) {
         this.maNhaCungCap = maNhaCungCap;
         this.tenNhaCungCap = tenNhaCungCap;
