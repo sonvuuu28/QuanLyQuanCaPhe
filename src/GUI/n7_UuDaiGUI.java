@@ -52,6 +52,7 @@ public class n7_UuDaiGUI extends javax.swing.JPanel {
         PanelTimKiem = new javax.swing.JPanel();
         TextFieldTimKiem = new javax.swing.JTextField();
         LabelAnhTimKiem = new javax.swing.JLabel();
+        btn_TimKiem = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(122, 74, 74));
         setMaximumSize(new java.awt.Dimension(1125, 667));
@@ -136,7 +137,15 @@ public class n7_UuDaiGUI extends javax.swing.JPanel {
             new String [] {
                 "Mã", "Tên Ưu Đãi", "Ngày bắt đầu", "Ngày kết thúc", "% Ưu Đãi", "Điều kiện", "Hạn"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         ScrollPane.setViewportView(Table);
         if (Table.getColumnModel().getColumnCount() > 0) {
             Table.getColumnModel().getColumn(0).setPreferredWidth(40);
@@ -394,6 +403,19 @@ public class n7_UuDaiGUI extends javax.swing.JPanel {
                 .addGap(4, 4, 4))
         );
 
+        btn_TimKiem.setBackground(new java.awt.Color(0, 0, 0));
+        btn_TimKiem.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
+        btn_TimKiem.setForeground(new java.awt.Color(255, 255, 255));
+        btn_TimKiem.setText("Tìm Kiếm");
+        btn_TimKiem.setMaximumSize(new java.awt.Dimension(100, 26));
+        btn_TimKiem.setMinimumSize(new java.awt.Dimension(100, 26));
+        btn_TimKiem.setPreferredSize(new java.awt.Dimension(100, 26));
+        btn_TimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_TimKiemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PanelTongLayout = new javax.swing.GroupLayout(PanelTong);
         PanelTong.setLayout(PanelTongLayout);
         PanelTongLayout.setHorizontalGroup(
@@ -407,12 +429,14 @@ public class n7_UuDaiGUI extends javax.swing.JPanel {
                         .addComponent(PanelUuDai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTongLayout.createSequentialGroup()
                         .addGap(30, 30, 30)
-                        .addGroup(PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(PanelThongTinUuDai_Cam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(PanelTongLayout.createSequentialGroup()
-                                .addComponent(btn_Them, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btn_Sua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(PanelThongTinUuDai_Cam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(PanelTongLayout.createSequentialGroup()
+                                    .addComponent(btn_Them, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_Sua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btn_TimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                         .addGroup(PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(PanelTongLayout.createSequentialGroup()
@@ -441,12 +465,14 @@ public class n7_UuDaiGUI extends javax.swing.JPanel {
                     .addComponent(btn_TaiLai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelTongLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
+                        .addGap(6, 6, 6)
                         .addComponent(PanelThongTinUuDai_Cam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(22, 22, 22)
                         .addGroup(PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_Them, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn_Sua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btn_Sua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(22, 22, 22)
+                        .addComponent(btn_TimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(PanelTongLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -468,6 +494,10 @@ public class n7_UuDaiGUI extends javax.swing.JPanel {
                 .addGap(0, 9, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_TimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_TimKiemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_TimKiemActionPerformed
     private void check_input_Rong() {
         n7_KhuyenMai_UuDaiBUS.getInstance().check_input_Rong(TextFieldMa, TextFieldTen, NgayBatDau, NgayKetThuc, TextFieldPhanTram, TextFieldDieuKien);
     }
@@ -582,11 +612,54 @@ public class n7_UuDaiGUI extends javax.swing.JPanel {
             }
         });
 
+        LabelAnhTimKiem.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                n7_KhuyenMai_UuDaiBUS.getInstance().getListUuDai_theoTen(Table, TextFieldTimKiem.getText());
+
+            }
+        });
+
         btn_TaiLai.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 reset();
             }
+        });
+
+        btn_TimKiem.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                // Kiểm tra nếu NgayBatDau là null, nếu có thì gán ngày hiện tại
+                Date start = NgayBatDau.getDate();
+                if (start == null) {
+                    start = java.sql.Date.valueOf("1900-01-01");
+                }
+                String start_str = Util.LichLam_CaLam.datechooser_cast_dangChuan(start);
+                java.sql.Date start_sql = java.sql.Date.valueOf(start_str);
+
+                // Kiểm tra nếu NgayKetThuc là null, nếu có thì gán ngày hiện tại
+                Date end = NgayKetThuc.getDate();
+                if (end == null) {
+                    end = java.sql.Date.valueOf("1900-01-01");
+                }
+                String end_str = Util.LichLam_CaLam.datechooser_cast_dangChuan(end);
+                java.sql.Date end_sql = java.sql.Date.valueOf(end_str);
+
+                float phantram = -1;
+                if (!TextFieldPhanTram.getText().isEmpty()) {
+                    phantram = Float.parseFloat(TextFieldPhanTram.getText());
+                }
+
+                int tien = -1;
+                if (!TextFieldDieuKien.getText().isEmpty()) {
+                    tien = n7_KhuyenMai_UuDaiBUS.getInstance().set_Tien_VND_sang_int(TextFieldDieuKien.getText());
+                }
+                // Thực hiện tìm kiếm với các giá trị đã xử lý
+                n7_KhuyenMai_UuDaiBUS.getInstance().search(Table, TextFieldMa.getText(), TextFieldTen.getText(), start_sql,
+                        end_sql, phantram, tien);
+            }
+
         });
 
         Table.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -643,6 +716,7 @@ public class n7_UuDaiGUI extends javax.swing.JPanel {
     private javax.swing.JButton btn_Sua;
     private javax.swing.JButton btn_TaiLai;
     private javax.swing.JButton btn_Them;
+    private javax.swing.JButton btn_TimKiem;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator5;

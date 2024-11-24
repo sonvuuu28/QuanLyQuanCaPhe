@@ -129,11 +129,11 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
             if (tien_discount == 0) {
                 tien_discount = tien_Goc;
             }
-            
+
             boolean taoHoaDon = BanHangBUS.getInstance().insert_hoaDon(maHoaDon, currentDate, tien_discount, banHangFrame.MaNhanVien,
                     MaKhachHang_duocChon, MaUuDai, MaKhuyenMai);
-            
-            if( taoHoaDon == false) {
+
+            if (taoHoaDon == false) {
                 return;
             }
 
@@ -145,10 +145,10 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
 
                 BanHangBUS.getInstance().insert_chiTietHoaDon(maHoaDon, (String) a[0], value2, value4, value3);
             }
-            
+
             dispose();
             banHangFrame.reload_TaoHoaDon();
-            
+
         });
 
     }

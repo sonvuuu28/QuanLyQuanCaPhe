@@ -89,6 +89,82 @@ public class n7_KhuyenMaiDAO {
         }
         return dskm;
     }
+    
+    public ArrayList<KhuyenMaiDTO> search(KhuyenMaiDTO dto) {
+        ArrayList<KhuyenMaiDTO> dskm = new ArrayList<>();
+        try {
+            // Câu SQL cơ bản
+            String sql = "SELECT * FROM KhuyenMai WHERE MaKhuyenMai LIKE ? AND TenKhuyenMai LIKE ?";
+
+            // Danh sách tham số cho PreparedStatement
+            ArrayList<Object> params = new ArrayList<>();
+            params.add("%" + dto.getMaKhuyenMai()+ "%");
+            params.add("%" + dto.getTenKhuyenMai()+ "%");
+
+            // Xử lý ngày bắt đầu
+            if (dto.getNgayBatDauKhuyenMai()!= null) {
+                if (!dto.getNgayBatDauKhuyenMai().toString().equals("1900-01-01")) {
+                    sql += " AND NgayBatDauKhuyenMai >= ?";
+                    params.add(dto.getNgayBatDauKhuyenMai());
+                } else {
+                    // Nếu ngày bắt đầu là 1900-01-01, lấy từ ngày nhỏ nhất trong hệ thống
+                    sql += " AND NgayBatDauKhuyenMai >= (SELECT MIN(NgayBatDauKhuyenMai) FROM KhuyenMai)";
+                }
+            }
+
+            // Xử lý ngày kết thúc
+            if (dto.getNgayKetThucKhuyenMai() != null) {
+                if (!dto.getNgayKetThucKhuyenMai().toString().equals("1900-01-01")) {
+                    sql += " AND NgayKetThucKhuyenMai <= ?";
+                    params.add(dto.getNgayKetThucKhuyenMai());
+                } else {
+                    // Nếu ngày kết thúc là 1900-01-01, lấy đến ngày lớn nhất trong hệ thống
+                    sql += " AND NgayKetThucKhuyenMai <= (SELECT MAX(NgayKetThucKhuyenMai) FROM KhuyenMai)";
+                }
+            }
+
+            if (dto.getPhanTramKhuyenMai()!= -1) {
+                sql += " AND PhanTramKhuyenMai = ?";
+                params.add(dto.getPhanTramKhuyenMai());
+            }
+
+            if (dto.getDieuKienKhuyenMai() != -1) {
+                sql += " AND DieuKienKhuyenMai = ?";
+                params.add(dto.getDieuKienKhuyenMai());
+            }
+
+            sql += " ORDER BY MaKhuyenMai DESC";
+
+            // Kết nối và thực thi
+            Connection c = JDBCUtil.getConnection();
+            PreparedStatement pre = c.prepareStatement(sql);
+
+            // Gán tham số
+            for (int i = 0; i < params.size(); i++) {
+                if (params.get(i) instanceof java.util.Date) {
+                    pre.setDate(i + 1, new java.sql.Date(((java.util.Date) params.get(i)).getTime()));
+                } else {
+                    pre.setObject(i + 1, params.get(i));
+                }
+            }
+
+            ResultSet rs = pre.executeQuery();
+            while (rs.next()) {
+                KhuyenMaiDTO km = new KhuyenMaiDTO(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getDate(3),
+                        rs.getDate(4),
+                        rs.getFloat(5),
+                        rs.getInt(6));
+                dskm.add(km);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return dskm;
+    }
 
     public String taoMaKhuyenMai() {
         String Ma = "";

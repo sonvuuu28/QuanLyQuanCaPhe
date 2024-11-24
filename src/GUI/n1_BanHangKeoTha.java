@@ -464,6 +464,13 @@ public class n1_BanHangKeoTha extends javax.swing.JPanel {
             }
         });
 
+        LabelAnhTimKiem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ArrayList<MonDTO> listMon = BanHangBUS.getInstance().getAll_theo_TimKiem(TimKiem.getText());
+                listSanPham(listMon);
+            }
+        });
+
         PanelBanHang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 PanelBanHang.setBackground(new Color(199, 159, 95));
@@ -493,7 +500,7 @@ public class n1_BanHangKeoTha extends javax.swing.JPanel {
 
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 PanelTong.removeAll();
-                n1_HoaDonGUI bh = new n1_HoaDonGUI();
+                n1_HoaDonGUI bh = new n1_HoaDonGUI(MaNhanVien);
                 PanelTong.setLayout(new BorderLayout());
                 PanelTong.add(bh, BorderLayout.CENTER); // Adjust the layout constraint as needed
                 PanelTong.revalidate();

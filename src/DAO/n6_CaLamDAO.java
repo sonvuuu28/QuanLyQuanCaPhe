@@ -507,7 +507,7 @@ public class n6_CaLamDAO {
 //    /////////////////////////////////////////////////////////// Nguyên Liệu
     public void update_reload_NguyenLieu(ArrayList<Object[]> cart) {
         String sql = "UPDATE b\n"
-                + "SET b.KhoiLuongNguyenLieu = b.KhoiLuongNguyenLieu + (a.KhoiLuong * ?)\n"
+                + "SET b.KhoiLuongNguyenLieu = round(b.KhoiLuongNguyenLieu + (a.KhoiLuong * ?), 2)\n"
                 + "FROM NguyenLieu b\n"
                 + "JOIN CongThuc a ON a.MaNguyenLieu = b.MaNguyenLieu\n"
                 + "WHERE a.MaMon = ?;";
@@ -534,7 +534,7 @@ public class n6_CaLamDAO {
 
     public void update_Tru_NguyenLieu(Object[] item) {
         String sql = "UPDATE b\n"
-                + "SET b.KhoiLuongNguyenLieu = b.KhoiLuongNguyenLieu - (a.KhoiLuong * ?)\n"
+                + "SET b.KhoiLuongNguyenLieu = round( b.KhoiLuongNguyenLieu - (a.KhoiLuong * ?),2)\n"
                 + "FROM NguyenLieu b\n"
                 + "JOIN CongThuc a ON a.MaNguyenLieu = b.MaNguyenLieu\n"
                 + "WHERE a.MaMon = ?;";
@@ -557,7 +557,7 @@ public class n6_CaLamDAO {
 
     public void update_Cong_NguyenLieu(Object[] item) {
         String sql = "UPDATE b\n"
-                + "SET b.KhoiLuongNguyenLieu = b.KhoiLuongNguyenLieu + (a.KhoiLuong * ?)\n"
+                + "SET b.KhoiLuongNguyenLieu = round(b.KhoiLuongNguyenLieu + (a.KhoiLuong * ?),2)\n"
                 + "FROM NguyenLieu b\n"
                 + "JOIN CongThuc a ON a.MaNguyenLieu = b.MaNguyenLieu\n"
                 + "WHERE a.MaMon = ?;";
