@@ -45,8 +45,8 @@ public class ThongkeBUS {
         Tong = TK.TongtienPhieuNhapThangHienTai();
         return Tong;
     }
-    public Double getTongTienLuongthang (){
-        Double Tong = 0.0;
+    public int getTongTienLuongthang (){
+        int Tong = 0;
         Tong = TK.getTongLuongNhanVienThangHienTai();
         return Tong;
     }
@@ -86,10 +86,10 @@ public class ThongkeBUS {
         Soluong= TK.Tongmondaban(date);
         return Soluong;
     }
-    public ArrayList<Double> getArrayDoanhthuTuan(){
-        ArrayList<Double> Dthutuan = new ArrayList<>();
-        Double[] a = TK.getTongTienHoaDonTrongTuan();
-        for (Double d : a) {
+    public ArrayList<Integer> getArrayDoanhthuTuan(){
+        ArrayList<Integer> Dthutuan = new ArrayList<>();
+        int[] a = TK.getTongTienHoaDonTrongTuan();
+        for (int d : a) {
             Dthutuan.add(d);
         }
         return Dthutuan;
@@ -97,17 +97,17 @@ public class ThongkeBUS {
     ////////////////////mặc định
     /// loaddata
     //////////////lấy hóa đơn theo quý
-    public ArrayList<Double> getArrayDoanhthuquy(){
-        ArrayList<Double> Dthuquy = new ArrayList<>();
-        Double[] a = TK.getTongtienHoadonTheoQuy();
-        for (Double d : a) {
+    public ArrayList<Integer> getArrayDoanhthuquy(){
+        ArrayList<Integer> Dthuquy = new ArrayList<>();
+        int[] a = TK.getTongtienHoadonTheoQuy();
+        for (int d : a) {
             Dthuquy.add(d);
         }
         return Dthuquy;
     }
     /////////////////lấy hóa đơn quý hiện tại
-    public double getTongDoanhthuQuyHientai() {
-        ArrayList<Double> doanhThuQuy = getArrayDoanhthuquy();
+    public int getTongDoanhthuQuyHientai() {
+        ArrayList<Integer> doanhThuQuy = getArrayDoanhthuquy();
         int quyHientai = (java.time.LocalDate.now().getMonthValue()+2)/3; // Tính quý hiện tại
         if (quyHientai > 0 && quyHientai <= doanhThuQuy.size()) {
             return doanhThuQuy.get(quyHientai - 1); // Lấy doanh thu của quý hiện tại
@@ -115,80 +115,89 @@ public class ThongkeBUS {
         return 0;
     }
     ///////////lấy doanh thu theo tháng
-    public ArrayList<Double> getArrayDoanhthunam(){
-        ArrayList<Double> Dthunam = new ArrayList<>();
-        Double[] a = TK.getTongTienTheoThang();
-        for (Double d : a) {
+    public ArrayList<Integer> getArrayDoanhthunam(){
+        ArrayList<Integer> Dthunam = new ArrayList<>();
+        int[] a = TK.getTongTienTheoThang();
+        for (int d : a) {
             Dthunam.add(d);
         }
         return Dthunam;
     }
-    public Double getTongDthunam(){
-        Double tongtien=0.0;
-        Double[] a=TK.getTongTienTheoThang();
+    public int getTongDthunam(){
+        int tongtien=0;
+        int[] a=TK.getTongTienTheoThang();
         for(int i=0;i<12;i++){
             tongtien = tongtien + a[i];
         }
         return tongtien;
     }
     //////////////lấy giá trị phiếu nhập theo tháng trong năm hiện tại
-    public ArrayList<Double> getArrayphieunhapnam(){
-        ArrayList<Double> Phieunhapnam = new ArrayList<>();
-        Double[] a = TK.getTongtienPhieunhap();
-        for (Double d : a) {
+    public ArrayList<Integer> getArrayphieunhapnam(){
+        ArrayList<Integer> Phieunhapnam = new ArrayList<>();
+        int[] a = TK.getTongtienPhieunhap();
+        for (int d : a) {
             Phieunhapnam.add(d);
         }
         return Phieunhapnam;
     }
-    public ArrayList<Double> getArrayphieunhapnamtheoquy(){
-        ArrayList<Double> Phieunhaptheoquy = new ArrayList<>();
-        Double[] a = TK.getTongTienPhieuNhapTheoQuy();
-        for (Double d : a) {
+    public ArrayList<Integer> getArrayphieunhapnamtheoquy(){
+        ArrayList<Integer> Phieunhaptheoquy = new ArrayList<>();
+        int[] a = TK.getTongTienPhieuNhapTheoQuy();
+        for (int d : a) {
             Phieunhaptheoquy.add(d);
         }
         return Phieunhaptheoquy;
     }
     ///////////lấy giá trị lương nhân viên theo tháng
-    public ArrayList<Double> getArrayLuongnhanvien(String MaNV){
-        ArrayList<Double> luongTheoThang = new ArrayList<>();
-        Double[] a = TK.getLuongTheoThang(MaNV);
-        for (Double d : a) {
+    public ArrayList<Integer> getArrayLuongnhanvien(String MaNV){
+        ArrayList<Integer> luongTheoThang = new ArrayList<>();
+        int[] a = TK.getLuongTheoThang(MaNV);
+        for (int d : a) {
             luongTheoThang.add(d);
         }
         return luongTheoThang;
 
     }
-    public ArrayList<Double> getArrayTongLuongnhanvientheothang(){
-        ArrayList<Double> tongluongTheoThang = new ArrayList<>();
-        Double[] a = TK.getTongLuongTheoThangTrongNamHienTai();
-        for (Double d : a) {
+    public ArrayList<Integer> getArrayTongLuongnhanvientheothang(){
+        ArrayList<Integer> tongluongTheoThang = new ArrayList<>();
+        int[] a = TK.getTongLuongTheoThangTrongNamHienTai();
+        for (int d : a) {
             tongluongTheoThang.add(d);
         }
         return tongluongTheoThang;
 
     }
-    public Double getTongLuongnhanviennam(){
-        Double tong =0.0;
-        Double[] a = TK.getTongLuongTheoThangTrongNamHienTai();
-        for (Double d : a) {
-            tong= tong+d;
+    public int getTongLuongnhanviennam() {
+        int tong = 0;
+        int[] a = TK.getTongLuongTheoThangTrongNamHienTai();
+        
+        for (int d : a) {
+            tong += d;
+    }
+        return tong;
+    }
+    public int getTongphieunhapnam() {
+        int tong = 0;
+        int[] a = TK.getTongtienPhieunhap();
+        for (int d : a) {
+                tong += d;
         }
         return tong;
-
     }
+    
 
-    public ArrayList<Double> getArrayTongLuongnhanvientheoquy(){
-        ArrayList<Double> tongluongTheoQuy = new ArrayList<>();
-        Double[] a = TK.getTongLuongTheoQuyTrongNamHienTai();
-        for (Double d : a) {
+    public ArrayList<Integer> getArrayTongLuongnhanvientheoquy(){
+        ArrayList<Integer> tongluongTheoQuy = new ArrayList<>();
+        int[] a = TK.getTongLuongTheoQuyTrongNamHienTai();
+        for (int d : a) {
             tongluongTheoQuy.add(d);
         }
         return tongluongTheoQuy;
 
     }
     
-    public Double[] tinhLuongTheoQuy(Double[] luongTheoThang) {
-    Double[] luongTheoQuy = new Double[4];
+    public int[] tinhLuongTheoQuy(int[] luongTheoThang) {
+    int[] luongTheoQuy = new int[4];
 
     // Tính tổng lương cho từng quý
     luongTheoQuy[0] = luongTheoThang[0] + luongTheoThang[1] + luongTheoThang[2]; // Quý 1
@@ -198,7 +207,9 @@ public class ThongkeBUS {
 
     return luongTheoQuy;
 }
-
+    public String[][] getkhoiluongNL(){
+        return TK.getKhoiLuongTungNguyenLieu();
+    }
     public static void main(String[] args) {
         ThongkeBUS tk = new ThongkeBUS();
         NhanVienDAO nv = new NhanVienDAO();
@@ -209,13 +220,13 @@ public class ThongkeBUS {
         int c=tk.getsoluongKH();
         int d =tk.getsoluongHD(date);
         int e = tk.getSoluongMon(date);
-        Double t = tk.getTongDoanhthuQuyHientai();
+        int t = tk.getTongDoanhthuQuyHientai();
         String z;
         ArrayList<NhanVienDTO> list = lnv.getlistNV();
-        ArrayList<Double> f = tk.getArrayDoanhthuTuan();
-        ArrayList<Double> i = tk.getArrayDoanhthuquy();
-        ArrayList<Double>  h= tk.getArrayDoanhthunam();
-        ArrayList<Double>  x= tk.getArrayphieunhapnam();
+        ArrayList<Integer> f = tk.getArrayDoanhthuTuan();
+        ArrayList<Integer> i = tk.getArrayDoanhthuquy();
+        ArrayList<Integer>  h= tk.getArrayDoanhthunam();
+        ArrayList<Integer>  x= tk.getArrayphieunhapnam();
 
         for (int s=0; s<list.size();s++){
             z=list.get(s).getMaNhanVien();

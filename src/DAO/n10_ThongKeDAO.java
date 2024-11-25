@@ -211,10 +211,10 @@ public class n10_ThongKeDAO {
     
         return SlmonTrongngay;
     }
-    public Double[] getTongTienHoaDonTrongTuan() {
+    public int[] getTongTienHoaDonTrongTuan() {
 
-        Double[] tongTienTrongTuan = new Double[7];
-        Arrays.fill(tongTienTrongTuan, 0.0); // Khởi tạo giá trị ban đầu là 0 cho mỗi ngày trong tuần
+        int[] tongTienTrongTuan = new int[7];
+        Arrays.fill(tongTienTrongTuan, 0); // Khởi tạo giá trị ban đầu là 0 cho mỗi ngày trong tuần
 
         String query = "SELECT DATEPART(WEEKDAY, NgayLapHoaDon) AS ThuTrongTuan, SUM(TongTienHoaDon) AS TongTien " +
                        "FROM HoaDon " +
@@ -229,7 +229,7 @@ public class n10_ThongKeDAO {
 
             while (resultSet.next()) {
                 int thuTrongTuan = resultSet.getInt("ThuTrongTuan");
-                double tongTien = resultSet.getDouble("TongTien");
+                int tongTien = resultSet.getInt("TongTien");
 
                 // DAYOFWEEK trả về 1 (Chủ Nhật) đến 7 (Thứ Bảy), nên cần điều chỉnh chỉ số mảng
                 int index = (thuTrongTuan == 1) ? 6 : thuTrongTuan - 2; // Đưa Chủ Nhật vào cuối mảng
@@ -243,8 +243,8 @@ public class n10_ThongKeDAO {
         return tongTienTrongTuan;
     }
     ///////////////////////////mặc định
-    public Double[] getTongtienHoadonTheoQuy(){
-        Double[] tongTienTheoQuy = new Double[4];
+    public int[] getTongtienHoadonTheoQuy(){
+        int[] tongTienTheoQuy = new int[4];
         int namHienTai = LocalDate.now().getYear();
         String sql = "SELECT " +
         "SUM(CASE WHEN MONTH(NgayLapHoaDon) BETWEEN 1 AND 3 THEN TongTienHoaDon ELSE 0 END) AS Quy1, " +
@@ -262,10 +262,10 @@ public class n10_ThongKeDAO {
             
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    tongTienTheoQuy[0] = resultSet.getDouble("Quy1");
-                    tongTienTheoQuy[1] = resultSet.getDouble("Quy2");
-                    tongTienTheoQuy[2] = resultSet.getDouble("Quy3");
-                    tongTienTheoQuy[3] = resultSet.getDouble("Quy4");
+                    tongTienTheoQuy[0] = resultSet.getInt("Quy1");
+                    tongTienTheoQuy[1] = resultSet.getInt("Quy2");
+                    tongTienTheoQuy[2] = resultSet.getInt("Quy3");
+                    tongTienTheoQuy[3] = resultSet.getInt("Quy4");
                 }
             }
         } catch (Exception e) {
@@ -277,7 +277,7 @@ public class n10_ThongKeDAO {
 
     }
     // ///////////////////////lấy dthu theo tháng
-    public Double[] getTongTienTheoThang() {
+    public int[] getTongTienTheoThang() {
         // Lấy năm hiện tại
         int namHienTai = LocalDate.now().getYear();
 
@@ -297,7 +297,7 @@ public class n10_ThongKeDAO {
                      "FROM HoaDon " +
                      "WHERE YEAR(NgayLapHoaDon) = ?";
 
-        Double[] tongTienTheoThang = new Double[12];
+        int[] tongTienTheoThang = new int[12];
 
         try (Connection c = JDBCUtil.getConnection();
         PreparedStatement statement = c.prepareStatement(sql);
@@ -309,7 +309,7 @@ public class n10_ThongKeDAO {
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     for (int i = 0; i < 12; i++) {
-                        tongTienTheoThang[i] = resultSet.getDouble("Thang" + (i + 1));
+                        tongTienTheoThang[i] = resultSet.getInt("Thang" + (i + 1));
                     }
                 }
             }
@@ -320,7 +320,7 @@ public class n10_ThongKeDAO {
         return tongTienTheoThang;
     }
     
-    public Double[] getTongtienPhieunhap(){
+    public int[] getTongtienPhieunhap(){
         int namHienTai = LocalDate.now().getYear();
 
         String sql = "SELECT " +
@@ -339,7 +339,7 @@ public class n10_ThongKeDAO {
                      "FROM PhieuNhap " +
                      "WHERE YEAR(NgayLapPhieuNhap) = ?";
 
-        Double[] tongTienTheoThang = new Double[12];
+        int[] tongTienTheoThang = new int[12];
 
         try (Connection c = JDBCUtil.getConnection();
         PreparedStatement statement = c.prepareStatement(sql);
@@ -351,7 +351,7 @@ public class n10_ThongKeDAO {
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     for (int i = 0; i < 12; i++) {
-                        tongTienTheoThang[i] = resultSet.getDouble("Thang" + (i + 1));
+                        tongTienTheoThang[i] = resultSet.getInt("Thang" + (i + 1));
                     }
                 }
             }
@@ -361,7 +361,7 @@ public class n10_ThongKeDAO {
 
         return tongTienTheoThang;
     }
-    public Double[] getTongTienPhieuNhapTheoQuy() {
+    public int[] getTongTienPhieuNhapTheoQuy() {
         int namHienTai = LocalDate.now().getYear();
     
         String sql = "SELECT " +
@@ -372,7 +372,7 @@ public class n10_ThongKeDAO {
                      "FROM PhieuNhap " +
                      "WHERE YEAR(NgayLapPhieuNhap) = ?";
     
-        Double[] tongTienTheoQuy = new Double[4];
+        int[] tongTienTheoQuy = new int[4];
     
         try (Connection c = JDBCUtil.getConnection();
              PreparedStatement statement = c.prepareStatement(sql)) {
@@ -383,7 +383,7 @@ public class n10_ThongKeDAO {
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     for (int i = 0; i < 4; i++) {
-                        tongTienTheoQuy[i] = resultSet.getDouble("Quy" + (i + 1));
+                        tongTienTheoQuy[i] = resultSet.getInt("Quy" + (i + 1));
                     }
                 }
             }
@@ -422,9 +422,9 @@ public class n10_ThongKeDAO {
     
         return tongTienTatCaPhieuNhap;
     }
-    public Double[] getLuongTheoThang(String maNhanVien) {
-        Double[] luongTheoThang = new Double[12];
-        Arrays.fill(luongTheoThang, 0.0);  // Initialize array with 0 for each month
+    public int[] getLuongTheoThang(String maNhanVien) {
+        int[] luongTheoThang = new int[12];
+        Arrays.fill(luongTheoThang, 0);  // Initialize array with 0 for each month
     
         int namHienTai = Year.now().getValue();  // Get current year
         int thangHienTai = LocalDate.now().getMonthValue();  // Get current month
@@ -440,7 +440,7 @@ public class n10_ThongKeDAO {
     
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    double luong = rs.getDouble("LuongNhanVien");
+                    int luong = rs.getInt("LuongNhanVien");
                     Date ngayCap = rs.getDate("NgayCap");
                     Date ngayNghiViec = rs.getDate("NgayNghiViec");
     
@@ -482,8 +482,8 @@ public class n10_ThongKeDAO {
     
         return luongTheoThang;
     }
-    public Double getTongLuongNhanVienThangHienTai() {
-        Double tongLuongThangHienTai = 0.0;
+    public int getTongLuongNhanVienThangHienTai() {
+        int tongLuongThangHienTai = 0;
         int thangHienTai = LocalDate.now().getMonthValue(); // Current month
         int namHienTai = LocalDate.now().getYear(); // Current year
     
@@ -496,7 +496,7 @@ public class n10_ThongKeDAO {
              ResultSet rs = stmt.executeQuery()) {
     
             while (rs.next()) {
-                double luong = rs.getDouble("LuongNhanVien");
+                int luong = rs.getInt("LuongNhanVien");
                 Date ngayCap = rs.getDate("NgayCap");
                 Date ngayNghiViec = rs.getDate("NgayNghiViec");
     
@@ -528,11 +528,12 @@ public class n10_ThongKeDAO {
     
         return tongLuongThangHienTai;
     }
-    public Double[] getTongLuongTheoThangTrongNamHienTai() {
-        Double[] tongLuongTheoThang = new Double[12];
-        Arrays.fill(tongLuongTheoThang, 0.0); // Initialize the array with 0 for each month
+    public int[] getTongLuongTheoThangTrongNamHienTai() {
+        int[] tongLuongTheoThang = new int[12];
+        Arrays.fill(tongLuongTheoThang, 0); // Initialize the array with 0 for each month
     
         int namHienTai = LocalDate.now().getYear(); // Current year
+        int thangHienTai = LocalDate.now().getMonthValue(); // Current month
     
         // Update SQL query to join the Account and Employee tables
         String sql = "SELECT e.LuongNhanVien, a.NgayCap, a.NgayNghiViec " +
@@ -543,7 +544,7 @@ public class n10_ThongKeDAO {
              ResultSet rs = stmt.executeQuery()) {
     
             while (rs.next()) {
-                double luong = rs.getDouble("LuongNhanVien");
+                int luong = rs.getInt("LuongNhanVien");
                 Date ngayCap = rs.getDate("NgayCap");
                 Date ngayNghiViec = rs.getDate("NgayNghiViec");
     
@@ -551,21 +552,25 @@ public class n10_ThongKeDAO {
                 int namBatDau = ngayCapLocal.getYear();
                 int thangBatDau = ngayCapLocal.getMonthValue();
     
-                // Determine the end year and month based on the termination date
+                // Determine the end year and month based on the termination date or current month
                 int namKetThuc, thangKetThuc;
                 if (ngayNghiViec == null) {
                     namKetThuc = namHienTai;
-                    thangKetThuc = 12; // If not terminated, calculate until December of the current year
+                    thangKetThuc = thangHienTai; // If not terminated, calculate until the current month
                 } else {
                     LocalDate ngayNghiViecLocal = ngayNghiViec.toLocalDate();
                     namKetThuc = ngayNghiViecLocal.getYear();
                     thangKetThuc = ngayNghiViecLocal.getMonthValue();
+                    // Ensure we don't count beyond the current month
+                    if (namKetThuc == namHienTai && thangKetThuc > thangHienTai) {
+                        thangKetThuc = thangHienTai;
+                    }
                 }
     
                 // Only calculate the months for the current year if the employee is working or has left this year
                 if (namBatDau <= namHienTai && namKetThuc >= namHienTai) {
                     int thangBatDauHienTai = (namBatDau == namHienTai) ? thangBatDau : 1;
-                    int thangKetThucHienTai = (namKetThuc == namHienTai) ? thangKetThuc : 12;
+                    int thangKetThucHienTai = (namKetThuc == namHienTai) ? thangKetThuc : thangHienTai;
     
                     // Add salary to each month worked from thangBatDauHienTai to thangKetThucHienTai
                     for (int i = thangBatDauHienTai - 1; i < thangKetThucHienTai; i++) {
@@ -579,9 +584,10 @@ public class n10_ThongKeDAO {
     
         return tongLuongTheoThang;
     }
-    public Double[] getTongLuongTheoQuyTrongNamHienTai() {
-        Double[] tongLuongTheoQuy = new Double[4];
-        Arrays.fill(tongLuongTheoQuy, 0.0); // Initialize the array with 0 for each quarter
+    
+    public int[] getTongLuongTheoQuyTrongNamHienTai() {
+        int[] tongLuongTheoQuy = new int[4];
+        Arrays.fill(tongLuongTheoQuy, 0); // Initialize the array with 0 for each quarter
     
         int namHienTai = LocalDate.now().getYear(); // Current year
     
@@ -594,7 +600,7 @@ public class n10_ThongKeDAO {
              ResultSet rs = stmt.executeQuery()) {
     
             while (rs.next()) {
-                double luong = rs.getDouble("LuongNhanVien");
+                int luong = rs.getInt("LuongNhanVien");
                 Date ngayCap = rs.getDate("NgayCap");
                 Date ngayNghiViec = rs.getDate("NgayNghiViec");
     
@@ -638,7 +644,34 @@ public class n10_ThongKeDAO {
     
         return tongLuongTheoQuy;
     }
-    
+    public String[][] getKhoiLuongTungNguyenLieu() {
+        ArrayList<String[]> resultList = new ArrayList<>();
+        String sql = "SELECT TenNguyenLieu, KhoiLuongNguyenLieu FROM NguyenLieu"; // Sửa tên bảng và cột nếu cần
+
+        try (Connection conn = JDBCUtil.getConnection(); // Kết nối DB
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                String maNguyenLieu = rs.getString("TenNguyenLieu");
+                int khoiLuong = rs.getInt("KhoiLuongNguyenLieu");
+
+                // Thêm dữ liệu vào ArrayList dưới dạng String[] (mảng một chiều)
+                resultList.add(new String[]{maNguyenLieu, String.valueOf(khoiLuong)});
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Chuyển từ ArrayList sang mảng 2 chiều
+        String[][] resultArray = new String[resultList.size()][2];
+        for (int i = 0; i < resultList.size(); i++) {
+            resultArray[i] = resultList.get(i);
+        }
+
+        return resultArray;
+    }
     
         
     
@@ -650,13 +683,13 @@ public class n10_ThongKeDAO {
     public static void main(String[] args) {
         n10_ThongKeDAO list= new n10_ThongKeDAO();
         Date date = Date.valueOf("2024-10-03");
-        Double[] weeknow = list.getTongTienHoaDonTrongTuan();
-        Double [] quy = list.getTongtienHoadonTheoQuy();
-        Double [] luong = list.getLuongTheoThang("NV001");
+        int[] weeknow = list.getTongTienHoaDonTrongTuan();
+        int [] quy = list.getTongtienHoadonTheoQuy();
+        int [] luong = list.getLuongTheoThang("NV001");
 
-        double listq = list.TongtienHoadonngay(date);
+        int listq = list.TongtienHoadonngay(date);
         int ds = list.Tongmondaban(date);
-        double tongthang = list.TongtienHoadonThangHienTai();
+        int[] tongthang  = list.getTongLuongTheoThangTrongNamHienTai();
         
         for (int i = 0; i < 7; i++) {
             System.out.println(weeknow[i]+"");
@@ -664,8 +697,12 @@ public class n10_ThongKeDAO {
         for(int i= 0; i<4;i++){
             System.out.println(quy[i]+", ");
         }
+        int sum=0;
         for(int i= 0; i<12;i++){
-            System.out.println(luong[i]+", ");
+            System.out.println("tháng "+i+":"+tongthang[i]+",");
+            
+            sum = sum+tongthang[i];
+            System.out.println(sum);
         }
     }
 }
