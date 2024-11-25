@@ -97,11 +97,10 @@ public class PhieuNhapBUS {
         Connection c = JDBCUtil.getConnection();
         PreparedStatement pstms = null;
         String maPhieuNhap = null;
-        // String maNhanVien = null;
-        // String maNhaCungCap = null;
+   
         try{
           maPhieuNhap = taoMaPhieuNhapNew();
-          maNhanVien = getFirstMaNhanVien();
+          maNhanVien = getMaNhanVien(maNhanVien);
           maNhaCungCap = getMaNhaCungCap(maNhaCungCap);
 
           String sql = "insert into PhieuNhap(MaPhieuNhap, NgayLapPhieuNhap, TongTienPhieuNhap, MaNhanVien, MaNhaCungCap) values(?,?,?,?,?)";
@@ -123,33 +122,6 @@ public class PhieuNhapBUS {
       }
 
 
-    //   //Lấy đỡ 1 mã nhân viên để test chức năng thêm phiếu nhập
-      public String getFirstMaNhanVien() throws SQLException {
-        Connection c = JDBCUtil.getConnection();
-        PreparedStatement pstms = null;
-        ResultSet rs = null;
-        String maNhanVien = null;
-        try {
-            String sql = "SELECT TOP 1 MaNhanVien FROM NhanVien ORDER BY MaNhanVien";
-            pstms = c.prepareStatement(sql);
-            rs = pstms.executeQuery();
-            if (rs.next()) {
-                maNhanVien = rs.getString("MaNhanVien");
-                System.out.println("Mã nhân viên lấy được: " + maNhanVien);
-                
-            }
-            else{
-              System.out.println("Không tìm thấy mã nhân viên nào trong bảng NhanVien."); 
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) rs.close();
-            if (pstms != null) pstms.close();
-            JDBCUtil.closeConnection(c);
-        }
-        return maNhanVien;
-    }
     public boolean isMaNhanVienExists(String maNhanVien) throws SQLException {
       Connection c = JDBCUtil.getConnection();
       PreparedStatement pstms = null;
@@ -169,6 +141,28 @@ public class PhieuNhapBUS {
           JDBCUtil.closeConnection(c);
       }
       return exists;
+    }
+    public String getMaNhanVien (String MaNhanVien) throws SQLException{
+      Connection c = JDBCUtil.getConnection();
+      PreparedStatement pstms = null;
+      ResultSet rs = null;
+      String maNhanVien = null;
+      try{
+        String sql = "SELECT MaNhanVien FROM NhanVien WHERE MaNhanVien = ?";
+        pstms = c.prepareStatement(sql);
+        pstms.setString(1, MaNhanVien);
+        rs = pstms.executeQuery();
+        if(rs.next()){
+          maNhanVien = rs.getString("MaNhanVien");
+        }
+      }catch(SQLException e){
+        e.printStackTrace();
+      }finally{
+        if(rs != null) rs.close();
+        if(pstms != null) pstms.close();
+        JDBCUtil.closeConnection(c);
+      }
+      return maNhanVien;
     }
     public String getMaNhaCungCap(String tenNhaCungCap) throws SQLException {
       Connection c = JDBCUtil.getConnection();
@@ -192,6 +186,7 @@ public class PhieuNhapBUS {
       }
       return maNhaCungCap;
     }
+
 
 
     public void searchPhieuNhapByMa(JTable table, String maPhieuNhap) {
