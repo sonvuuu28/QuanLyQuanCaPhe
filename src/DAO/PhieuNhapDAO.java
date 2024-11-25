@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.Connection;
 import java.util.Date;
+import java.util.Locale;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +12,8 @@ import Util.JDBCUtil;
 import Util.*;
 
 import java.sql.Statement;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 
 public class PhieuNhapDAO {
 
@@ -110,13 +113,21 @@ public class PhieuNhapDAO {
             }
     
             ResultSet rs = pstmt.executeQuery();
+            SimpleDateFormat ngayThangNam = new SimpleDateFormat("dd-MM-yyyy");
+            Locale locale = new Locale.Builder().setLanguage("vi").setRegion("VN").build();
+            NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
+
+
+
             while (rs.next()) {
                 String maPhieuNhap = rs.getString("MaPhieuNhap");
                 Date ngayLapPhieuNhap = rs.getDate("NgayLapPhieuNhap");
+                String ngayLapPhieuNhapStr = ngayThangNam.format(ngayLapPhieuNhap);
                 int tongTienPhieuNhap = rs.getInt("TongTienPhieuNhap");
+                String tongTienPhieuNhapStr = numberFormat.format(tongTienPhieuNhap) + "đ";
                 String maNhanVien = rs.getString("MaNhanVien");
                 String maNhaCungCap = rs.getString("MaNhaCungCap");
-                data.add(new Object[]{maPhieuNhap, ngayLapPhieuNhap, tongTienPhieuNhap, maNhanVien, maNhaCungCap});
+                data.add(new Object[]{maPhieuNhap, ngayLapPhieuNhapStr, tongTienPhieuNhapStr, maNhanVien, maNhaCungCap});
             }
             rs.close();
         } catch (Exception e) {
