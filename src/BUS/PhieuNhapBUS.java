@@ -6,6 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.NumberFormat;
+import java.util.Locale;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -17,6 +20,13 @@ import DAO.PhieuNhapDAO;
 public class PhieuNhapBUS {
 
         private PhieuNhapDAO phieuNhapDAO;
+        SimpleDateFormat ngayThangNam = new SimpleDateFormat("dd-MM-yyyy");
+        // NumberFormat numberFormat = NumberFormat.getNumberInstance(new Locale("vi", "VN")); // Format for Vietnam locale
+        Locale locale = new Locale.Builder().setLanguage("vi").setRegion("VN").build();
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
+
+
+
 
         public PhieuNhapBUS() {
           phieuNhapDAO = new PhieuNhapDAO();
@@ -31,13 +41,15 @@ public class PhieuNhapBUS {
         for (Object[] row : data) {
           String maPhieuNhap = (String) row[0];
           Date ngayLapPhieuNhap = (Date) row[1];
+          String ngayLapPhieuNhapStr = ngayThangNam.format(ngayLapPhieuNhap);
           int tongTien = (int) row[2];
+          String tongTienStr = numberFormat.format(tongTien) + "đ"; // Format the number with thousand separator
           String maNhanVien = (String) row[3];
           String maNhaCungCap = (String) row[4];
 
             // System.out.println("maPhieuNhap: " + maPhieuNhap + ", ngayLapPhieuNhap: " + ngayLapPhieuNhap + ", tongTien: " + tongTien + ", maNhanVien: " + maNhanVien + ", maNhaCungCap: " + maNhaCungCap);
 
-          model.addRow(new Object[]{maPhieuNhap, ngayLapPhieuNhap, tongTien, maNhanVien, maNhaCungCap});
+          model.addRow(new Object[]{maPhieuNhap, ngayLapPhieuNhapStr, tongTienStr, maNhanVien, maNhaCungCap});
             // System.out.println("Number of rows retrieved: " + data.size());
             // System.out.println("Tổng các dòng trong bảng: " + model.getRowCount());
         }
@@ -192,11 +204,13 @@ public class PhieuNhapBUS {
       for (Object[] row : data) {
           String maPhieuNhapResult = (String) row[0];
           Date ngayLapPhieuNhap = (Date) row[1];
+          String ngayLapPhieuNhapStr = ngayThangNam.format(ngayLapPhieuNhap);
           int tongTien = (int) row[2];
+          String tongTienStr = numberFormat.format(tongTien) + "đ"; 
           String maNhanVien = (String) row[3];
           String maNhaCungCap = (String) row[4];
 
-          model.addRow(new Object[]{maPhieuNhapResult, ngayLapPhieuNhap, tongTien, maNhanVien, maNhaCungCap});
+          model.addRow(new Object[]{maPhieuNhapResult, ngayLapPhieuNhapStr, tongTienStr, maNhanVien, maNhaCungCap});
       }
     }
 
