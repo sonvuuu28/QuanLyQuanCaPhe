@@ -104,7 +104,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         SoluongKH.setEditable(false);
         Dthuthanghientai.setEditable(false);
         //////////////////////////////// biểu đồ đường mặc định
-        List<Integer> xData = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
+        List<Integer> xData = Arrays.asList(2,3,4,5,6,7,8);
         // List<Integer> yData = Arrays.asList(1.0, 4.0, 3.0, 5.0, 4.0, 3.0, 5.0, 4.0,
         // 3.0, 5.0, 5.0, 4.0, 3.0, 1.0, 4.0, 3.0, 5.0, 4.0);
         ArrayList<Integer> yData = TK.getArrayDoanhthuTuan();
@@ -117,17 +117,21 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
 
         //////////////////////////////// biểu đồ đường doanh thu
         /// ////////////////theo tháng
-        List<Integer> xdataDthu = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+        List<String> xdataDthu = Arrays.asList("tháng 1", "tháng 2", "tháng 3", "tháng 4", "tháng 5", "tháng 6", "tháng 7", "tháng 8", "tháng 9", "tháng 10", "tháng 11", "tháng 12");
+        List<Integer> xIndexDThu = new ArrayList<>();
+        for (int i = 0; i < xdataDthu.size(); i++) {
+            xIndexDThu.add(i);
+        }
         List<Integer> ydataDthu = TK.getArrayDoanhthunam();
-        XYChart ChartDthu = n10_ChartCreator.createLineChart(xdataDthu, ydataDthu, "Biểu đồ doanh thu năm theo Tháng",
-                "tháng", "doanh thu (Triệu)");
+        XYChart ChartDthu = n10_ChartCreator.createLineChart(xIndexDThu, ydataDthu, "Biểu đồ doanh thu năm theo Tháng",
+                "tháng", "doanh thu");
 
         XChartPanel<XYChart> ChartPanelDthu = new XChartPanel<XYChart>(ChartDthu);
 
         Main_DtPn1.setLayout(new BorderLayout());
         Main_DtPn1.add(ChartPanelDthu, BorderLayout.NORTH);
         // /////////////////theo quý
-        List<Integer> xdataDthuQuy = Arrays.asList(1, 2, 3, 4);
+        List<Integer> xdataDthuQuy = Arrays.asList(1,2,3,4);
         List<Integer> ydataDthuQUy = TK.getArrayDoanhthuquy();
         XYChart ChartDthuquy = n10_ChartCreator.createLineChart(xdataDthuQuy, ydataDthuQUy,
                 "Biểu đồ doanh thu năm theo quý", "Quý", "doanh thu (Triệu)");
@@ -144,7 +148,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         List<String> seriesName = List.of("lương nhân viên", "nhập hàng");
 
         CategoryChart ChartChiphi = n10_ChartCreator.createBarChart(xdataCphi, yDataList, seriesName, "Biểu đồ chi phí",
-                "Tháng", "Chi phí (Triệu)");
+                "Tháng", "Chi phí");
         XChartPanel<CategoryChart> ChartChiphipanel = new XChartPanel<CategoryChart>(ChartChiphi);
         ContentCphi1.setLayout(new BorderLayout());
         ContentCphi1.add(ChartChiphipanel, BorderLayout.NORTH);
@@ -155,7 +159,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         List<String> seriesNameQuy = List.of("lương nhân viên", "nhập hàng");
 
         CategoryChart ChartChiphiQuy = n10_ChartCreator.createBarChart(xdataCphiquy, yDataListQuy, seriesNameQuy,
-                "Biểu đồ chi phí", "Tháng", "Chi phí (Triệu)");
+                "Biểu đồ chi phí", "Tháng", "Chi phí ");
         XChartPanel<CategoryChart> ChartChiphipanelQuy = new XChartPanel<CategoryChart>(ChartChiphiQuy);
         ContentCphi2.setLayout(new BorderLayout());
         ContentCphi2.add(ChartChiphipanelQuy, BorderLayout.NORTH);
@@ -172,7 +176,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         List<List<Integer>> yDataList1 = List.of(LoiNhuan);
         List<String> seriesName1 = List.of("Lợi nhuận");
         CategoryChart ChartLoinhuan = n10_ChartCreator.createBarChart(xdataLoinhuan, yDataList1, seriesName1,
-                "Biểu đồ chi phí", "Tháng", "Chi phí (Triệu)");
+                "Biểu đồ lợi nhuận", "Tháng", "lợi nhuận");
         XChartPanel<CategoryChart> ChartLoinhuanpanel = new XChartPanel<CategoryChart>(ChartLoinhuan);
         contentTKLnhuan1.setLayout(new BorderLayout());
         contentTKLnhuan1.add(ChartLoinhuanpanel, BorderLayout.NORTH);
@@ -190,7 +194,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         List<List<Integer>> yDataList2 = List.of(LoiNhuanQuy);
         List<String> seriesName2 = List.of("Lợi nhuận");
         CategoryChart ChartLoinhuanQuy = n10_ChartCreator.createBarChart(xdataLoinhuanquy, yDataList2, seriesName2,
-                "Biểu đồ Lợi nhuận", "Quý", "Chi phí ");
+                    "Biểu đồ lợi nhuận", "Quý", "lợi nhuận");
         XChartPanel<CategoryChart> ChartLoinhuanpanelquy = new XChartPanel<CategoryChart>(ChartLoinhuanQuy);
         contentTKLnhuan2.setLayout(new BorderLayout());
         contentTKLnhuan2.add(ChartLoinhuanpanelquy, BorderLayout.NORTH);
@@ -1065,7 +1069,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
 
         headerPanel.add(TongDtPn);
 
-        content_Panel.setBackground(new java.awt.Color(255, 255, 255));
+        content_Panel.setBackground(new java.awt.Color(219,189,142));
         content_Panel.setToolTipText("");
         content_Panel.setMaximumSize(new java.awt.Dimension(1090, 1000));
         content_Panel.setPreferredSize(new java.awt.Dimension(1090, 450));
@@ -1217,7 +1221,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         Main_DtPn.setPreferredSize(new java.awt.Dimension(1090, 450));
         Main_DtPn.setLayout(cardLayout);
 
-        Main_DtPn1.setBackground(new java.awt.Color(29, 189, 142));
+        Main_DtPn1.setBackground(new java.awt.Color(219,189,142));
         Main_DtPn1.setToolTipText("");
         Main_DtPn1.setMaximumSize(new java.awt.Dimension(1090, 1000));
         Main_DtPn1.setPreferredSize(new java.awt.Dimension(1090, 702));
@@ -1233,7 +1237,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
 
         Main_DtPn.add(Main_DtPn1, "Tháng");
 
-        Main_DtPn2.setBackground(new java.awt.Color(219, 139, 142));
+        Main_DtPn2.setBackground(new java.awt.Color(219,189,142));
         Main_DtPn2.setToolTipText("");
         Main_DtPn2.setMaximumSize(new java.awt.Dimension(1090, 1000));
         Main_DtPn2.setPreferredSize(new java.awt.Dimension(1090, 702));
@@ -1456,7 +1460,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         ContentCphi.setPreferredSize(new java.awt.Dimension(1090, 450));
         ContentCphi.setLayout(cardLayout1);
 
-        ContentCphi1.setBackground(new java.awt.Color(19, 189, 142));
+        ContentCphi1.setBackground(new java.awt.Color(219,189,142));
         ContentCphi1.setToolTipText("");
         ContentCphi1.setMaximumSize(new java.awt.Dimension(1090, 1000));
         ContentCphi1.setPreferredSize(new java.awt.Dimension(1090, 702));
@@ -1472,7 +1476,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
 
         ContentCphi.add(ContentCphi1, "Tháng");
 
-        ContentCphi2.setBackground(new java.awt.Color(219, 189, 42));
+        ContentCphi2.setBackground(new java.awt.Color(219,189,142));
         ContentCphi2.setToolTipText("");
         ContentCphi2.setMaximumSize(new java.awt.Dimension(1090, 1000));
         ContentCphi2.setPreferredSize(new java.awt.Dimension(1090, 702));
@@ -1683,7 +1687,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         contentTKLnhuan.setPreferredSize(new java.awt.Dimension(1090, 450));
         contentTKLnhuan.setLayout(cardLayout2);
 
-        contentTKLnhuan1.setBackground(new java.awt.Color(219, 89, 142));
+        contentTKLnhuan1.setBackground(new java.awt.Color(219,189,142));
         contentTKLnhuan1.setToolTipText("");
         contentTKLnhuan1.setMaximumSize(new java.awt.Dimension(1090, 1000));
         contentTKLnhuan1.setPreferredSize(new java.awt.Dimension(1090, 702));
@@ -1699,7 +1703,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
 
         contentTKLnhuan.add(contentTKLnhuan1, "Tháng");
 
-        contentTKLnhuan2.setBackground(new java.awt.Color(21, 189, 142));
+        contentTKLnhuan2.setBackground(new java.awt.Color(219,189,142));
         contentTKLnhuan2.setToolTipText("");
         contentTKLnhuan2.setMaximumSize(new java.awt.Dimension(1090, 1000));
         contentTKLnhuan2.setPreferredSize(new java.awt.Dimension(1090, 702));
@@ -1909,7 +1913,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         ContentLuong.setPreferredSize(new java.awt.Dimension(1090, 450));
         ContentLuong.setLayout(cardLayout3);
 
-        ContentLuong1.setBackground(new java.awt.Color(219, 189, 42));
+        ContentLuong1.setBackground(new java.awt.Color(219,189,142));
         ContentLuong1.setToolTipText("");
         ContentLuong1.setMaximumSize(new java.awt.Dimension(1090, 1000));
         ContentLuong1.setPreferredSize(new java.awt.Dimension(1090, 702));
@@ -2134,7 +2138,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         ContentKhohang.setPreferredSize(new java.awt.Dimension(1090, 450));
         ContentKhohang.setLayout(cardLayout4);
 
-        ContentKhohang1.setBackground(new java.awt.Color(219, 189, 110));
+        ContentKhohang1.setBackground(new java.awt.Color(219,189,142));
         ContentKhohang1.setToolTipText("");
         ContentKhohang1.setMaximumSize(new java.awt.Dimension(1090, 1000));
         ContentKhohang1.setPreferredSize(new java.awt.Dimension(1090, 702));
