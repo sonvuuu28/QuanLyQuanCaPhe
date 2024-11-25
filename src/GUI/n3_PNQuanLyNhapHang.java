@@ -25,7 +25,7 @@ public class n3_PNQuanLyNhapHang extends javax.swing.JPanel {
         initComponents();
         nhomNutChucNang();
         jP_NoiDung.removeAll();
-        n3_PNNhapHang nhaphang = new n3_PNNhapHang();
+        n3_PNNhapHang nhaphang = new n3_PNNhapHang(MaNhanVien);
         jP_NoiDung.setLayout(new BorderLayout());
         jP_NoiDung.add(nhaphang, BorderLayout.CENTER); // Adjust the layout constraint as needed
         jP_NoiDung.revalidate();
