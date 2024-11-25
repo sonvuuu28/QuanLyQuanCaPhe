@@ -27,8 +27,7 @@ public class n3_PNThongTinPhieuNhap extends javax.swing.JPanel {
      * Creates new form PNThongTinHoaDon
      
      */
-    private String nhaCungCap;
-    private String ngayLap;
+    // private String ngayLap;
     private n3_PNNhapHang framePhieuNhap;
     private JTextField jT_ChonNcc;
     private JButton jBtn_Nhap;
@@ -38,8 +37,6 @@ public class n3_PNThongTinPhieuNhap extends javax.swing.JPanel {
         this.framePhieuNhap = framePhieuNhap;
         this.jTable_ChoNhap = jTable_ChoNhap;
         this.jTable_KhoHang = jTable_KhoHang;
-        this.nhaCungCap = nhaCungCap;
-        this.ngayLap = ngayLap;
         this.jT_ChonNcc = jT_ChonNcc;
         this.jBtn_ChonNcc = jBtn_ChonNcc;
         this.jBtn_Nhap = jBtn_Nhap;
