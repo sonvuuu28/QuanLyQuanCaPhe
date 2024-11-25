@@ -21,8 +21,12 @@ import javax.swing.event.DocumentListener;
 public class n3_PNNhapHang extends javax.swing.JPanel {
     boolean isNccSelected = false;
     private NhapHangBUS nhapHangBUS;
+    // private n3_PNQuanLyNhapHang truyenMaNhanVien;
+    private String maNhanVien;
 
-    public n3_PNNhapHang() {
+
+    public n3_PNNhapHang(String MaNhanVien) {
+        this.maNhanVien = MaNhanVien;
         initComponents();
         TableCustom.apply(ScrollPane1, TableCustom.TableType.MULTI_LINE);
         TableCustom.apply(ScrollPane2, TableCustom.TableType.MULTI_LINE);
@@ -32,13 +36,16 @@ public class n3_PNNhapHang extends javax.swing.JPanel {
         jT_DonGia.setEnabled(false);
         jT_SoLuongNhap.setEnabled(false);
         jT_NhanVien.setEditable(false);
+        // String maNhanVien = "hahaha";
+        jT_NhanVien.setText(maNhanVien);
         PhieuNhapBUS phieuNhapBUS = new PhieuNhapBUS();
-        try {
-            String maNhanVien = phieuNhapBUS.getFirstMaNhanVien();
-            jT_NhanVien.setText(maNhanVien);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        // try {
+        //     String maNhanVien = "hahaha";
+        //     jT_NhanVien.setText(maNhanVien);
+        // } catch (SQLException e) {
+        //     e.printStackTrace();
+        // }
        
     }
 
