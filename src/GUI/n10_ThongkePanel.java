@@ -108,8 +108,9 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         // List<Integer> yData = Arrays.asList(1.0, 4.0, 3.0, 5.0, 4.0, 3.0, 5.0, 4.0,
         // 3.0, 5.0, 5.0, 4.0, 3.0, 1.0, 4.0, 3.0, 5.0, 4.0);
         ArrayList<Integer> yData = TK.getArrayDoanhthuTuan();
+        List<String> seriesNamedthutuan = List.of("doanh thu");
         // Tạo biểu đồ
-        XYChart chartDefault = n10_ChartCreator.createLineChart(xData, yData, "doanh thu tuần", "thứ",
+        XYChart chartDefault = n10_ChartCreator.createLineChart(xData, yData,seriesNamedthutuan, "doanh thu tuần", "thứ",
                 "Doanh thu (trăm)");
         XChartPanel<XYChart> chartPanel = new XChartPanel<>(chartDefault);
         content_Panel.setLayout(new BorderLayout());
@@ -119,11 +120,12 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         /// ////////////////theo tháng
         List<String> xdataDthu = Arrays.asList("tháng 1", "tháng 2", "tháng 3", "tháng 4", "tháng 5", "tháng 6", "tháng 7", "tháng 8", "tháng 9", "tháng 10", "tháng 11", "tháng 12");
         List<Integer> xIndexDThu = new ArrayList<>();
-        for (int i = 0; i < xdataDthu.size(); i++) {
+        for (int i = 1; i < xdataDthu.size()+1; i++) {
             xIndexDThu.add(i);
         }
+        List<String> seriesNamedthu = List.of("doanh thu");
         List<Integer> ydataDthu = TK.getArrayDoanhthunam();
-        XYChart ChartDthu = n10_ChartCreator.createLineChart(xIndexDThu, ydataDthu, "Biểu đồ doanh thu năm theo Tháng",
+        XYChart ChartDthu = n10_ChartCreator.createLineChart(xIndexDThu, ydataDthu,seriesNamedthu, "Biểu đồ doanh thu năm theo Tháng",
                 "tháng", "doanh thu");
 
         XChartPanel<XYChart> ChartPanelDthu = new XChartPanel<XYChart>(ChartDthu);
@@ -133,7 +135,8 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         // /////////////////theo quý
         List<Integer> xdataDthuQuy = Arrays.asList(1,2,3,4);
         List<Integer> ydataDthuQUy = TK.getArrayDoanhthuquy();
-        XYChart ChartDthuquy = n10_ChartCreator.createLineChart(xdataDthuQuy, ydataDthuQUy,
+        List<String> seriesNamedthuquy = List.of("doanh thu");
+        XYChart ChartDthuquy = n10_ChartCreator.createLineChart(xdataDthuQuy, ydataDthuQUy,seriesNamedthuquy,
                 "Biểu đồ doanh thu năm theo quý", "Quý", "doanh thu (Triệu)");
 
         XChartPanel<XYChart> ChartPanelDthuquy = new XChartPanel<XYChart>(ChartDthuquy);

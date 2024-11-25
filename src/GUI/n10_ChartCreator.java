@@ -7,7 +7,7 @@ import java.util.List;
 public class n10_ChartCreator {
 
     // Tạo biểu đồ đường với các tham số đầu vào
-    public static XYChart createLineChart(List<Integer> xData, List<Integer> yData, 
+    public static XYChart createLineChart(List<Integer> xData, List<Integer> yData,List<String> seriesNames, 
                                           String title, String xAxisTitle, String yAxisTitle) {
         XYChart lineChart = new XYChartBuilder()
                 .width(800)
@@ -18,7 +18,11 @@ public class n10_ChartCreator {
                 .build();
 
                 lineChart.getStyler().setDecimalPattern("###############");                        
-        lineChart.addSeries("Series1", xData, yData);
+        
+        for (int i = 0; i < seriesNames.size(); i++) {
+            String seriesName = seriesNames.get(i);
+            lineChart.addSeries(seriesName, xData, yData);
+        }
                                             
         return lineChart;
     }
