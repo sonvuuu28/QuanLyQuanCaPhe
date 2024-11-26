@@ -26,7 +26,7 @@ public class LichLamBUS {
 
         String DauTuan = Util.LichLam_CaLam.yyyy_mm_dd__to__dd_mm_yyyy(String.valueOf(tuan.get(0)));
         String CuoiTuan = Util.LichLam_CaLam.yyyy_mm_dd__to__dd_mm_yyyy(String.valueOf(tuan.get(1)));
-        
+
         String period = "Từ " + DauTuan + " đến " + CuoiTuan;
         LabelNgay.setText(period);
     }
@@ -50,6 +50,7 @@ public class LichLamBUS {
         String MaNhanVien = dao.tim_maNhanVien_theo_TenNhanVien(TenNhanVien);
         System.out.println(MaCaLam + " " + MaNhanVien);
         Date NgayDate = Date.valueOf(Ngay);
+        System.out.println(Ngay);
 
         LichLamDTO dto = new LichLamDTO(MaCaLam, MaNhanVien, NgayDate);
 
@@ -107,21 +108,15 @@ public class LichLamBUS {
     public void data(JTable table, String dateStr) {
         n6_CaLamDAO.getInstance().taoMaCaLam_off();
         Date date = Date.valueOf(dateStr);
+
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0);
-        ArrayList<String[][]> dsLichLam2D = n6_LichLamDAO.getInstance().layCaLam_Tuan_theoTenNhanVien(date);
-        // Duyệt qua từng mảng trong dsLichLam2D
-        for (String[][] rowArray : dsLichLam2D) {
-            List<String> lichRow = new ArrayList<>(8);
-            for (String[] row : rowArray) {
-                // In ra từng phần tử trong hàng
-                for (String value : row) {
-                    lichRow.add(value);
-                }
-                model.addRow(new Object[]{lichRow.get(0), lichRow.get(1), lichRow.get(2),
-                    lichRow.get(3), lichRow.get(4), lichRow.get(5), lichRow.get(6), lichRow.get(7)});
-            }
+        model.setRowCount(0); 
+        
+        ArrayList<String> dsLichLam = n6_LichLamDAO.getInstance().showAll(date);
+
+        for (String row : dsLichLam) {
+            String[] rowData = row.split(", ");
+            model.addRow(rowData);
         }
     }
-
 }

@@ -2,6 +2,7 @@ package GUI;
 
 import BUS.LichLamBUS;
 import DAO.n6_LichLamDAO;
+import static Util.LichLam_CaLam.getWeekHeaders;
 import Util.TableCustom;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,6 +11,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import java.util.Date;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -316,7 +319,7 @@ public class n6_LichLamGUI extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Nhân Viên", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ Nhật"
+                "Nhân Viên", "T2 (28/11)", "T3 (29/11)", "T4 (30/11)", "T5 (31/11)", "T6 (10/12)", "T7 (10/12)", "CN (10/12)"
             }
         ));
         Table.setRowHeight(50);
@@ -456,18 +459,24 @@ public class n6_LichLamGUI extends javax.swing.JPanel {
         }
     }
 
-    public void hienThi_TuanHienTai() {
+    public void setHeader(JTable table, String date) {
+        List<String> headers = getWeekHeaders(date);
+        String[] columnNames = headers.toArray(new String[0]);
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setColumnIdentifiers(columnNames);
+    }
+
+    public void getData(JTable table, String date) {
+        setHeader(table, date);
+        java.sql.Date Date = java.sql.Date.valueOf(date);
+        String thu2 = Util.LichLam_CaLam.thu2(Date);
+        LichLamBUS.getInstance().data(table, thu2);
         LichLamBUS.getInstance().hienThi_NgayHienTai(LabelNgay);
     }
 
-    private void data(JTable table, String date) {
-        LichLamBUS.getInstance().data(table, date);
-    }
-
     public void nhomNutChucNang() {
-        hienThi_TuanHienTai();
+        getData(Table, now);
 
-        data(Table, now);
         combobox_TenCaLam();
         combobox_TenNhanVien();
         PanelCaLam.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -522,7 +531,7 @@ public class n6_LichLamGUI extends javax.swing.JPanel {
                 String Ngay_TimKiem = Util.LichLam_CaLam.yyyy_mm_dd__to__dd_mm_yyyy(Ngay_formatted);
                 LabelNgay.setText(LichLamBUS.getInstance().TimKiem(Ngay_TimKiem));
                 LichLamBUS.getInstance().Khoi_tao_ngay_lam(Ngay_formatted);
-                data(Table, Ngay_formatted);
+                getData(Table, Ngay_formatted);
             }
         });
         PanelSua.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -551,7 +560,7 @@ public class n6_LichLamGUI extends javax.swing.JPanel {
 
                 LichLamBUS.getInstance().Dieu_chinh(TenCa, TenNhanVien, Ngay_formatted);
 
-                data(Table, Ngay_formatted);
+                getData(Table, Ngay_formatted);
             }
         });
 
@@ -578,7 +587,7 @@ public class n6_LichLamGUI extends javax.swing.JPanel {
                 LabelNgay.setText(LichLamBUS.getInstance().TimKiem(Ngay_TimKiem));
 
                 LichLamBUS.getInstance().Xoa(TenNhanVien, Ngay_formatted);
-                data(Table, Ngay_formatted);
+                getData(Table, Ngay_formatted);
             }
         });
 
@@ -589,7 +598,7 @@ public class n6_LichLamGUI extends javax.swing.JPanel {
                     String period = LichLamBUS.getInstance().TimKiem(Ngay_String);
                     LabelNgay.setText(period);
                     String ngay = Util.LichLam_CaLam.dd_mm_yyyy__to__yyyy_mm_dd(Ngay_String);
-                    data(Table, ngay);
+                    getData(Table, ngay);
                 }
             }
         });
@@ -609,8 +618,8 @@ public class n6_LichLamGUI extends javax.swing.JPanel {
 
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TextFieldTimKiem.setText("");
-                LichLamBUS.getInstance().hienThi_NgayHienTai(LabelNgay);
-                data(Table, now);
+//                LichLamBUS.getInstance().data(Table, now);
+                getData(Table, now);
             }
         });
 

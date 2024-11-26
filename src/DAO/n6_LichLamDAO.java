@@ -139,17 +139,104 @@ public class n6_LichLamDAO {
         }
     }
 
-    public ArrayList<LichLamDTO> showAll() {
-        ArrayList<LichLamDTO> list = new ArrayList<>();
-        String sql = "SELECT *\n"
-                + "  FROM LichLam";
+    public ArrayList<String> showAll(Date Ngay) {
+        ArrayList<String> list = new ArrayList<>();
+        String sql = "DECLARE @start DATE = ?;\n"
+                + "\n"
+                + "SELECT \n"
+                + "    bigTable2.TenNhanVien,\n"
+                + "    bigTable1.thu2,\n"
+                + "    bigTable1.thu3,\n"
+                + "    bigTable1.thu4,\n"
+                + "    bigTable1.thu5,\n"
+                + "    bigTable1.thu6,\n"
+                + "    bigTable1.thu7,\n"
+                + "    bigTable1.chunhat\n"
+                + "FROM \n"
+                + "(\n"
+                + "    SELECT \n"
+                + "        t2.MaNhanVien, \n"
+                + "        c2.TenCaLam AS thu2,\n"
+                + "        c3.TenCaLam AS thu3,\n"
+                + "        c4.TenCaLam AS thu4,\n"
+                + "        c5.TenCaLam AS thu5,\n"
+                + "        c6.TenCaLam AS thu6,\n"
+                + "        c7.TenCaLam AS thu7,\n"
+                + "        c8.TenCaLam AS chunhat\n"
+                + "    FROM\n"
+                + "    (\n"
+                + "        SELECT MaNhanVien, MaCaLam\n"
+                + "        FROM LichLam\n"
+                + "        WHERE NgayLam = @start\n"
+                + "    ) AS t2\n"
+                + "    LEFT JOIN \n"
+                + "    (\n"
+                + "        SELECT MaNhanVien, MaCaLam \n"
+                + "        FROM LichLam\n"
+                + "        WHERE NgayLam = DATEADD(DAY, 1, @start)\n"
+                + "    ) AS t3 ON t2.MaNhanVien = t3.MaNhanVien\n"
+                + "    LEFT JOIN \n"
+                + "    (\n"
+                + "        SELECT MaNhanVien, MaCaLam \n"
+                + "        FROM LichLam\n"
+                + "        WHERE NgayLam = DATEADD(DAY, 2, @start)\n"
+                + "    ) AS t4 ON t2.MaNhanVien = t4.MaNhanVien\n"
+                + "    LEFT JOIN \n"
+                + "    (\n"
+                + "        SELECT MaNhanVien, MaCaLam \n"
+                + "        FROM LichLam\n"
+                + "        WHERE NgayLam = DATEADD(DAY, 3, @start)\n"
+                + "    ) AS t5 ON t2.MaNhanVien = t5.MaNhanVien\n"
+                + "    LEFT JOIN \n"
+                + "    (\n"
+                + "        SELECT MaNhanVien, MaCaLam \n"
+                + "        FROM LichLam\n"
+                + "        WHERE NgayLam = DATEADD(DAY, 4, @start)\n"
+                + "    ) AS t6 ON t2.MaNhanVien = t6.MaNhanVien\n"
+                + "    LEFT JOIN \n"
+                + "    (\n"
+                + "        SELECT MaNhanVien, MaCaLam \n"
+                + "        FROM LichLam\n"
+                + "        WHERE NgayLam = DATEADD(DAY, 5, @start)\n"
+                + "    ) AS t7 ON t2.MaNhanVien = t7.MaNhanVien\n"
+                + "    LEFT JOIN \n"
+                + "    (\n"
+                + "        SELECT MaNhanVien, MaCaLam \n"
+                + "        FROM LichLam\n"
+                + "        WHERE NgayLam = DATEADD(DAY, 6, @start)\n"
+                + "    ) AS cn ON t2.MaNhanVien = cn.MaNhanVien\n"
+                + "    -- JOIN thêm bảng CaLam để lấy TenCaLam\n"
+                + "    LEFT JOIN CaLam AS c2 ON t2.MaCaLam = c2.MaCaLam\n"
+                + "    LEFT JOIN CaLam AS c3 ON t3.MaCaLam = c3.MaCaLam\n"
+                + "    LEFT JOIN CaLam AS c4 ON t4.MaCaLam = c4.MaCaLam\n"
+                + "    LEFT JOIN CaLam AS c5 ON t5.MaCaLam = c5.MaCaLam\n"
+                + "    LEFT JOIN CaLam AS c6 ON t6.MaCaLam = c6.MaCaLam\n"
+                + "    LEFT JOIN CaLam AS c7 ON t7.MaCaLam = c7.MaCaLam\n"
+                + "    LEFT JOIN CaLam AS c8 ON cn.MaCaLam = c8.MaCaLam\n"
+                + ") AS bigTable1\n"
+                + "JOIN \n"
+                + "NhanVien AS bigTable2\n"
+                + "ON bigTable1.MaNhanVien = bigTable2.MaNhanVien\n"
+                + "ORDER BY bigTable1.MaNhanVien;";
+
         try {
             Connection c = JDBCUtil.getConnection();
             PreparedStatement st = c.prepareStatement(sql);
+            st.setDate(1, Ngay);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                LichLamDTO lichLam = new LichLamDTO(rs.getString("MaCaLam"), rs.getString("MaNhanVien"),
-                        rs.getDate("NgayLam"));
+                // Lấy dữ liệu từ các cột trong kết quả truy vấn
+                String TenNhanVien = rs.getString("TenNhanVien");
+                String thu2 = rs.getString("thu2");
+                String thu3 = rs.getString("thu3");
+                String thu4 = rs.getString("thu4");
+                String thu5 = rs.getString("thu5");
+                String thu6 = rs.getString("thu6");
+                String thu7 = rs.getString("thu7");
+                String chunhat = rs.getString("chunhat");
+
+                // Kết hợp dữ liệu thành một chuỗi
+                String lichLam = String.join(", ", TenNhanVien, thu2, thu3, thu4, thu5, thu6, thu7, chunhat);
                 list.add(lichLam);
             }
             JDBCUtil.closeConnection(c);

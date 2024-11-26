@@ -20,7 +20,6 @@ public class n7_KhuyenMai_UuDaiBUS {
 
     public void search_KM(JTable table, String ma, String ten, Date ngayBD, Date ngayKT, Float phanTram, int DieuKien) {
         KhuyenMaiDTO dto_search = new KhuyenMaiDTO(ma, ten, ngayBD, ngayKT, phanTram, DieuKien);
-
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         ArrayList<KhuyenMaiDTO> ds = n7_KhuyenMaiDAO.getInstance().search(dto_search);
@@ -61,7 +60,7 @@ public class n7_KhuyenMai_UuDaiBUS {
             i++;
         }
     }
-    
+
     public void getListKhuyenMai_theoMa(JTable table, String ten) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
@@ -127,7 +126,7 @@ public class n7_KhuyenMai_UuDaiBUS {
             i++;
         }
     }
-    
+
     public void getListUuDai_theoMa(JTable table, String ten) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);

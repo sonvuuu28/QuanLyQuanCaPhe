@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,42 @@ public class LichLam_CaLam {
         }
 
         return list;
+    }
+
+    public static List<String> getWeekHeaders(String dateStr) {
+        // Chuyển đổi String thành LocalDate
+        LocalDate specificDate = LocalDate.parse(dateStr); // Giả sử dateStr có định dạng yyyy-MM-dd
+
+        // Lấy ngày thứ Hai trong tuần của specificDate
+        LocalDate thu2 = specificDate.with(DayOfWeek.MONDAY);
+
+        // Định dạng ngày theo "dd/MM"
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM");
+
+        // Danh sách để lưu tên cột
+        List<String> headers = new ArrayList<>();
+        headers.add("Nhân Viên");
+        // Thêm tên các cột vào danh sách (T2, T3, T4, ...)
+        for (int i = 0; i < 7; i++) {
+            LocalDate currentDay = thu2.plusDays(i); // Thêm i ngày vào ngày thứ Hai
+            String formattedDate = currentDay.format(formatter); // Định dạng ngày
+            if (i != 6) {
+                headers.add("T" + (i + 2) + " " + formattedDate); // Thêm vào danh sách, ví dụ: T2 25/11
+            } else {
+                headers.add("CN" + " " + formattedDate); // Thêm vào danh sách, ví dụ: T2 25/11
+            }
+        }
+
+        return headers;
+    }
+
+    public static String thu2(Date Ngay) {
+        // Chuyển đổi Date sang LocalDate
+        LocalDate specificDate = Ngay.toLocalDate();
+        LocalDate thu2 = specificDate.with(DayOfWeek.MONDAY);
+        Date day = Date.valueOf(thu2);      // Chuyển LocalDate thành Date
+
+        return day.toString();
     }
 
     public static List<Date> DauTuan_CuoiTuan(Date Ngay) {
@@ -113,10 +150,10 @@ public class LichLam_CaLam {
         return thongBao;
     }
 
-    public static String time_sql_sang_hhmm(String timesql){
-        return timesql.substring(0,5);
+    public static String time_sql_sang_hhmm(String timesql) {
+        return timesql.substring(0, 5);
     }
-    
+
     public static void main(String[] args) {
         System.out.println(time_sql_sang_hhmm("00:00:4544545454"));
     }
