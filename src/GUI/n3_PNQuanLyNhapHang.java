@@ -156,7 +156,7 @@ public class n3_PNQuanLyNhapHang extends javax.swing.JPanel {
                 jL_PhieuNhap.setBackground(Color.WHITE); // Đặt lại màu cho JLabel khác
 
                 jP_NoiDung.removeAll();
-                n3_PNNhapHang nhaphang = new n3_PNNhapHang();
+                n3_PNNhapHang nhaphang = new n3_PNNhapHang(MaNhanVien);
                 jP_NoiDung.setLayout(new BorderLayout());
                 jP_NoiDung.add(nhaphang, BorderLayout.CENTER);
                 jP_NoiDung.revalidate();

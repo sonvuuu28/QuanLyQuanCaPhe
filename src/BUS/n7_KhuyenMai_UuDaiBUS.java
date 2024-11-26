@@ -61,6 +61,20 @@ public class n7_KhuyenMai_UuDaiBUS {
             i++;
         }
     }
+    
+    public void getListKhuyenMai_theoMa(JTable table, String ten) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        ArrayList<KhuyenMaiDTO> ds = n7_KhuyenMaiDAO.getInstance().getListKhuyenMai_theoMa(ten);
+        int i = 1;
+        for (KhuyenMaiDTO dto : ds) {
+            model.addRow(new Object[]{dto.getMaKhuyenMai(), dto.getTenKhuyenMai(), yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayBatDauKhuyenMai()),
+                yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayKetThucKhuyenMai()),
+                dto.getPhanTramKhuyenMai(), set_Tien_VND(dto.getDieuKienKhuyenMai()), checkHan(dto.getNgayBatDauKhuyenMai(), dto.getNgayKetThucKhuyenMai())
+            });
+            i++;
+        }
+    }
 
     public String taoMaKhuyenMai() {
         return n7_KhuyenMaiDAO.getInstance().taoMaKhuyenMai();
@@ -104,6 +118,20 @@ public class n7_KhuyenMai_UuDaiBUS {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         ArrayList<UuDaiThanhVienDTO> ds = n7_UuDaiThanhVienDAO.getInstance().getListUuDai_theoTen(ten);
+        int i = 1;
+        for (UuDaiThanhVienDTO dto : ds) {
+            model.addRow(new Object[]{dto.getMaUuDai(), dto.getTenUuDai(), yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayBatDauUuDai()),
+                yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayKetThucUuDai()),
+                dto.getPhanTramUuDai(), set_Tien_VND(dto.getDieuKienUuDai()), checkHan(dto.getNgayBatDauUuDai(), dto.getNgayKetThucUuDai())
+            });
+            i++;
+        }
+    }
+    
+    public void getListUuDai_theoMa(JTable table, String ten) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        ArrayList<UuDaiThanhVienDTO> ds = n7_UuDaiThanhVienDAO.getInstance().getListUuDai_theoMa(ten);
         int i = 1;
         for (UuDaiThanhVienDTO dto : ds) {
             model.addRow(new Object[]{dto.getMaUuDai(), dto.getTenUuDai(), yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayBatDauUuDai()),

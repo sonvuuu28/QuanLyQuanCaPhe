@@ -90,6 +90,31 @@ public class n7_KhuyenMaiDAO {
         return dskm;
     }
     
+    public ArrayList<KhuyenMaiDTO> getListKhuyenMai_theoMa(String ten) {
+        ArrayList<KhuyenMaiDTO> dskm = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM KhuyenMai where MaKhuyenMai like ? ORDER BY MaKhuyenMai DESC";
+            Connection c = JDBCUtil.getConnection();
+            PreparedStatement st = c.prepareStatement(sql);
+            st.setString(1,"%" + ten + "%");
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                KhuyenMaiDTO km = new KhuyenMaiDTO(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getDate(3),
+                        rs.getDate(4),
+                        rs.getFloat(5),
+                        rs.getInt(6));
+                dskm.add(km);
+            }
+        } catch (SQLException ex) {
+            return null;
+        }
+        return dskm;
+    }
+    
     public ArrayList<KhuyenMaiDTO> search(KhuyenMaiDTO dto) {
         ArrayList<KhuyenMaiDTO> dskm = new ArrayList<>();
         try {
