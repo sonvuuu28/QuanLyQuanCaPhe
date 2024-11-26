@@ -109,7 +109,7 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
         TextFieldDiaChi.setBorder(null);
 
         LblSDT.setBackground(new java.awt.Color(255, 255, 255));
-        LblSDT.setText("Số Điện Thoại");
+        LblSDT.setText("Số ĐT");
 
         TextFieldSDT.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         // TextFieldSDT.setText("0825 143 790");
@@ -141,7 +141,7 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(PanelThuocTinhLayout.createSequentialGroup()
                                                                 .addComponent(LblMa,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 101,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 70,
                                                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addGap(0, 0, 0)
                                                                 .addGroup(PanelThuocTinhLayout.createParallelGroup(
@@ -149,14 +149,14 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                                                                         false)
                                                                         .addComponent(TextFieldMa,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                101, Short.MAX_VALUE)
+                                                                                132, Short.MAX_VALUE)
                                                                         .addComponent(jSeparator1,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                 Short.MAX_VALUE)))
                                                         .addGroup(PanelThuocTinhLayout.createSequentialGroup()
                                                                 .addComponent(LblTen,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 101,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 70,
                                                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addGap(0, 0, 0)
                                                                 .addGroup(PanelThuocTinhLayout.createParallelGroup(
@@ -164,14 +164,14 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                                                                         false)
                                                                         .addComponent(TextFieldTen,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                101, Short.MAX_VALUE)
+                                                                                132, Short.MAX_VALUE)
                                                                         .addComponent(jSeparator2,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                 Short.MAX_VALUE)))
                                                         .addGroup(PanelThuocTinhLayout.createSequentialGroup()
                                                                 .addComponent(LblSDT,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 101,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 70,
                                                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addGap(0, 0, 0)
                                                                 .addGroup(PanelThuocTinhLayout.createParallelGroup(
@@ -179,14 +179,14 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                                                                         false)
                                                                         .addComponent(TextFieldSDT,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                101, Short.MAX_VALUE)
+                                                                                132, Short.MAX_VALUE)
                                                                         .addComponent(jSeparator4,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                 Short.MAX_VALUE))))
                                                 .addGap(0, 0, Short.MAX_VALUE))
                                         .addGroup(PanelThuocTinhLayout.createSequentialGroup()
-                                                .addComponent(LblDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, 101,
+                                                .addComponent(LblDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, 70,
                                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(0, 0, Short.MAX_VALUE)
                                                 .addGroup(PanelThuocTinhLayout
@@ -194,7 +194,7 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                                                         .addComponent(jSeparator3, javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                 javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(TextFieldDiaChi,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE, 101,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE, 132,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addContainerGap()));
         PanelThuocTinhLayout.setVerticalGroup(
