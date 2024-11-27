@@ -118,6 +118,8 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         tf_MaNL.setPreferredSize(new java.awt.Dimension(150, 25));
         tf_MaNL.setEditable(false);
         tf_MaNL.setEnabled(false);
+        tf_MaNL.setForeground(Color.BLACK);
+        tf_MaNL.setBackground(Color.WHITE);
 
         tf_TenNL.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 1, 0), null));
         tf_TenNL.setMaximumSize(new java.awt.Dimension(150, 25));
@@ -128,6 +130,10 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         tf_KhoiLuong.setMaximumSize(new java.awt.Dimension(150, 25));
         tf_KhoiLuong.setMinimumSize(new java.awt.Dimension(150, 25));
         tf_KhoiLuong.setPreferredSize(new java.awt.Dimension(150, 25));
+        tf_KhoiLuong.setEditable(false);
+        tf_KhoiLuong.setEnabled(false);
+        tf_KhoiLuong.setForeground(Color.BLACK);
+        tf_KhoiLuong.setBackground(Color.WHITE);
 
         tf_DonGia.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         tf_DonGia.setMaximumSize(new java.awt.Dimension(150, 25));
@@ -135,6 +141,8 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         tf_DonGia.setPreferredSize(new java.awt.Dimension(150, 25));
         tf_DonGia.setEditable(false);
         tf_DonGia.setEnabled(false);
+        tf_DonGia.setForeground(Color.BLACK);
+        tf_DonGia.setBackground(Color.WHITE);
 
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator1.setForeground(new java.awt.Color(51, 51, 51));
