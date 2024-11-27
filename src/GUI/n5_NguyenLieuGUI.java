@@ -688,11 +688,11 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
     }
     public void btn_XoaAction() {
         int selectedRow = tb_DanhSachNL.getSelectedRow();
-        if(nguyenLieuBUS.getNguyenLieuById(String.valueOf(tf_MaNL.getText())).getKhoiLuongNguyenLieu() != 0) {
-            JOptionPane.showMessageDialog(null, "Vui lòng sử dụng hết khối lượng nguyên liệu trước khi xóa !", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
         if (selectedRow != -1) {
+            if(nguyenLieuBUS.getNguyenLieuById(String.valueOf(tf_MaNL.getText())).getKhoiLuongNguyenLieu() != 0) {
+                JOptionPane.showMessageDialog(null, "Vui lòng sử dụng hết nguyên liệu trước khi xóa !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn xóa nguyên liệu này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
             if (confirm == JOptionPane.YES_OPTION) {
                 String ma = String.valueOf(tf_MaNL.getText());
