@@ -77,20 +77,21 @@ public class n4_CongThucDAO {
 
       public boolean deleteCongThuc(CongThucDTO congThuc) {
             boolean result = false;
-            try {
-                  Connection c = JDBCUtil.getConnection();
-                  String sql = "delete from CongThuc WHERE MaMon= ? and MaNguyenLieu = ?";
-                  PreparedStatement prep = c.prepareStatement(sql);
+            String sql = "DELETE FROM CongThuc WHERE MaMon = ? AND MaNguyenLieu = ?";
+            
+            try (Connection c = JDBCUtil.getConnection();
+                  PreparedStatement prep = c.prepareStatement(sql)) {
+                  
                   prep.setString(1, congThuc.getMaMon());
                   prep.setString(2, congThuc.getMaNguyenLieu());
-                  if (prep.executeUpdate() > 0) {
-                        result = true;
-                  }
-                  JDBCUtil.closeConnection(c);
+                  
+                  result = prep.executeUpdate() > 0; // Cập nhật kết quả trực tiếp
+                  
             } catch (SQLException ex) {
-                  System.err.println(ex.getMessage());
+                  System.err.println("Lỗi khi xóa công thức: " + ex.getMessage());
             }
-            return result;
+            
+            return result; // Đảm bảo trả về đúng kết quả
       }
 
       public boolean updateCongThuc(CongThucDTO congThuc) {
