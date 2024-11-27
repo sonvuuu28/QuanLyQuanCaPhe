@@ -803,6 +803,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
         tf_MaMon.setEditable(false);
         tf_MaMon.setEnabled(false);
         tf_MaMon.setBackground(Color.WHITE);
+        tf_MaMon.setDisabledTextColor(Color.BLACK);
         TextFieldTimKiem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
