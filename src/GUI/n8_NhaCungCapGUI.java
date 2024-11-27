@@ -15,7 +15,9 @@ import Util.dialog;
 import Util.InputValidator;
 
 public class n8_NhaCungCapGUI extends javax.swing.JPanel {
+
     NccBUS nccBUS = new NccBUS();
+    InputValidator check = new InputValidator();
 
     public n8_NhaCungCapGUI() {
         initComponents();
@@ -109,7 +111,7 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
         TextFieldDiaChi.setBorder(null);
 
         LblSDT.setBackground(new java.awt.Color(255, 255, 255));
-        LblSDT.setText("Số Điện Thoại");
+        LblSDT.setText("Số ĐT");
 
         TextFieldSDT.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         // TextFieldSDT.setText("0825 143 790");
@@ -141,7 +143,7 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(PanelThuocTinhLayout.createSequentialGroup()
                                                                 .addComponent(LblMa,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 101,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 70,
                                                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addGap(0, 0, 0)
                                                                 .addGroup(PanelThuocTinhLayout.createParallelGroup(
@@ -149,14 +151,14 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                                                                         false)
                                                                         .addComponent(TextFieldMa,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                101, Short.MAX_VALUE)
+                                                                                132, Short.MAX_VALUE)
                                                                         .addComponent(jSeparator1,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                 Short.MAX_VALUE)))
                                                         .addGroup(PanelThuocTinhLayout.createSequentialGroup()
                                                                 .addComponent(LblTen,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 101,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 70,
                                                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addGap(0, 0, 0)
                                                                 .addGroup(PanelThuocTinhLayout.createParallelGroup(
@@ -164,14 +166,14 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                                                                         false)
                                                                         .addComponent(TextFieldTen,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                101, Short.MAX_VALUE)
+                                                                                132, Short.MAX_VALUE)
                                                                         .addComponent(jSeparator2,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                 Short.MAX_VALUE)))
                                                         .addGroup(PanelThuocTinhLayout.createSequentialGroup()
                                                                 .addComponent(LblSDT,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 101,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 70,
                                                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addGap(0, 0, 0)
                                                                 .addGroup(PanelThuocTinhLayout.createParallelGroup(
@@ -179,14 +181,14 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                                                                         false)
                                                                         .addComponent(TextFieldSDT,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                101, Short.MAX_VALUE)
+                                                                                132, Short.MAX_VALUE)
                                                                         .addComponent(jSeparator4,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                 Short.MAX_VALUE))))
                                                 .addGap(0, 0, Short.MAX_VALUE))
                                         .addGroup(PanelThuocTinhLayout.createSequentialGroup()
-                                                .addComponent(LblDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, 101,
+                                                .addComponent(LblDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, 70,
                                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(0, 0, Short.MAX_VALUE)
                                                 .addGroup(PanelThuocTinhLayout
@@ -194,7 +196,7 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                                                         .addComponent(jSeparator3, javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                 javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(TextFieldDiaChi,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE, 101,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE, 132,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addContainerGap()));
         PanelThuocTinhLayout.setVerticalGroup(
@@ -377,9 +379,9 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
         ScrollPane.setPreferredSize(new java.awt.Dimension(800, 440));
         ///////////// bảng
         Table.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {},
-                new String[] {
-                        "Mã NCC", "Tên NCC", "Địa Chỉ", "Số Điện Thoại"
+                new Object[][]{},
+                new String[]{
+                    "Mã NCC", "Tên NCC", "Địa Chỉ", "Số Điện Thoại"
                 }) {
             public boolean isCellEditable(int row, int column) {
                 return false; // Không cho phép chỉnh sửa ô
@@ -560,30 +562,7 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
         btn_Sua.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                InputValidator check = new InputValidator();
-                String maNCC = TextFieldMa.getText();
-                String tenNCC = TextFieldTen.getText();
-                String diachiNCC = TextFieldDiaChi.getText();
-                String sdtNCC = TextFieldSDT.getText();
-                if (check.IsEmpty(maNCC) || check.IsEmpty(tenNCC) || check.IsEmpty(diachiNCC)
-                        || check.IsEmpty(sdtNCC)) {
-                    JOptionPane.showMessageDialog(null, "vui lòng chọn nhà cung cấp", "lỗi", dialog.ERROR_DIALOG);
-                    return;
-                } else if (check.isValidPhoneNumber(sdtNCC) != true) {
-                    JOptionPane.showMessageDialog(null, "vui lòng nhập đúng số điện thoại", "lỗi", dialog.ERROR_DIALOG);
-                    return;
-                } else {
-                    nccBUS.capNhatNhaCungCap(maNCC, tenNCC, diachiNCC, sdtNCC);
-
-                }
-                reset();
-            }
-
-        });
-        btn_Them.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                InputValidator check = new InputValidator();
+                int maxLength = 255;
                 String maNCC = TextFieldMa.getText();
                 String tenNCC = TextFieldTen.getText();
                 String diachiNCC = TextFieldDiaChi.getText();
@@ -593,12 +572,64 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(null, "bạn chưa nhập thông tin nhà cung cấp mới", "lỗi",
                             dialog.ERROR_DIALOG);
                     return;
-                } else if (check.isValidPhoneNumber(sdtNCC) != true) {
+                }
+                if (maNCC.length() > 255) {
+                    JOptionPane.showMessageDialog(null,
+                            "Tên nhà cung cấp vượt quá độ dài cho phép: " + maxLength + " ký tự.",
+                            "Lỗi",
+                            dialog.ERROR_DIALOG);
+                    return;
+                }
+                if (diachiNCC.length() > 255) {
+                    JOptionPane.showMessageDialog(null,
+                            "Địa chỉ nhà cung cấp vượt quá độ dài cho phép: " + maxLength + " ký tự.",
+                            "Lỗi",
+                            dialog.ERROR_DIALOG);
+                    return;
+                }
+                if (check.isValidPhoneNumber(sdtNCC) != true) {
                     JOptionPane.showMessageDialog(null, "vui lòng nhập đúng số điện thoại", "lỗi", dialog.ERROR_DIALOG);
                     return;
-                } else {
-                    nccBUS.themNhaCungCap(maNCC, tenNCC, diachiNCC, sdtNCC);
                 }
+                nccBUS.capNhatNhaCungCap(maNCC, tenNCC, diachiNCC, sdtNCC);
+                reset();
+            }
+
+        });
+        btn_Them.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                InputValidator check = new InputValidator();
+                int maxLength = 255;
+                String maNCC = TextFieldMa.getText();
+                String tenNCC = TextFieldTen.getText();
+                String diachiNCC = TextFieldDiaChi.getText();
+                String sdtNCC = TextFieldSDT.getText();
+                if (check.IsEmpty(maNCC) || check.IsEmpty(tenNCC) || check.IsEmpty(diachiNCC)
+                        || check.IsEmpty(sdtNCC)) {
+                    JOptionPane.showMessageDialog(null, "bạn chưa nhập thông tin nhà cung cấp mới", "lỗi",
+                            dialog.ERROR_DIALOG);
+                    return;
+                }
+                if (maNCC.length() > 255) {
+                    JOptionPane.showMessageDialog(null,
+                            "Tên nhà cung cấp vượt quá độ dài cho phép: " + maxLength + " ký tự.",
+                            "Lỗi",
+                            dialog.ERROR_DIALOG);
+                    return;
+                }
+                if (diachiNCC.length() > 255) {
+                    JOptionPane.showMessageDialog(null,
+                            "Địa chỉ nhà cung cấp vượt quá độ dài cho phép: " + maxLength + " ký tự.",
+                            "Lỗi",
+                            dialog.ERROR_DIALOG);
+                    return;
+                }
+                if (check.isValidPhoneNumber(sdtNCC) != true) {
+                    JOptionPane.showMessageDialog(null, "vui lòng nhập đúng số điện thoại", "lỗi", dialog.ERROR_DIALOG);
+                    return;
+                }
+                nccBUS.themNhaCungCap(maNCC, tenNCC, diachiNCC, sdtNCC);
                 reset();
             }
 
