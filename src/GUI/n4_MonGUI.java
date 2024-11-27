@@ -209,7 +209,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
 
         jSeparator5.setForeground(new java.awt.Color(0, 0, 0));
 
-        comboboxLoaiMon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+      
 
         javax.swing.GroupLayout PanelChuaThongTinTrangLayout = new javax.swing.GroupLayout(PanelChuaThongTinTrang);
         PanelChuaThongTinTrang.setLayout(PanelChuaThongTinTrangLayout);
@@ -638,7 +638,12 @@ public class n4_MonGUI extends javax.swing.JPanel {
         int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn thêm món này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
                 if (confirm == JOptionPane.YES_OPTION) {
                     String maMon = String.valueOf(tf_MaMon.getText());
-                    LoaiMonDTO temp = (LoaiMonDTO) comboboxLoaiMon.getSelectedItem();
+                    LoaiMonDTO temp;
+                    if(comboboxLoaiMon.getSelectedItem()==null) {
+                        temp = (LoaiMonDTO) comboboxLoaiMon.getItemAt(0);
+                    } else {
+                        temp = (LoaiMonDTO) comboboxLoaiMon.getSelectedItem();
+                    }
                     String maLoaiMon = temp.getMaLoaiMon();
                     String tenMon = String.valueOf(tf_TenMon.getText());
                     if(tenMon.length() > 50) {
@@ -853,7 +858,7 @@ btn_LoaiMon.addActionListener(new java.awt.event.ActionListener() {
         ArrayList<LoaiMonDTO> dsLoaiMon = loaiMonBUS.getAll();
         comboboxLoaiMon.removeAllItems();
         for(int i = 0; i < dsLoaiMon.size(); i++) {
-            comboboxLoaiMon.addItem(dsLoaiMon.get(i).getTenLoaiMon());
+            comboboxLoaiMon.addItem(dsLoaiMon.get(i));
         }
 fillTable();
         tb_DanhSachMon.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -934,7 +939,7 @@ comboboxTrangThai.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI
     private javax.swing.JButton btn_TimKiem;
     private javax.swing.JButton btn_Xoa;
     private javax.swing.JButton btn_XuatExcel;
-    private javax.swing.JComboBox<String> comboboxLoaiMon;
+    private javax.swing.JComboBox<LoaiMonDTO> comboboxLoaiMon;
     private javax.swing.JComboBox<String> comboboxTrangThai;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
