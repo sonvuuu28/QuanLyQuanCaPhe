@@ -16,6 +16,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import javax.swing.*;
 
+import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -98,6 +99,8 @@ public class n4_LoaiMonDialog extends javax.swing.JFrame {
         tf_MaLoaiMon.setBorder(null);
         tf_MaLoaiMon.setEditable(false);
         tf_MaLoaiMon.setEnabled(false);
+        tf_MaLoaiMon.setBackground(Color.WHITE);
+        tf_MaLoaiMon.setDisabledTextColor(Color.BLACK);
 
         tf_TenLoaiMon.setBorder(null);
 
