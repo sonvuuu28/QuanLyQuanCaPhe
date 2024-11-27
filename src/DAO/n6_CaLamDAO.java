@@ -307,7 +307,7 @@ public class n6_CaLamDAO {
     public ArrayList<KhachHangDTO> getData_KhachHang() {
         ArrayList<KhachHangDTO> list = new ArrayList<>();
         String sql = "SELECT *\n"
-                + "  FROM KhachHang where MaKhachHang != 'KH000'";
+                + "  FROM KhachHang order by MaKhachHang desc";
         try {
             Connection c = JDBCUtil.getConnection();
             PreparedStatement st = c.prepareStatement(sql);
@@ -333,7 +333,7 @@ public class n6_CaLamDAO {
         ArrayList<KhachHangDTO> list = new ArrayList<>();
         String sql = "select *\n"
                 + "from KhachHang\n"
-                + "where TenKhachHang like ?";
+                + "where TenKhachHang like ? order by MaKhachHang desc";
         try {
             Connection c = JDBCUtil.getConnection();
             PreparedStatement st = c.prepareStatement(sql);

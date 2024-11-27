@@ -26,8 +26,10 @@ public class LichLamBUS {
 
         String DauTuan = Util.LichLam_CaLam.yyyy_mm_dd__to__dd_mm_yyyy(String.valueOf(tuan.get(0)));
         String CuoiTuan = Util.LichLam_CaLam.yyyy_mm_dd__to__dd_mm_yyyy(String.valueOf(tuan.get(1)));
-
-        String period = "Từ " + DauTuan + " đến " + CuoiTuan;
+        DauTuan = DauTuan.replaceAll("[-\\.,]", "/");
+        CuoiTuan = CuoiTuan.replaceAll("[-\\.,]", "/");
+        
+        String period = DauTuan + "   ->   " + CuoiTuan;
         LabelNgay.setText(period);
     }
 
@@ -79,29 +81,42 @@ public class LichLamBUS {
     }
 
     public String TimKiem(String Ngay_Str_preformatted) {
-        String Ngay_Str_formatted = "";
-        try {
-            Ngay_Str_formatted = Util.LichLam_CaLam.dd_mm_yyyy__to__yyyy_mm_dd(Ngay_Str_preformatted);
-//            System.out.println("Ngày đã format: " + Ngay_Str_formatted);
+        Ngay_Str_preformatted = Ngay_Str_preformatted.replaceAll("[/\\.,]", "-");
+        if (Ngay_Str_preformatted == null || !Ngay_Str_preformatted.matches("^\\d{2}-\\d{2}-\\d{4}$")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đúng định dạng. Ví dụ: 01-01-2024");
+            return null;
+        }
 
+        try {
+            // Định dạng ngày từ dd-MM-yyyy sang yyyy-MM-dd
+            String Ngay_Str_formatted = Util.LichLam_CaLam.dd_mm_yyyy__to__yyyy_mm_dd(Ngay_Str_preformatted);
+
+            // Chuyển chuỗi đã định dạng thành đối tượng Date
             Date Ngay_Date = Date.valueOf(Ngay_Str_formatted);
 
+            // Tìm ngày đầu tuần và cuối tuần từ ngày đã chọn
             List<Date> tuan = Util.LichLam_CaLam.DauTuan_CuoiTuan(Ngay_Date);
 
+            // Định dạng ngày đầu tuần và cuối tuần về lại dạng dd-MM-yyyy
             String DauTuan = Util.LichLam_CaLam.yyyy_mm_dd__to__dd_mm_yyyy(String.valueOf(tuan.get(0)));
             String CuoiTuan = Util.LichLam_CaLam.yyyy_mm_dd__to__dd_mm_yyyy(String.valueOf(tuan.get(1)));
+            DauTuan = DauTuan.replaceAll("[-\\.,]", "/");
+            CuoiTuan = CuoiTuan.replaceAll("[-\\.,]", "/");
 
-            ArrayList<LichLamDTO> list = n6_LichLamDAO.getInstance().TimKiem_theoNgay(Date.valueOf("2024-10-31"));
-            for (LichLamDTO lich : list) {
-                System.out.println(lich.toString());
-            }
+            // Tìm kiếm danh sách Lịch làm trong tuần
+            ArrayList<LichLamDTO> list = n6_LichLamDAO.getInstance().TimKiem_theoNgay(Ngay_Date);
+//            for (LichLamDTO lich : list) {
+//                System.out.println(lich.toString());
+//            }
 
-            String period = "Từ " + DauTuan + " đến " + CuoiTuan;
+            String period = DauTuan + "   ->   " + CuoiTuan;
             return period;
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập đúng định dạng. Ví dụ: 01-01-2024");
+            // Xử lý khi có lỗi
+            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi xử lý ngày. Vui lòng thử lại!");
             System.out.println("Lỗi khi xử lý ngày: " + e.getMessage());
-            return null; // Hoặc có thể trả về một thông báo lỗi khác
+            return null;
         }
     }
 
@@ -110,8 +125,8 @@ public class LichLamBUS {
         Date date = Date.valueOf(dateStr);
 
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0); 
-        
+        model.setRowCount(0);
+
         ArrayList<String> dsLichLam = n6_LichLamDAO.getInstance().showAll(date);
 
         for (String row : dsLichLam) {

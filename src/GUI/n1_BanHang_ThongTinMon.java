@@ -2,6 +2,7 @@ package GUI;
 
 import BUS.BanHangBUS;
 import DTO.MonDTO;
+import java.awt.Color;
 
 public class n1_BanHang_ThongTinMon extends javax.swing.JFrame {
 
@@ -46,11 +47,29 @@ public class n1_BanHang_ThongTinMon extends javax.swing.JFrame {
             dispose();
         } else {
             SL.requestFocus();
+            SL.setText(soLuong_kho);
         }
     }
 
     private void nhomNutChucNang() {
         huyBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dispose(); // Đóng JFrame hiện tại
+            }
+        });
+
+        huyBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                huyBtn1.setBackground(new Color(255, 102, 102));
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                huyBtn1.setBackground(new Color(255, 51, 51));
+            }
+
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 dispose(); // Đóng JFrame hiện tại
@@ -97,6 +116,8 @@ public class n1_BanHang_ThongTinMon extends javax.swing.JFrame {
         line = new javax.swing.JSeparator();
         xacNhanBtn = new javax.swing.JButton();
         huyBtn = new javax.swing.JButton();
+        huyBtn1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(219, 195, 165));
@@ -195,6 +216,15 @@ public class n1_BanHang_ThongTinMon extends javax.swing.JFrame {
         huyBtn.setMinimumSize(new java.awt.Dimension(90, 25));
         huyBtn.setPreferredSize(new java.awt.Dimension(90, 25));
 
+        huyBtn1.setBackground(new java.awt.Color(255, 51, 51));
+        huyBtn1.setMaximumSize(new java.awt.Dimension(28, 28));
+        huyBtn1.setPreferredSize(new java.awt.Dimension(28, 28));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setText("x");
+        jLabel1.setPreferredSize(new java.awt.Dimension(8, 14));
+        huyBtn1.add(jLabel1);
+
         javax.swing.GroupLayout PanelNoiDungLayout = new javax.swing.GroupLayout(PanelNoiDung);
         PanelNoiDung.setLayout(PanelNoiDungLayout);
         PanelNoiDungLayout.setHorizontalGroup(
@@ -216,11 +246,15 @@ public class n1_BanHang_ThongTinMon extends javax.swing.JFrame {
                         .addGap(34, 34, 34)
                         .addComponent(huyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(48, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelNoiDungLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(huyBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         PanelNoiDungLayout.setVerticalGroup(
             PanelNoiDungLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelNoiDungLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addComponent(huyBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
                 .addComponent(Title)
                 .addGap(40, 40, 40)
                 .addGroup(PanelNoiDungLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -232,7 +266,7 @@ public class n1_BanHang_ThongTinMon extends javax.swing.JFrame {
                 .addGroup(PanelNoiDungLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(xacNhanBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(huyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         PanelKhung.add(PanelNoiDung);
@@ -270,6 +304,8 @@ public class n1_BanHang_ThongTinMon extends javax.swing.JFrame {
     private javax.swing.JLabel TenMon;
     private javax.swing.JLabel Title;
     private javax.swing.JButton huyBtn;
+    private javax.swing.JPanel huyBtn1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JSeparator line;
     private javax.swing.JButton xacNhanBtn;
     // End of variables declaration//GEN-END:variables

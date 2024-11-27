@@ -5,6 +5,7 @@ import Util.TableCustom;
 import java.awt.*;
 import java.text.*;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 
 public class n7_KhuyenMaiGUI extends javax.swing.JPanel {
@@ -173,11 +174,14 @@ public class n7_KhuyenMaiGUI extends javax.swing.JPanel {
         LblMa.setOpaque(true);
         LblMa.setPreferredSize(new java.awt.Dimension(100, 20));
 
+        TextFieldMa.setEditable(false);
         TextFieldMa.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         TextFieldMa.setForeground(new java.awt.Color(0, 51, 255));
         TextFieldMa.setBorder(null);
+        TextFieldMa.setDisabledTextColor(new java.awt.Color(51, 51, 255));
         TextFieldMa.setMaximumSize(new java.awt.Dimension(120, 20));
         TextFieldMa.setMinimumSize(new java.awt.Dimension(120, 20));
+        TextFieldMa.setOpaque(true);
         TextFieldMa.setPreferredSize(new java.awt.Dimension(120, 20));
 
         LblTen.setBackground(new java.awt.Color(255, 255, 255));
@@ -483,9 +487,7 @@ public class n7_KhuyenMaiGUI extends javax.swing.JPanel {
                             .addComponent(btn_Sua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(22, 22, 22)
                         .addComponent(btn_TimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PanelTongLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(ScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
@@ -522,6 +524,7 @@ public class n7_KhuyenMaiGUI extends javax.swing.JPanel {
     }
 
     private void nhomChucNang() {
+
         reset();
         PanelUuDai.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -644,6 +647,7 @@ public class n7_KhuyenMaiGUI extends javax.swing.JPanel {
         btn_TimKiem.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TextFieldMa.setText("");
                 // Kiểm tra nếu NgayBatDau là null, nếu có thì gán ngày hiện tại
                 Date start = NgayBatDau.getDate();
                 if (start == null) {
@@ -662,15 +666,28 @@ public class n7_KhuyenMaiGUI extends javax.swing.JPanel {
 
                 float phantram = -1;
                 if (!TextFieldPhanTram.getText().isEmpty()) {
-                    phantram = Float.parseFloat(TextFieldPhanTram.getText());
+                    try {
+                        phantram = Float.parseFloat(TextFieldPhanTram.getText());
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Vui lòng nhập số vào phần trăm để tìm mã!");
+                        TextFieldPhanTram.requestFocus();
+                        return;
+                    }
                 }
 
                 int tien = -1;
                 if (!TextFieldDieuKien.getText().isEmpty()) {
-                    tien = n7_KhuyenMai_UuDaiBUS.getInstance().set_Tien_VND_sang_int(TextFieldDieuKien.getText());
+                    try {
+                        Double.parseDouble(TextFieldDieuKien.getText()); // Kiểm tra chuyển đổi được sang số không
+                        tien = n7_KhuyenMai_UuDaiBUS.getInstance().set_Tien_VND_sang_int(TextFieldDieuKien.getText());
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Vui lòng nhập số tiền vào điều kiện để tìm mã!");
+                        TextFieldDieuKien.requestFocus();
+                        return;
+                    }
                 }
                 // Thực hiện tìm kiếm với các giá trị đã xử lý
-                n7_KhuyenMai_UuDaiBUS.getInstance().search_KM(Table, TextFieldMa.getText(), TextFieldTen.getText(), start_sql,
+                n7_KhuyenMai_UuDaiBUS.getInstance().search_KM(Table, "", TextFieldTen.getText(), start_sql,
                         end_sql, phantram, tien);
             }
 

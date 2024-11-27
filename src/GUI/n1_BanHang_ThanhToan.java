@@ -4,6 +4,7 @@ import BUS.BanHangBUS;
 import DAO.n1_HoaDonDAO;
 import DTO.KhuyenMaiDTO;
 import DTO.UuDaiThanhVienDTO;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
@@ -63,6 +64,7 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
 
         // Khuyến Mãi
         comboBox();
+        goc.setText(Util.BanHang.set_Tien_VND(tien_Goc));
 
         // Tổng tiền
         tong.setText(Util.BanHang.set_Tien_VND(tien_Goc));
@@ -82,6 +84,23 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
             }
         });
 
+        huyBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                huyBtn1.setBackground(new Color(255, 102, 102));
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                huyBtn1.setBackground(new Color(255, 51, 51));
+            }
+
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dispose(); // Đóng JFrame hiện tại
+            }
+        });
+        
         km.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -166,6 +185,7 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
         LabelKhachHang = new javax.swing.JLabel();
         LabelUuDai = new javax.swing.JLabel();
         LabelKhuyenMai = new javax.swing.JLabel();
+        LabelTienGoc = new javax.swing.JLabel();
         LabelTongTien = new javax.swing.JLabel();
         Title = new javax.swing.JLabel();
         PanelDauVao = new javax.swing.JPanel();
@@ -175,11 +195,14 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
         kh = new javax.swing.JLabel();
         uuDai = new javax.swing.JLabel();
         km = new javax.swing.JComboBox<>();
+        goc = new javax.swing.JLabel();
         tong = new javax.swing.JLabel();
         thanhToanBtn = new javax.swing.JButton();
         huyBtn = new javax.swing.JButton();
         chonKhach = new javax.swing.JButton();
         TaiLai = new javax.swing.JButton();
+        huyBtn1 = new javax.swing.JPanel();
+        btnHuy1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -187,15 +210,15 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
         PanelKhung.setBackground(new java.awt.Color(122, 74, 74));
         PanelKhung.setMaximumSize(new java.awt.Dimension(500, 490));
         PanelKhung.setMinimumSize(new java.awt.Dimension(500, 490));
-        PanelKhung.setPreferredSize(new java.awt.Dimension(500, 490));
+        PanelKhung.setPreferredSize(new java.awt.Dimension(500, 530));
 
         PanelNoiDung.setBackground(new java.awt.Color(255, 255, 255));
         PanelNoiDung.setMaximumSize(new java.awt.Dimension(488, 478));
         PanelNoiDung.setMinimumSize(new java.awt.Dimension(488, 478));
-        PanelNoiDung.setPreferredSize(new java.awt.Dimension(488, 478));
+        PanelNoiDung.setPreferredSize(new java.awt.Dimension(488, 528));
 
         PanelTenDauVao.setBackground(new java.awt.Color(255, 255, 255));
-        PanelTenDauVao.setLayout(new java.awt.GridLayout(7, 0, 0, 30));
+        PanelTenDauVao.setLayout(new java.awt.GridLayout(8, 0, 0, 30));
 
         LabelMa.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         LabelMa.setText("Mã HĐ");
@@ -221,6 +244,10 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
         LabelKhuyenMai.setText("Khuyến Mãi");
         PanelTenDauVao.add(LabelKhuyenMai);
 
+        LabelTienGoc.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        LabelTienGoc.setText("Tiền Gốc");
+        PanelTenDauVao.add(LabelTienGoc);
+
         LabelTongTien.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         LabelTongTien.setText("Tổng Tiền");
         PanelTenDauVao.add(LabelTongTien);
@@ -230,7 +257,7 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
         Title.setText("TẠO HÓA ĐƠN");
 
         PanelDauVao.setBackground(new java.awt.Color(255, 255, 255));
-        PanelDauVao.setLayout(new java.awt.GridLayout(7, 0, 0, 30));
+        PanelDauVao.setLayout(new java.awt.GridLayout(8, 0, 0, 30));
 
         Ma.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
         Ma.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -260,6 +287,11 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
         km.setOpaque(true);
         km.setPreferredSize(new java.awt.Dimension(72, 20));
         PanelDauVao.add(km);
+
+        goc.setFont(new java.awt.Font("Segoe UI Light", 1, 14)); // NOI18N
+        goc.setForeground(new java.awt.Color(204, 0, 51));
+        goc.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        PanelDauVao.add(goc);
 
         tong.setFont(new java.awt.Font("Segoe UI Light", 1, 14)); // NOI18N
         tong.setForeground(new java.awt.Color(0, 153, 0));
@@ -298,6 +330,15 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
         TaiLai.setMinimumSize(new java.awt.Dimension(90, 25));
         TaiLai.setPreferredSize(new java.awt.Dimension(90, 25));
 
+        huyBtn1.setBackground(new java.awt.Color(255, 51, 51));
+        huyBtn1.setMaximumSize(new java.awt.Dimension(28, 28));
+        huyBtn1.setPreferredSize(new java.awt.Dimension(28, 28));
+
+        btnHuy1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnHuy1.setText("x");
+        btnHuy1.setPreferredSize(new java.awt.Dimension(8, 14));
+        huyBtn1.add(btnHuy1);
+
         javax.swing.GroupLayout PanelNoiDungLayout = new javax.swing.GroupLayout(PanelNoiDung);
         PanelNoiDung.setLayout(PanelNoiDungLayout);
         PanelNoiDungLayout.setHorizontalGroup(
@@ -305,7 +346,8 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelNoiDungLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(128, 128, 128)
+                .addComponent(huyBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelNoiDungLayout.createSequentialGroup()
                 .addGroup(PanelNoiDungLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(PanelNoiDungLayout.createSequentialGroup()
@@ -328,8 +370,11 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
         PanelNoiDungLayout.setVerticalGroup(
             PanelNoiDungLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelNoiDungLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(Title)
+                .addGroup(PanelNoiDungLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelNoiDungLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(Title))
+                    .addComponent(huyBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(PanelNoiDungLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelNoiDungLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
@@ -359,9 +404,7 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(PanelKhung, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(PanelKhung, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
         );
 
         pack();
@@ -382,6 +425,7 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
     private javax.swing.JLabel LabelMa;
     private javax.swing.JLabel LabelNgay;
     private javax.swing.JLabel LabelNhanVien;
+    private javax.swing.JLabel LabelTienGoc;
     private javax.swing.JLabel LabelTongTien;
     private javax.swing.JLabel LabelUuDai;
     private javax.swing.JLabel Ma;
@@ -392,8 +436,11 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
     private javax.swing.JPanel PanelTenDauVao;
     private javax.swing.JButton TaiLai;
     private javax.swing.JLabel Title;
+    private javax.swing.JLabel btnHuy1;
     private javax.swing.JButton chonKhach;
+    private javax.swing.JLabel goc;
     private javax.swing.JButton huyBtn;
+    private javax.swing.JPanel huyBtn1;
     private javax.swing.JLabel kh;
     private javax.swing.JComboBox<String> km;
     private javax.swing.JLabel nv;

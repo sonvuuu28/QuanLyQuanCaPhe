@@ -263,13 +263,36 @@ public class n7_KhuyenMai_UuDaiBUS {
             check = false;
         }
 
+        if (!isNumeric(phanTram.getText()) && check == true) {
+            phanTram.requestFocus();
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập số vào điều kiện để áp mã!");
+            check = false;
+        }
+
         if (dieuKien.getText().equals("") && check == true) {
             dieuKien.requestFocus();
             JOptionPane.showMessageDialog(null, "Vui lòng không bỏ trống điều kiện để áp mã!");
             check = false;
         }
 
+        if (!isNumeric(dieuKien.getText()) && check == true) {
+            dieuKien.requestFocus();
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập số vào điều kiện để áp mã!");
+            check = false;
+        }
+
         return check;
     }
 
+    private boolean isNumeric(String str) {
+        if (str == null || str.isEmpty()) {
+            return false; // Không hợp lệ nếu null hoặc rỗng
+        }
+        try {
+            Double.parseDouble(str); // Kiểm tra chuyển đổi được sang số không
+            return true;
+        } catch (NumberFormatException e) {
+            return false; // Không phải số
+        }
+    }
 }

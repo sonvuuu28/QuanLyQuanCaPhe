@@ -1,5 +1,6 @@
 package BUS;
 
+import DAO.KhachHangDAO;
 import DAO.LoaiMonDAO;
 import DAO.NhanVienDAO;
 import DAO.n1_CTHoaDonDAO;
@@ -13,6 +14,7 @@ import DTO.KhuyenMaiDTO;
 import DTO.MonDTO;
 import DTO.NhanVienDTO;
 import DTO.UuDaiThanhVienDTO;
+import com.toedter.calendar.JDateChooser;
 import java.util.ArrayList;
 import java.sql.*;
 import java.time.LocalDate;
@@ -21,6 +23,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class BanHangBUS {
@@ -75,7 +78,7 @@ public class BanHangBUS {
             int soLuong_kho = Integer.parseInt(sl_kho);
 
             if (soLuong > soLuong_kho) {
-                JOptionPane.showMessageDialog(null, "Không đủ hàng trong kho!");
+                JOptionPane.showMessageDialog(null, "Không đủ nguyên liệu trong kho!");
                 return false;
             }
 
@@ -174,7 +177,7 @@ public class BanHangBUS {
             tao_thanhCong = n1_HoaDonDAO.getInstance().addHoaDon(hd);
             JOptionPane.showMessageDialog(null, "Thanh toán thành công !", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Thanh toán thất bại !", "FAIL", JOptionPane.ERROR);
+            JOptionPane.showMessageDialog(null, "Thanh toán thất bại !", "FAIL", JOptionPane.ERROR_MESSAGE);
         }
 
         return tao_thanhCong;
@@ -187,7 +190,7 @@ public class BanHangBUS {
     public void update_tru_NguyenLieu(Object[] item) {
         n6_CaLamDAO.getInstance().update_Tru_NguyenLieu(item);
     }
-    
+
     public void update_cong_NguyenLieu(Object[] item) {
         n6_CaLamDAO.getInstance().update_Cong_NguyenLieu(item);
     }
@@ -198,7 +201,59 @@ public class BanHangBUS {
         dao.addCTHoaDon(cthd);
     }
 
+    public void insert_KhachHang(JTextField ten, JTextField sdt, JComboBox gioiTinh, JDateChooser ngaySinh, JTable table) {
+        if (ten.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập tên !", "FAIL", JOptionPane.ERROR_MESSAGE);
+            ten.requestFocus();
+            return;
+        }
+
+        if (sdt.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập số điện thoại !", "FAIL", JOptionPane.ERROR_MESSAGE);
+            sdt.requestFocus();
+            return;
+        }
+
+        if (!sdt.getText().matches("^0\\d{9}$")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập số điện thoại có 10 số và bắt đầu là số 0 !", "FAIL", JOptionPane.ERROR_MESSAGE);
+            sdt.requestFocus();
+            return;
+        }
+
+        if (gioiTinh.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn giới tính !", "FAIL", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (ngaySinh.getDate() == null) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày sinh !", "FAIL", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        KhachHangDTO kh = new KhachHangDTO();
+        kh.setMaKhachHang(getMa());
+        kh.setTenKhachHang(ten.getText());
+        kh.setGioiTinhKhachHang(gioiTinh.getSelectedItem().toString());
+        kh.setSoDienThoaiKhachHang(sdt.getText());
+        kh.setNgaySinhKhachHang(new java.sql.Date(ngaySinh.getDate().getTime()));  // Chuyển đổi từ Date sang java.sql.Date
+        kh.setChiTieuKhachHang(0);
+        System.out.println(kh.toString());
+        KhachHangDAO khDAO = new KhachHangDAO();
+
+        boolean flag = khDAO.themKhachHang(kh);
+        if (flag) {
+            JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công !", "SUCCESS", JOptionPane.PLAIN_MESSAGE);
+            showData_KhachHang(table);
+        } else {
+            JOptionPane.showMessageDialog(null, "Thêm khách hàng thất bại !", "FAIL", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public static void main(String[] args) {
         BanHangBUS.getInstance().check_Sl("44", "10");
+    }
+
+    public String getMa() {
+        KhachHangDAO kh = new KhachHangDAO();
+        return kh.layMaKhachHangCuoiCung();
     }
 }
