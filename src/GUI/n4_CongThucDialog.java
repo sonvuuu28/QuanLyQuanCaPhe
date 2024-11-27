@@ -433,14 +433,14 @@ public class n4_CongThucDialog extends javax.swing.JFrame {
         }
         int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn xóa công thức này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
         if (confirm == JOptionPane.YES_OPTION) {
-            String maNguyenLieu = String.valueOf(dsNguyenLieu.getValueAt(selectedRow, 0));
+            String maNguyenLieu = String.valueOf(dsCongThuc.getValueAt(selectedRow, 0));
             CongThucDTO congThuc = new CongThucDTO(maMon, maNguyenLieu,null);
             if(congThucBUS.deleteCongThuc(congThuc)){
                 JOptionPane.showMessageDialog(null, "Xóa công thức thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 reloadData();
-            }
-            else 
+            } else {
                 JOptionPane.showMessageDialog(null, "Xóa công thức thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
     public boolean isValidNumber(String str) {
