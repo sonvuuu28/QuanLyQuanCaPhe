@@ -470,10 +470,12 @@ public class n4_CongThucDialog extends javax.swing.JFrame {
         tf_Mon.setEditable(false);
         tf_Mon.setEnabled(false);
         tf_Mon.setBackground(Color.WHITE);
+        tf_Mon.setDisabledTextColor(Color.BLACK);
         tf_Mon.setText(monBUS.getMonById(maMon).getTenMon());
         tf_NguyenLieu.setEditable(false);
         tf_NguyenLieu.setEnabled(false);
         tf_NguyenLieu.setBackground(Color.WHITE);
+        tf_NguyenLieu.setDisabledTextColor(Color.BLACK);
         cb_TimKiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã NL", "Tên NL" }));
         tf_TimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
