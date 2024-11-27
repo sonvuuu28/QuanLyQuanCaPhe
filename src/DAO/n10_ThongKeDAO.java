@@ -18,6 +18,7 @@ import GUI.dlgCapTaiKhoan;
 import Util.JDBCUtil;
 
 public class n10_ThongKeDAO {
+    Connection c = JDBCUtil.getConnection();
 
     ///////////////////////////////thống kê mặc định
     public int TongtienHoadonngay(Date date) {
@@ -27,7 +28,7 @@ public class n10_ThongKeDAO {
             // Sử dụng điều kiện ngày
             String sql = "SELECT SUM(TongTienHoaDon) AS TongTienTatCaHoaDon FROM HoaDon WHERE NgayLapHoaDon = ?";
             
-            Connection c = JDBCUtil.getConnection();
+            // Connection c = JDBCUtil.getConnection();
             PreparedStatement pstmt = c.prepareStatement(sql);
             pstmt.setDate(1, date); // Đặt giá trị ngày vào câu truy vấn
     
@@ -54,7 +55,6 @@ public class n10_ThongKeDAO {
         String sql = "SELECT SUM(TongTienHoaDon) AS TongTienTatCaHoaDon FROM HoaDon " +
                      "WHERE MONTH(NgayLapHoaDon) = ? AND YEAR(NgayLapHoaDon) = ?";
         
-        Connection c = JDBCUtil.getConnection();
         PreparedStatement pstmt = c.prepareStatement(sql);
         pstmt.setInt(1, currentMonth); // Đặt giá trị tháng vào câu truy vấn
         pstmt.setInt(2, currentYear); // Đặt giá trị năm vào câu truy vấn
@@ -76,7 +76,7 @@ public class n10_ThongKeDAO {
         int SoluongKH = 0;
         try {
             String sql = "SELECT COUNT(*) AS SoLuongKhachHang FROM KhachHang";
-            Connection c = JDBCUtil.getConnection();
+            // Connection c = JDBCUtil.getConnection();
             PreparedStatement pstmt = c.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -92,7 +92,7 @@ public class n10_ThongKeDAO {
         int SoluongNV = 0;
         try {
             String sql = "SELECT COUNT(*) AS SoLuongNhanVien FROM NhanVien";
-            Connection c = JDBCUtil.getConnection();
+            // Connection c = JDBCUtil.getConnection();
             PreparedStatement pstmt = c.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -108,7 +108,7 @@ public class n10_ThongKeDAO {
         int Soluongncc = 0;
         try {
             String sql = "SELECT COUNT(*) AS SoLuongNhaCungCap FROM NhaCungCap";
-            Connection c = JDBCUtil.getConnection();
+            // Connection c = JDBCUtil.getConnection();
             PreparedStatement pstmt = c.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -124,7 +124,7 @@ public class n10_ThongKeDAO {
         int SoluongNL = 0;
         try {
             String sql = "SELECT COUNT(*) AS SoLuongNL FROM NguyenLieu";
-            Connection c = JDBCUtil.getConnection();
+            // Connection c = JDBCUtil.getConnection();
             PreparedStatement pstmt = c.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -148,9 +148,9 @@ public class n10_ThongKeDAO {
                      "FROM PhieuNhap " +
                      "WHERE MONTH(NgayLapPhieuNhap) = ? AND YEAR(NgayLapPhieuNhap) = ?";
     
-        try (Connection c = JDBCUtil.getConnection();
-             PreparedStatement pstmt = c.prepareStatement(sql)) {
-            
+        try  {
+            // Connection c = JDBCUtil.getConnection();
+             PreparedStatement pstmt = c.prepareStatement(sql);
             // Đặt giá trị cho tháng và năm hiện tại
             pstmt.setInt(1, currentMonth);
             pstmt.setInt(2, currentYear);
@@ -172,7 +172,7 @@ public class n10_ThongKeDAO {
         int SoluongKH = 0;
         try {
             String sql = "SELECT COUNT(*) AS SoLuongHoaDon FROM HoaDon WHERE NgayLapHoaDon = ?";
-            Connection c = JDBCUtil.getConnection();
+            // Connection c = JDBCUtil.getConnection();
             PreparedStatement pstmt = c.prepareStatement(sql);
             pstmt.setDate(1, date);
             ResultSet rs = pstmt.executeQuery();
@@ -195,7 +195,7 @@ public class n10_ThongKeDAO {
                          "JOIN HoaDon ON ChiTietHoaDon.MaHoaDon = HoaDon.MaHoaDon " +
                          "WHERE HoaDon.NgayLapHoaDon = ?";
             
-            Connection c = JDBCUtil.getConnection();
+            // Connection c = JDBCUtil.getConnection();
             PreparedStatement pstmt = c.prepareStatement(sql);
             pstmt.setDate(1, date); // Đặt giá trị ngày vào câu truy vấn
     
@@ -223,9 +223,10 @@ public class n10_ThongKeDAO {
                        "GROUP BY DATEPART(WEEKDAY, NgayLapHoaDon) " +
                        "ORDER BY ThuTrongTuan";
 
-        try (Connection c = JDBCUtil.getConnection();
+        try {
+            // Connection c = JDBCUtil.getConnection();
              Statement statement = c.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
+             ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
                 int thuTrongTuan = resultSet.getInt("ThuTrongTuan");
@@ -253,9 +254,9 @@ public class n10_ThongKeDAO {
         "SUM(CASE WHEN MONTH(NgayLapHoaDon) BETWEEN 10 AND 12 THEN TongTienHoaDon ELSE 0 END) AS Quy4 " +
         "FROM HoaDon " +
         "WHERE YEAR(NgayLapHoaDon) = ?";
-        try (Connection c = JDBCUtil.getConnection();
+        try {
+            // Connection c = JDBCUtil.getConnection();
         PreparedStatement statement = c.prepareStatement(sql);
-        ) {
 
             // Gán giá trị năm vào câu lệnh SQL
             statement.setInt(1, namHienTai);
@@ -299,9 +300,10 @@ public class n10_ThongKeDAO {
 
         int[] tongTienTheoThang = new int[12];
 
-        try (Connection c = JDBCUtil.getConnection();
+        try {
+            // Connection c = JDBCUtil.getConnection();
         PreparedStatement statement = c.prepareStatement(sql);
-        ) {
+        
 
             // Gán giá trị năm vào câu lệnh SQL
             statement.setInt(1, namHienTai);;
@@ -341,9 +343,10 @@ public class n10_ThongKeDAO {
 
         int[] tongTienTheoThang = new int[12];
 
-        try (Connection c = JDBCUtil.getConnection();
+        try {
+            // Connection c = JDBCUtil.getConnection();
         PreparedStatement statement = c.prepareStatement(sql);
-        ) {
+         
 
             // Gán giá trị năm vào câu lệnh SQL
             statement.setInt(1, namHienTai);;
@@ -374,8 +377,9 @@ public class n10_ThongKeDAO {
     
         int[] tongTienTheoQuy = new int[4];
     
-        try (Connection c = JDBCUtil.getConnection();
-             PreparedStatement statement = c.prepareStatement(sql)) {
+        try {
+            // Connection c = JDBCUtil.getConnection();
+             PreparedStatement statement = c.prepareStatement(sql); 
     
             // Gán giá trị năm vào câu lệnh SQL
             statement.setInt(1, namHienTai);
@@ -406,7 +410,7 @@ public class n10_ThongKeDAO {
             String sql = "SELECT SUM(TongTienPhieuNhap) AS TongTienTatCaPhieuNhap FROM PhieuNhap " +
                          "WHERE MONTH(NgayLapPhieuNhap) = ? AND YEAR(NgayLapPhieuNhap) = ?";
             
-            Connection c = JDBCUtil.getConnection();
+            // Connection c = JDBCUtil.getConnection();
             PreparedStatement pstmt = c.prepareStatement(sql);
             pstmt.setInt(1, currentMonth); // Đặt giá trị tháng vào câu truy vấn
             pstmt.setInt(2, currentYear); // Đặt giá trị năm vào câu truy vấn
@@ -433,8 +437,9 @@ public class n10_ThongKeDAO {
                      "FROM TaiKhoan a JOIN NhanVien e ON a.MaNhanVien = e.MaNhanVien " +
                      "WHERE a.MaNhanVien = ?";
     
-        try (Connection c = JDBCUtil.getConnection();
-             PreparedStatement stmt = c.prepareStatement(sql)) {
+        try { 
+            // Connection c = JDBCUtil.getConnection();
+             PreparedStatement stmt = c.prepareStatement(sql); 
     
             stmt.setString(1, maNhanVien);
     
@@ -491,9 +496,10 @@ public class n10_ThongKeDAO {
         String sql = "SELECT e.LuongNhanVien, a.NgayCap, a.NgayNghiViec " +
                      "FROM TaiKhoan a JOIN NhanVien e ON a.MaNhanVien = e.MaNhanVien";
     
-        try (Connection c = JDBCUtil.getConnection();
+        try {
+            // Connection c = JDBCUtil.getConnection();
              PreparedStatement stmt = c.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             ResultSet rs = stmt.executeQuery(); 
     
             while (rs.next()) {
                 int luong = rs.getInt("LuongNhanVien");
@@ -539,9 +545,10 @@ public class n10_ThongKeDAO {
         String sql = "SELECT e.LuongNhanVien, a.NgayCap, a.NgayNghiViec " +
                      "FROM TaiKhoan a JOIN NhanVien e ON a.MaNhanVien = e.MaNhanVien";
     
-        try (Connection c = JDBCUtil.getConnection();
+        try {
+            // Connection c = JDBCUtil.getConnection();
              PreparedStatement stmt = c.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             ResultSet rs = stmt.executeQuery(); 
     
             while (rs.next()) {
                 int luong = rs.getInt("LuongNhanVien");
@@ -595,9 +602,10 @@ public class n10_ThongKeDAO {
         String sql = "SELECT e.LuongNhanVien, a.NgayCap, a.NgayNghiViec " +
                      "FROM TaiKhoan a JOIN NhanVien e ON a.MaNhanVien = e.MaNhanVien";
     
-        try (Connection c = JDBCUtil.getConnection();
+        try {
+            // Connection c = JDBCUtil.getConnection();
              PreparedStatement stmt = c.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             ResultSet rs = stmt.executeQuery(); 
     
             while (rs.next()) {
                 int luong = rs.getInt("LuongNhanVien");
@@ -648,9 +656,10 @@ public class n10_ThongKeDAO {
         ArrayList<String[]> resultList = new ArrayList<>();
         String sql = "SELECT TenNguyenLieu, KhoiLuongNguyenLieu FROM NguyenLieu"; // Sửa tên bảng và cột nếu cần
 
-        try (Connection conn = JDBCUtil.getConnection(); // Kết nối DB
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+        try { 
+            // Connection conn = JDBCUtil.getConnection(); // Kết nối DB
+             PreparedStatement stmt = c.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 String maNguyenLieu = rs.getString("TenNguyenLieu");
@@ -672,14 +681,6 @@ public class n10_ThongKeDAO {
 
         return resultArray;
     }
-    
-        
-    
-    
-    
-    
-    
-
     public static void main(String[] args) {
         n10_ThongKeDAO list= new n10_ThongKeDAO();
         Date date = Date.valueOf("2024-10-03");
@@ -705,4 +706,13 @@ public class n10_ThongKeDAO {
             System.out.println(sum);
         }
     }
+        
+    
+    
+    
+    
+    
+
+    
+    
 }

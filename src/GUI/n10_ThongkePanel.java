@@ -48,13 +48,9 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
 
     public n10_ThongkePanel() {
         initComponents();
-        loaddata();
+        // loaddata();
         initUI();
         addControl();
-    }
-
-    public void loaddata() {
-
     }
 
     private void initUI() {
@@ -304,14 +300,14 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
             stringArrayDthu[0][j + 1] = String.valueOf(dataDthu.get(j));
             sumDT= sumDT+ dataDthu.get(j);
             stringArrayDthu[0][13] = String.valueOf(sumDT);
-            System.out.println(sumDT);
+        //     System.out.println(sumDT);
         }
         for (int j = 0; j < 4; j++) {
             // Gán doanh thu cho từng quý
             stringArrayDthuquy[0][j + 1] = String.valueOf(dataDthuquy.get(j));
             sumDTquy= sumDTquy+ dataDthuquy.get(j);
             stringArrayDthuquy[0][5] = String.valueOf(sumDTquy);
-            System.out.println(sumDTquy);
+        //     System.out.println(sumDTquy);
 
         }
         // chi phí
@@ -323,8 +319,8 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
 
             stringArrayChiphi[1][j + 1] = String.valueOf(dataluong.get(j));
             sumluong += dataluong.get(j);
-            System.out.print(dataluong.get(j));
-            System.out.print(sumluong);
+        //     System.out.print(dataluong.get(j));
+        //     System.out.print(sumluong);
             stringArrayChiphi[1][13] = String.valueOf(sumluong);
         }
         /// quý
