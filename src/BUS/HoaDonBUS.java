@@ -173,27 +173,24 @@ public class HoaDonBUS {
                 "Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Mã khuyến mãi", "Ngày lập" ,"Mã ưu đãi", "Tổng tiền"
             }, 
             0 // Bắt đầu với 0 hàng
-        );
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Không cho phép chỉnh sửa ô
+            }
+        };
         table.setModel(model);
-        if (txtMaHD.getText().trim().isEmpty()){
-                new dialog("Mã hóa đơn đang để trống, không thể tìm", 1);
-                return;
-        }
-        else{
-            
-            for (int i = 0; i < modelTmp.getRowCount(); i++) {
-                String maHD = modelTmp.getValueAt(i, 0).toString(); 
-                
-                if (maHD.toLowerCase().contains(txtMaHD.getText())) {
-                    Object[] rowData = new Object[modelTmp.getColumnCount()];
+        
+        for (int i = 0; i < modelTmp.getRowCount(); i++) {
+            String maHD = modelTmp.getValueAt(i, 0).toString(); 
+            if (maHD.toLowerCase().contains(txtMaHD.getText())) {
+                Object[] rowData = new Object[modelTmp.getColumnCount()];
                     
-                    for (int j = 0; j < modelTmp.getColumnCount(); j++) {
-                        rowData[j] = modelTmp.getValueAt(i, j);
-                    }
-                    
-                    model.addRow(rowData);
-                    break; 
+                for (int j = 0; j < modelTmp.getColumnCount(); j++) {
+                    rowData[j] = modelTmp.getValueAt(i, j);
                 }
+                model.addRow(rowData);
+                break; 
             }
         }
     }
