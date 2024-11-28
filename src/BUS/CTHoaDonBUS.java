@@ -33,7 +33,13 @@ public class CTHoaDonBUS {
                 "Mã SP", "Tên SP", "Đơn giá", "Số lượng", "Thành tiền"
             }, 
             0 // Bắt đầu với 0 hàng
-        );
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Không cho phép chỉnh sửa ô
+            }
+        };
+        
         tble.setModel(model);
         ArrayList<ChiTietHoaDonDTO> listCTHD = new ArrayList<>();
         listCTHD = getlistCTHD();
