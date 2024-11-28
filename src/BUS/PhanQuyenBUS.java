@@ -114,7 +114,12 @@ public class PhanQuyenBUS {
                     "Mã", "Tên", "Nhân Viên", "Khách Hàng", "Bán Hàng", "Nhập Hàng", "Món", "Nguyên Liệu", "Lịch Làm", "Khuyến Mãi", "NCC", "Thống Kê"
                 }, 
                 0 // Bắt đầu với 0 hàng
-            );
+            ){
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false; // Không cho phép chỉnh sửa ô
+                }
+            };
             table.setModel(model);
             // getListPhanQuyen();
             ArrayList<PhanQuyenDTO> dsq= getListPhanQuyen();
