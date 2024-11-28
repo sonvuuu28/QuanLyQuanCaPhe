@@ -34,7 +34,7 @@ public class XuLyFileExcel {
                 Font headerFont = workbook.createFont();
                 headerFont.setBold(true);
                 headerFont.setFontHeightInPoints((short) 14);
-                headerFont.setColor(IndexedColors.WHITE.getIndex());
+                headerFont.setColor(IndexedColors.BLACK.getIndex());
                 CellStyle headerCellStyle = workbook.createCellStyle();
                 headerCellStyle.setFont(headerFont);
                 headerCellStyle.setFillBackgroundColor(IndexedColors.GREEN.getIndex());
