@@ -8,6 +8,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import BUS.NhanVienBUS;
 import BUS.PhanQuyenBUS;
 import BUS.TaiKhoanBUS;
@@ -161,7 +163,10 @@ public class dlgCapTaiKhoan extends javax.swing.JPanel {
     }//GEN-LAST:event_lbXacNhanThayDoiTTMouseClicked
 
     private void ThemTaiKhoan(){
-
+        if(BoxQuyen.getSelectedItem().equals("Quản Trị Viên")){
+            JOptionPane.showMessageDialog(null, "Đã tồn tại 1 tài khoản có quyền quản trị viên,\n không thể thêm tài khoản khác!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return ;            
+        }
         TKBUS.themTaiKhoan(txtMa.getText(),
         txtTenDN.getText(),
         BoxQuyen.getSelectedItem() + "");
