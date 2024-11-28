@@ -68,9 +68,8 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         jSeparator5 = new javax.swing.JSeparator();
         jDNgaySinh = new com.toedter.calendar.JDateChooser();
         PanelChuaNut = new javax.swing.JPanel();
-        btn_Them = new javax.swing.JButton();
         btn_Sua = new javax.swing.JButton();
-        btn_XuatExcel = new javax.swing.JButton();
+        btn_Them = new javax.swing.JButton();
         ScrollPane = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable();
         LabelTenBang = new javax.swing.JLabel();
@@ -80,6 +79,7 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         TextFieldTimKiem = new javax.swing.JTextField();
         LabelAnhTimKiem = new javax.swing.JLabel();
         cmbTimKiem = new javax.swing.JComboBox<>();
+        btn_XuatExcel = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(122, 74, 74));
         setMaximumSize(new java.awt.Dimension(1125, 667));
@@ -114,13 +114,17 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         LblMa.setText("Mã KH");
 
         TextFieldMa.setEditable(false);
+        TextFieldMa.setBackground(new java.awt.Color(255, 255, 255));
         TextFieldMa.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         TextFieldMa.setBorder(null);
         TextFieldMa.setMaximumSize(new java.awt.Dimension(160, 28));
         TextFieldMa.setMinimumSize(new java.awt.Dimension(160, 28));
         TextFieldMa.setPreferredSize(new java.awt.Dimension(160, 28));
-        TextFieldMa.setEnabled(false);
-        TextFieldMa.setBackground(new java.awt.Color(255, 255, 255));
+        TextFieldMa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextFieldMaActionPerformed(evt);
+            }
+        });
 
         LblTen.setBackground(new java.awt.Color(255, 255, 255));
         LblTen.setText("Tên KH");
@@ -130,6 +134,7 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         TextFieldTen.setMaximumSize(new java.awt.Dimension(160, 28));
         TextFieldTen.setMinimumSize(new java.awt.Dimension(160, 28));
         TextFieldTen.setPreferredSize(new java.awt.Dimension(160, 28));
+        TextFieldTen.setRequestFocusEnabled(false);
         TextFieldTen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TextFieldTenActionPerformed(evt);
@@ -172,8 +177,6 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         TextFeildTongChiTieu.setMaximumSize(new java.awt.Dimension(160, 28));
         TextFeildTongChiTieu.setMinimumSize(new java.awt.Dimension(160, 28));
         TextFeildTongChiTieu.setPreferredSize(new java.awt.Dimension(160, 28));
-        TextFeildTongChiTieu.setEnabled(false);
-
 
         jSeparator1.setForeground(new java.awt.Color(51, 51, 51));
         jSeparator1.setMaximumSize(new java.awt.Dimension(93, 5));
@@ -194,11 +197,14 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         jSeparator5.setMaximumSize(new java.awt.Dimension(93, 5));
         jSeparator5.setMinimumSize(new java.awt.Dimension(93, 5));
         jSeparator5.setPreferredSize(new java.awt.Dimension(93, 5));
-
-        jDNgaySinh.setBackground(new java.awt.Color(255, 255, 255));
+        
         jDNgaySinh.setDateFormatString("dd-MM-yyyy");
-        jDNgaySinh.getDateEditor().setEnabled(false);
-
+        JTextField dateEditor = ((JTextField) jDNgaySinh.getDateEditor().getUiComponent());
+        dateEditor.setBackground(new java.awt.Color(211, 211, 211)); // Nền trắng
+        dateEditor.setForeground(new java.awt.Color(0, 0, 0)); // Chữ đen
+        dateEditor.setEditable(false);
+        dateEditor.setFocusable(false);
+        jDNgaySinh.setBackground(new java.awt.Color(211, 211, 211));
 
         javax.swing.GroupLayout PanelThuocTinhLayout = new javax.swing.GroupLayout(PanelThuocTinh);
         PanelThuocTinh.setLayout(PanelThuocTinhLayout);
@@ -302,7 +308,7 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
                 .addComponent(LabelTieuDe)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PanelThuocTinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 5, Short.MAX_VALUE))
+                .addGap(0, 9, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout PanelThongTinLayout = new javax.swing.GroupLayout(PanelThongTin);
@@ -310,40 +316,21 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         PanelThongTinLayout.setHorizontalGroup(
             PanelThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelThongTinLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(PanelNoiDungThongTin, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(5, 5, 5)
+                .addComponent(PanelNoiDungThongTin, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+                .addGap(5, 5, 5))
         );
         PanelThongTinLayout.setVerticalGroup(
             PanelThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelThongTinLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(PanelNoiDungThongTin, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(PanelNoiDungThongTin, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         PanelNoiDungThongTin.getAccessibleContext().setAccessibleName("");
 
         PanelChuaNut.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout PanelChuaNutLayout = new javax.swing.GroupLayout(PanelChuaNut);
-        PanelChuaNut.setLayout(PanelChuaNutLayout);
-        PanelChuaNutLayout.setHorizontalGroup(
-            PanelChuaNutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 287, Short.MAX_VALUE)
-        );
-        PanelChuaNutLayout.setVerticalGroup(
-            PanelChuaNutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 86, Short.MAX_VALUE)
-        );
-
-        btn_Them.setBackground(new java.awt.Color(0, 0, 0));
-        btn_Them.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
-        btn_Them.setForeground(new java.awt.Color(255, 255, 255));
-        btn_Them.setText("Thêm");
-        btn_Them.setMaximumSize(new java.awt.Dimension(100, 26));
-        btn_Them.setMinimumSize(new java.awt.Dimension(100, 26));
-        btn_Them.setPreferredSize(new java.awt.Dimension(100, 26));
 
         btn_Sua.setBackground(new java.awt.Color(0, 0, 0));
         btn_Sua.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
@@ -353,45 +340,58 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         btn_Sua.setMinimumSize(new java.awt.Dimension(100, 26));
         btn_Sua.setPreferredSize(new java.awt.Dimension(100, 26));
 
-        btn_XuatExcel.setBackground(new java.awt.Color(0, 0, 0));
-        btn_XuatExcel.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
-        btn_XuatExcel.setForeground(new java.awt.Color(255, 255, 255));
-        btn_XuatExcel.setText("Xuất Excel");
-        btn_XuatExcel.setMaximumSize(new java.awt.Dimension(100, 26));
-        btn_XuatExcel.setMinimumSize(new java.awt.Dimension(100, 26));
-        btn_XuatExcel.setPreferredSize(new java.awt.Dimension(100, 26));
+        btn_Them.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Them.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
+        btn_Them.setForeground(new java.awt.Color(255, 255, 255));
+        btn_Them.setText("Thêm");
+        btn_Them.setMaximumSize(new java.awt.Dimension(100, 26));
+        btn_Them.setMinimumSize(new java.awt.Dimension(100, 26));
+        btn_Them.setPreferredSize(new java.awt.Dimension(100, 26));
+        btn_Them.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ThemActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout PanelChuaNutLayout = new javax.swing.GroupLayout(PanelChuaNut);
+        PanelChuaNut.setLayout(PanelChuaNutLayout);
+        PanelChuaNutLayout.setHorizontalGroup(
+            PanelChuaNutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelChuaNutLayout.createSequentialGroup()
+                .addComponent(btn_Them, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                .addComponent(btn_Sua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        PanelChuaNutLayout.setVerticalGroup(
+            PanelChuaNutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelChuaNutLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(PanelChuaNutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_Sua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_Them, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 33, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout PanelInputLayout = new javax.swing.GroupLayout(PanelInput);
         PanelInput.setLayout(PanelInputLayout);
         PanelInputLayout.setHorizontalGroup(
             PanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelInputLayout.createSequentialGroup()
-                .addGroup(PanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelInputLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(PanelChuaNut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelInputLayout.createSequentialGroup()
-                        .addComponent(btn_Them, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_Sua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelInputLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(PanelChuaNut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7))
             .addGroup(PanelInputLayout.createSequentialGroup()
-                .addGroup(PanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PanelThongTin, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_XuatExcel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(PanelThongTin, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+                .addContainerGap())
         );
         PanelInputLayout.setVerticalGroup(
             PanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelInputLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
                 .addComponent(PanelThongTin, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(PanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_Them, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_Sua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addComponent(btn_XuatExcel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(PanelChuaNut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -462,13 +462,26 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
 
         cmbTimKiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tìm theo mã", "Tìm theo tên" }));
 
+        btn_XuatExcel.setBackground(new java.awt.Color(0, 0, 0));
+        btn_XuatExcel.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
+        btn_XuatExcel.setForeground(new java.awt.Color(255, 255, 255));
+        btn_XuatExcel.setText("Xuất Excel");
+        btn_XuatExcel.setMaximumSize(new java.awt.Dimension(100, 26));
+        btn_XuatExcel.setMinimumSize(new java.awt.Dimension(100, 26));
+        btn_XuatExcel.setPreferredSize(new java.awt.Dimension(100, 26));
+
         javax.swing.GroupLayout PanelTongLayout = new javax.swing.GroupLayout(PanelTong);
         PanelTong.setLayout(PanelTongLayout);
         PanelTongLayout.setHorizontalGroup(
             PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelTongLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(PanelInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelTongLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(PanelInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelTongLayout.createSequentialGroup()
+                        .addGap(120, 120, 120)
+                        .addComponent(btn_XuatExcel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelTongLayout.createSequentialGroup()
@@ -482,9 +495,9 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
                     .addComponent(ScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 779, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(PanelTongLayout.createSequentialGroup()
-                .addContainerGap(562, Short.MAX_VALUE)
+                .addContainerGap(483, Short.MAX_VALUE)
                 .addComponent(LabelTenBang)
-                .addGap(403, 403, 403))
+                .addGap(482, 482, 482))
         );
         PanelTongLayout.setVerticalGroup(
             PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -502,7 +515,10 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
                             .addComponent(cmbTimKiem))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(PanelInput, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelTongLayout.createSequentialGroup()
+                        .addComponent(PanelInput, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_XuatExcel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(14, 14, 14))
         );
 
@@ -531,6 +547,10 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
     private void TextFieldSDTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFieldSDTActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TextFieldSDTActionPerformed
+
+    private void btn_ThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ThemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_ThemActionPerformed
 
 
     public void nhomNutChucNang() {
