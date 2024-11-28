@@ -391,11 +391,11 @@ public class n4_CongThucDialog extends javax.swing.JFrame {
             return;
             }
             if(congThucBUS.addCongThuc(congThuc)){
-                JOptionPane.showMessageDialog(null, "Thêm công thức thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Thêm nguyên liệu thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 reloadData();
             }
             else 
-                JOptionPane.showMessageDialog(null, "Thêm công thức thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Thêm nguyên liệu thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
         }
     }
     public void btn_SuaAction() {
@@ -412,17 +412,17 @@ public class n4_CongThucDialog extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập khối lượng phù hợp!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }   
-        int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn sửa công thức này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn sửa nguyên liệu này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
         if (confirm == JOptionPane.YES_OPTION) {
             String maNguyenLieu = String.valueOf(dsCongThuc.getValueAt(selectedRow, 0));
             Double khoiLuong = Double.valueOf(tf_KhoiLuong.getText());
             CongThucDTO congThuc = new CongThucDTO(maMon, maNguyenLieu, khoiLuong);
             if(congThucBUS.updateCongThuc(congThuc)){
-                JOptionPane.showMessageDialog(null, "Sửa công thức thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Sửa nguyên liệu thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 reloadData();
             }
             else 
-                JOptionPane.showMessageDialog(null, "Sửa công thức thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Sửa nguyên liệu thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
         }
     }
     public void btn_XoaAction() {
@@ -431,15 +431,15 @@ public class n4_CongThucDialog extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn công thức trong bảng công thức bên phải!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn xóa công thức này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn xóa nguyên liệu khỏi công thức này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
         if (confirm == JOptionPane.YES_OPTION) {
             String maNguyenLieu = String.valueOf(dsCongThuc.getValueAt(selectedRow, 0));
             CongThucDTO congThuc = new CongThucDTO(maMon, maNguyenLieu,null);
             if(congThucBUS.deleteCongThuc(congThuc)){
-                JOptionPane.showMessageDialog(null, "Xóa công thức thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Xóa nguyên liệu khỏi công thức thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 reloadData();
             } else {
-                JOptionPane.showMessageDialog(null, "Xóa công thức thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Xóa nguyên liệu khỏi công thức thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
