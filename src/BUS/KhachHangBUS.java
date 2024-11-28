@@ -1,6 +1,7 @@
 package BUS;
 
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -147,9 +148,16 @@ public class KhachHangBUS {
             vec.add(nv.getGioiTinhKhachHang());
             vec.add(nv.getSoDienThoaiKhachHang());
             vec.add(nv.getNgaySinhKhachHang());
-            vec.add(nv.getChiTieuKhachHang());
+            vec.add(formatCurrency(nv.getChiTieuKhachHang()));
             model.addRow(vec);
         }
+    }
+
+    public String formatCurrency(int amount) {
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        
+        String formatted = formatter.format(amount);
+        return formatted + "VNĐ";
     }
 
     public boolean checkSDT(String sdt){
