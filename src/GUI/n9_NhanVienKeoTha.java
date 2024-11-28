@@ -773,7 +773,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             }
 
             public void mouseClicked(MouseEvent e){
-                if(validateFields()){
+                if(validateFieldsSua()){
                     xuLySuaNhanVien();
                     refresh();
                     loadDataTblNhanVien();
@@ -931,14 +931,109 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             new dialog("Lương không được để trống!", dialog.ERROR_DIALOG);
             return false;
         } else if (!txtLuong.getText().matches(regexNoSpecialChars) && !txtLuong.getText().matches(regexNoSpecialChars2)) {
-            new dialog("Lương không được chứa ký tự đặc biệt!", dialog.ERROR_DIALOG);
+            
             return false;
         }
         
+        for (int i = 0; i < BoxChucVu.getItemCount(); i++) {
+            if ((BoxChucVu.getSelectedItem().toString().equals("Quản Trị Viên") && NVBUS.checkExistAdmin())) {
+                JOptionPane.showMessageDialog(null, "Chỉ được tồn tại 1 nhân viên có quyền Admin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean validateFieldsSua() {
+        // Biểu thức chính quy để kiểm tra không chứa ký tự đặc biệt (chỉ chứa ký tự và số)
+        String regexNoSpecialChars = "^[0-9]{1,3}(?:,\\d{3})*VNĐ$";
+        String regexNoSpecialChars2 = "^[a-zA-Z0-9]*$";  // Không chứa ký tự đặc biệt
+        // Kiểm tra txtTen (Tên người dùng)
+        if (txtTen.getText().equals("")) {
+            new dialog("Tên không được để trống!", dialog.ERROR_DIALOG);
+            return false;
+        } else if (txtTen.getText().length() > 50) {
+            new dialog("Tên không được quá 50 ký tự!", dialog.ERROR_DIALOG);
+            return false;
+        } else if ((txtTen.getText().matches(".*[!@#$%^&*()_+=\\[\\]{};':\"\\\\|,.<>/?`~].*")||txtTen.getText().matches(".*\\d.*"))) {
+            new dialog( "Tên không được chứa số hoặc ký tự đặc biệt!", dialog.ERROR_DIALOG);
+            return false;
+        }
+
+        if(BoxGioiTinh.getSelectedItem().toString().equals("Chọn giới tính")){
+            new dialog("Bạn phải chọn giới tính!", dialog.ERROR_DIALOG);
+            return false;
+        }
+
+        // Kiểm tra txtSDT (Số điện thoại)
+        else if (txtSDT.getText().equals("")) {
+            new dialog("Số điện thoại không được để trống!", dialog.ERROR_DIALOG);
+            return false;
+        } else if (!txtSDT.getText().matches("0\\d{9}")) { // Số điện thoại phải có 10 chữ số, bắt đầu với số 0
+            new dialog("Số điện thoại phải bắt đầu bằng số 0 và có 10 số !", dialog.ERROR_DIALOG);
+            return false;
+        } else if (txtSDT.getText().contains(" ")) { // Không có khoảng trắng giữa các số
+            new dialog("Số điện thoại không được chứa khoảng trắng!", dialog.ERROR_DIALOG);
+            return false;
+        }else if (!NVBUS.checkSDTBanThan(txtSDT.getText(),txtMa.getText())) { // Không có khoảng trắng giữa các số
+            new dialog("Số điện thoại đã tồn tại!", dialog.ERROR_DIALOG);
+            return false;
+        }
+        // Kiểm tra txtDiaChi (địa chỉ)
+        if(txtDiaChi.getText().equals("")){
+            new dialog("Địa chỉ không được để trống!", dialog.ERROR_DIALOG);
+            return false;
+        }
+
+        // Kiểm tra JDNgaySinh (Ngày sinh)
+        if (JDNgaySinh.getDate() == null) {
+            new dialog("Ngày sinh không được để trống!", dialog.ERROR_DIALOG);
+            return false;
+        } 
+        else {
+            // Lấy ngày hiện tại
+            LocalDate currentDate = LocalDate.now();
+
+            // Lấy ngày sinh từ JDateChooser
+            LocalDate birthDate = JDNgaySinh.getDate().toInstant()
+                                    .atZone(java.time.ZoneId.systemDefault())
+                                    .toLocalDate();
+
+            // Tính toán khoảng cách tuổi giữa ngày sinh và ngày hiện tại
+            Period period = Period.between(birthDate, currentDate);
+
+            // Kiểm tra nếu tuổi nhỏ hơn 18
+            if (period.getYears() < 18) {
+                new dialog("Chưa đủ 18 tuổi để làm nhân viên!", dialog.ERROR_DIALOG);
+                return false;
+            }
+        }
+
+        // Kiểm tra txtLuong (Lương)
+        if (txtLuong.getText().equals("")) {
+            new dialog("Lương không được để trống!", dialog.ERROR_DIALOG);
+            return false;
+        } else if (!txtLuong.getText().matches(regexNoSpecialChars) && !txtLuong.getText().matches(regexNoSpecialChars2)) {
+            
+            return false;
+        }
+        
+        for (int i = 0; i < BoxChucVu.getItemCount(); i++) {
+            if ((BoxChucVu.getSelectedItem().toString().equals("Quản Trị Viên") && NVBUS.checkExistAdmin())) {
+                JOptionPane.showMessageDialog(null, "Admin không thể tự thay đổi thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
         return true;
     }
 
     private void xuLyKhoaTaiKhoan() {
+
+        String tenDangNhap = TKBUS.getTenDangNhapTheoMa(txtMa.getText());
+        if (tenDangNhap.equals("")) {
+            new dialog("Nhân viên này chưa có tài khoản!", dialog.ERROR_DIALOG);
+            return ;
+        }
         dialog dlg = new dialog("Có chắc muốn khóa tài khoản này!", dialog.WARNING_DIALOG);
         if (dlg.getAction() != dialog.OK_OPTION) {
             return;
@@ -1003,7 +1098,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         }
         //? check Admin không được sửa thông tin
         if(NVBUS.getById(txtMa.getText()).getChucVuNhanVien().equals("Quản trị")) {
-            new dialog("Bạn là Quản Trị Viên", dialog.ERROR_DIALOG);
+            new dialog("Bạn là Quản Trị Viên,\n không thể sủa thông tin của chính mình", dialog.ERROR_DIALOG);
             return;
         }
         String ten = txtTen.getText();
@@ -1156,6 +1251,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
 
     private void loadDataTblNhanVien() {
         NVBUS.loadDataTblNhanVien(Table);
+        loadDataCmbQuyen();
     }
     //khai báo đối tượng cần dùng
     TaiKhoanBUS TKBUS = new TaiKhoanBUS();
