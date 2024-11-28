@@ -206,7 +206,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         LblKhoaTK.setBackground(new java.awt.Color(255, 255, 255));
         LblKhoaTK.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         LblKhoaTK.setForeground(new java.awt.Color(255, 255, 255));
-        LblKhoaTK.setText("Khóa/Mở khóa TK");
+        LblKhoaTK.setText("Khóa/Mở TK");
         BtnKhoaTK.add(LblKhoaTK);
 
         BtnXuat.setBackground(new java.awt.Color(0, 0, 0));
