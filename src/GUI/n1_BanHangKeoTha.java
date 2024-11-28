@@ -13,6 +13,8 @@ import javax.swing.table.TableModel;
 
 public class n1_BanHangKeoTha extends javax.swing.JPanel {
 
+    public String MaNhanVien = "";
+
     public n1_BanHangKeoTha(String user) {
         initComponents();
         this.MaNhanVien = user;
@@ -198,6 +200,9 @@ public class n1_BanHangKeoTha extends javax.swing.JPanel {
         PanelTimKiem.setMinimumSize(new java.awt.Dimension(314, 32));
         PanelTimKiem.setPreferredSize(new java.awt.Dimension(270, 32));
 
+        TimKiem.setFont(new java.awt.Font("Segoe UI Light", 2, 12)); // NOI18N
+        TimKiem.setForeground(new java.awt.Color(0, 102, 0));
+        TimKiem.setText("Tìm tên món");
         TimKiem.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         LabelAnhTimKiem.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -353,6 +358,10 @@ public class n1_BanHangKeoTha extends javax.swing.JPanel {
         listCart.add(cthd);
         displayCart();
     }
+    
+    public void setGioHangRong(){
+        listCart.clear();
+    }
 
     public void displayCart() {
         DefaultTableModel model = (DefaultTableModel) Table.getModel();
@@ -477,6 +486,12 @@ public class n1_BanHangKeoTha extends javax.swing.JPanel {
                 listSanPham(listMon);
             }
         });
+        
+        TimKiem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TimKiem.setText("");
+            }
+        });
 
         PanelBanHang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -525,7 +540,7 @@ public class n1_BanHangKeoTha extends javax.swing.JPanel {
                 }
 
 //                System.out.println(TongTien);
-                n1_BanHang_ThanhToan a = new n1_BanHang_ThanhToan(n1_BanHangKeoTha.this);
+                n1_BanHang_ThanhToan a = new n1_BanHang_ThanhToan(n1_BanHangKeoTha.this, MaNhanVien);
                 a.setVisible(true);
             }
         });
@@ -543,6 +558,7 @@ public class n1_BanHangKeoTha extends javax.swing.JPanel {
 
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 reload();
+                TimKiem.setText("Tìm tên món");
             }
         });
 
@@ -600,7 +616,6 @@ public class n1_BanHangKeoTha extends javax.swing.JPanel {
 
     }
 
-    public String MaNhanVien = "";
     public int TongTien = 0;
     public ArrayList<Object[]> listCart = new ArrayList<>();
     // Variables declaration - do not modify//GEN-BEGIN:variables

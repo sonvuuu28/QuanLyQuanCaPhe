@@ -20,6 +20,7 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
 
     public n0_TrangChuGUI(TaiKhoanDTO userLogin) {
         this.userLogin = userLogin;
+        MaNhanVien = userLogin.getMaNhanVien();
         initComponents();
         PanelNoiDung.removeAll();
         banhang = new n1_BanHangKeoTha(userLogin.getMaNhanVien());
@@ -456,6 +457,7 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 if (phanQuyen.getQuyenBanHang()) {
                     PanelNoiDung.removeAll();
+                    System.out.println(MaNhanVien);
                     n1_BanHangKeoTha banhang = new n1_BanHangKeoTha(MaNhanVien);
                     banhang.listCart = list;
                     PanelNoiDung.setLayout(new BorderLayout());
@@ -791,7 +793,7 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
     private javax.swing.JLabel PanelTen;
     private Util.PanelRound PanelThongTin;
     private javax.swing.JPanel PanelTong;
-    private String MaNhanVien;
+    public String MaNhanVien;
     private PhanQuyenDTO phanQuyen;
     private TaiKhoanDTO userLogin;
     private n1_BanHangKeoTha banhang;

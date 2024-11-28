@@ -27,9 +27,17 @@ public class n7_KhuyenMai_UuDaiBUS {
         for (KhuyenMaiDTO dto : ds) {
             model.addRow(new Object[]{dto.getMaKhuyenMai(), dto.getTenKhuyenMai(), yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayBatDauKhuyenMai()),
                 yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayKetThucKhuyenMai()),
-                dto.getPhanTramKhuyenMai(), set_Tien_VND(dto.getDieuKienKhuyenMai()), checkHan(dto.getNgayBatDauKhuyenMai(), dto.getNgayKetThucKhuyenMai())
+                setFoatToInt(dto.getPhanTramKhuyenMai()), set_Tien_VND(dto.getDieuKienKhuyenMai()), checkHan(dto.getNgayBatDauKhuyenMai(), dto.getNgayKetThucKhuyenMai())
             });
             i++;
+        }
+        if (ds.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Rất tiếc, hiện tại không tìm thấy chương trình khuyến mãi phù hợp! \nVui lòng kiểm tra lại thông tin.",
+                    "Thông báo",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         }
     }
 
@@ -41,7 +49,7 @@ public class n7_KhuyenMai_UuDaiBUS {
         for (KhuyenMaiDTO dto : ds) {
             model.addRow(new Object[]{dto.getMaKhuyenMai(), dto.getTenKhuyenMai(), yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayBatDauKhuyenMai()),
                 yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayKetThucKhuyenMai()),
-                dto.getPhanTramKhuyenMai(), set_Tien_VND(dto.getDieuKienKhuyenMai()), checkHan(dto.getNgayBatDauKhuyenMai(), dto.getNgayKetThucKhuyenMai())
+                setFoatToInt(dto.getPhanTramKhuyenMai()), set_Tien_VND(dto.getDieuKienKhuyenMai()), checkHan(dto.getNgayBatDauKhuyenMai(), dto.getNgayKetThucKhuyenMai())
             });
             i++;
         }
@@ -55,9 +63,17 @@ public class n7_KhuyenMai_UuDaiBUS {
         for (KhuyenMaiDTO dto : ds) {
             model.addRow(new Object[]{dto.getMaKhuyenMai(), dto.getTenKhuyenMai(), yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayBatDauKhuyenMai()),
                 yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayKetThucKhuyenMai()),
-                dto.getPhanTramKhuyenMai(), set_Tien_VND(dto.getDieuKienKhuyenMai()), checkHan(dto.getNgayBatDauKhuyenMai(), dto.getNgayKetThucKhuyenMai())
+                setFoatToInt(dto.getPhanTramKhuyenMai()), set_Tien_VND(dto.getDieuKienKhuyenMai()), checkHan(dto.getNgayBatDauKhuyenMai(), dto.getNgayKetThucKhuyenMai())
             });
             i++;
+        }
+        if (ds.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Rất tiếc, hiện tại không tìm thấy chương trình khuyến mãi phù hợp! \nVui lòng kiểm tra lại thông tin.",
+                    "Thông báo",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         }
     }
 
@@ -69,9 +85,17 @@ public class n7_KhuyenMai_UuDaiBUS {
         for (KhuyenMaiDTO dto : ds) {
             model.addRow(new Object[]{dto.getMaKhuyenMai(), dto.getTenKhuyenMai(), yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayBatDauKhuyenMai()),
                 yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayKetThucKhuyenMai()),
-                dto.getPhanTramKhuyenMai(), set_Tien_VND(dto.getDieuKienKhuyenMai()), checkHan(dto.getNgayBatDauKhuyenMai(), dto.getNgayKetThucKhuyenMai())
+                setFoatToInt(dto.getPhanTramKhuyenMai()), set_Tien_VND(dto.getDieuKienKhuyenMai()), checkHan(dto.getNgayBatDauKhuyenMai(), dto.getNgayKetThucKhuyenMai())
             });
             i++;
+        }
+        if (ds.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Rất tiếc, hiện tại không tìm thấy chương trình khuyến mãi phù hợp! \nVui lòng kiểm tra lại thông tin.",
+                    "Thông báo",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         }
     }
 
@@ -89,14 +113,28 @@ public class n7_KhuyenMai_UuDaiBUS {
         }
     }
 
-    public void update_khuyenMai(String ma, String ten, Date ngayBD, Date ngayKT, Float phanTram, int DieuKien) {
+    public int update_khuyenMai(String ma, String ten, Date ngayBD, Date ngayKT, Float phanTram, int DieuKien) {
         KhuyenMaiDTO dto = new KhuyenMaiDTO(ma, ten, ngayBD, ngayKT, phanTram, DieuKien);
-        boolean dao = n7_KhuyenMaiDAO.getInstance().update_khuyenMai(dto);
-        if (dao) {
-            JOptionPane.showMessageDialog(null, "Sửa khuyến mãi thành công");
-        } else {
-            JOptionPane.showMessageDialog(null, "Không tồn tại mã khuyến mãi!");
+        int dao = n7_KhuyenMaiDAO.getInstance().update_khuyenMai(dto);
+    
+        switch (dao) {
+            case 1:
+                JOptionPane.showMessageDialog(null,
+                        "Cập nhật thông tin khuyến mãi thành công! Cảm ơn bạn đã sử dụng hệ thống.",
+                        "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case 0:
+                JOptionPane.showMessageDialog(null,
+                        "Không thể cập nhật thông tin khuyến mãi. Vui lòng kiểm tra lại thông tin.",
+                        "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+                break;
+            case 2:
+                JOptionPane.showMessageDialog(null, "Thông tin khuyến mãi không có thay đổi nào mới. Vui lòng kiểm tra lại dữ liệu đã nhập!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            default:
+                break;
         }
+        return dao;
     }
 
     public void getListUuDai(JTable table) {
@@ -107,10 +145,14 @@ public class n7_KhuyenMai_UuDaiBUS {
         for (UuDaiThanhVienDTO dto : ds) {
             model.addRow(new Object[]{dto.getMaUuDai(), dto.getTenUuDai(), yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayBatDauUuDai()),
                 yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayKetThucUuDai()),
-                dto.getPhanTramUuDai(), set_Tien_VND(dto.getDieuKienUuDai()), checkHan(dto.getNgayBatDauUuDai(), dto.getNgayKetThucUuDai())
+                setFoatToInt(dto.getPhanTramUuDai()), set_Tien_VND(dto.getDieuKienUuDai()), checkHan(dto.getNgayBatDauUuDai(), dto.getNgayKetThucUuDai())
             });
             i++;
         }
+    }
+
+    public int setFoatToInt(Float phantram) {
+        return Math.round(phantram);
     }
 
     public void getListUuDai_theoTen(JTable table, String ten) {
@@ -121,9 +163,17 @@ public class n7_KhuyenMai_UuDaiBUS {
         for (UuDaiThanhVienDTO dto : ds) {
             model.addRow(new Object[]{dto.getMaUuDai(), dto.getTenUuDai(), yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayBatDauUuDai()),
                 yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayKetThucUuDai()),
-                dto.getPhanTramUuDai(), set_Tien_VND(dto.getDieuKienUuDai()), checkHan(dto.getNgayBatDauUuDai(), dto.getNgayKetThucUuDai())
+                setFoatToInt(dto.getPhanTramUuDai()), set_Tien_VND(dto.getDieuKienUuDai()), checkHan(dto.getNgayBatDauUuDai(), dto.getNgayKetThucUuDai())
             });
             i++;
+        }
+        if (ds.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Rất tiếc, hiện tại không tìm thấy chương trình ưu đãi thành viên phù hợp! \nVui lòng kiểm tra lại thông tin.",
+                    "Thông báo",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         }
     }
 
@@ -135,9 +185,17 @@ public class n7_KhuyenMai_UuDaiBUS {
         for (UuDaiThanhVienDTO dto : ds) {
             model.addRow(new Object[]{dto.getMaUuDai(), dto.getTenUuDai(), yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayBatDauUuDai()),
                 yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayKetThucUuDai()),
-                dto.getPhanTramUuDai(), set_Tien_VND(dto.getDieuKienUuDai()), checkHan(dto.getNgayBatDauUuDai(), dto.getNgayKetThucUuDai())
+                setFoatToInt(dto.getPhanTramUuDai()), set_Tien_VND(dto.getDieuKienUuDai()), checkHan(dto.getNgayBatDauUuDai(), dto.getNgayKetThucUuDai())
             });
             i++;
+        }
+        if (ds.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Rất tiếc, hiện tại không tìm thấy chương trình ưu đãi thành viên phù hợp! \nVui lòng kiểm tra lại thông tin.",
+                    "Thông báo",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         }
     }
 
@@ -155,14 +213,27 @@ public class n7_KhuyenMai_UuDaiBUS {
         }
     }
 
-    public void update_uuDai(String ma, String ten, Date ngayBD, Date ngayKT, Float phanTram, int DieuKien) {
+    public int update_uuDai(String ma, String ten, Date ngayBD, Date ngayKT, Float phanTram, int DieuKien) {
         UuDaiThanhVienDTO dto = new UuDaiThanhVienDTO(ma, ten, ngayBD, ngayKT, phanTram, DieuKien);
-        boolean dao = n7_UuDaiThanhVienDAO.getInstance().update_uuDai(dto);
-        if (dao) {
-            JOptionPane.showMessageDialog(null, "Sửa ưu đãi thành công");
-        } else {
-            JOptionPane.showMessageDialog(null, "Không tồn tại mã ưu đãi!");
+        int dao = n7_UuDaiThanhVienDAO.getInstance().update_uuDai(dto);
+        switch (dao) {
+            case 1:
+                JOptionPane.showMessageDialog(null,
+                        "Cập nhật thông tin ưu đãi thành viên thành công! Cảm ơn bạn đã sử dụng hệ thống.",
+                        "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case 0:
+                JOptionPane.showMessageDialog(null,
+                        "Không thể cập nhật thông tin ưu đãi thành viên. Vui lòng kiểm tra lại thông tin.",
+                        "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+                break;
+            case 2:
+                JOptionPane.showMessageDialog(null, "Thông tin ưu đãi thành viên không có thay đổi nào mới. Vui lòng kiểm tra lại dữ liệu đã nhập!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            default:
+                break;
         }
+        return dao;
     }
 
     public void search(JTable table, String ma, String ten, Date ngayBD, Date ngayKT, Float phanTram, int DieuKien) {
@@ -175,9 +246,17 @@ public class n7_KhuyenMai_UuDaiBUS {
         for (UuDaiThanhVienDTO dto : ds) {
             model.addRow(new Object[]{dto.getMaUuDai(), dto.getTenUuDai(), yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayBatDauUuDai()),
                 yyyy_mm_dd__to__dd_mm_yyyy(dto.getNgayKetThucUuDai()),
-                dto.getPhanTramUuDai(), set_Tien_VND(dto.getDieuKienUuDai()), checkHan(dto.getNgayBatDauUuDai(), dto.getNgayKetThucUuDai())
+                setFoatToInt(dto.getPhanTramUuDai()), set_Tien_VND(dto.getDieuKienUuDai()), checkHan(dto.getNgayBatDauUuDai(), dto.getNgayKetThucUuDai())
             });
             i++;
+        }
+        if (ds.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Rất tiếc, hiện tại không tìm thấy chương trình ưu đãi thành viên phù hợp! \nVui lòng kiểm tra lại thông tin.",
+                    "Thông báo",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         }
     }
 

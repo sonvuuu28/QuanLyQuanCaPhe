@@ -96,14 +96,34 @@ public class BanHangBUS {
         return ten;
     }
 
-    public ArrayList<KhuyenMaiDTO> getAll_KhuyenMai(int tongTien, String date, JComboBox box) {
+    public KhuyenMaiDTO getAllAndSelectBestKhuyenMai(int tongTien, String date, JComboBox box) {
+        // Lấy danh sách khuyến mãi phù hợp
         ArrayList<KhuyenMaiDTO> ds = n6_CaLamDAO.getInstance().getAll_KhuyenMai(tongTien, Date.valueOf(date));
+        KhuyenMaiDTO bestKm = null;
 
-        for (KhuyenMaiDTO km : ds) {
-            box.addItem(km.getTenKhuyenMai());
+        if (!ds.isEmpty()) {
+            // Thêm các khuyến mãi vào ComboBox
+            for (KhuyenMaiDTO km : ds) {
+                box.addItem(km.getTenKhuyenMai());
+            }
+
+            // Tìm khuyến mãi tối ưu nhất (phần trăm khuyến mãi cao nhất)
+            bestKm = ds.get(0);
+            for (KhuyenMaiDTO km : ds) {
+                if (km.getPhanTramKhuyenMai() > bestKm.getPhanTramKhuyenMai()) {
+                    bestKm = km;
+                }
+            }
+
+            // Đặt mã khuyến mãi tối ưu nhất làm lựa chọn mặc định
+            box.setSelectedItem(bestKm.getTenKhuyenMai());
         }
 
-        return ds;
+        return bestKm;
+    }
+    
+    public void suaChiTieuKhachHang(int chiTieu, String Ma){
+        n6_CaLamDAO.getInstance().suaChiTieuKhachHang(chiTieu, Ma);
     }
 
     public KhuyenMaiDTO get_KhuyenMai_theoTen(int tongTien, String date, String ten) {
@@ -164,7 +184,7 @@ public class BanHangBUS {
     public String set_UuDaiThanhVien(int chiTieu, JLabel uuDai) {
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         Date date = Date.valueOf(today);
-        System.out.println("Bán hàng bus" + chiTieu + "" + date);
+//        System.out.println("Bán hàng bus" + chiTieu + "" + date);
         UuDaiThanhVienDTO dto = n6_CaLamDAO.getInstance().get_UuDai_theoChiTieu(chiTieu, date);
         uuDai.setText(dto.getTenUuDai());
         return dto.getMaUuDai();
@@ -201,7 +221,7 @@ public class BanHangBUS {
         dao.addCTHoaDon(cthd);
     }
 
-    public void insert_KhachHang(JTextField ten, JTextField sdt, JComboBox gioiTinh, JDateChooser ngaySinh, JTable table) {
+    public void insert_KhachHang(JTextField ma, JTextField ten, JTextField sdt, JComboBox gioiTinh, JDateChooser ngaySinh, JTable table) {
         if (ten.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập tên !", "FAIL", JOptionPane.ERROR_MESSAGE);
             ten.requestFocus();
@@ -236,13 +256,18 @@ public class BanHangBUS {
         kh.setSoDienThoaiKhachHang(sdt.getText());
         kh.setNgaySinhKhachHang(new java.sql.Date(ngaySinh.getDate().getTime()));  // Chuyển đổi từ Date sang java.sql.Date
         kh.setChiTieuKhachHang(0);
-        System.out.println(kh.toString());
+//        System.out.println(kh.toString());
         KhachHangDAO khDAO = new KhachHangDAO();
 
         boolean flag = khDAO.themKhachHang(kh);
         if (flag) {
             JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công !", "SUCCESS", JOptionPane.PLAIN_MESSAGE);
             showData_KhachHang(table);
+            ten.setText("");
+            sdt.setText("");
+            ngaySinh.setDate(null);
+            gioiTinh.setSelectedIndex(0);
+            ma.setText(getMa());
         } else {
             JOptionPane.showMessageDialog(null, "Thêm khách hàng thất bại !", "FAIL", JOptionPane.ERROR_MESSAGE);
         }

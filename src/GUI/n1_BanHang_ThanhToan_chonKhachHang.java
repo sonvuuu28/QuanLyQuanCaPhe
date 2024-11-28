@@ -100,9 +100,9 @@ public class n1_BanHang_ThanhToan_chonKhachHang extends javax.swing.JFrame {
         Them.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BanHangBUS.getInstance().insert_KhachHang(TextFieldTen, TextFieldSDT, ComboBoxGioiTinh, jDNgaySinh, Table);
+                BanHangBUS.getInstance().insert_KhachHang(TextFieldMa, TextFieldTen, TextFieldSDT, ComboBoxGioiTinh, jDNgaySinh, Table);
 //                showData_KhachHang();
-                TaiLai();
+//                TaiLai();
             }
         });
     }

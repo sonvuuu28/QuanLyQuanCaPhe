@@ -71,7 +71,7 @@ public class n7_KhuyenMaiDAO {
             String sql = "SELECT * FROM KhuyenMai where TenKhuyenMai like ? ORDER BY MaKhuyenMai DESC";
             Connection c = JDBCUtil.getConnection();
             PreparedStatement st = c.prepareStatement(sql);
-            st.setString(1,"%" + ten + "%");
+            st.setString(1, "%" + ten + "%");
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
@@ -89,14 +89,14 @@ public class n7_KhuyenMaiDAO {
         }
         return dskm;
     }
-    
+
     public ArrayList<KhuyenMaiDTO> getListKhuyenMai_theoMa(String ten) {
         ArrayList<KhuyenMaiDTO> dskm = new ArrayList<>();
         try {
             String sql = "SELECT * FROM KhuyenMai where MaKhuyenMai like ? ORDER BY MaKhuyenMai DESC";
             Connection c = JDBCUtil.getConnection();
             PreparedStatement st = c.prepareStatement(sql);
-            st.setString(1,"%" + ten + "%");
+            st.setString(1, "%" + ten + "%");
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
@@ -114,7 +114,7 @@ public class n7_KhuyenMaiDAO {
         }
         return dskm;
     }
-    
+
     public ArrayList<KhuyenMaiDTO> search(KhuyenMaiDTO dto) {
         ArrayList<KhuyenMaiDTO> dskm = new ArrayList<>();
         try {
@@ -123,11 +123,11 @@ public class n7_KhuyenMaiDAO {
 
             // Danh sách tham số cho PreparedStatement
             ArrayList<Object> params = new ArrayList<>();
-            params.add("%" + dto.getMaKhuyenMai()+ "%");
-            params.add("%" + dto.getTenKhuyenMai()+ "%");
+            params.add("%" + dto.getMaKhuyenMai() + "%");
+            params.add("%" + dto.getTenKhuyenMai() + "%");
 
             // Xử lý ngày bắt đầu
-            if (dto.getNgayBatDauKhuyenMai()!= null) {
+            if (dto.getNgayBatDauKhuyenMai() != null) {
                 if (!dto.getNgayBatDauKhuyenMai().toString().equals("1900-01-01")) {
                     sql += " AND NgayBatDauKhuyenMai >= ?";
                     params.add(dto.getNgayBatDauKhuyenMai());
@@ -148,7 +148,7 @@ public class n7_KhuyenMaiDAO {
                 }
             }
 
-            if (dto.getPhanTramKhuyenMai()!= -1) {
+            if (dto.getPhanTramKhuyenMai() != -1) {
                 sql += " AND PhanTramKhuyenMai = ?";
                 params.add(dto.getPhanTramKhuyenMai());
             }
@@ -251,39 +251,68 @@ public class n7_KhuyenMaiDAO {
         return true;
     }
 
-    public boolean update_khuyenMai(KhuyenMaiDTO dto) {
-        String sql = "UPDATE KhuyenMai\n"
-                + "   SET TenKhuyenMai = ?\n,"
-                + "   NgayBatDauKhuyenMai = ?\n,"
-                + "   NgayKetThucKhuyenMai = ?\n,"
-                + "   PhanTramKhuyenMai = ?\n,"
-                + "   DieuKienKhuyenMai = ?\n"
-                + " WHERE MaKhuyenMai = ?";
+    public int update_khuyenMai(KhuyenMaiDTO dto) {
+        String sqlSelect = "SELECT TenKhuyenMai, NgayBatDauKhuyenMai, NgayKetThucKhuyenMai, PhanTramKhuyenMai, DieuKienKhuyenMai "
+                + "FROM KhuyenMai WHERE MaKhuyenMai = ?";
+        String sqlUpdate = "UPDATE KhuyenMai "
+                + "SET TenKhuyenMai = ?, "
+                + "    NgayBatDauKhuyenMai = ?, "
+                + "    NgayKetThucKhuyenMai = ?, "
+                + "    PhanTramKhuyenMai = ?, "
+                + "    DieuKienKhuyenMai = ? "
+                + "WHERE MaKhuyenMai = ?";
+
         try {
             Connection c = JDBCUtil.getConnection();
-            PreparedStatement st = c.prepareStatement(sql);
 
-            st.setString(1, dto.getTenKhuyenMai());
-            st.setDate(2, (Date) dto.getNgayBatDauKhuyenMai());
-            st.setDate(3, (Date) dto.getNgayKetThucKhuyenMai());
-            st.setFloat(4, dto.getPhanTramKhuyenMai());
-            st.setInt(5, dto.getDieuKienKhuyenMai());
-            st.setString(6, dto.getMaKhuyenMai());
+            // Truy vấn dữ liệu cũ
+            PreparedStatement stSelect = c.prepareStatement(sqlSelect);
+            stSelect.setString(1, dto.getMaKhuyenMai());
+            ResultSet rs = stSelect.executeQuery();
 
-            int kq = st.executeUpdate();
-            JDBCUtil.closeConnection(c);
-            if (kq == 0) {
-                System.out.println("Sửa thất khuyến mãi ! (DAO)");
-                return false;
+            if (rs.next()) {
+                String oldTenKhuyenMai = rs.getString("TenKhuyenMai");
+                Date oldNgayBatDauKhuyenMai = rs.getDate("NgayBatDauKhuyenMai");
+                Date oldNgayKetThucKhuyenMai = rs.getDate("NgayKetThucKhuyenMai");
+                float oldPhanTramKhuyenMai = rs.getFloat("PhanTramKhuyenMai");
+                int oldDieuKienKhuyenMai = rs.getInt("DieuKienKhuyenMai");
 
+                // So sánh dữ liệu
+                if (oldTenKhuyenMai.equals(dto.getTenKhuyenMai())
+                        && oldNgayBatDauKhuyenMai.equals(dto.getNgayBatDauKhuyenMai())
+                        && oldNgayKetThucKhuyenMai.equals(dto.getNgayKetThucKhuyenMai())
+                        && oldPhanTramKhuyenMai == dto.getPhanTramKhuyenMai()
+                        && oldDieuKienKhuyenMai == dto.getDieuKienKhuyenMai()) {
+
+                    JDBCUtil.closeConnection(c);
+                    return 2; // Trùng dữ liệu, không có thay đổi
+                }
             } else {
-                System.out.println("Sửa thành công khuyến mãi (DAO) !");
-                return true;
+                JDBCUtil.closeConnection(c);
+                return 0; // Không tìm thấy mã khuyến mãi
             }
+
+            // Thực hiện cập nhật nếu có thay đổi
+            PreparedStatement stUpdate = c.prepareStatement(sqlUpdate);
+            stUpdate.setString(1, dto.getTenKhuyenMai());
+            stUpdate.setDate(2, (Date) dto.getNgayBatDauKhuyenMai());
+            stUpdate.setDate(3, (Date) dto.getNgayKetThucKhuyenMai());
+            stUpdate.setFloat(4, dto.getPhanTramKhuyenMai());
+            stUpdate.setInt(5, dto.getDieuKienKhuyenMai());
+            stUpdate.setString(6, dto.getMaKhuyenMai());
+
+            int kq = stUpdate.executeUpdate();
+            JDBCUtil.closeConnection(c);
+
+            if (kq > 0) {
+                return 1; // Thành công
+            } else {
+                return 0; // Thất bại
+            }
+
         } catch (SQLException e) {
-//            System.out.println(e);
-            System.out.println("Sửa thất bại khuyến mãi, mã khuyến mãi không tồn tại (DAO) !");
-            return false;
+            System.out.println("Lỗi khi sửa khuyến mãi: " + e.getMessage());
+            return 0; // Thất bại
         }
     }
 
@@ -291,10 +320,10 @@ public class n7_KhuyenMaiDAO {
 //        Date ngay = Date.valueOf("2024-11-19");
 //        Date end = Date.valueOf("2025-11-19");
 
-                ArrayList<KhuyenMaiDTO> list = n7_KhuyenMaiDAO.getInstance().getListKhuyenMai_theoTen("u");
-                for (KhuyenMaiDTO a : list) {
-                    System.out.println(a.toString());
-                }
+        ArrayList<KhuyenMaiDTO> list = n7_KhuyenMaiDAO.getInstance().getListKhuyenMai_theoTen("u");
+        for (KhuyenMaiDTO a : list) {
+            System.out.println(a.toString());
+        }
         //        System.out.println(n7_KhuyenMaiDAO.getInstance().taoMaKhuyenMai());
 //        KhuyenMaiDTO dto = new KhuyenMaiDTO("KM007", "KM kết thúc năm", ngay, end, 50, 5000000);
 //        n7_KhuyenMaiDAO.getInstance().insert(dto);

@@ -107,34 +107,64 @@ public class n6_CaLamDAO {
         return true;
     }
 
-    public boolean update(CaLamDTO calam) {
-        String sql = "UPDATE CaLam\n"
-                + "   SET TenCaLam = ?\n,"
-                + "   ThoiGianVaoCaLam = ?\n,"
-                + "   ThoiGianRaCaLam = ?\n"
-                + " WHERE MaCaLam = ?";
+    public int update(CaLamDTO calam) {
+        String sqlUpdate = "UPDATE CaLam "
+                + "SET TenCaLam = ?, "
+                + "    ThoiGianVaoCaLam = ?, "
+                + "    ThoiGianRaCaLam = ? "
+                + "WHERE MaCaLam = ?";
+
+        String sqlSelect = "SELECT TenCaLam, ThoiGianVaoCaLam, ThoiGianRaCaLam "
+                + "FROM CaLam WHERE MaCaLam = ?";
+
         try {
             Connection c = JDBCUtil.getConnection();
-            PreparedStatement st = c.prepareStatement(sql);
 
-            st.setString(1, calam.getTenCaLam());
-            st.setString(2, calam.getThoiGianVaoCaLam());
-            st.setString(3, calam.getThoiGianRaCaLam());
-            st.setString(4, calam.getMaCaLam());
-            int kq = st.executeUpdate();
-            JDBCUtil.closeConnection(c);
-            if (kq == 0) {
-                System.out.println("Sửa thất bại ca làm! (DAO)");
-                return false;
+            // Truy vấn dữ liệu cũ
+            PreparedStatement stSelect = c.prepareStatement(sqlSelect);
+            stSelect.setString(1, calam.getMaCaLam());
+            ResultSet rs = stSelect.executeQuery();
 
+            if (rs.next()) {
+                String oldTenCaLam = rs.getString("TenCaLam");
+                String oldThoiGianVaoCaLam = rs.getString("ThoiGianVaoCaLam");
+                oldThoiGianVaoCaLam = oldThoiGianVaoCaLam.substring(0, 5);
+                String oldThoiGianRaCaLam = rs.getString("ThoiGianRaCaLam");
+                oldThoiGianRaCaLam = oldThoiGianRaCaLam.substring(0, 5);
+//                System.out.println("tên ca: " + oldTenCaLam + " " + calam.getTenCaLam());
+//                System.out.println("giờ vào: " + oldThoiGianVaoCaLam.substring(0, 5) + " " + calam.getThoiGianVaoCaLam());
+//                System.out.println("giờ ra: " + oldThoiGianRaCaLam.substring(0, 5) + " " + calam.getThoiGianRaCaLam());
+
+                // So sánh dữ liệu
+                if (oldTenCaLam.equals(calam.getTenCaLam())
+                        && oldThoiGianVaoCaLam.equals(calam.getThoiGianVaoCaLam())
+                        && oldThoiGianRaCaLam.equals(calam.getThoiGianRaCaLam())) {
+                    JDBCUtil.closeConnection(c);
+                    return 2; // Trùng dữ liệu
+                }
             } else {
-                System.out.println("Sửa thành công ca làm (DAO) !");
-                return true;
+                JDBCUtil.closeConnection(c);
+                return 0; // Không tìm thấy mã CaLam
+            }
+
+            // Thực hiện cập nhật
+            PreparedStatement stUpdate = c.prepareStatement(sqlUpdate);
+            stUpdate.setString(1, calam.getTenCaLam());
+            stUpdate.setString(2, calam.getThoiGianVaoCaLam());
+            stUpdate.setString(3, calam.getThoiGianRaCaLam());
+            stUpdate.setString(4, calam.getMaCaLam());
+
+            int kq = stUpdate.executeUpdate();
+            JDBCUtil.closeConnection(c);
+
+            if (kq > 0) {
+                return 1; // Thành công
+            } else {
+                return 0; // Thất bại
             }
         } catch (SQLException e) {
-            System.out.println(e);
-            System.out.println("Sửa thất bại ca làm, mã ca không tồn tại (DAO) !");
-            return false;
+            System.out.println("Lỗi khi sửa ca làm: " + e.getMessage());
+            return 0; // Thất bại
         }
     }
 
@@ -187,6 +217,32 @@ public class n6_CaLamDAO {
         return list;
     }
 
+    public void suaChiTieuKhachHang(int tien, String Ma) {
+        String sql = "UPDATE KhachHang "
+                + "SET ChiTieuKhachHang = ChiTieuKhachHang + ? "
+                + "WHERE MaKhachHang = ?";
+        try {
+            Connection c = JDBCUtil.getConnection();
+            PreparedStatement st = c.prepareStatement(sql);
+
+            st.setInt(1, tien);
+            st.setString(2, Ma);
+
+            int kq = st.executeUpdate();
+
+//            if (kq > 0) {
+//                System.out.println("Cập nhật thành công! Số dòng bị ảnh hưởng: " + kq);
+//            } else {
+//                System.out.println("Không tìm thấy khách hàng với mã: " + Ma);
+//            }
+            st.close();
+            JDBCUtil.closeConnection(c);
+        } catch (SQLException e) {
+            System.out.println("Lỗi khi cập nhật chi tiêu khách hàng:");
+            e.printStackTrace(); // In chi tiết lỗi
+        }
+    }
+
     public ArrayList<CaLamDTO> search(String MaCaLam, String TenCaLam, String ThoiGianVaoCaLam, String ThoiGianRaCaLam) {
         ArrayList<CaLamDTO> list = new ArrayList<>();
         String sql = "select * from CaLam where MaCaLam like ? and TenCaLam like ? and "
@@ -232,6 +288,39 @@ public class n6_CaLamDAO {
             System.out.println(e);
         }
         return list;
+    }
+
+    public KhuyenMaiDTO getBestKhuyenMai(int tongTien, Date date) {
+        KhuyenMaiDTO bestKhuyenMai = null;
+        String sql = "SELECT TOP 1 * FROM [KhuyenMai] "
+                + "WHERE DieuKienKhuyenMai <= ? AND NgayBatDauKhuyenMai <= ? AND NgayKetThucKhuyenMai >= ? "
+                + "ORDER BY PhanTramKhuyenMai DESC";
+        try {
+            Connection c = JDBCUtil.getConnection();
+            PreparedStatement st = c.prepareStatement(sql);
+            st.setInt(1, tongTien); // Điều kiện tổng tiền đủ áp dụng
+            st.setDate(2, date);    // Ngày bắt đầu <= ngày hiện tại
+            st.setDate(3, date);    // Ngày kết thúc >= ngày hiện tại
+
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                bestKhuyenMai = new KhuyenMaiDTO(
+                        rs.getString(1), // Mã khuyến mãi
+                        rs.getString(2), // Tên khuyến mãi
+                        rs.getDate(3), // Ngày bắt đầu
+                        rs.getDate(4), // Ngày kết thúc
+                        rs.getFloat(5), // Phần trăm khuyến mãi
+                        rs.getInt(6) // Điều kiện khuyến mãi
+                );
+            }
+            rs.close();
+            st.close();
+            c.close();
+        } catch (Exception e) {
+            System.out.println("Không lấy được khuyến mãi tối ưu (DAO)");
+            System.out.println(e);
+        }
+        return bestKhuyenMai;
     }
 
     public KhuyenMaiDTO get_KhuyenMai_theoTen(int tongTien, Date date, String ten) {

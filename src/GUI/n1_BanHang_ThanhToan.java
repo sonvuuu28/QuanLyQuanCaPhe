@@ -13,9 +13,11 @@ import java.time.format.DateTimeFormatter;
 public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
 
     private n1_BanHangKeoTha banHangFrame;
+    public String MaNhanVien;
 
-    public n1_BanHang_ThanhToan(n1_BanHangKeoTha banHangFrame) {
+    public n1_BanHang_ThanhToan(n1_BanHangKeoTha banHangFrame, String MaNhanVien) {
         this.banHangFrame = banHangFrame;
+        this.MaNhanVien = MaNhanVien;
         tien_Goc = banHangFrame.TongTien;
 //        System.out.println(tien_Goc);
         initComponents();
@@ -59,20 +61,25 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
         Ngay.setText(today);
 
         // Tên Nhân Viên
-        String ten_nv = BanHangBUS.getInstance().getTenNV(banHangFrame.MaNhanVien);
+        System.out.println(banHangFrame.MaNhanVien);
+        String ten_nv = BanHangBUS.getInstance().getTenNV(MaNhanVien);
         nv.setText(ten_nv);
 
         // Khuyến Mãi
         comboBox();
         goc.setText(Util.BanHang.set_Tien_VND(tien_Goc));
-
-        // Tổng tiền
-        tong.setText(Util.BanHang.set_Tien_VND(tien_Goc));
     }
 
     private void comboBox() {
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        BanHangBUS.getInstance().getAll_KhuyenMai(tien_Goc, today, km);
+        BanHangBUS.getInstance().getAllAndSelectBestKhuyenMai(tien_Goc, today, km);
+        // Tổng tiền
+        KhuyenMaiDTO khuyenmai = BanHangBUS.getInstance().get_KhuyenMai_theoTen(
+                tien_Goc, today, km.getSelectedItem().toString()
+        );
+        MaKhuyenMai = khuyenmai.getMaKhuyenMai();
+        phanTramKhuyenMai = khuyenmai.getPhanTramKhuyenMai();
+        tinh_GiamGia(tien_Goc, phanTramKhuyenMai, 0);
     }
 
     private void nhomNutChucNang() {
@@ -100,7 +107,7 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
                 dispose(); // Đóng JFrame hiện tại
             }
         });
-        
+
         km.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -155,7 +162,7 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
             if (taoHoaDon == false) {
                 return;
             }
-
+            BanHangBUS.getInstance().suaChiTieuKhachHang(tien_discount, MaKhachHang_duocChon);
             for (Object[] a : banHangFrame.listCart) {
 //                System.out.println(maHoaDon + a[0] + " " + a[2] + " " + a[4] + " " + a[3]);
                 int value2 = (int) a[2];
@@ -164,7 +171,7 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
 
                 BanHangBUS.getInstance().insert_chiTietHoaDon(maHoaDon, (String) a[0], value2, value4, value3);
             }
-
+            banHangFrame.setGioHangRong();
             dispose();
             banHangFrame.reload_TaoHoaDon();
 
@@ -245,7 +252,7 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
         PanelTenDauVao.add(LabelKhuyenMai);
 
         LabelTienGoc.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        LabelTienGoc.setText("Tiền Gốc");
+        LabelTienGoc.setText("Giá Trước Giảm Giá");
         PanelTenDauVao.add(LabelTienGoc);
 
         LabelTongTien.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N

@@ -28,7 +28,7 @@ public class LichLamBUS {
         String CuoiTuan = Util.LichLam_CaLam.yyyy_mm_dd__to__dd_mm_yyyy(String.valueOf(tuan.get(1)));
         DauTuan = DauTuan.replaceAll("[-\\.,]", "/");
         CuoiTuan = CuoiTuan.replaceAll("[-\\.,]", "/");
-        
+
         String period = DauTuan + "   ->   " + CuoiTuan;
         LabelNgay.setText(period);
     }
@@ -132,6 +132,14 @@ public class LichLamBUS {
         for (String row : dsLichLam) {
             String[] rowData = row.split(", ");
             model.addRow(rowData);
+        }
+        if (dsLichLam.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Rất tiếc, không tìm thấy tuần làm phù hợp ! \nVui lòng kiểm tra lại thông tin.",
+                    "Thông báo",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         }
     }
 }

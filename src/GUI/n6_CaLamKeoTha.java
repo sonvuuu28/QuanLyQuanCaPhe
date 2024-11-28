@@ -553,12 +553,19 @@ public class n6_CaLamKeoTha extends javax.swing.JPanel {
             return;
         }
 
+        if (out.equals(in)) {
+            TextThoiGianRa.requestFocus();
+            JOptionPane.showMessageDialog(null, "Giờ vào và giờ ra trùng nhau");
+            return;
+        }
+
         if (!LichLam_CaLam.check_time_CaLam(out).equals("")) {
             JOptionPane.showMessageDialog(null, LichLam_CaLam.check_time_CaLam(in), "Sai định dạng (hh:mm)", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         CaLamBUS.getInstance().insert(ma, ten, in, out);
+        TaiLaiTrang();
     }
 
     public void update() {
@@ -591,13 +598,22 @@ public class n6_CaLamKeoTha extends javax.swing.JPanel {
             return;
         }
 
+        if (out.equals(in)) {
+            TextThoiGianRa.requestFocus();
+            JOptionPane.showMessageDialog(null, "Giờ vào và giờ ra trùng nhau");
+            return;
+        }
+
         if (!LichLam_CaLam.check_time_CaLam(out).equals("")) {
             JOptionPane.showMessageDialog(null, LichLam_CaLam.check_time_CaLam(out), "Sai định dạng (hh:mm)", JOptionPane.WARNING_MESSAGE);
             TextThoiGianRa.requestFocus();
             return;
         }
 
-        CaLamBUS.getInstance().update(ma, ten, in, out);
+        int i = CaLamBUS.getInstance().update(ma, ten, in, out);
+        if ((i == 1) || (i == 0)) {
+            TaiLaiTrang();
+        }
     }
 
     public void delete() {
@@ -610,6 +626,7 @@ public class n6_CaLamKeoTha extends javax.swing.JPanel {
         }
 
         CaLamBUS.getInstance().delete(ma);
+        TaiLaiTrang();
     }
 
     public void nhomNutChucNang() {

@@ -165,7 +165,7 @@ public class n7_UuDaiThanhVienDAO {
         }
         return dskm;
     }
-    
+
     public ArrayList<UuDaiThanhVienDTO> getListUuDai_theoMa(String ten) {
         ArrayList<UuDaiThanhVienDTO> dskm = new ArrayList<>();
         try {
@@ -251,39 +251,68 @@ public class n7_UuDaiThanhVienDAO {
         return true;
     }
 
-    public boolean update_uuDai(UuDaiThanhVienDTO dto) {
-        String sql = "UPDATE UuDaiThanhVien\n"
-                + "   SET TenUuDai = ?\n,"
-                + "   NgayBatDauUuDai = ?\n,"
-                + "   NgayKetThucUuDai = ?\n,"
-                + "   PhanTramUuDai = ?\n,"
-                + "   DieuKienUuDai = ?\n"
-                + " WHERE MaUuDai = ?";
+    public int update_uuDai(UuDaiThanhVienDTO dto) {
+        String sqlSelect = "SELECT TenUuDai, NgayBatDauUuDai, NgayKetThucUuDai, PhanTramUuDai, DieuKienUuDai "
+                + "FROM UuDaiThanhVien WHERE MaUuDai = ?";
+        String sqlUpdate = "UPDATE UuDaiThanhVien "
+                + "SET TenUuDai = ?, "
+                + "    NgayBatDauUuDai = ?, "
+                + "    NgayKetThucUuDai = ?, "
+                + "    PhanTramUuDai = ?, "
+                + "    DieuKienUuDai = ? "
+                + "WHERE MaUuDai = ?";
+
         try {
             Connection c = JDBCUtil.getConnection();
-            PreparedStatement st = c.prepareStatement(sql);
 
-            st.setString(1, dto.getTenUuDai());
-            st.setDate(2, (Date) dto.getNgayBatDauUuDai());
-            st.setDate(3, (Date) dto.getNgayKetThucUuDai());
-            st.setFloat(4, dto.getPhanTramUuDai());
-            st.setInt(5, dto.getDieuKienUuDai());
-            st.setString(6, dto.getMaUuDai());
+            // Truy vấn dữ liệu cũ
+            PreparedStatement stSelect = c.prepareStatement(sqlSelect);
+            stSelect.setString(1, dto.getMaUuDai());
+            ResultSet rs = stSelect.executeQuery();
 
-            int kq = st.executeUpdate();
-            JDBCUtil.closeConnection(c);
-            if (kq == 0) {
-                System.out.println("Sửa thất khuyến mãi ! (DAO)");
-                return false;
+            if (rs.next()) {
+                String oldTenUuDai = rs.getString("TenUuDai");
+                Date oldNgayBatDauUuDai = rs.getDate("NgayBatDauUuDai");
+                Date oldNgayKetThucUuDai = rs.getDate("NgayKetThucUuDai");
+                float oldPhanTramUuDai = rs.getFloat("PhanTramUuDai");
+                int oldDieuKienUuDai = rs.getInt("DieuKienUuDai");
 
+                // So sánh dữ liệu
+                if (oldTenUuDai.equals(dto.getTenUuDai())
+                        && oldNgayBatDauUuDai.equals(dto.getNgayBatDauUuDai())
+                        && oldNgayKetThucUuDai.equals(dto.getNgayKetThucUuDai())
+                        && oldPhanTramUuDai == dto.getPhanTramUuDai()
+                        && oldDieuKienUuDai == dto.getDieuKienUuDai()) {
+
+                    JDBCUtil.closeConnection(c);
+                    return 2; // Trùng dữ liệu, không có thay đổi
+                }
             } else {
-                System.out.println("Sửa thành công khuyến mãi (DAO) !");
-                return true;
+                JDBCUtil.closeConnection(c);
+                return 0; // Không tìm thấy mã ưu đãi
             }
+
+            // Thực hiện cập nhật nếu có thay đổi
+            PreparedStatement stUpdate = c.prepareStatement(sqlUpdate);
+            stUpdate.setString(1, dto.getTenUuDai());
+            stUpdate.setDate(2, (Date) dto.getNgayBatDauUuDai());
+            stUpdate.setDate(3, (Date) dto.getNgayKetThucUuDai());
+            stUpdate.setFloat(4, dto.getPhanTramUuDai());
+            stUpdate.setInt(5, dto.getDieuKienUuDai());
+            stUpdate.setString(6, dto.getMaUuDai());
+
+            int kq = stUpdate.executeUpdate();
+            JDBCUtil.closeConnection(c);
+
+            if (kq > 0) {
+                return 1; // Thành công
+            } else {
+                return 0; // Thất bại
+            }
+
         } catch (SQLException e) {
-//            System.out.println(e);
-            System.out.println("Sửa thất bại khuyến mãi, mã khuyến mãi không tồn tại (DAO) !");
-            return false;
+            System.out.println("Lỗi khi sửa ưu đãi: " + e.getMessage());
+            return 0; // Thất bại
         }
     }
 

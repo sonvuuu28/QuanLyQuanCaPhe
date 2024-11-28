@@ -607,9 +607,11 @@ public class n7_UuDaiGUI extends javax.swing.JPanel {
                     int tien = n7_KhuyenMai_UuDaiBUS.getInstance().set_Tien_VND_sang_int(TextFieldDieuKien.getText());
 
 //                    check_input_Rong();
-                    n7_KhuyenMai_UuDaiBUS.getInstance().update_uuDai(TextFieldMa.getText(), TextFieldTen.getText(),
+                    int i = n7_KhuyenMai_UuDaiBUS.getInstance().update_uuDai(TextFieldMa.getText(), TextFieldTen.getText(),
                             start_sql, end_sql, Float.valueOf(TextFieldPhanTram.getText()), tien);
-                    reset();
+                    if (i == 1 || i == 0) {
+                        reset();
+                    }
                 }
             }
         });

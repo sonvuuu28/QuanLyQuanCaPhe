@@ -28,14 +28,21 @@ public class CaLamBUS {
         }
     }
 
-    public void update(String MaCaLam, String TenCaLam, String ThoiGianVaoCaLam, String ThoiGianRaCaLam) {
+    public int update(String MaCaLam, String TenCaLam, String ThoiGianVaoCaLam, String ThoiGianRaCaLam) {
         CaLamDTO ca_dto = new CaLamDTO(MaCaLam, TenCaLam, ThoiGianVaoCaLam, ThoiGianRaCaLam, true);
-        Boolean ca_dao_update = n6_CaLamDAO.getInstance().update(ca_dto);
-        if (ca_dao_update) {
-            JOptionPane.showMessageDialog(null, "Sửa ca làm thành công");
-        } else {
-            JOptionPane.showMessageDialog(null, "Không tồn tại mã ca làm!");
+        int ca_dao_update = n6_CaLamDAO.getInstance().update(ca_dto);
+        if (ca_dao_update == 1) {
+            JOptionPane.showMessageDialog(null, 
+            "Cập nhật thông tin ca làm thành công! Cảm ơn bạn đã sử dụng hệ thống.", 
+            "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        } else if (ca_dao_update == 0) {
+            JOptionPane.showMessageDialog(null, 
+            "Không thể cập nhật thông tin ca làm. Vui lòng kiểm tra lại thông tin.", 
+            "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+        } else if (ca_dao_update == 2) {
+            JOptionPane.showMessageDialog(null, "Thông tin ca làm không có thay đổi nào mới. Vui lòng kiểm tra lại dữ liệu đã nhập!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
+        return ca_dao_update;
     }
 
     public void delete(String MaCaLam) {
@@ -59,7 +66,7 @@ public class CaLamBUS {
             i++;
         }
     }
-    
+
     public void TimKiem(JTable table, String MaCaLam, String TenCaLam, String ThoiGianVaoCaLam, String ThoiGianRaCaLam) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
@@ -70,6 +77,14 @@ public class CaLamBUS {
                 Util.LichLam_CaLam.time_sql_sang_hhmm(ca.getThoiGianRaCaLam())
             });
             i++;
+        }
+        if (ds.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Rất tiếc, không tìm thấy ca làm phù hợp ! \nVui lòng kiểm tra lại thông tin.",
+                    "Thông báo",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         }
     }
 
