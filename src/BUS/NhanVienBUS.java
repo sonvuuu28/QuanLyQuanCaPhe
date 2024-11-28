@@ -8,6 +8,7 @@ import DAO.NhanVienDAO;
 import DTO.NhanVienDTO;
 import Util.dialog;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -242,7 +243,7 @@ public class NhanVienBUS {
             vec.add(nv.getTenNhanVien());
             vec.add(nv.getGioiTinhNhanVien());
             vec.add(nv.getSoDienThoaiNhanVien());
-            vec.add(nv.getNgaySinhNhanVien());
+            vec.add(convertSqlDateToString(nv.getNgaySinhNhanVien()));
             vec.add(nv.getChucVuNhanVien());
             vec.add(nv.getDiaChi());
             vec.add(nv.getLuongNhanVien());
@@ -259,6 +260,19 @@ public class NhanVienBUS {
             }
             model.addRow(vec);
         }
+    }
+
+    public String convertSqlDateToString(Date sqlDate) {
+        if (sqlDate == null) {
+            return null; // Trả về null nếu date đầu vào là null
+        }
+
+        // Chuyển từ java.sql.Date sang java.util.Date
+        java.util.Date utilDate = new java.util.Date(sqlDate.getTime());
+
+        // Định dạng ngày theo dd/MM/yyyy
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        return sdf.format(utilDate);
     }
 
     public String LayQuyenTheoMa(String manv){
@@ -279,7 +293,8 @@ public class NhanVienBUS {
 
    public boolean checkSDT(String sdt){
     for (NhanVienDTO nv : listNV) {
-        if (nv.getMaNhanVien().equals(sdt) ) {
+        if (nv.getSoDienThoaiNhanVien().equals(sdt) ) {
+            System.out.println(nv.getSoDienThoaiNhanVien());
             return false;
         }
     }
