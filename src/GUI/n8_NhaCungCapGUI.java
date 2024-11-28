@@ -14,6 +14,7 @@ import org.w3c.dom.events.MouseEvent;
 import BUS.NccBUS;
 import DAO.NhaCungCapDAO;
 import DTO.NhaCungCapDTO;
+import BUS.NccBUS;
 import Util.TableCustom;
 import Util.XuLyFileExcel;
 import Util.dialog;
@@ -578,25 +579,26 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 int maxLength = 255;
+                List<NhaCungCapDTO> ncclist = nccBUS.getlistncc();
+
                 String maNCC = TextFieldMa.getText();
                 String tenNCC = TextFieldTen.getText();
                 String diachiNCC = TextFieldDiaChi.getText();
                 String sdtNCC = TextFieldSDT.getText();
                 NhaCungCapDTO a = nccBUS.getNcc(maNCC);
-
+                int temp=0;
+                for(int i= 0;i<ncclist.size();i++){
+                        if(ncclist.get(i).getMaNhaCungCap().equals(maNCC)){
+                                temp = temp+1;    
+                        }
+                }
                 if (check.IsEmpty(maNCC) || check.IsEmpty(tenNCC) || check.IsEmpty(diachiNCC)
                         || check.IsEmpty(sdtNCC)) {
                     JOptionPane.showMessageDialog(null, "bạn chưa chọn nhà cung cấp", "lỗi",
                             dialog.ERROR_DIALOG);
                     return;
                 }
-                if(a.getTenNhaCungCap().equals(tenNCC) && a.getDiaChiNhaCungCap().equals(diachiNCC) && a.getSoDienThoaiNhaCungCap().equals(sdtNCC)){
-                        JOptionPane.showMessageDialog(null,
-                    "bạn chưa thay đổi dữ liệu nhà cung cấp",
-                    "Lỗi",
-                    dialog.ERROR_DIALOG);
-                    return;
-                }
+                
                 
                 if (diachiNCC.length() > 255) {
                     JOptionPane.showMessageDialog(null,
@@ -609,8 +611,31 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(null, "vui lòng nhập đúng số điện thoại", "lỗi", dialog.ERROR_DIALOG);
                     return;
                 }
-                nccBUS.capNhatNhaCungCap(maNCC, tenNCC, diachiNCC, sdtNCC);
-                reset();
+                System.out.println(temp);
+                if(temp==0){
+                        JOptionPane.showMessageDialog(null, "Mã nhà cung cấp chưa tồn tại, vui lòng chọn nhà cung cấp", "lỗi", dialog.ERROR_DIALOG);
+                        return;
+                        
+                }
+                else{
+                        if(a.getMaNhaCungCap().equals(maNCC)&& a.getTenNhaCungCap().equals(tenNCC) && a.getDiaChiNhaCungCap().equals(diachiNCC) && a.getSoDienThoaiNhaCungCap().equals(sdtNCC)){
+                        JOptionPane.showMessageDialog(null,
+                    "bạn chưa thay đổi dữ liệu nhà cung cấp",
+                    "Lỗi",
+                        dialog.ERROR_DIALOG);
+                        return;
+                        }
+                        int choice = JOptionPane.showConfirmDialog( null, "Bạn có muốn cập nhật thông tin mới ? ",   "Xác Nhận", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                
+                        if(choice == JOptionPane.YES_OPTION)
+                        {nccBUS.capNhatNhaCungCap(maNCC, tenNCC, diachiNCC, sdtNCC);
+                                reset();}
+                        else if(choice == JOptionPane.NO_OPTION){
+                        return;
+                }
+                        
+                }
+                
                 
                 
             }
@@ -621,8 +646,9 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 InputValidator check = new InputValidator();
                 int maxLength = 255;
+                String maNCCnew = nccBUS.taomaNCC();
                 List<NhaCungCapDTO> a = nccBUS.getlistncc();
-                // String maNCC = TextFieldMa.getText();
+                String maNCC = TextFieldMa.getText();
                 String tenNCC = TextFieldTen.getText();
                 String diachiNCC = TextFieldDiaChi.getText();
                 String sdtNCC = TextFieldSDT.getText();
@@ -646,15 +672,31 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                     return;
                 }
                 for(int i= 0;i<a.size();i++){
-                        if(a.get(i).getSoDienThoaiNhaCungCap().equals(sdtNCC)){
-                                JOptionPane.showMessageDialog(null, "số điện thoại đã tồn tại", "lỗi", dialog.ERROR_DIALOG);
+                        if(a.get(i).getMaNhaCungCap().equals(maNCC)){
+                                JOptionPane.showMessageDialog(null, "Mã nhà cung cấp đã tồn tại, hệ thống sẽ cập nhật mã mới", "lỗi", dialog.ERROR_DIALOG);
+                                TextFieldMa.setText(maNCCnew);
                                 return;
                         }
+                        
                 }
+                for(int i= 0;i<a.size();i++){
+                        if(a.get(i).getSoDienThoaiNhaCungCap().equals(sdtNCC)){
+                                JOptionPane.showMessageDialog(null, "số điện thoại đã tồn tại", "lỗi", dialog.ERROR_DIALOG);
+                                TextFieldMa.setText(maNCCnew);
+                                return;
+                        }
+                        
+                }
+                int choice = JOptionPane.showConfirmDialog( null, "Bạn có muốn thêm nhà cung cấp mới?",   "Xác Nhận", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 
-                nccBUS.themNhaCungCap(tenNCC, diachiNCC, sdtNCC);
-                reset();
-            }
+                if(choice == JOptionPane.YES_OPTION)
+                {nccBUS.themNhaCungCap(tenNCC, diachiNCC, sdtNCC);
+                reset();}
+                else if(choice == JOptionPane.NO_OPTION){
+                        return;
+                }
+        }
+            
 
         });
         Table.addMouseListener(new MouseAdapter() {
