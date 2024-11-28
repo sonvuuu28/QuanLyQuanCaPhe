@@ -326,11 +326,11 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         /// quý
         for (int j = 0; j < 4; j++) {
             // Gán doanh thu cho từng tháng
-            stringArrayChiphiquy[0][j + 1] = String.valueOf(datapn.get(j));
+            stringArrayChiphiquy[0][j + 1] = String.valueOf(datapnquy.get(j));
             sumpnquy = sumpnquy + datapnquy.get(j);
             stringArrayChiphiquy[0][5] = String.valueOf(sumpnquy);
 
-            stringArrayChiphiquy[1][j + 1] = String.valueOf(dataluong.get(j));
+            stringArrayChiphiquy[1][j + 1] = String.valueOf(dataluongQuy.get(j));
             sumluongquy = sumluongquy + dataluongQuy.get(j);
             stringArrayChiphiquy[1][5] = String.valueOf(sumluongquy);
         }

@@ -69,9 +69,21 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
         TblHoaDon = new javax.swing.JTable();
         
         JDTuNgay.setDateFormatString("dd-MM-yyyy");
-        JDTuNgay.getDateEditor().setEnabled(false);
+        JTextField dateEditor = ((JTextField) JDTuNgay.getDateEditor().getUiComponent());
+        dateEditor.setBackground(new java.awt.Color(211, 211, 211)); // Nền trắng
+        dateEditor.setForeground(new java.awt.Color(0, 0, 0)); // Chữ đen
+        dateEditor.setEditable(false);
+        dateEditor.setFocusable(false);
+        JDTuNgay.setBackground(new java.awt.Color(211, 211, 211));
+        
         JDDenNgay.setDateFormatString("dd-MM-yyyy");
-        JDDenNgay.getDateEditor().setEnabled(false);
+        JTextField dateEditor2 = ((JTextField) JDDenNgay.getDateEditor().getUiComponent());
+        dateEditor2.setBackground(new java.awt.Color(211, 211, 211)); // Nền trắng
+        dateEditor2.setForeground(new java.awt.Color(0, 0, 0)); // Chữ đen
+        dateEditor2.setEditable(false);
+        dateEditor2.setFocusable(false);
+        JDDenNgay.setBackground(new java.awt.Color(211, 211, 211));
+        
         setBackground(new java.awt.Color(122, 74, 74));
         setMaximumSize(new java.awt.Dimension(1125, 667));
         setMinimumSize(new java.awt.Dimension(1125, 667));

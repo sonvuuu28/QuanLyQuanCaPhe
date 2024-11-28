@@ -91,7 +91,7 @@ public class n10_ThongKeDAO {
     public int Soluongnvien (){
         int SoluongNV = 0;
         try {
-            String sql = "SELECT COUNT(*) AS SoLuongNhanVien FROM NhanVien";
+            String sql = "SELECT COUNT(*) AS SoLuongNhanVien FROM NhanVien WHERE TrangThaiNhanVien=1";
             // Connection c = JDBCUtil.getConnection();
             PreparedStatement pstmt = c.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();

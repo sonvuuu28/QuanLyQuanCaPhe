@@ -1,6 +1,7 @@
 package BUS;
 
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -135,7 +136,12 @@ public class KhachHangBUS {
                 "Mã KH", "Tên KH", "Giới tính", "Số điện thoại", "Ngày sinh",  "Tổng Chi tiêu"
             }, 
             0 
-        );
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Không cho phép chỉnh sửa ô
+            }
+        };
         tbl.setModel(model);
         docDanhSach();
         ArrayList<KhachHangDTO> dsnv = getlistKH();
@@ -147,14 +153,21 @@ public class KhachHangBUS {
             vec.add(nv.getGioiTinhKhachHang());
             vec.add(nv.getSoDienThoaiKhachHang());
             vec.add(nv.getNgaySinhKhachHang());
-            vec.add(nv.getChiTieuKhachHang());
+            vec.add(formatCurrency(nv.getChiTieuKhachHang()));
             model.addRow(vec);
         }
     }
 
+    public String formatCurrency(int amount) {
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        
+        String formatted = formatter.format(amount);
+        return formatted + "VNĐ";
+    }
+
     public boolean checkSDT(String sdt){
         for (KhachHangDTO kh : listKH) {
-            if (kh.getMaKhachHang().equals(sdt) ) {
+            if (kh.getSoDienThoaiKhachHang().equals(sdt) ) {
                 return false;
             }
         }

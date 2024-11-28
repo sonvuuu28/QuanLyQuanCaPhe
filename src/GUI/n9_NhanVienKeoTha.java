@@ -206,7 +206,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         LblKhoaTK.setBackground(new java.awt.Color(255, 255, 255));
         LblKhoaTK.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         LblKhoaTK.setForeground(new java.awt.Color(255, 255, 255));
-        LblKhoaTK.setText("Khóa TK");
+        LblKhoaTK.setText("Khóa/Mở khóa TK");
         BtnKhoaTK.add(LblKhoaTK);
 
         BtnXuat.setBackground(new java.awt.Color(0, 0, 0));
@@ -433,7 +433,12 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
 
         JDNgaySinh.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         JDNgaySinh.setDateFormatString("dd-MM-yyyy");
-        JDNgaySinh.getDateEditor().setEnabled(false);
+        JTextField dateEditor = ((JTextField) JDNgaySinh.getDateEditor().getUiComponent());
+        dateEditor.setBackground(new java.awt.Color(211, 211, 211)); // Nền trắng
+        dateEditor.setForeground(new java.awt.Color(0, 0, 0)); // Chữ đen
+        dateEditor.setEditable(false);
+        dateEditor.setFocusable(false);
+        JDNgaySinh.setBackground(new java.awt.Color(211, 211, 211));
 
         javax.swing.GroupLayout PanelChuaTextFieldLayout = new javax.swing.GroupLayout(PanelChuaTextField);
         PanelChuaTextField.setLayout(PanelChuaTextFieldLayout);
@@ -748,6 +753,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             public void mouseClicked(MouseEvent e){
                 if(validateFields()){
                     xuLyThemNhanVien();
+                    refresh();
                     loadDataTblNhanVien();
                 }
             }
@@ -769,6 +775,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             public void mouseClicked(MouseEvent e){
                 if(validateFields()){
                     xuLySuaNhanVien();
+                    refresh();
                     loadDataTblNhanVien();
                 }
             }
@@ -856,7 +863,8 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
 
     public boolean validateFields() {
         // Biểu thức chính quy để kiểm tra không chứa ký tự đặc biệt (chỉ chứa ký tự và số)
-        String regexNoSpecialChars = "^[a-zA-Z0-9]*$"; // Không chứa ký tự đặc biệt
+        String regexNoSpecialChars = "^[0-9]{1,3}(?:,\\d{3})*VNĐ$";
+        String regexNoSpecialChars2 = "^[a-zA-Z0-9]*$";  // Không chứa ký tự đặc biệt
         // Kiểm tra txtTen (Tên người dùng)
         if (txtTen.getText().equals("")) {
             new dialog("Tên không được để trống!", dialog.ERROR_DIALOG);
@@ -922,7 +930,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         if (txtLuong.getText().equals("")) {
             new dialog("Lương không được để trống!", dialog.ERROR_DIALOG);
             return false;
-        } else if (!txtLuong.getText().matches(regexNoSpecialChars)) {
+        } else if (!txtLuong.getText().matches(regexNoSpecialChars) && !txtLuong.getText().matches(regexNoSpecialChars2)) {
             new dialog("Lương không được chứa ký tự đặc biệt!", dialog.ERROR_DIALOG);
             return false;
         }
@@ -1021,7 +1029,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
 
     public int parseCurrency(String currencyStr) {
        
-        String cleanedStr = currencyStr.replace(",", "").replace(" VNĐ", "").trim();
+        String cleanedStr = currencyStr.replace(",", "").replace("VNĐ", "").trim();
         return Integer.parseInt(cleanedStr);
     }
 
@@ -1044,7 +1052,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
     
             String diachi = txtDiaChi.getText();
             String chucvu = BoxChucVu.getSelectedItem() + "";
-            int luong = Integer.parseInt(txtLuong.getText());
+            int luong = parseCurrency(txtLuong.getText());
     
             if (ngaysinh == null) {
                 new dialog("Ngày sinh không được để trống", dialog.ERROR_DIALOG); 
@@ -1086,13 +1094,24 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             txtTen.setText(Table.getValueAt(row, 1) + "");
             txtSDT.setText(Table.getValueAt(row, 3) + "");
             Object ngaySinhObj = Table.getValueAt(row, 4);
-            if (ngaySinhObj instanceof Date) {
-                // Nếu là java.sql.Date, gán trực tiếp
+            if (ngaySinhObj instanceof String) {
+                // Nếu giá trị là String, chuyển nó thành đối tượng java.sql.Date
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                    java.util.Date utilDate = sdf.parse((String) ngaySinhObj); 
+                    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); 
+                    JDNgaySinh.setDate(sqlDate); 
+                    JDNgaySinh.setDateFormatString("dd-MM-yyyy"); // Đặt định dạng hiển thị
+                } catch (ParseException e) {
+                    e.printStackTrace(); // Nếu có lỗi, in stack trace
+                }
+            } else if (ngaySinhObj instanceof java.sql.Date) {
+                // Nếu giá trị đã là java.sql.Date
                 JDNgaySinh.setDate((java.sql.Date) ngaySinhObj);
+                JDNgaySinh.setDateFormatString("dd-MM-yyyy");
             }
-            JDNgaySinh.setDateFormatString("dd-MM-yyyy");
             txtDiaChi.setText(Table.getValueAt(row, 6) + "");
-            txtLuong.setText(formatCurrency(Table.getValueAt(row, 7) + ""));
+            txtLuong.setText(Table.getValueAt(row, 7) + "");
 
             if ((Table.getValueAt(row, 2) + "").equals("Nam")) {
                 BoxGioiTinh.setSelectedIndex(1);
@@ -1123,7 +1142,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             double amount = Double.parseDouble(amountStr);
             DecimalFormat formatter = new DecimalFormat("#,###");
             String formatted = formatter.format(amount);
-            return formatted + " VNĐ";
+            return formatted + "VNĐ";
         } catch (NumberFormatException e) {
             return "Số không hợp lệ";
         }

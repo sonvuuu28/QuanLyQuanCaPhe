@@ -5,20 +5,25 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
+import org.apache.poi.hslf.blip.DIB;
 import org.w3c.dom.events.MouseEvent;
 
 import BUS.NccBUS;
+import DAO.NhaCungCapDAO;
+import DTO.NhaCungCapDTO;
 import Util.TableCustom;
 import Util.XuLyFileExcel;
 import Util.dialog;
 import Util.InputValidator;
+import Util.PlaceholderUtil;
 
 public class n8_NhaCungCapGUI extends javax.swing.JPanel {
 
     NccBUS nccBUS = new NccBUS();
     InputValidator check = new InputValidator();
-
+    PlaceholderUtil Phover = new PlaceholderUtil();
     public n8_NhaCungCapGUI() {
         initComponents();
 
@@ -419,6 +424,7 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
         PanelTimKiem.setMinimumSize(new java.awt.Dimension(314, 32));
 
         TextFieldTimKiem.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        Phover.addPlaceholder(TextFieldTimKiem,"tìm kiếm tên nhà cung cấp");
 
         LabelAnhTimKiem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGE/search.png"))); // NOI18N
 
@@ -535,7 +541,7 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
         TextFieldTen.setText("");
         taoMaNCC();
         TextFieldDiaChi.setText("");
-        TextFieldTimKiem.setText("");
+        // TextFieldTimKiem.setText("");
         TextFieldSDT.setText("");
         nccBUS.loadDataToTable_NhaCungCap(Table);
     }
@@ -549,7 +555,14 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
         BtnTimKiem.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nccBUS.timKiem(Table, TextFieldTimKiem.getText());
+                if(TextFieldTimKiem.getText().equals("tìm kiếm tên nhà cung cấp")){
+                        JOptionPane.showMessageDialog(null,"vui lòng nhập tên nhà cung cấp bạn muốn tìm","thông báo",dialog.CANCEL_OPTION);
+                        nccBUS.loadDataToTable_NhaCungCap(Table);
+                        return;
+                }else{
+                        nccBUS.timKiem(Table, TextFieldTimKiem.getText());
+
+                }
             }
         });
         Btnrefresh.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -567,10 +580,19 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                 String tenNCC = TextFieldTen.getText();
                 String diachiNCC = TextFieldDiaChi.getText();
                 String sdtNCC = TextFieldSDT.getText();
+                NhaCungCapDTO a = nccBUS.getNcc(maNCC);
+
                 if (check.IsEmpty(maNCC) || check.IsEmpty(tenNCC) || check.IsEmpty(diachiNCC)
                         || check.IsEmpty(sdtNCC)) {
-                    JOptionPane.showMessageDialog(null, "bạn chưa nhập thông tin nhà cung cấp mới", "lỗi",
+                    JOptionPane.showMessageDialog(null, "bạn chưa chọn nhà cung cấp", "lỗi",
                             dialog.ERROR_DIALOG);
+                    return;
+                }
+                if(a.getTenNhaCungCap().equals(tenNCC) && a.getDiaChiNhaCungCap().equals(diachiNCC) && a.getSoDienThoaiNhaCungCap().equals(sdtNCC)){
+                        JOptionPane.showMessageDialog(null,
+                    "bạn chưa thay đổi dữ liệu nhà cung cấp",
+                    "Lỗi",
+                    dialog.ERROR_DIALOG);
                     return;
                 }
                 if (maNCC.length() > 255) {
@@ -593,6 +615,8 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                 }
                 nccBUS.capNhatNhaCungCap(maNCC, tenNCC, diachiNCC, sdtNCC);
                 reset();
+                
+                
             }
 
         });
