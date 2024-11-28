@@ -233,7 +233,12 @@ public class NhanVienBUS {
                 "Mã NV", "Tên NV", "Giới tính", "SĐT", "Ngày sinh", "Chức vụ", "Địa chỉ", "Lương", "Trạng thái"
             }, 
             0 // Bắt đầu với 0 hàng
-        );
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Không cho phép chỉnh sửa ô
+            }
+        };
         tbl.setModel(model);
         docDanhSach();
         ArrayList<NhanVienDTO> dsnv = getlistNV();
