@@ -71,7 +71,7 @@ public class NccBUS {
         NhaCungCapDTO ncc = new NhaCungCapDTO(manccNew, TenNCC, Diachi, sodt, true);
         boolean isAdd = nccDAO.themNhaCungCap(ncc);
         if (isAdd) {
-            JOptionPane.showMessageDialog(null, "thêm nhà cung cấp thành thông");
+            JOptionPane.showMessageDialog(null, "thêm nhà cung cấp thành thông với mã nhà cung cấp là : "+manccNew);
         } else {
             JOptionPane.showMessageDialog(null,
                     "lỗi thêm nhà cung cấp, vui lòng kiểm tra thông tin",
