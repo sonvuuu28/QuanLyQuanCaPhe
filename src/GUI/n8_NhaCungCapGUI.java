@@ -608,7 +608,7 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                     return;
                 }
                 if (check.isValidPhoneNumber(sdtNCC) != true) {
-                    JOptionPane.showMessageDialog(null, "vui lòng nhập đúng số điện thoại", "lỗi", dialog.ERROR_DIALOG);
+                    JOptionPane.showMessageDialog(null, "vui lòng nhập đúng số điện thoại bắt đầu bằng 0 và có 10 số", "lỗi", dialog.ERROR_DIALOG);
                     return;
                 }
                 System.out.println(temp);
@@ -668,7 +668,7 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                 }
                 
                 if (check.isValidPhoneNumber(sdtNCC) != true) {
-                    JOptionPane.showMessageDialog(null, "vui lòng nhập đúng số điện thoại", "lỗi", dialog.ERROR_DIALOG);
+                    JOptionPane.showMessageDialog(null, "vui lòng nhập đúng số điện thoại bắt đầu bằng 0 và có 10 số", "lỗi", dialog.ERROR_DIALOG);
                     return;
                 }
                 for(int i= 0;i<a.size();i++){

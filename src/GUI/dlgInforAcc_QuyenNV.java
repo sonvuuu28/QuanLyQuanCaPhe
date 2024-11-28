@@ -6,6 +6,8 @@ package GUI;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import BUS.NhanVienBUS;
 import BUS.PhanQuyenBUS;
 import BUS.TaiKhoanBUS;
@@ -432,6 +434,10 @@ public class dlgInforAcc_QuyenNV extends javax.swing.JPanel {
     }//GEN-LAST:event_txtTenDNActionPerformed
 
     private void btnXacNhanThayDoiQuyenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXacNhanThayDoiQuyenMouseClicked
+        if(BoxQuyen.getSelectedItem().equals("Quản Trị Viên")){
+            JOptionPane.showMessageDialog(null, "Đã tồn tại Quản trị viên,\n Không thể thêm quản trị viên thứ 2!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return ;            
+        }        
         TKBUS.datLaiQuyen(maNV, PQBUS.layMaTheoTenQuyen(BoxQuyen.getSelectedItem() + ""));
         // sửa lại thành lấy mã nhân viên
         NVBUS.CapNhatChucVu(new NhanVienDTO(maNV, null, null, null, null, BoxQuyen.getSelectedItem() + "",null,0, 1));
