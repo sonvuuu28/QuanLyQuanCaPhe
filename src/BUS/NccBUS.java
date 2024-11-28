@@ -53,8 +53,8 @@ public class NccBUS {
         }
     }
 
-    public void getNcc(String mancc) {
-        nccDAO.getNhaCungCapByMa(mancc);
+    public NhaCungCapDTO getNcc (String mancc) {
+        return nccDAO.getNhaCungCapByMa(mancc);
     }
 
     public String taomaNCC() {
@@ -81,13 +81,10 @@ public class NccBUS {
         boolean isUpdated = nccDAO.capNhat(ncc);
         if (isUpdated) {
             JOptionPane.showMessageDialog(null, "Cập nhật nhà cung cấp thành công!");
-        } else {
-            JOptionPane.showMessageDialog(null,
-                    "bạn chưa thay đổi dữ liệu nhà cung cấp",
-                    "Lỗi",
-                    dialog.ERROR_DIALOG);
-            return;
         }
     }
-
+    public static void main(){
+        NhaCungCapDTO a = new NhaCungCapDTO();
+        
+    }
 }
