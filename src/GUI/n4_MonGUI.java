@@ -15,6 +15,8 @@ import javax.swing.table.TableModel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -290,31 +292,6 @@ public class n4_MonGUI extends javax.swing.JPanel {
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
-        tb_DanhSachMon.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         jScrollPane1.setViewportView(tb_DanhSachMon);
 
         comboboxTrangThai.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
@@ -539,10 +516,21 @@ public class n4_MonGUI extends javax.swing.JPanel {
         hienThiAnhMon("abc");//? Chọn tên ảnh không tồn tại để hiển thị ảnh mặc định
         tf_DonGia.setText("");
         this.selectedFile = null;
+        ArrayList<LoaiMonDTO> dsLoaiMon = loaiMonBUS.getAll();
+        comboboxLoaiMon.removeAllItems();
+        for(int i = 0; i < dsLoaiMon.size(); i++) {
+            comboboxLoaiMon.addItem(dsLoaiMon.get(i));
+        }
         fillTable();
     }
     public void fillTable() {
-        DefaultTableModel modelTable = new DefaultTableModel();
+        DefaultTableModel modelTable = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Không cho phép chỉnh sửa bất kỳ ô nào
+                return false;
+            }
+        };
         modelTable.addColumn("Mã Món");
         modelTable.addColumn("Loại Món");
         modelTable.addColumn("Tên Món");
@@ -637,7 +625,6 @@ public class n4_MonGUI extends javax.swing.JPanel {
     public void btn_ThemAction() {
         int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn thêm món này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
                 if (confirm == JOptionPane.YES_OPTION) {
-                    String maMon = String.valueOf(tf_MaMon.getText());
                     LoaiMonDTO temp;
                     if(comboboxLoaiMon.getSelectedItem()==null) {
                         temp = (LoaiMonDTO) comboboxLoaiMon.getItemAt(0);
@@ -646,12 +633,16 @@ public class n4_MonGUI extends javax.swing.JPanel {
                     }
                     String maLoaiMon = temp.getMaLoaiMon();
                     String tenMon = String.valueOf(tf_TenMon.getText());
+                    if(tenMon.length() == 0) {
+                        JOptionPane.showMessageDialog(null, "Vui lòng nhập tên món !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                     if(tenMon.length() > 50) {
-                        JOptionPane.showMessageDialog(null, "Tên món không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Tên món không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                     if(tenMon.matches(regex)) {
-                        JOptionPane.showMessageDialog(null, "Tên món không được chứa ký tự đặc biệt !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Tên món không được chứa ký tự đặc biệt !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                     int donGia;
@@ -659,14 +650,14 @@ public class n4_MonGUI extends javax.swing.JPanel {
                         donGia = Integer.valueOf(tf_DonGia.getText());
                     }
                     else {
-                        JOptionPane.showMessageDialog(null, "Đơn giá không hợp lệ !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Đơn giá không hợp lệ !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                     //? Check chọn ảnh chưa 
                     String hinhAnh = null;
                     if(selectedFile != null) {
-                        hinhAnh = maMon+".jpg";
                         //? Tên mới cho ảnh dựa trên mã món ăn
+                        hinhAnh = tenMon +"_"+ donGia +".jpg";
                         //? Lưu ảnh
                         try {
                             Path targetPath = new File(targetFolder, hinhAnh).toPath();
@@ -677,57 +668,58 @@ public class n4_MonGUI extends javax.swing.JPanel {
                             System.out.println("Lỗi khi lưu ảnh.");
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "Vui lòng chọn ảnh để thêm món !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Vui lòng chọn ảnh để thêm món !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-                    MonDTO mon = new MonDTO(maMon, maLoaiMon, tenMon, hinhAnh, donGia, true);
+                    MonDTO mon = new MonDTO(null, maLoaiMon, tenMon, hinhAnh, donGia, true);
                     if(monBUS.addMon(mon)){
                         JOptionPane.showMessageDialog(null, "Thêm món thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         reloadData();
                     }
-                    else 
+                    else {
                         JOptionPane.showMessageDialog(null, "Thêm món thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                    }
             }
     }
     public void btn_XuatExcelAction() {
         String fileName = "listMon.xlsx";
-                String filePath = "src\\EXCEL\\"+fileName;
-                Workbook workbook = new XSSFWorkbook();
-                Sheet sheet = workbook.createSheet("Sheet1");
+        String filePath = "src\\EXCEL\\"+fileName;
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Sheet1");
 
-                // Lấy mô hình dữ liệu từ JTable
-                TableModel model = tb_DanhSachMon.getModel();
-                // Tạo hàng tiêu đề (header)
-                Row headerRow = sheet.createRow(0);
-                for (int col = 0; col < model.getColumnCount(); col++) {
-                    Cell cell = headerRow.createCell(col);
-                    cell.setCellValue(model.getColumnName(col));
-                }
+        // Lấy mô hình dữ liệu từ JTable
+        TableModel model = tb_DanhSachMon.getModel();
+        // Tạo hàng tiêu đề (header)
+        Row headerRow = sheet.createRow(0);
+        for (int col = 0; col < model.getColumnCount(); col++) {
+            Cell cell = headerRow.createCell(col);
+            cell.setCellValue(model.getColumnName(col));
+        }
 
-                // Ghi dữ liệu từ JTable vào tệp Excel
-                for (int row = 0; row < model.getRowCount(); row++) {
-                    Row excelRow = sheet.createRow(row + 1);
-                    for (int col = 0; col < model.getColumnCount(); col++) {
-                        Cell cell = excelRow.createCell(col);
-                        cell.setCellValue(model.getValueAt(row, col).toString());
-                    }
-                }
-                // Ghi workbook vào tệp và mở tệp sau khi lưu
-                try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
-                    workbook.write(outputStream);
-                    workbook.close();
-                    System.out.println("Xuất file Excel thành công!");
+        // Ghi dữ liệu từ JTable vào tệp Excel
+        for (int row = 0; row < model.getRowCount(); row++) {
+            Row excelRow = sheet.createRow(row + 1);
+            for (int col = 0; col < model.getColumnCount(); col++) {
+                Cell cell = excelRow.createCell(col);
+                cell.setCellValue(model.getValueAt(row, col).toString());
+            }
+        }
+        // Ghi workbook vào tệp và mở tệp sau khi lưu
+        try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
+            workbook.write(outputStream);
+            workbook.close();
+            System.out.println("Xuất file Excel thành công!");
 
-                    // Mở tệp ngay sau khi lưu
-                    File file = new File(filePath);
-                    if (Desktop.isDesktopSupported()) {
-                        Desktop.getDesktop().open(file);
-                    } else {
-                        System.out.println("Mở tệp không được hỗ trợ trên hệ thống này.");
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }   
+            // Mở tệp ngay sau khi lưu
+            File file = new File(filePath);
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(file);
+            } else {
+                System.out.println("Mở tệp không được hỗ trợ trên hệ thống này.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }   
     }
     public void btn_XoaAction() {
         int selectedRow = tb_DanhSachMon.getSelectedRow();
@@ -816,113 +808,120 @@ public class n4_MonGUI extends javax.swing.JPanel {
                 timKiem();
             }
         });
-btn_TaiLai.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                reloadData();
-            }
-        });
+        btn_TaiLai.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        reloadData();
+                    }
+                });
 
-btn_TaoCongThuc.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(tf_MaMon.getText().equals("")) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 món để tạo công thức !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    return;
+        btn_TaoCongThuc.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if(tf_MaMon.getText().equals("")) {
+                            JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 món để tạo công thức !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        }
+                        if(congThucDialog != null && congThucDialog.isVisible()) {
+                            congThucDialog.dispose();
+                        }
+                        MonDTO mon = monBUS.getMonById(String.valueOf(tf_MaMon.getText()));
+                        congThucDialog = new n4_CongThucDialog(mon);
+                        congThucDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    }
+                });
+        btn_ChonAnh.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        btn_ChonAnhAction();
+                    }
+                });
+
+                lb_HinhAnhMonAn.setPreferredSize(new Dimension(200,200));
+                hienThiAnhMon("abc");
+        btn_LoaiMon.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        if(loaiMonDialog != null && loaiMonDialog.isVisible()) {
+                            loaiMonDialog.dispose();
+                        }
+                        loaiMonDialog = new n4_LoaiMonDialog();
+                        loaiMonDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        // Thêm WindowListener để lắng nghe sự kiện đóng Frame 2
+                        loaiMonDialog.addWindowListener(new WindowAdapter() {
+                            @Override
+                            public void windowClosed(WindowEvent e) {
+                                reloadData();
+                            }
+                        });
+                    }
+                });
+
+                ArrayList<LoaiMonDTO> dsLoaiMon = loaiMonBUS.getAll();
+                comboboxLoaiMon.removeAllItems();
+                for(int i = 0; i < dsLoaiMon.size(); i++) {
+                    comboboxLoaiMon.addItem(dsLoaiMon.get(i));
                 }
-                if(congThucDialog != null && congThucDialog.isVisible()) {
-                    congThucDialog.dispose();
-                }
-                MonDTO mon = monBUS.getMonById(String.valueOf(tf_MaMon.getText()));
-                congThucDialog = new n4_CongThucDialog(mon);
-                congThucDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            }
-        });
-btn_ChonAnh.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btn_ChonAnhAction();
-            }
-        });
+        fillTable();
+                tb_DanhSachMon.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+                    @Override
+                    public void valueChanged(ListSelectionEvent event) {
+                        // Kiểm tra xem có hàng nào đang được chọn không
+                        if (!event.getValueIsAdjusting()) {
+                            int selectedRow = tb_DanhSachMon.getSelectedRow();
+                            if (selectedRow != -1) {
+                                // Lấy dữ liệu của hàng được chọn
+                                selectedFile = null;
+                                String maMon = String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 0));
+                                LoaiMonDTO loaiMon =  loaiMonBUS.getLoaiMonById(String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 1)));
+                                String tenMon =  String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 2));
+                                String donGia =  String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 3));
+                                tf_MaMon.setText(maMon);
+                                tf_TenMon.setText(tenMon);
+                                tf_DonGia.setText(String.valueOf(convertCurrencyToInt(donGia)));
 
-        lb_HinhAnhMonAn.setPreferredSize(new Dimension(200,200));
-        hienThiAnhMon("abc");
-btn_LoaiMon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                if(loaiMonDialog != null && loaiMonDialog.isVisible()) {
-                    loaiMonDialog.dispose();
-                }
-                loaiMonDialog = new n4_LoaiMonDialog();
-                loaiMonDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            }
-        });
+                                for (int i = 0; i < comboboxLoaiMon.getItemCount(); i++) {
+                                    if (comboboxLoaiMon.getItemAt(i).toString().equals(loaiMon.toString())) {
+                                        comboboxLoaiMon.setSelectedIndex(i);
+                                        break;
+                                    }
+                                }
 
-        ArrayList<LoaiMonDTO> dsLoaiMon = loaiMonBUS.getAll();
-        comboboxLoaiMon.removeAllItems();
-        for(int i = 0; i < dsLoaiMon.size(); i++) {
-            comboboxLoaiMon.addItem(dsLoaiMon.get(i));
-        }
-fillTable();
-        tb_DanhSachMon.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent event) {
-                // Kiểm tra xem có hàng nào đang được chọn không
-                if (!event.getValueIsAdjusting()) {
-                    int selectedRow = tb_DanhSachMon.getSelectedRow();
-                    if (selectedRow != -1) {
-                        // Lấy dữ liệu của hàng được chọn
-                        selectedFile = null;
-                        String maMon = String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 0));
-                        LoaiMonDTO loaiMon =  loaiMonBUS.getLoaiMonById(String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 1)));
-                        String tenMon =  String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 2));
-                        String donGia =  String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 3));
-                        tf_MaMon.setText(maMon);
-                        tf_TenMon.setText(tenMon);
-                        tf_DonGia.setText(String.valueOf(convertCurrencyToInt(donGia)));
-
-                        for (int i = 0; i < comboboxLoaiMon.getItemCount(); i++) {
-                            if (comboboxLoaiMon.getItemAt(i).toString().equals(loaiMon.toString())) {
-                                comboboxLoaiMon.setSelectedIndex(i);
-                                break;
+                                hienThiAnhMon(monBUS.getMonById(maMon).getHinhAnh());
                             }
                         }
-
-                        hienThiAnhMon(monBUS.getMonById(maMon).getHinhAnh());
                     }
-                }
-            }
-        });
-        jScrollPane1.setViewportView(tb_DanhSachMon);
-        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-btn_Sua.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btn_SuaAction();
-            }
-        });
-btn_Them.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btn_ThemAction();
-            }
-        });
-btn_Xoa.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btn_XoaAction();
-            }
-        });
-btn_XuatExcel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                btn_XuatExcelAction();
-            }
-        });
-comboboxTrangThai.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
-        comboboxTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã Món", "Tên Món" }));
-        comboboxTrangThai.setBorder(null);
-        comboboxTrangThai.setMaximumSize(new java.awt.Dimension(100, 22));
-        comboboxTrangThai.setMinimumSize(new java.awt.Dimension(100, 22));
-        comboboxTrangThai.setPreferredSize(new java.awt.Dimension(100, 22));
+                });
+                jScrollPane1.setViewportView(tb_DanhSachMon);
+                jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        btn_Sua.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        btn_SuaAction();
+                    }
+                });
+        btn_Them.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        btn_ThemAction();
+                    }
+                });
+        btn_Xoa.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        btn_XoaAction();
+                    }
+                });
+        btn_XuatExcel.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent actionEvent) {
+                        btn_XuatExcelAction();
+                    }
+                });
+        comboboxTrangThai.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
+                comboboxTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã Món", "Tên Món" }));
+                comboboxTrangThai.setBorder(null);
+                comboboxTrangThai.setMaximumSize(new java.awt.Dimension(100, 22));
+                comboboxTrangThai.setMinimumSize(new java.awt.Dimension(100, 22));
+                comboboxTrangThai.setPreferredSize(new java.awt.Dimension(100, 22));
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelAnhTimKiem;
