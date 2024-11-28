@@ -753,6 +753,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             public void mouseClicked(MouseEvent e){
                 if(validateFields()){
                     xuLyThemNhanVien();
+                    refresh();
                     loadDataTblNhanVien();
                 }
             }
@@ -774,6 +775,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             public void mouseClicked(MouseEvent e){
                 if(validateFields()){
                     xuLySuaNhanVien();
+                    refresh();
                     loadDataTblNhanVien();
                 }
             }
@@ -860,9 +862,9 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
     }
 
     public boolean validateFields() {
+        // Biểu thức chính quy để kiểm tra không chứa ký tự đặc biệt (chỉ chứa ký tự và số)
         String regexNoSpecialChars = "^[0-9]{1,3}(?:,\\d{3})*VNĐ$";
-        String regexNoSpecialChars2 = "^[a-zA-Z0-9]*$"; 
-         // Không chứa ký tự đặc biệt
+        String regexNoSpecialChars2 = "^[a-zA-Z0-9]*$";  // Không chứa ký tự đặc biệt
         // Kiểm tra txtTen (Tên người dùng)
         if (txtTen.getText().equals("")) {
             new dialog("Tên không được để trống!", dialog.ERROR_DIALOG);
@@ -1096,9 +1098,9 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
                 // Nếu giá trị là String, chuyển nó thành đối tượng java.sql.Date
                 try {
                     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-                    java.util.Date utilDate = sdf.parse((String) ngaySinhObj); // Chuyển đổi từ chuỗi sang java.util.Date
-                    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); // Chuyển đổi từ java.util.Date sang java.sql.Date
-                    JDNgaySinh.setDate(sqlDate); // Gán cho JDateChooser
+                    java.util.Date utilDate = sdf.parse((String) ngaySinhObj); 
+                    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); 
+                    JDNgaySinh.setDate(sqlDate); 
                     JDNgaySinh.setDateFormatString("dd-MM-yyyy"); // Đặt định dạng hiển thị
                 } catch (ParseException e) {
                     e.printStackTrace(); // Nếu có lỗi, in stack trace
@@ -1108,9 +1110,8 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
                 JDNgaySinh.setDate((java.sql.Date) ngaySinhObj);
                 JDNgaySinh.setDateFormatString("dd-MM-yyyy");
             }
-            
             txtDiaChi.setText(Table.getValueAt(row, 6) + "");
-            txtLuong.setText(formatCurrency(Table.getValueAt(row, 7) + ""));
+            txtLuong.setText(Table.getValueAt(row, 7) + "");
 
             if ((Table.getValueAt(row, 2) + "").equals("Nam")) {
                 BoxGioiTinh.setSelectedIndex(1);
