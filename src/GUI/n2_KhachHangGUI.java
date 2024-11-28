@@ -134,7 +134,6 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         TextFieldTen.setMaximumSize(new java.awt.Dimension(160, 28));
         TextFieldTen.setMinimumSize(new java.awt.Dimension(160, 28));
         TextFieldTen.setPreferredSize(new java.awt.Dimension(160, 28));
-        TextFieldTen.setRequestFocusEnabled(false);
         TextFieldTen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TextFieldTenActionPerformed(evt);
@@ -729,7 +728,7 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
             TextFieldMa.setText(Table.getValueAt(row, 0) + "");
             TextFieldTen.setText(Table.getValueAt(row, 1) + "");
             TextFieldSDT.setText(Table.getValueAt(row, 3) + "");
-            TextFeildTongChiTieu.setText(formatCurrency(Table.getValueAt(row, 5) + ""));
+            TextFeildTongChiTieu.setText(Table.getValueAt(row, 5) + "");
         
             Object ngaySinhObj = Table.getValueAt(row, 4);
             if (ngaySinhObj instanceof Date) {
@@ -750,7 +749,7 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
 
     public int parseCurrency(String currencyStr) {
        
-        String cleanedStr = currencyStr.replace(",", "").replace(" VNĐ", "").trim();
+        String cleanedStr = currencyStr.replace(",", "").replace("VNĐ", "").trim();
         return Integer.parseInt(cleanedStr);
     }
 
@@ -759,7 +758,7 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
             double amount = Double.parseDouble(amountStr);
             DecimalFormat formatter = new DecimalFormat("#,###");
             String formatted = formatter.format(amount);
-            return formatted + " VNĐ";
+            return formatted + "VNĐ";
         } catch (NumberFormatException e) {
             return "Số không hợp lệ";
         }
