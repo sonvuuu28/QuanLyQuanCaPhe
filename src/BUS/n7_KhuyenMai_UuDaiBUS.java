@@ -257,6 +257,11 @@ public class n7_KhuyenMai_UuDaiBUS {
             check = false;
         }
 
+        if (kt.getDate().before(bd.getDate()) && check) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày bắt đầu nhỏ hơn ngày kết thúc áp dụng chương trình!");
+            check = false;
+        }
+
         if (phanTram.getText().equals("") && check == true) {
             phanTram.requestFocus();
             JOptionPane.showMessageDialog(null, "Vui lòng không bỏ trống phần trăm giảm giá !");

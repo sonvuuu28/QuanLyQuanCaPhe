@@ -1,5 +1,6 @@
 package GUI;
 
+import BUS.BanHangBUS;
 import BUS.TrangChuBUS;
 import BUS.n0_LoginBUS;
 import BUS.n0_TrangChuBUS;
@@ -9,6 +10,11 @@ import DTO.TaiKhoanDTO;
 
 import java.awt.Color;
 import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class n0_TrangChuGUI extends javax.swing.JFrame {
 
@@ -16,7 +22,8 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
         this.userLogin = userLogin;
         initComponents();
         PanelNoiDung.removeAll();
-        n1_BanHangKeoTha banhang = new n1_BanHangKeoTha(userLogin.getMaNhanVien());
+        banhang = new n1_BanHangKeoTha(userLogin.getMaNhanVien());
+        list = banhang.listCart;
         PanelNoiDung.setLayout(new BorderLayout());
         PanelNoiDung.add(banhang, BorderLayout.CENTER); // Adjust the layout constraint as needed
         PanelNoiDung.revalidate();
@@ -402,6 +409,7 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(PanelTong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         nhomNutChucNang();
         pack();
     }
@@ -427,6 +435,7 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
         set_NhanVien(userLogin.getMaNhanVien());
         setQuyen();
         set_NhanVien(userLogin.getMaNhanVien());
+
         LabelBanHang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 if (phanQuyen.getQuyenBanHang()) {
@@ -448,17 +457,12 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
                 if (phanQuyen.getQuyenBanHang()) {
                     PanelNoiDung.removeAll();
                     n1_BanHangKeoTha banhang = new n1_BanHangKeoTha(MaNhanVien);
+                    banhang.listCart = list;
                     PanelNoiDung.setLayout(new BorderLayout());
                     PanelNoiDung.add(banhang, BorderLayout.CENTER); // Adjust the layout constraint as needed
                     PanelNoiDung.revalidate();
                     PanelNoiDung.repaint();
                 }
-                PanelNoiDung.removeAll();
-                n1_BanHangKeoTha banhang = new n1_BanHangKeoTha(userLogin.getMaNhanVien());
-                PanelNoiDung.setLayout(new BorderLayout());
-                PanelNoiDung.add(banhang, BorderLayout.CENTER); // Adjust the layout constraint as needed
-                PanelNoiDung.revalidate();
-                PanelNoiDung.repaint();
             }
         });
         LabelKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -478,6 +482,8 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                list = banhang.returnSoLuong(list);
+
                 if (phanQuyen.getQuyenKhachHang()) {
                     PanelNoiDung.removeAll();
                     n2_KhachHangGUI kh = new n2_KhachHangGUI();
@@ -505,6 +511,8 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                list = banhang.returnSoLuong(list);
+
                 if (phanQuyen.getQuyenNhapHang()) {
                     PanelNoiDung.removeAll();
                     n3_PNQuanLyNhapHang nhaphang = new n3_PNQuanLyNhapHang(userLogin.getMaNhanVien());
@@ -532,6 +540,8 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                list = banhang.returnSoLuong(list);
+
                 if (phanQuyen.getQuyenMon()) {
                     PanelNoiDung.removeAll();
                     n4_MonGUI mon = new n4_MonGUI();
@@ -559,6 +569,8 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                list = banhang.returnSoLuong(list);
+
                 if (phanQuyen.getQuyenNguyenLieu()) {
                     PanelNoiDung.removeAll();
                     n5_NguyenLieuGUI nl = new n5_NguyenLieuGUI();
@@ -586,8 +598,9 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if (phanQuyen.getQuyenLichLam()) {
+                list = banhang.returnSoLuong(list);
 
+                if (phanQuyen.getQuyenLichLam()) {
                     PanelNoiDung.removeAll();
                     n6_LichLamGUI lich = new n6_LichLamGUI();
                     PanelNoiDung.setLayout(new BorderLayout());
@@ -614,6 +627,8 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                list = banhang.returnSoLuong(list);
+
                 if (phanQuyen.getQuyenKhuyenMaiUuDai()) {
                     PanelNoiDung.removeAll();
                     n7_KhuyenMaiGUI km = new n7_KhuyenMaiGUI();
@@ -641,6 +656,8 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                list = banhang.returnSoLuong(list);
+
                 if (phanQuyen.getQuyenNhaCungCap()) {
                     PanelNoiDung.removeAll();
                     n8_NhaCungCapGUI lich = new n8_NhaCungCapGUI();
@@ -670,6 +687,8 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                list = banhang.returnSoLuong(list);
+
                 if (phanQuyen.getQuyenNhanVien()) {
                     PanelNoiDung.removeAll();
                     n9_NhanVienKeoTha lich = new n9_NhanVienKeoTha();
@@ -699,6 +718,8 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
 
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                list = banhang.returnSoLuong(list);
+
                 if (phanQuyen.getQuyenThongKe()) {
                     PanelNoiDung.removeAll();
                     n10_ThongkePanel lich = new n10_ThongkePanel();
@@ -714,8 +735,9 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
         ButtonDangXuat.addMouseListener(
                 new java.awt.event.MouseAdapter() {
             @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt
-            ) {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                list = banhang.returnSoLuong(list);
+
                 n0_LoginGUI login = new n0_LoginGUI();
                 login.nhomNutChucNang(login);
                 dispose();
@@ -723,19 +745,23 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
         }
         );
 
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int confirm = JOptionPane.showConfirmDialog(
+                        null, "Bạn có chắc chắn muốn thoát?",
+                        "Xác nhận thoát", JOptionPane.YES_NO_OPTION
+                );
+
+                if (confirm == JOptionPane.YES_OPTION) {
+                    list = banhang.returnSoLuong(list);
+                    System.exit(0);
+                }
+            }
+        });
+
     }
 
-//    public static void main(String args[]) {
-//
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                n0_TrangChuGUI trang_mau = new n0_TrangChuGUI("NV001");
-//                trang_mau.setVisible(true);
-//                trang_mau.setLocationRelativeTo(null);
-//
-//            }
-//        });
-//    }
     // Khai báo                    
     private javax.swing.JButton ButtonDangXuat;
     private javax.swing.JLabel LabelBanHang;
@@ -768,4 +794,6 @@ public class n0_TrangChuGUI extends javax.swing.JFrame {
     private String MaNhanVien;
     private PhanQuyenDTO phanQuyen;
     private TaiKhoanDTO userLogin;
+    private n1_BanHangKeoTha banhang;
+    public ArrayList<Object[]> list = new ArrayList<>();
 }

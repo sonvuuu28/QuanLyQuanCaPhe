@@ -365,6 +365,7 @@ public class n1_BanHangKeoTha extends javax.swing.JPanel {
 
         for (Object cthdObj : listCart) {
             Object[] cthd = (Object[]) cthdObj;
+//            System.out.println(cthd[1].toString());
             model.addRow(new Object[]{
                 i,
                 //                cthd[0],
@@ -422,6 +423,12 @@ public class n1_BanHangKeoTha extends javax.swing.JPanel {
         listCart = new ArrayList<>();
         TimKiem.setText("");
         TongTien = 0;
+    }
+
+    public ArrayList<Object[]> returnSoLuong(ArrayList<Object[]> list) {
+        BanHangBUS.getInstance().update_reload_NguyenLieu(list);
+        listCart = new ArrayList<>();
+        return listCart;
     }
 
     public void reload_TaoHoaDon() {
@@ -499,6 +506,7 @@ public class n1_BanHangKeoTha extends javax.swing.JPanel {
             }
 
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                reload();
                 PanelTong.removeAll();
                 n1_HoaDonGUI bh = new n1_HoaDonGUI(MaNhanVien);
                 PanelTong.setLayout(new BorderLayout());

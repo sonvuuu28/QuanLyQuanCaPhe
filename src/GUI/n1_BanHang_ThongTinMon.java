@@ -49,6 +49,7 @@ public class n1_BanHang_ThongTinMon extends javax.swing.JFrame {
             SL.requestFocus();
             SL.setText(soLuong_kho);
         }
+        
     }
 
     private void nhomNutChucNang() {

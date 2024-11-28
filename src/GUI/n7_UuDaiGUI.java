@@ -583,7 +583,7 @@ public class n7_UuDaiGUI extends javax.swing.JPanel {
                     java.sql.Date end_sql = java.sql.Date.valueOf(end_str);
                     int tien = n7_KhuyenMai_UuDaiBUS.getInstance().set_Tien_VND_sang_int(TextFieldDieuKien.getText());
 
-                    check_input_Rong();
+//                    check_input_Rong();
                     n7_KhuyenMai_UuDaiBUS.getInstance().insert_uuDai(TextFieldMa.getText(), TextFieldTen.getText(),
                             start_sql, end_sql, Float.valueOf(TextFieldPhanTram.getText()), tien);
 
@@ -606,7 +606,7 @@ public class n7_UuDaiGUI extends javax.swing.JPanel {
                     java.sql.Date end_sql = java.sql.Date.valueOf(end_str);
                     int tien = n7_KhuyenMai_UuDaiBUS.getInstance().set_Tien_VND_sang_int(TextFieldDieuKien.getText());
 
-                    check_input_Rong();
+//                    check_input_Rong();
                     n7_KhuyenMai_UuDaiBUS.getInstance().update_uuDai(TextFieldMa.getText(), TextFieldTen.getText(),
                             start_sql, end_sql, Float.valueOf(TextFieldPhanTram.getText()), tien);
                     reset();
