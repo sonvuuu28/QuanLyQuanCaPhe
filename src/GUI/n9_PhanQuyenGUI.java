@@ -740,17 +740,27 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
 
     public void xoaPhanQuyen(){
         String tenQuyen = cbPhanQuyen.getSelectedItem() + "";
+
         String ma =  PQBUS.layMaTheoTenQuyen(tenQuyen);
-        if (ma.equals("")) {
+        if(cbPhanQuyen.getSelectedItem().equals("Quản Trị Viên")){
+            JOptionPane.showMessageDialog(null, "Không thể xóa quyền của quản trị viên!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;            
+        }
+        else if (ma.equals("")) {
             new dialog("Vui lòng chọn quyền", dialog.ERROR_DIALOG);
             return;
         }
-        if(PQBUS.Delete(ma)){
+        else if(PQBUS.Delete(ma)){
             loadData();
         }
     }
 
     private void SuaPhanQuyen(){
+        if(cbPhanQuyen.getSelectedItem().equals("Quản Trị Viên")){
+            JOptionPane.showMessageDialog(null, "Không thể thay đổi quyền của quản trị viên!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return ;            
+        }
+
         String tenQuyen = cbPhanQuyen.getSelectedItem() + "";
         String ma =  PQBUS.layMaTheoTenQuyen(tenQuyen);
         boolean cbbNhanVien = ChBoxNhanVien1.isSelected() ? true: false;
