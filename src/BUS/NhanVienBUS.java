@@ -8,6 +8,7 @@ import DAO.NhanVienDAO;
 import DTO.NhanVienDTO;
 import Util.dialog;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -246,7 +247,7 @@ public class NhanVienBUS {
             vec.add(convertSqlDateToString(nv.getNgaySinhNhanVien()));
             vec.add(nv.getChucVuNhanVien());
             vec.add(nv.getDiaChi());
-            vec.add(nv.getLuongNhanVien());
+            vec.add(formatCurrency(nv.getLuongNhanVien()));
             // vec.add(nv.getTrangThaiNhanVien());
 
             int trangThai = nv.getTrangThaiNhanVien();
@@ -290,6 +291,13 @@ public class NhanVienBUS {
    public String layMaNhanVien(String manv){
         return nvDAO.layMaNhanVien(manv);
    }
+
+   public String formatCurrency(int amount) {
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        
+        String formatted = formatter.format(amount);
+        return formatted + "VNĐ";
+    }
 
    public boolean checkSDT(String sdt){
     for (NhanVienDTO nv : listNV) {
