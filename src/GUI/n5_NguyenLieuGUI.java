@@ -141,11 +141,6 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         tf_DonGia.setMaximumSize(new java.awt.Dimension(150, 25));
         tf_DonGia.setMinimumSize(new java.awt.Dimension(150, 25));
         tf_DonGia.setPreferredSize(new java.awt.Dimension(150, 25));
-        tf_DonGia.setEditable(false);
-        tf_DonGia.setEnabled(false);
-        tf_DonGia.setForeground(Color.BLACK);
-        tf_DonGia.setBackground(Color.WHITE);
-        tf_DonGia.setDisabledTextColor(Color.BLACK);
 
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator1.setForeground(new java.awt.Color(51, 51, 51));
@@ -499,7 +494,13 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
        fillTable();
    }
    public void fillTable() {
-       DefaultTableModel modelTable = new DefaultTableModel();
+       DefaultTableModel modelTable = new DefaultTableModel(){
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            // Không cho phép chỉnh sửa bất kỳ ô nào
+            return false;
+        }
+    };
        modelTable.addColumn("Mã Nguyên Liệu");
        modelTable.addColumn("Tên Nguyên Liệu");
        modelTable.addColumn("Khối Lượng");
@@ -536,11 +537,11 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         ArrayList<NguyenLieuDTO> dsNL = nguyenLieuBUS.getAll();
         String input = String.valueOf(TextFieldTimKiem.getText()).toLowerCase().trim();
         if(input.length() ==  0) {
-            JOptionPane.showMessageDialog(null, "Tìm kiếm không được để trống !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Tìm kiếm không được để trống !", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
         if(input.length() > 50) {
-            JOptionPane.showMessageDialog(null, "Tìm kiếm không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Tìm kiếm không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
         if(comboboxTrangThai.getSelectedItem().toString().equals("Mã Nguyên Liệu")) {
@@ -557,7 +558,7 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
             }
         }
         if(dsTimDuoc.size() == 0) {
-            JOptionPane.showMessageDialog(null, "Không tìm thấy nguyên liệu phù hợp !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Không tìm thấy nguyên liệu phù hợp !", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
         DefaultTableModel modelTable = new DefaultTableModel();
@@ -584,21 +585,26 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
                 String ma = String.valueOf(tf_MaNL.getText());
                 String ten = String.valueOf(tf_TenNL.getText());
                 if(ten.length() > 50) {
-                    JOptionPane.showMessageDialog(null, "Tên nguyên liệu không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Tên nguyên liệu không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 if(ten.matches(regex)) {
-                    JOptionPane.showMessageDialog(null, "Tên nguyên liệu không được chứa ký tự đặc biệt !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Tên nguyên liệu không được chứa ký tự đặc biệt !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 // Double khoiLuong = Double.valueOf(tf_KhoiLuong.getText());
                 Double khoiLuong = 0.0;
+                String donGiaTF = String.valueOf(tf_DonGia.getText());
+                if(donGiaTF.length() == 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng nhập đơn giá nguyên liệu !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 int donGia;
-                if(checkMoneyMount(tf_DonGia.getText())) {
-                    donGia = Integer.valueOf(tf_DonGia.getText());
+                if(checkMoneyMount(donGiaTF)) {
+                    donGia = Integer.valueOf(donGiaTF);
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "Đơn giá không hợp lệ !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Đơn giá không hợp lệ !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 //? Không cập nhật khối lượng
@@ -617,27 +623,35 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
     public void btn_ThemAction() {
         int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn thêm nguyên liệu này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
                 if (confirm == JOptionPane.YES_OPTION) {
-                    String ma = String.valueOf(tf_MaNL.getText());
                     String ten = String.valueOf(tf_TenNL.getText());
+                    if(ten.length() == 0) {
+                        JOptionPane.showMessageDialog(null, "Vui lòng nhập tên nguyên liệu !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                     if(ten.length() > 50) {
-                        JOptionPane.showMessageDialog(null, "Tên nguyên liệu không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Tên nguyên liệu không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                     if(ten.matches(regex)) {
-                        JOptionPane.showMessageDialog(null, "Tên nguyên liệu không được chứa ký tự đặc biệt !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Tên nguyên liệu không được chứa ký tự đặc biệt !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                     // Double khoiLuong = Double.valueOf(tf_KhoiLuong.getText());
                     Double khoiLuong = 0.0;
-                    int donGia;
-                    if(checkMoneyMount(tf_DonGia.getText())) {
-                        donGia = Integer.valueOf(tf_DonGia.getText());
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(null, "Đơn giá không hợp lệ !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    String donGiaTF = String.valueOf(tf_DonGia.getText());
+                    if(donGiaTF.length() == 0) {
+                        JOptionPane.showMessageDialog(null, "Vui lòng nhập đơn giá nguyên liệu !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-                    NguyenLieuDTO nguyenLieu = new NguyenLieuDTO(ma, ten, khoiLuong, donGia, true);
+                    int donGia;
+                    if(checkMoneyMount(donGiaTF)) {
+                        donGia = Integer.valueOf(donGiaTF);
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Đơn giá không hợp lệ !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    NguyenLieuDTO nguyenLieu = new NguyenLieuDTO(null, ten, khoiLuong, donGia, true);
                     if(nguyenLieuBUS.addNguyenLieu(nguyenLieu)){
                         JOptionPane.showMessageDialog(null, "Thêm nguyên liệu thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         reloadData();
