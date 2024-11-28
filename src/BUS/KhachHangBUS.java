@@ -136,7 +136,12 @@ public class KhachHangBUS {
                 "Mã KH", "Tên KH", "Giới tính", "Số điện thoại", "Ngày sinh",  "Tổng Chi tiêu"
             }, 
             0 
-        );
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Không cho phép chỉnh sửa ô
+            }
+        };
         tbl.setModel(model);
         docDanhSach();
         ArrayList<KhachHangDTO> dsnv = getlistKH();
