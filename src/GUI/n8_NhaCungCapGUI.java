@@ -6,6 +6,7 @@ import javax.swing.table.TableModel;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.poi.hslf.blip.DIB;
 import org.w3c.dom.events.MouseEvent;
@@ -22,6 +23,7 @@ import Util.PlaceholderUtil;
 public class n8_NhaCungCapGUI extends javax.swing.JPanel {
 
     NccBUS nccBUS = new NccBUS();
+    NhaCungCapDTO nccDTO= new NhaCungCapDTO();
     InputValidator check = new InputValidator();
     PlaceholderUtil Phover = new PlaceholderUtil();
     public n8_NhaCungCapGUI() {
@@ -595,13 +597,7 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                     dialog.ERROR_DIALOG);
                     return;
                 }
-                if (maNCC.length() > 255) {
-                    JOptionPane.showMessageDialog(null,
-                            "Tên nhà cung cấp vượt quá độ dài cho phép: " + maxLength + " ký tự.",
-                            "Lỗi",
-                            dialog.ERROR_DIALOG);
-                    return;
-                }
+                
                 if (diachiNCC.length() > 255) {
                     JOptionPane.showMessageDialog(null,
                             "Địa chỉ nhà cung cấp vượt quá độ dài cho phép: " + maxLength + " ký tự.",
@@ -625,23 +621,18 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 InputValidator check = new InputValidator();
                 int maxLength = 255;
-                String maNCC = TextFieldMa.getText();
+                List<NhaCungCapDTO> a = nccBUS.getlistncc();
+                // String maNCC = TextFieldMa.getText();
                 String tenNCC = TextFieldTen.getText();
                 String diachiNCC = TextFieldDiaChi.getText();
                 String sdtNCC = TextFieldSDT.getText();
-                if (check.IsEmpty(maNCC) || check.IsEmpty(tenNCC) || check.IsEmpty(diachiNCC)
+                if (check.IsEmpty(tenNCC) || check.IsEmpty(diachiNCC)
                         || check.IsEmpty(sdtNCC)) {
                     JOptionPane.showMessageDialog(null, "bạn chưa nhập thông tin nhà cung cấp mới", "lỗi",
                             dialog.ERROR_DIALOG);
                     return;
                 }
-                if (maNCC.length() > 255) {
-                    JOptionPane.showMessageDialog(null,
-                            "Tên nhà cung cấp vượt quá độ dài cho phép: " + maxLength + " ký tự.",
-                            "Lỗi",
-                            dialog.ERROR_DIALOG);
-                    return;
-                }
+               
                 if (diachiNCC.length() > 255) {
                     JOptionPane.showMessageDialog(null,
                             "Địa chỉ nhà cung cấp vượt quá độ dài cho phép: " + maxLength + " ký tự.",
@@ -649,11 +640,19 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                             dialog.ERROR_DIALOG);
                     return;
                 }
+                
                 if (check.isValidPhoneNumber(sdtNCC) != true) {
                     JOptionPane.showMessageDialog(null, "vui lòng nhập đúng số điện thoại", "lỗi", dialog.ERROR_DIALOG);
                     return;
                 }
-                nccBUS.themNhaCungCap(maNCC, tenNCC, diachiNCC, sdtNCC);
+                for(int i= 0;i<a.size();i++){
+                        if(a.get(i).getSoDienThoaiNhaCungCap().equals(sdtNCC)){
+                                JOptionPane.showMessageDialog(null, "số điện thoại đã tồn tại", "lỗi", dialog.ERROR_DIALOG);
+                                return;
+                        }
+                }
+                
+                nccBUS.themNhaCungCap(tenNCC, diachiNCC, sdtNCC);
                 reset();
             }
 

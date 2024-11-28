@@ -18,8 +18,13 @@ public class NccBUS {
 
     public NccBUS() {
         nccDAO = new NccDAO();
+        NhaCungCapDTO nccDTO = new NhaCungCapDTO();
     }
-
+    public List<NhaCungCapDTO> getlistncc(){
+        List<NhaCungCapDTO> ncc = new ArrayList();
+        ncc = nccDAO.getDanhSachNhaCungCap();
+        return ncc;
+    }
     public void loadDataToTable_NhaCungCap(JTable table) {
         List<NhaCungCapDTO> data = nccDAO.getDanhSachNhaCungCap();
         DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -61,8 +66,9 @@ public class NccBUS {
         return nccDAO.taoMaNCC();
     }
 
-    public void themNhaCungCap(String maNCC, String TenNCC, String Diachi, String sodt) {
-        NhaCungCapDTO ncc = new NhaCungCapDTO(maNCC, TenNCC, Diachi, sodt, true);
+    public void themNhaCungCap( String TenNCC, String Diachi, String sodt) {
+        String manccNew = nccDAO.taoMaNCC();
+        NhaCungCapDTO ncc = new NhaCungCapDTO(manccNew, TenNCC, Diachi, sodt, true);
         boolean isAdd = nccDAO.themNhaCungCap(ncc);
         if (isAdd) {
             JOptionPane.showMessageDialog(null, "thêm nhà cung cấp thành thông");
