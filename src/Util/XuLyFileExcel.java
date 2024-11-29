@@ -37,8 +37,7 @@ public class XuLyFileExcel {
                 headerFont.setColor(IndexedColors.BLACK.getIndex());
                 CellStyle headerCellStyle = workbook.createCellStyle();
                 headerCellStyle.setFont(headerFont);
-                headerCellStyle.setFillBackgroundColor(IndexedColors.GREEN.getIndex());
-                headerCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
                 headerCellStyle.setBorderTop(BorderStyle.THIN);
                 headerCellStyle.setBorderBottom(BorderStyle.THIN);
                 headerCellStyle.setBorderLeft(BorderStyle.THIN);

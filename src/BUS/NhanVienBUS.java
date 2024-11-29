@@ -60,6 +60,15 @@ public class NhanVienBUS {
         return flag;
    }
 
+    public boolean checkExistAdmin(){
+        for (NhanVienDTO nv : listNV) {
+            if (nv.getChucVuNhanVien().equals("Quản Trị Viên") ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean updateNhanVien(String ma,String ten, String gioitinh, String dienThoai,Date ngaysinh, String chucvu,String diachi,int luong, int trangThai) {
         ten = ten.trim();
         dienThoai = dienThoai.trim();
@@ -304,14 +313,23 @@ public class NhanVienBUS {
         return formatted + "VNĐ";
     }
 
-   public boolean checkSDT(String sdt){
-    for (NhanVienDTO nv : listNV) {
-        if (nv.getSoDienThoaiNhanVien().equals(sdt) ) {
-            System.out.println(nv.getSoDienThoaiNhanVien());
-            return false;
+    public boolean checkSDT(String sdt){
+        for (NhanVienDTO nv : listNV) {
+            if (nv.getSoDienThoaiNhanVien().equals(sdt) ) {
+                return false;
+            }
         }
+        return true;
     }
-    return true;
-   }
+
+    public boolean checkSDTBanThan(String sdt, String manv){
+        NhanVienDTO nv = nvDAO.getNhanVien(manv);
+        for (NhanVienDTO nv1 : listNV) {
+            if (nv1.getSoDienThoaiNhanVien().equals(sdt) && !(nv.getSoDienThoaiNhanVien().equals(sdt))) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 }

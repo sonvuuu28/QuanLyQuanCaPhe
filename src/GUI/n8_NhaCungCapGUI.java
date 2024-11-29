@@ -6,6 +6,7 @@ import javax.swing.table.TableModel;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.poi.hslf.blip.DIB;
 import org.w3c.dom.events.MouseEvent;
@@ -13,6 +14,7 @@ import org.w3c.dom.events.MouseEvent;
 import BUS.NccBUS;
 import DAO.NhaCungCapDAO;
 import DTO.NhaCungCapDTO;
+import BUS.NccBUS;
 import Util.TableCustom;
 import Util.XuLyFileExcel;
 import Util.dialog;
@@ -22,6 +24,7 @@ import Util.PlaceholderUtil;
 public class n8_NhaCungCapGUI extends javax.swing.JPanel {
 
     NccBUS nccBUS = new NccBUS();
+    NhaCungCapDTO nccDTO= new NhaCungCapDTO();
     InputValidator check = new InputValidator();
     PlaceholderUtil Phover = new PlaceholderUtil();
     public n8_NhaCungCapGUI() {
@@ -576,32 +579,27 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 int maxLength = 255;
+                List<NhaCungCapDTO> ncclist = nccBUS.getlistncc();
+
                 String maNCC = TextFieldMa.getText();
                 String tenNCC = TextFieldTen.getText();
                 String diachiNCC = TextFieldDiaChi.getText();
                 String sdtNCC = TextFieldSDT.getText();
                 NhaCungCapDTO a = nccBUS.getNcc(maNCC);
-
+                int temp=0;
+                for(int i= 0;i<ncclist.size();i++){
+                        if(ncclist.get(i).getMaNhaCungCap().equals(maNCC)){
+                                temp = temp+1;    
+                        }
+                }
                 if (check.IsEmpty(maNCC) || check.IsEmpty(tenNCC) || check.IsEmpty(diachiNCC)
                         || check.IsEmpty(sdtNCC)) {
                     JOptionPane.showMessageDialog(null, "bạn chưa chọn nhà cung cấp", "lỗi",
                             dialog.ERROR_DIALOG);
                     return;
                 }
-                if(a.getTenNhaCungCap().equals(tenNCC) && a.getDiaChiNhaCungCap().equals(diachiNCC) && a.getSoDienThoaiNhaCungCap().equals(sdtNCC)){
-                        JOptionPane.showMessageDialog(null,
-                    "bạn chưa thay đổi dữ liệu nhà cung cấp",
-                    "Lỗi",
-                    dialog.ERROR_DIALOG);
-                    return;
-                }
-                if (maNCC.length() > 255) {
-                    JOptionPane.showMessageDialog(null,
-                            "Tên nhà cung cấp vượt quá độ dài cho phép: " + maxLength + " ký tự.",
-                            "Lỗi",
-                            dialog.ERROR_DIALOG);
-                    return;
-                }
+                
+                
                 if (diachiNCC.length() > 255) {
                     JOptionPane.showMessageDialog(null,
                             "Địa chỉ nhà cung cấp vượt quá độ dài cho phép: " + maxLength + " ký tự.",
@@ -610,11 +608,34 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                     return;
                 }
                 if (check.isValidPhoneNumber(sdtNCC) != true) {
-                    JOptionPane.showMessageDialog(null, "vui lòng nhập đúng số điện thoại", "lỗi", dialog.ERROR_DIALOG);
+                    JOptionPane.showMessageDialog(null, "vui lòng nhập đúng số điện thoại bắt đầu bằng 0 và có 10 số", "lỗi", dialog.ERROR_DIALOG);
                     return;
                 }
-                nccBUS.capNhatNhaCungCap(maNCC, tenNCC, diachiNCC, sdtNCC);
-                reset();
+                System.out.println(temp);
+                if(temp==0){
+                        JOptionPane.showMessageDialog(null, "Mã nhà cung cấp chưa tồn tại, vui lòng chọn nhà cung cấp", "lỗi", dialog.ERROR_DIALOG);
+                        return;
+                        
+                }
+                else{
+                        if(a.getMaNhaCungCap().equals(maNCC)&& a.getTenNhaCungCap().equals(tenNCC) && a.getDiaChiNhaCungCap().equals(diachiNCC) && a.getSoDienThoaiNhaCungCap().equals(sdtNCC)){
+                        JOptionPane.showMessageDialog(null,
+                    "bạn chưa thay đổi dữ liệu nhà cung cấp",
+                    "Lỗi",
+                        dialog.ERROR_DIALOG);
+                        return;
+                        }
+                        int choice = JOptionPane.showConfirmDialog( null, "Bạn có muốn cập nhật thông tin mới ? ",   "Xác Nhận", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                
+                        if(choice == JOptionPane.YES_OPTION)
+                        {nccBUS.capNhatNhaCungCap(maNCC, tenNCC, diachiNCC, sdtNCC);
+                                reset();}
+                        else if(choice == JOptionPane.NO_OPTION){
+                        return;
+                }
+                        
+                }
+                
                 
                 
             }
@@ -625,23 +646,19 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 InputValidator check = new InputValidator();
                 int maxLength = 255;
+                String maNCCnew = nccBUS.taomaNCC();
+                List<NhaCungCapDTO> a = nccBUS.getlistncc();
                 String maNCC = TextFieldMa.getText();
                 String tenNCC = TextFieldTen.getText();
                 String diachiNCC = TextFieldDiaChi.getText();
                 String sdtNCC = TextFieldSDT.getText();
-                if (check.IsEmpty(maNCC) || check.IsEmpty(tenNCC) || check.IsEmpty(diachiNCC)
+                if (check.IsEmpty(tenNCC) || check.IsEmpty(diachiNCC)
                         || check.IsEmpty(sdtNCC)) {
                     JOptionPane.showMessageDialog(null, "bạn chưa nhập thông tin nhà cung cấp mới", "lỗi",
                             dialog.ERROR_DIALOG);
                     return;
                 }
-                if (maNCC.length() > 255) {
-                    JOptionPane.showMessageDialog(null,
-                            "Tên nhà cung cấp vượt quá độ dài cho phép: " + maxLength + " ký tự.",
-                            "Lỗi",
-                            dialog.ERROR_DIALOG);
-                    return;
-                }
+               
                 if (diachiNCC.length() > 255) {
                     JOptionPane.showMessageDialog(null,
                             "Địa chỉ nhà cung cấp vượt quá độ dài cho phép: " + maxLength + " ký tự.",
@@ -649,13 +666,37 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                             dialog.ERROR_DIALOG);
                     return;
                 }
+                
                 if (check.isValidPhoneNumber(sdtNCC) != true) {
-                    JOptionPane.showMessageDialog(null, "vui lòng nhập đúng số điện thoại", "lỗi", dialog.ERROR_DIALOG);
+                    JOptionPane.showMessageDialog(null, "vui lòng nhập đúng số điện thoại bắt đầu bằng 0 và có 10 số", "lỗi", dialog.ERROR_DIALOG);
                     return;
                 }
-                nccBUS.themNhaCungCap(maNCC, tenNCC, diachiNCC, sdtNCC);
-                reset();
-            }
+                for(int i= 0;i<a.size();i++){
+                        if(a.get(i).getMaNhaCungCap().equals(maNCC)){
+                                JOptionPane.showMessageDialog(null, "Mã nhà cung cấp đã tồn tại, hệ thống sẽ cập nhật mã mới", "lỗi", dialog.ERROR_DIALOG);
+                                TextFieldMa.setText(maNCCnew);
+                                return;
+                        }
+                        
+                }
+                for(int i= 0;i<a.size();i++){
+                        if(a.get(i).getSoDienThoaiNhaCungCap().equals(sdtNCC)){
+                                JOptionPane.showMessageDialog(null, "số điện thoại đã tồn tại", "lỗi", dialog.ERROR_DIALOG);
+                                TextFieldMa.setText(maNCCnew);
+                                return;
+                        }
+                        
+                }
+                int choice = JOptionPane.showConfirmDialog( null, "Bạn có muốn thêm nhà cung cấp mới?",   "Xác Nhận", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                
+                if(choice == JOptionPane.YES_OPTION)
+                {nccBUS.themNhaCungCap(tenNCC, diachiNCC, sdtNCC);
+                reset();}
+                else if(choice == JOptionPane.NO_OPTION){
+                        return;
+                }
+        }
+            
 
         });
         Table.addMouseListener(new MouseAdapter() {

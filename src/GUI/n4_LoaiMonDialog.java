@@ -10,11 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import javax.swing.*;
 
 import java.awt.Color;
 import java.awt.Desktop;
@@ -254,7 +250,13 @@ public class n4_LoaiMonDialog extends javax.swing.JFrame {
         });
     }
     public void fillTable() {
-        DefaultTableModel modelTable = new DefaultTableModel();
+        DefaultTableModel modelTable = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Không cho phép chỉnh sửa bất kỳ ô nào
+                return false;
+            }
+        };
         modelTable.addColumn("Mã Loại Món");
         modelTable.addColumn("Tên Loại Món");
         
@@ -280,12 +282,16 @@ public class n4_LoaiMonDialog extends javax.swing.JFrame {
                 if (confirm == JOptionPane.YES_OPTION) {
                     String maLoaiMon = String.valueOf(tf_MaLoaiMon.getText());
                     String tenLoaiMon = String.valueOf(tf_TenLoaiMon.getText());
+                    if(tenLoaiMon.length() == 0) {
+                        JOptionPane.showMessageDialog(null, "Tên loại món không được để trống !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                     if(tenLoaiMon.length() > 50) {
-                        JOptionPane.showMessageDialog(null, "Tên loại món không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Tên loại món không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                     if(tenLoaiMon.matches(regex)) {
-                        JOptionPane.showMessageDialog(null, "Tên loại món không được chứa ký tự đặc biệt !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Tên loại món không được chứa ký tự đặc biệt !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                         return;
                     };
                     LoaiMonDTO loaiMon = new LoaiMonDTO(maLoaiMon, tenLoaiMon, true);
@@ -315,27 +321,32 @@ public class n4_LoaiMonDialog extends javax.swing.JFrame {
                 }
     }
     public void btn_SuaAction() {
-        int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn sửa loại món này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-                if (confirm == JOptionPane.YES_OPTION) {
-                    String maLoaiMon = String.valueOf(tf_MaLoaiMon.getText());
-                    String tenLoaiMon = String.valueOf(tf_TenLoaiMon.getText());
-                    if(tenLoaiMon.length() > 50) {
-                        JOptionPane.showMessageDialog(null, "Tên loại món không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        return;
-                    }
-                    if(tenLoaiMon.matches(regex)) {
-                        JOptionPane.showMessageDialog(null, "Tên loại món không được chứa ký tự đặc biệt !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        return;
-                    };
-                    
-                    LoaiMonDTO loaiMon = new LoaiMonDTO(maLoaiMon, tenLoaiMon, true);
-                    if(loaiMonBUS.updateLoaiMon(loaiMon)){
-                        JOptionPane.showMessageDialog(null, "Sửa loại món thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        reloadData();
-                    }
-                    else 
-                        JOptionPane.showMessageDialog(null, "Sửa loại món thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            }
+        int selectedRow = tb_dsLoaiMon.getSelectedRow();
+        if (selectedRow != -1) {
+            int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn sửa loại món này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+            if (confirm == JOptionPane.YES_OPTION) {
+                String maLoaiMon = String.valueOf(tf_MaLoaiMon.getText());
+                String tenLoaiMon = String.valueOf(tf_TenLoaiMon.getText());
+                if(tenLoaiMon.length() > 50) {
+                    JOptionPane.showMessageDialog(null, "Tên loại món không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
+                if(tenLoaiMon.matches(regex)) {
+                    JOptionPane.showMessageDialog(null, "Tên loại món không được chứa ký tự đặc biệt !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                };
+                
+                LoaiMonDTO loaiMon = new LoaiMonDTO(maLoaiMon, tenLoaiMon, true);
+                if(loaiMonBUS.updateLoaiMon(loaiMon)){
+                    JOptionPane.showMessageDialog(null, "Sửa loại món thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    reloadData();
+                }
+                else 
+                    JOptionPane.showMessageDialog(null, "Sửa loại món thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        }
+        }else {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 sản phẩm để sửa !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        }
     }
     public void btn_XuatExcelAction() {
         String fileName = "listLoaiMon.xlsx";

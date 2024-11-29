@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,13 +22,14 @@ import com.toedter.calendar.JDateChooser;
 
 import BUS.CTHoaDonBUS;
 import BUS.HoaDonBUS;
+import BUS.TrangChuBUS;
 import DTO.HoaDonDTO;
 
 public class n1_HoaDonGUI extends javax.swing.JPanel {
 
-    public n1_HoaDonGUI(String manv) {
+    public n1_HoaDonGUI(String MaNhanVien) {
+        this.MaNhanVien = MaNhanVien;
         initComponents();
-        this.maNV = manv;
         loadData();
         TableCustom.apply(ScrollPane, TableCustom.TableType.MULTI_LINE);
         nhomNutChucNang();
@@ -83,7 +85,7 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
         dateEditor2.setEditable(false);
         dateEditor2.setFocusable(false);
         JDDenNgay.setBackground(new java.awt.Color(211, 211, 211));
-        
+
         setBackground(new java.awt.Color(122, 74, 74));
         setMaximumSize(new java.awt.Dimension(1125, 667));
         setMinimumSize(new java.awt.Dimension(1125, 667));
@@ -433,7 +435,7 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
 
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 PanelTong.removeAll();
-                n1_BanHangKeoTha bh = new n1_BanHangKeoTha(maNV);
+                n1_BanHangKeoTha bh = new n1_BanHangKeoTha(MaNhanVien);
                 PanelTong.setLayout(new BorderLayout());
                 PanelTong.add(bh, BorderLayout.CENTER); // Adjust the layout constraint as needed
                 PanelTong.revalidate();
@@ -441,35 +443,37 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
             }
         });
 
-        // PanelHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
-        //     public void mouseEntered(java.awt.event.MouseEvent evt) {
-        //         PanelHoaDon.setBackground(new Color(199, 159, 95));
-        //     }
-
-        //     public void mouseExited(java.awt.event.MouseEvent evt) {
-        //         PanelHoaDon.setBackground(new Color(219, 189, 142));
-        //     }
-            
-        //     public void mouseClicked(java.awt.event.MouseEvent evt) {
-        //         PanelTong.removeAll();
-        //         n1_HoaDonGUI bh = new n1_HoaDonGUI();
-        //         PanelTong.setLayout(new BorderLayout());
-        //         PanelTong.add(bh, BorderLayout.CENTER); // Adjust the layout constraint as needed
-        //         PanelTong.revalidate();
-        //         PanelTong.repaint();
-        //     }
-        // });
+//        PanelHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
+//            public void mouseEntered(java.awt.event.MouseEvent evt) {
+//                PanelHoaDon.setBackground(new Color(199, 159, 95));
+//            }
+//
+//            public void mouseExited(java.awt.event.MouseEvent evt) {
+//                PanelHoaDon.setBackground(new Color(219, 189, 142));
+//            }
+//            
+//            public void mouseClicked(java.awt.event.MouseEvent evt) {
+//                PanelTong.removeAll();
+//                n1_HoaDonGUI bh = new n1_HoaDonGUI();
+//                PanelTong.setLayout(new BorderLayout());
+//                PanelTong.add(bh, BorderLayout.CENTER); // Adjust the layout constraint as needed
+//                PanelTong.revalidate();
+//                PanelTong.repaint();
+//            }
+//        });
 
         btn_TimKiemMa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 taiLaiGia_Ngay();
-                TimTheoMa();
+                if(validateFields2())
+                    TimTheoMa();
             }
         });
 
         btn_TimKiemNgayTien.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TimKiemTheoGiaTien_Date();
+                if(validateFields())
+                    TimKiemTheoGiaTien_Date();
             }
         });
 
@@ -514,14 +518,68 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
     private void TimKiemTheoGiaTien_Date() {
         HDBUS.TimKiemHoaDonTheoNgay_TongTien(JDTuNgay, JDDenNgay,txtGiaTu,txtDenGia,TblHoaDon);
     }
+
+    public boolean validateFields2(){
+        String maHoaDon = txtMaHoaDon.getText().trim();
+        // Kiểm tra txtMaHoaDon: Không được chứa ký tự đặc biệt
+
+        if (maHoaDon.trim().isEmpty()){
+            new dialog("Mã hóa đơn đang để trống, không thể tìm", 1);
+            return false;
+    }
+        if (!maHoaDon.matches("^[a-zA-Z0-9 ]+$")) {
+            JOptionPane.showMessageDialog(null, "Mã hóa đơn không được chứa ký tự đặc biệt!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            txtMaHoaDon.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean validateFields() {
+        
+        String giaTu = txtGiaTu.getText().trim();
+        String denGia = txtDenGia.getText().trim();
+
+        
+
+        // Kiểm tra txtGiaTu: Chỉ cho phép số >= 0, không chứa ký tự chữ hoặc ký tự đặc biệt
+        try {
+            double giaTuValue = Double.parseDouble(giaTu);
+            if (giaTuValue < 0) {
+                JOptionPane.showMessageDialog(null, "Giá từ phải là số lớn hơn hoặc bằng 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                txtGiaTu.requestFocus();
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Giá từ không được chứa ký tự đặc biệt hoặc chữ cái!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            txtGiaTu.requestFocus();
+            return false;
+        }
+
+        // Kiểm tra txtDenGia: Chỉ cho phép số >= 0, không chứa ký tự chữ hoặc ký tự đặc biệt
+        try {
+            double denGiaValue = Double.parseDouble(denGia);
+            if (denGiaValue < 0) {
+                JOptionPane.showMessageDialog(null, "Giá đến phải là số lớn hơn hoặc bằng 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                txtDenGia.requestFocus();
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Giá đến không được chứa ký tự đặc biệt hoặc chữ cái!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            txtDenGia.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
     
     private void loadData(){
         HDBUS.loadData(TblHoaDon);
     }
     private HoaDonBUS HDBUS = new HoaDonBUS();
     private CTHoaDonBUS CTBUS = new CTHoaDonBUS();
-    private String maNV="";
 
+    public String MaNhanVien;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser JDDenNgay;
     private com.toedter.calendar.JDateChooser JDTuNgay;

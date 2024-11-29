@@ -877,13 +877,18 @@ public class n3_PNNhapHang extends javax.swing.JPanel {
         }
     }
 
-    private void btn_TimKiemActionPerformed(java.awt.event.MouseEvent evt) {
-        String tenNguyenLieu = JTFTimKiem.getText().trim();
-        if (tenNguyenLieu.matches("[a-zA-ZÀ-ỹ\\s]+")) { // Kiểm tra điều kiện nhập vào
-            nhapHangBUS.searchNguyenLieuByTen(jTable_KhoHang, tenNguyenLieu);
-        } else {
-            JOptionPane.showMessageDialog(this, "Tên nguyên liệu chỉ được chứa chữ cái và khoảng trắng, không chứa số hoặc ký tự đặc biệt.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+  
+    private void btn_TimKiemActionPerformed(java.awt.event.MouseEvent evt) { 
+        String tenNguyenLieu = JTFTimKiem.getText().trim(); 
+        if (tenNguyenLieu.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Bạn đang để trống, vui lòng nhập để tìm kiếm.", "Lỗi nhập liệu", JOptionPane.WARNING_MESSAGE);
+            return;
         }
+        if (!tenNguyenLieu.matches("[a-zA-ZÀ-ỹ\\s]+")) { 
+            JOptionPane.showMessageDialog(this, "Tên nguyên liệu chỉ được chứa chữ cái và khoảng trắng, không chứa số hoặc ký tự đặc biệt.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE); 
+            return;
+        }
+            nhapHangBUS.searchNguyenLieuByTen(jTable_KhoHang, tenNguyenLieu); 
     }
     private void JTFTimKiemKeyPressed(java.awt.event.KeyEvent evt) {
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
