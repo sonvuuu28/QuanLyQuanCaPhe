@@ -49,10 +49,11 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
         jPanel20 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
-        // jComboBox3 = new javax.swing.JComboBox<>();
+        jComboBox3 = new javax.swing.JComboBox<>();
         jPanel22 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         PanelTong = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         PanelPhanQuyen = new javax.swing.JPanel();
@@ -64,13 +65,6 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
         LbNhanVien = new javax.swing.JLabel();
         BtnQLPhanQuyen = new javax.swing.JPanel();
         LbPhanQuyen = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        BtnThem = new javax.swing.JPanel();
-        LblThem = new javax.swing.JLabel();
-        BtnSua = new javax.swing.JPanel();
-        LblSua = new javax.swing.JLabel();
-        BtnXoa = new javax.swing.JPanel();
-        LblXoa = new javax.swing.JLabel();
         PanelChuaCheckBox = new javax.swing.JPanel();
         ChBoxNhanVien1 = new javax.swing.JCheckBox();
         CHBoxMon1 = new javax.swing.JCheckBox();
@@ -82,6 +76,10 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
         CHBoxBanHang1 = new javax.swing.JCheckBox();
         CHBoxNguyenLieu1 = new javax.swing.JCheckBox();
         CHBoxNCC1 = new javax.swing.JCheckBox();
+        BtnThem = new javax.swing.JPanel();
+        LblThem = new javax.swing.JLabel();
+        BtnSua = new javax.swing.JPanel();
+        LblSua = new javax.swing.JLabel();
 
         jPanel16.setBackground(new java.awt.Color(255, 255, 255));
         jPanel16.setMaximumSize(new java.awt.Dimension(1125, 667));
@@ -158,6 +156,8 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
         jLabel23.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel23.setText("Chọn quyền: ");
 
+        jComboBox3.setBackground(new java.awt.Color(219, 189, 142));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
         jPanel21.setLayout(jPanel21Layout);
@@ -167,6 +167,7 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel23)
                 .addGap(29, 29, 29)
+                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel21Layout.setVerticalGroup(
@@ -175,7 +176,7 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
                 .addGap(23, 23, 23)
                 .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel23)
-                    )
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
@@ -260,34 +261,18 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jScrollPane1.setViewportView(TableThongTinQuyen);
-        if (TableThongTinQuyen.getColumnModel().getColumnCount() > 0) {
-            TableThongTinQuyen.getColumnModel().getColumn(0).setResizable(false);
-            TableThongTinQuyen.getColumnModel().getColumn(0).setPreferredWidth(30);
-            TableThongTinQuyen.getColumnModel().getColumn(1).setResizable(false);
-            TableThongTinQuyen.getColumnModel().getColumn(1).setPreferredWidth(30);
-            TableThongTinQuyen.getColumnModel().getColumn(2).setResizable(false);
-            TableThongTinQuyen.getColumnModel().getColumn(2).setPreferredWidth(50);
-            TableThongTinQuyen.getColumnModel().getColumn(3).setResizable(false);
-            TableThongTinQuyen.getColumnModel().getColumn(3).setPreferredWidth(50);
-            TableThongTinQuyen.getColumnModel().getColumn(4).setResizable(false);
-            TableThongTinQuyen.getColumnModel().getColumn(4).setPreferredWidth(50);
-            TableThongTinQuyen.getColumnModel().getColumn(5).setResizable(false);
-            TableThongTinQuyen.getColumnModel().getColumn(5).setPreferredWidth(20);
-            TableThongTinQuyen.getColumnModel().getColumn(6).setPreferredWidth(60);
-            TableThongTinQuyen.getColumnModel().getColumn(6).setResizable(false);
-            TableThongTinQuyen.getColumnModel().getColumn(6).setPreferredWidth(50);
-            TableThongTinQuyen.getColumnModel().getColumn(7).setResizable(false);
-            TableThongTinQuyen.getColumnModel().getColumn(7).setPreferredWidth(50);
-            TableThongTinQuyen.getColumnModel().getColumn(8).setResizable(false);
-            TableThongTinQuyen.getColumnModel().getColumn(8).setPreferredWidth(30);
-            TableThongTinQuyen.getColumnModel().getColumn(9).setResizable(false);
-            TableThongTinQuyen.getColumnModel().getColumn(9).setPreferredWidth(40);
-            TableThongTinQuyen.getColumnModel().getColumn(10).setResizable(false);
-            TableThongTinQuyen.getColumnModel().getColumn(10).setPreferredWidth(20);
-            TableThongTinQuyen.getColumnModel().getColumn(11).setResizable(false);
-            TableThongTinQuyen.getColumnModel().getColumn(11).setPreferredWidth(50);
-        }
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         setMaximumSize(new java.awt.Dimension(1125, 667));
         setMinimumSize(new java.awt.Dimension(1125, 667));
@@ -313,7 +298,7 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
         lblPhanQuyen.setText("Phân Quyền:");
 
         cbPhanQuyen.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        // cbPhanQuyen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nhân Viên", "Quản lý" }));
+        cbPhanQuyen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nhân Viên", "Quản lý" }));
 
         TableThongTinQuyen.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -383,109 +368,6 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
             .addComponent(LbPhanQuyen, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
         );
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        BtnThem.setBackground(new java.awt.Color(51, 51, 51));
-        BtnThem.setForeground(new java.awt.Color(255, 255, 255));
-        BtnThem.setMaximumSize(new java.awt.Dimension(100, 35));
-        BtnThem.setMinimumSize(new java.awt.Dimension(100, 35));
-        BtnThem.setPreferredSize(new java.awt.Dimension(100, 35));
-
-        LblThem.setBackground(new java.awt.Color(0, 0, 0));
-        LblThem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        LblThem.setForeground(new java.awt.Color(255, 255, 255));
-        LblThem.setText("Thêm quyền");
-
-        javax.swing.GroupLayout BtnThemLayout = new javax.swing.GroupLayout(BtnThem);
-        BtnThem.setLayout(BtnThemLayout);
-        BtnThemLayout.setHorizontalGroup(
-            BtnThemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(BtnThemLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(LblThem)
-                .addContainerGap(15, Short.MAX_VALUE))
-        );
-        BtnThemLayout.setVerticalGroup(
-            BtnThemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(LblThem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        BtnSua.setBackground(new java.awt.Color(51, 51, 51));
-        BtnSua.setForeground(new java.awt.Color(255, 255, 255));
-        BtnSua.setMaximumSize(new java.awt.Dimension(100, 35));
-        BtnSua.setMinimumSize(new java.awt.Dimension(100, 35));
-        BtnSua.setPreferredSize(new java.awt.Dimension(100, 35));
-
-        LblSua.setBackground(new java.awt.Color(0, 0, 0));
-        LblSua.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        LblSua.setForeground(new java.awt.Color(255, 255, 255));
-        LblSua.setText("Sửa");
-
-        javax.swing.GroupLayout BtnSuaLayout = new javax.swing.GroupLayout(BtnSua);
-        BtnSua.setLayout(BtnSuaLayout);
-        BtnSuaLayout.setHorizontalGroup(
-            BtnSuaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(BtnSuaLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(LblSua)
-                .addContainerGap(40, Short.MAX_VALUE))
-        );
-        BtnSuaLayout.setVerticalGroup(
-            BtnSuaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BtnSuaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(LblSua, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        BtnXoa.setBackground(new java.awt.Color(51, 51, 51));
-        BtnXoa.setForeground(new java.awt.Color(255, 255, 255));
-        BtnXoa.setMaximumSize(new java.awt.Dimension(100, 35));
-        BtnXoa.setMinimumSize(new java.awt.Dimension(100, 35));
-        BtnXoa.setPreferredSize(new java.awt.Dimension(100, 35));
-
-        LblXoa.setBackground(new java.awt.Color(0, 0, 0));
-        LblXoa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        LblXoa.setForeground(new java.awt.Color(255, 255, 255));
-        LblXoa.setText("Xóa");
-
-        javax.swing.GroupLayout BtnXoaLayout = new javax.swing.GroupLayout(BtnXoa);
-        BtnXoa.setLayout(BtnXoaLayout);
-        BtnXoaLayout.setHorizontalGroup(
-            BtnXoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(BtnXoaLayout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(LblXoa)
-                .addContainerGap(41, Short.MAX_VALUE))
-        );
-        BtnXoaLayout.setVerticalGroup(
-            BtnXoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(LblXoa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(BtnThem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(100, 100, 100)
-                .addComponent(BtnSua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
-                .addComponent(BtnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(BtnSua, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BtnThem, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(BtnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 10, Short.MAX_VALUE))
-        );
-
         PanelChuaCheckBox.setBackground(new java.awt.Color(255, 255, 255));
         PanelChuaCheckBox.setLayout(new java.awt.GridLayout(4, 3, 50, 50));
 
@@ -551,6 +433,59 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
         listckb.add(CHBoxNguyenLieu1);
         listckb.add(CHBoxNCC1);
 
+        BtnThem.setBackground(new java.awt.Color(51, 51, 51));
+        BtnThem.setForeground(new java.awt.Color(255, 255, 255));
+        BtnThem.setMaximumSize(new java.awt.Dimension(100, 35));
+        BtnThem.setMinimumSize(new java.awt.Dimension(100, 35));
+        BtnThem.setPreferredSize(new java.awt.Dimension(100, 35));
+
+        LblThem.setBackground(new java.awt.Color(0, 0, 0));
+        LblThem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        LblThem.setForeground(new java.awt.Color(255, 255, 255));
+        LblThem.setText("Thêm quyền");
+
+        javax.swing.GroupLayout BtnThemLayout = new javax.swing.GroupLayout(BtnThem);
+        BtnThem.setLayout(BtnThemLayout);
+        BtnThemLayout.setHorizontalGroup(
+            BtnThemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BtnThemLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(LblThem)
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+        BtnThemLayout.setVerticalGroup(
+            BtnThemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(LblThem, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+        );
+
+        BtnSua.setBackground(new java.awt.Color(51, 51, 51));
+        BtnSua.setForeground(new java.awt.Color(255, 255, 255));
+        BtnSua.setMaximumSize(new java.awt.Dimension(100, 35));
+        BtnSua.setMinimumSize(new java.awt.Dimension(100, 35));
+        BtnSua.setPreferredSize(new java.awt.Dimension(100, 35));
+
+        LblSua.setBackground(new java.awt.Color(0, 0, 0));
+        LblSua.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        LblSua.setForeground(new java.awt.Color(255, 255, 255));
+        LblSua.setText("Sửa quyền");
+
+        javax.swing.GroupLayout BtnSuaLayout = new javax.swing.GroupLayout(BtnSua);
+        BtnSua.setLayout(BtnSuaLayout);
+        BtnSuaLayout.setHorizontalGroup(
+            BtnSuaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BtnSuaLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(LblSua)
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+        BtnSuaLayout.setVerticalGroup(
+            BtnSuaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BtnSuaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(LblSua, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout PanelPhanQuyenLayout = new javax.swing.GroupLayout(PanelPhanQuyen);
         PanelPhanQuyen.setLayout(PanelPhanQuyenLayout);
         PanelPhanQuyenLayout.setHorizontalGroup(
@@ -566,15 +501,17 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
                         .addGap(405, 405, 405)
                         .addComponent(lblPhanQuyen)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbPhanQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cbPhanQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(PanelPhanQuyenLayout.createSequentialGroup()
-                        .addGap(286, 286, 286)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(442, 442, 442)
+                        .addComponent(BtnThem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(90, 90, 90)
+                        .addComponent(BtnSua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(PanelPhanQuyenLayout.createSequentialGroup()
                         .addGap(226, 226, 226)
                         .addComponent(PanelChuaCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(JScrollThongTinQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 1107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
         PanelPhanQuyenLayout.setVerticalGroup(
             PanelPhanQuyenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -589,10 +526,13 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
                     .addComponent(cbPhanQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
                 .addComponent(PanelChuaCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addComponent(JScrollThongTinQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(PanelPhanQuyenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelPhanQuyenLayout.createSequentialGroup()
+                        .addComponent(BtnThem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(JScrollThongTinQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(BtnSua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -710,24 +650,6 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
             }
         });
 
-        BtnXoa.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                BtnXoa.setBackground(new Color(106, 105, 105));
-                LblXoa.setOpaque(true);
-                LblXoa.setBackground(new Color(106, 105, 105));
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                BtnXoa.setBackground(new Color(0, 0, 0));
-                LblXoa.setOpaque(true);
-                LblXoa.setBackground(new Color(0, 0, 0));
-            }
-
-            public void mouseClicked(MouseEvent e){
-                xoaPhanQuyen();
-            }
-        });
-
         cbPhanQuyen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -811,7 +733,6 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
     private javax.swing.JPanel BtnQLPhanQuyen;
     private javax.swing.JPanel BtnSua;
     private javax.swing.JPanel BtnThem;
-    private javax.swing.JPanel BtnXoa;
     private javax.swing.JCheckBox CHBoxBanHang1;
     private javax.swing.JCheckBox CHBoxKM_UD1;
     private javax.swing.JCheckBox CHBoxLichLam1;
@@ -827,18 +748,17 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
     private javax.swing.JLabel LbPhanQuyen;
     private javax.swing.JLabel LblSua;
     private javax.swing.JLabel LblThem;
-    private javax.swing.JLabel LblXoa;
     private javax.swing.JPanel PanelChuaCheckBox;
     private javax.swing.JPanel PanelPhanQuyen;
     private javax.swing.JPanel PanelTong;
     private javax.swing.JTable TableThongTinQuyen;
     private javax.swing.JComboBox<String> cbPhanQuyen;
+    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
@@ -848,6 +768,7 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel22;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblPhanQuyen;
     // End of variables declaration//GEN-END:variables
 }
