@@ -72,20 +72,25 @@ public class BanHangBUS {
         return sl;
     }
 
-    public boolean check_Sl(String sl, String sl_kho) {
+    public int check_Sl(String sl, String sl_kho) {
         try {
             int soLuong = Integer.parseInt(sl);
             int soLuong_kho = Integer.parseInt(sl_kho);
 
-            if (soLuong > soLuong_kho) {
-                JOptionPane.showMessageDialog(null, "Không đủ nguyên liệu trong kho!");
-                return false;
+            if (soLuong <= 0) {
+                JOptionPane.showMessageDialog(null, "Vui lòng nhập số lượng lớn hơn 0 để tiếp tục!");
+                return 0;
             }
 
-            return true;
+            if (soLuong > soLuong_kho) {
+                JOptionPane.showMessageDialog(null, "Nguyên liệu trong kho không đủ đáp ứng. Hãy kiểm tra lại!");
+                return 2;
+            }
+
+            return 1;
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Nhập số lượng không phù hợp !");
-            return false;
+            JOptionPane.showMessageDialog(null, "Số lượng nhập vào không hợp lệ. Vui lòng kiểm tra lại!");
+            return 3;
         }
     }
 
@@ -121,8 +126,8 @@ public class BanHangBUS {
 
         return bestKm;
     }
-    
-    public void suaChiTieuKhachHang(int chiTieu, String Ma){
+
+    public void suaChiTieuKhachHang(int chiTieu, String Ma) {
         n6_CaLamDAO.getInstance().suaChiTieuKhachHang(chiTieu, Ma);
     }
 

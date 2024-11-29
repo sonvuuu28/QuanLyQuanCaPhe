@@ -138,7 +138,7 @@ public class n7_UuDaiGUI extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã", "Tên Ưu Đãi", "Ngày bắt đầu", "Ngày kết thúc", "% Ưu Đãi", "Điều kiện", "Hạn"
+                "Mã", "Tên Ưu Đãi", "Ngày bắt đầu", "Ngày kết thúc", "% Ưu Đãi", "Điều kiện", "Hiệu lực"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -583,11 +583,16 @@ public class n7_UuDaiGUI extends javax.swing.JPanel {
                     java.sql.Date end_sql = java.sql.Date.valueOf(end_str);
                     int tien = n7_KhuyenMai_UuDaiBUS.getInstance().set_Tien_VND_sang_int(TextFieldDieuKien.getText());
 
-//                    check_input_Rong();
-                    n7_KhuyenMai_UuDaiBUS.getInstance().insert_uuDai(TextFieldMa.getText(), TextFieldTen.getText(),
-                            start_sql, end_sql, Float.valueOf(TextFieldPhanTram.getText()), tien);
+                    int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn thêm ưu đãi không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
 
-                    reset();
+                    if (response == JOptionPane.YES_OPTION) {
+                        boolean i = n7_KhuyenMai_UuDaiBUS.getInstance().insert_uuDai(TextFieldMa.getText(), TextFieldTen.getText(),
+                                start_sql, end_sql, Float.valueOf(TextFieldPhanTram.getText()), tien);
+
+                        if (i) {
+                            reset();
+                        }
+                    }
                 }
             }
         });
@@ -595,22 +600,29 @@ public class n7_UuDaiGUI extends javax.swing.JPanel {
         btn_Sua.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if (n7_KhuyenMai_UuDaiBUS.getInstance().check_input_Rong(TextFieldMa, TextFieldTen, NgayBatDau,
-                        NgayKetThuc, TextFieldPhanTram, TextFieldDieuKien) == true) {
-                    Date start = NgayBatDau.getDate();
-                    String start_str = Util.LichLam_CaLam.datechooser_cast_dangChuan(start);
-                    java.sql.Date start_sql = java.sql.Date.valueOf(start_str);
+                if (TextFieldMa.getText().equals(n7_KhuyenMai_UuDaiBUS.getInstance().taoMaUuDai())) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 ưu đãi trong danh sách để sửa!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    if (n7_KhuyenMai_UuDaiBUS.getInstance().check_input_Rong(TextFieldMa, TextFieldTen, NgayBatDau,
+                            NgayKetThuc, TextFieldPhanTram, TextFieldDieuKien) == true) {
+                        Date start = NgayBatDau.getDate();
+                        String start_str = Util.LichLam_CaLam.datechooser_cast_dangChuan(start);
+                        java.sql.Date start_sql = java.sql.Date.valueOf(start_str);
 
-                    Date end = NgayKetThuc.getDate();
-                    String end_str = Util.LichLam_CaLam.datechooser_cast_dangChuan(end);
-                    java.sql.Date end_sql = java.sql.Date.valueOf(end_str);
-                    int tien = n7_KhuyenMai_UuDaiBUS.getInstance().set_Tien_VND_sang_int(TextFieldDieuKien.getText());
+                        Date end = NgayKetThuc.getDate();
+                        String end_str = Util.LichLam_CaLam.datechooser_cast_dangChuan(end);
+                        java.sql.Date end_sql = java.sql.Date.valueOf(end_str);
+                        int tien = n7_KhuyenMai_UuDaiBUS.getInstance().set_Tien_VND_sang_int(TextFieldDieuKien.getText());
 
-//                    check_input_Rong();
-                    int i = n7_KhuyenMai_UuDaiBUS.getInstance().update_uuDai(TextFieldMa.getText(), TextFieldTen.getText(),
-                            start_sql, end_sql, Float.valueOf(TextFieldPhanTram.getText()), tien);
-                    if (i == 1 || i == 0) {
-                        reset();
+                        int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn sửa ưu đãi không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+
+                        if (response == JOptionPane.YES_OPTION) {
+                            int i = n7_KhuyenMai_UuDaiBUS.getInstance().update_uuDai(TextFieldMa.getText(), TextFieldTen.getText(),
+                                    start_sql, end_sql, Float.valueOf(TextFieldPhanTram.getText()), tien);
+                            if (i == 1 || i == 0) {
+                                reset();
+                            }
+                        }
                     }
                 }
             }

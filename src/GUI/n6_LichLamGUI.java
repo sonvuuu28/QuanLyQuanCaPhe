@@ -521,15 +521,23 @@ public class n6_LichLamGUI extends javax.swing.JPanel {
                 }
                 Date selectedDate = datechooser.getDate();
                 String Ngay_formatted = Util.LichLam_CaLam.datechooser_cast_dangChuan(selectedDate);
-                if (selectedDate != null) {
-                    System.out.println("Ngày đã chọn: " + Ngay_formatted);
-                } else {
-                    System.out.println("Chưa chọn ngày.");
-                }
                 String Ngay_TimKiem = Util.LichLam_CaLam.yyyy_mm_dd__to__dd_mm_yyyy(Ngay_formatted);
-                LichLamBUS.getInstance().Khoi_tao_ngay_lam(Ngay_formatted);
-                getData(Table, Ngay_formatted);
-                LabelNgay.setText(LichLamBUS.getInstance().TimKiem(Ngay_TimKiem));
+                Date currentDate = new Date();
+
+                if (selectedDate.before(currentDate)) {
+                    JOptionPane.showMessageDialog(null, "Không thể tạo lịch làm cho ngày trong quá khứ!", "FAIL", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn tạo lich làm tuần không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+
+                if (response == JOptionPane.YES_OPTION) {
+                    boolean i = LichLamBUS.getInstance().Khoi_tao_ngay_lam(Ngay_formatted);
+                    if (i) {
+                        getData(Table, Ngay_formatted);
+                        LabelNgay.setText(LichLamBUS.getInstance().TimKiem(Ngay_TimKiem));
+                    }
+                }
             }
         });
         PanelSua.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -547,6 +555,16 @@ public class n6_LichLamGUI extends javax.swing.JPanel {
 
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Date selectedDate = datechooser.getDate();
+                if (datechooser.getDate() == null) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày để điều chỉnh lịch làm !", "FAIL", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                Date currentDate = new Date();
+
+                if (selectedDate.before(currentDate)) {
+                    JOptionPane.showMessageDialog(null, "Không thể điều chỉnh lịch làm cho ngày trong quá khứ!", "FAIL", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 String Ngay_formatted = Util.LichLam_CaLam.datechooser_cast_dangChuan(selectedDate);
 
                 String TenCa = (String) comboboxCaLam.getSelectedItem();
@@ -577,6 +595,16 @@ public class n6_LichLamGUI extends javax.swing.JPanel {
 
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Date selectedDate = datechooser.getDate();
+                if (datechooser.getDate() == null) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày để tắt ca làm !", "FAIL", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                Date currentDate = new Date();
+
+                if (selectedDate.before(currentDate)) {
+                    JOptionPane.showMessageDialog(null, "Không thể sửa ca làm cho ngày trong quá khứ!", "FAIL", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 String Ngay_formatted = Util.LichLam_CaLam.datechooser_cast_dangChuan(selectedDate);
 
                 String TenNhanVien = (String) comboboxNhanVien.getSelectedItem();

@@ -18,13 +18,15 @@ public class CaLamBUS {
         return ma;
     }
 
-    public void insert(String MaCaLam, String TenCaLam, String ThoiGianVaoCaLam, String ThoiGianRaCaLam) {
+    public Boolean insert(String MaCaLam, String TenCaLam, String ThoiGianVaoCaLam, String ThoiGianRaCaLam) {
         CaLamDTO ca_dto = new CaLamDTO(MaCaLam, TenCaLam, ThoiGianVaoCaLam, ThoiGianRaCaLam, true);
         Boolean ca_dao_insert = n6_CaLamDAO.getInstance().insert(ca_dto);
         if (ca_dao_insert) {
-            JOptionPane.showMessageDialog(null, "Tạo ca làm thành công");
+            JOptionPane.showMessageDialog(null, "Ca làm đã được tạo thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return true;
         } else {
-            JOptionPane.showMessageDialog(null, "Trùng mã ca làm!");
+            JOptionPane.showMessageDialog(null, "Mã ca làm đã tồn tại.\n Để tạo ca làm, vui lòng tải lại trang !", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
     }
 
@@ -32,25 +34,27 @@ public class CaLamBUS {
         CaLamDTO ca_dto = new CaLamDTO(MaCaLam, TenCaLam, ThoiGianVaoCaLam, ThoiGianRaCaLam, true);
         int ca_dao_update = n6_CaLamDAO.getInstance().update(ca_dto);
         if (ca_dao_update == 1) {
-            JOptionPane.showMessageDialog(null, 
-            "Cập nhật thông tin ca làm thành công! Cảm ơn bạn đã sử dụng hệ thống.", 
-            "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "Cập nhật thông tin ca làm thành công! Cảm ơn bạn đã sử dụng hệ thống.",
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } else if (ca_dao_update == 0) {
-            JOptionPane.showMessageDialog(null, 
-            "Không thể cập nhật thông tin ca làm. Vui lòng kiểm tra lại thông tin.", 
-            "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "Không thể cập nhật thông tin ca làm. Vui lòng kiểm tra lại thông tin.",
+                    "Cảnh báo", JOptionPane.WARNING_MESSAGE);
         } else if (ca_dao_update == 2) {
             JOptionPane.showMessageDialog(null, "Thông tin ca làm không có thay đổi nào mới. Vui lòng kiểm tra lại dữ liệu đã nhập!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
         return ca_dao_update;
     }
 
-    public void delete(String MaCaLam) {
+    public boolean delete(String MaCaLam) {
         Boolean ca_dao_delete = n6_CaLamDAO.getInstance().delete(MaCaLam);
         if (ca_dao_delete) {
-            JOptionPane.showMessageDialog(null, "Xóa ca làm thành công");
+            JOptionPane.showMessageDialog(null, "Ca làm đã được xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return true;
         } else {
             JOptionPane.showMessageDialog(null, "Không tồn tại mã ca làm!");
+            return false;
         }
     }
 

@@ -34,7 +34,8 @@ public class n1_BanHang_ThongTinMon extends javax.swing.JFrame {
         int donGia = Mon.getDonGiaMon();
         String soLuong = SL.getText();
         String soLuong_kho = SoLuong.getText();
-        if (BanHangBUS.getInstance().check_Sl(soLuong, soLuong_kho)) {
+        int i = BanHangBUS.getInstance().check_Sl(soLuong, soLuong_kho);
+        if (i == 1) {
             int thanhTien = Mon.getDonGiaMon() * Integer.parseInt(soLuong);
             banHangFrame.TongTien += thanhTien;
             int soLuongInt = Integer.parseInt(soLuong);
@@ -45,11 +46,13 @@ public class n1_BanHang_ThongTinMon extends javax.swing.JFrame {
             BanHangBUS.getInstance().update_tru_NguyenLieu(cthd);
 
             dispose();
-        } else {
+        } else if (i == 2) {
             SL.requestFocus();
             SL.setText(soLuong_kho);
+        } else if (i == 0 || i == 3) {
+            SL.setText("");
+            SL.requestFocus();
         }
-        
     }
 
     private void nhomNutChucNang() {

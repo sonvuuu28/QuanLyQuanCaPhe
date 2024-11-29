@@ -33,15 +33,17 @@ public class LichLamBUS {
         LabelNgay.setText(period);
     }
 
-    public void Khoi_tao_ngay_lam(String Ngay) {
+    public Boolean Khoi_tao_ngay_lam(String Ngay) {
         Date NgayDate = Date.valueOf(Ngay);
 
         n6_LichLamDAO dao = n6_LichLamDAO.getInstance();
         Boolean dao_insert = dao.tao_LichLam_TheoNgay(NgayDate);
         if (dao_insert) {
             JOptionPane.showMessageDialog(null, "Khởi tạo thành công");
+            return true;
         } else {
             JOptionPane.showMessageDialog(null, "Khởi tạo thất bại");
+            return false;
         }
     }
 

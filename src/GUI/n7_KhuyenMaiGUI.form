@@ -280,7 +280,7 @@
                     <Column editable="false" title="Ng&#xe0;y k&#x1ebf;t th&#xfa;c" type="java.lang.Object"/>
                     <Column editable="false" title="% Khuy&#x1ebf;n M&#xe3;i" type="java.lang.Object"/>
                     <Column editable="false" title="&#x110;i&#x1ec1;u ki&#x1ec7;n" type="java.lang.Object"/>
-                    <Column editable="false" title="H&#x1ea1;n" type="java.lang.Object"/>
+                    <Column editable="false" title="Hi&#x1ec7;u l&#x1ef1;c" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

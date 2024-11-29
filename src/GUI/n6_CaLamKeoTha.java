@@ -564,69 +564,91 @@ public class n6_CaLamKeoTha extends javax.swing.JPanel {
             return;
         }
 
-        CaLamBUS.getInstance().insert(ma, ten, in, out);
-        TaiLaiTrang();
+        int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn thêm ca làm không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+
+        if (response == JOptionPane.YES_OPTION) {
+            boolean i = CaLamBUS.getInstance().insert(ma, ten, in, out);
+            if (i) {
+                TaiLaiTrang();
+            }
+        }
     }
 
     public void update() {
+
         String ma = TextMaCa.getText();
         String ten = TextTenCa.getText();
         String in = TextThoiGianVaoCa.getText();
         String out = TextThoiGianRa.getText();
+        if (ma.equals(CaLamBUS.getInstance().MaTuDong())) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 ca làm trong danh sách để sửa!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            if (ten.equals("")) {
+                TextTenCa.requestFocus();
+                JOptionPane.showMessageDialog(null, "Không bỏ trống ô Tên Ca Làm");
+                return;
+            }
 
-        if (ten.equals("")) {
-            TextTenCa.requestFocus();
-            JOptionPane.showMessageDialog(null, "Không bỏ trống ô Tên Ca Làm");
-            return;
-        }
+            if (in.equals("")) {
+                TextThoiGianVaoCa.requestFocus();
+                JOptionPane.showMessageDialog(null, "Không bỏ trống ô Thời Gian Vào Ca Làm");
+                return;
+            }
 
-        if (in.equals("")) {
-            TextThoiGianVaoCa.requestFocus();
-            JOptionPane.showMessageDialog(null, "Không bỏ trống ô Thời Gian Vào Ca Làm");
-            return;
-        }
+            if (!LichLam_CaLam.check_time_CaLam(in).equals("")) {
+                JOptionPane.showMessageDialog(null, LichLam_CaLam.check_time_CaLam(in), "Sai định dạng (hh:mm)", JOptionPane.WARNING_MESSAGE);
+                TextThoiGianVaoCa.requestFocus();
+                return;
+            }
 
-        if (!LichLam_CaLam.check_time_CaLam(in).equals("")) {
-            JOptionPane.showMessageDialog(null, LichLam_CaLam.check_time_CaLam(in), "Sai định dạng (hh:mm)", JOptionPane.WARNING_MESSAGE);
-            TextThoiGianVaoCa.requestFocus();
-            return;
-        }
+            if (out.equals("")) {
+                TextThoiGianRa.requestFocus();
+                JOptionPane.showMessageDialog(null, "Không bỏ trống ô Thời Gian Ra Ca Làm");
+                return;
+            }
 
-        if (out.equals("")) {
-            TextThoiGianRa.requestFocus();
-            JOptionPane.showMessageDialog(null, "Không bỏ trống ô Thời Gian Ra Ca Làm");
-            return;
-        }
+            if (out.equals(in)) {
+                TextThoiGianRa.requestFocus();
+                JOptionPane.showMessageDialog(null, "Giờ vào và giờ ra trùng nhau");
+                return;
+            }
 
-        if (out.equals(in)) {
-            TextThoiGianRa.requestFocus();
-            JOptionPane.showMessageDialog(null, "Giờ vào và giờ ra trùng nhau");
-            return;
-        }
+            if (!LichLam_CaLam.check_time_CaLam(out).equals("")) {
+                JOptionPane.showMessageDialog(null, LichLam_CaLam.check_time_CaLam(out), "Sai định dạng (hh:mm)", JOptionPane.WARNING_MESSAGE);
+                TextThoiGianRa.requestFocus();
+                return;
+            }
 
-        if (!LichLam_CaLam.check_time_CaLam(out).equals("")) {
-            JOptionPane.showMessageDialog(null, LichLam_CaLam.check_time_CaLam(out), "Sai định dạng (hh:mm)", JOptionPane.WARNING_MESSAGE);
-            TextThoiGianRa.requestFocus();
-            return;
-        }
+            int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn sửa ca làm không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
 
-        int i = CaLamBUS.getInstance().update(ma, ten, in, out);
-        if ((i == 1) || (i == 0)) {
-            TaiLaiTrang();
+            if (response == JOptionPane.YES_OPTION) {
+                int i = CaLamBUS.getInstance().update(ma, ten, in, out);
+                if ((i == 1) || (i == 0)) {
+                    TaiLaiTrang();
+                }
+            }
         }
     }
 
     public void delete() {
         String ma = TextMaCa.getText();
 
-        if (ma.equals("")) {
-            TextTenCa.requestFocus();
-            JOptionPane.showMessageDialog(null, "Không bỏ trống ô Mã Ca Làm");
-            return;
-        }
+        if (ma.equals(CaLamBUS.getInstance().MaTuDong())) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 ca làm trong danh sách để xóa!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            if (ma.equals("")) {
+                TextTenCa.requestFocus();
+                JOptionPane.showMessageDialog(null, "Không bỏ trống ô Mã Ca Làm");
+                return;
+            }
 
-        CaLamBUS.getInstance().delete(ma);
-        TaiLaiTrang();
+            int response = JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa ca làm không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+
+            if (response == JOptionPane.YES_OPTION) {
+                CaLamBUS.getInstance().delete(ma);
+                TaiLaiTrang();
+            }
+        }
     }
 
     public void nhomNutChucNang() {

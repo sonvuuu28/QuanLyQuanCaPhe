@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -103,33 +104,35 @@ public class n7_KhuyenMai_UuDaiBUS {
         return n7_KhuyenMaiDAO.getInstance().taoMaKhuyenMai();
     }
 
-    public void insert_khuyenMai(String ma, String ten, Date ngayBD, Date ngayKT, Float phanTram, int DieuKien) {
+    public boolean insert_khuyenMai(String ma, String ten, Date ngayBD, Date ngayKT, Float phanTram, int DieuKien) {
         KhuyenMaiDTO dto = new KhuyenMaiDTO(ma, ten, ngayBD, ngayKT, phanTram, DieuKien);
         boolean dao = n7_KhuyenMaiDAO.getInstance().insert_khuyenMai(dto);
         if (dao) {
-            JOptionPane.showMessageDialog(null, "Tạo khuyến mãi thành công");
+            JOptionPane.showMessageDialog(null, "Khuyến mãi đã được tạo thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return true;
         } else {
-            JOptionPane.showMessageDialog(null, "Trùng mã khuyến mãi!");
+            JOptionPane.showMessageDialog(null, "Mã Khuyến mãi đã tồn tại.\n Để tạo mã khuyến mãi mới, vui lòng tải lại trang!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
     }
 
     public int update_khuyenMai(String ma, String ten, Date ngayBD, Date ngayKT, Float phanTram, int DieuKien) {
         KhuyenMaiDTO dto = new KhuyenMaiDTO(ma, ten, ngayBD, ngayKT, phanTram, DieuKien);
         int dao = n7_KhuyenMaiDAO.getInstance().update_khuyenMai(dto);
-    
+
         switch (dao) {
             case 1:
                 JOptionPane.showMessageDialog(null,
-                        "Cập nhật thông tin khuyến mãi thành công! Cảm ơn bạn đã sử dụng hệ thống.",
+                        "Cập nhật thông tin khuyến mãi thành công!\n Cảm ơn bạn đã sử dụng hệ thống.",
                         "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 break;
             case 0:
                 JOptionPane.showMessageDialog(null,
-                        "Không thể cập nhật thông tin khuyến mãi. Vui lòng kiểm tra lại thông tin.",
+                        "Không thể cập nhật thông tin khuyến mãi.\n Vui lòng kiểm tra lại thông tin.",
                         "Cảnh báo", JOptionPane.WARNING_MESSAGE);
                 break;
             case 2:
-                JOptionPane.showMessageDialog(null, "Thông tin khuyến mãi không có thay đổi nào mới. Vui lòng kiểm tra lại dữ liệu đã nhập!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Thông tin khuyến mãi không có thay đổi nào mới.\n Vui lòng kiểm tra lại dữ liệu đã nhập!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 break;
             default:
                 break;
@@ -203,13 +206,15 @@ public class n7_KhuyenMai_UuDaiBUS {
         return n7_UuDaiThanhVienDAO.getInstance().taoMaUuDai();
     }
 
-    public void insert_uuDai(String ma, String ten, Date ngayBD, Date ngayKT, Float phanTram, int DieuKien) {
+    public boolean insert_uuDai(String ma, String ten, Date ngayBD, Date ngayKT, Float phanTram, int DieuKien) {
         UuDaiThanhVienDTO dto = new UuDaiThanhVienDTO(ma, ten, ngayBD, ngayKT, phanTram, DieuKien);
         boolean dao = n7_UuDaiThanhVienDAO.getInstance().insert_uuDai(dto);
         if (dao) {
-            JOptionPane.showMessageDialog(null, "Tạo ưu đãi thành công");
+            JOptionPane.showMessageDialog(null, "Ưu đãi thành viên đã được tạo thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return true;
         } else {
-            JOptionPane.showMessageDialog(null, "Trùng mã ưu đãi!");
+            JOptionPane.showMessageDialog(null, "Mã ưu đãi thành viên đã tồn tại.\n Để tạo mã ưu đãi mới, vui lòng tải lại trang!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
     }
 
@@ -219,16 +224,16 @@ public class n7_KhuyenMai_UuDaiBUS {
         switch (dao) {
             case 1:
                 JOptionPane.showMessageDialog(null,
-                        "Cập nhật thông tin ưu đãi thành viên thành công! Cảm ơn bạn đã sử dụng hệ thống.",
+                        "Cập nhật thông tin ưu đãi thành viên thành công!\n Cảm ơn bạn đã sử dụng hệ thống.",
                         "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 break;
             case 0:
                 JOptionPane.showMessageDialog(null,
-                        "Không thể cập nhật thông tin ưu đãi thành viên. Vui lòng kiểm tra lại thông tin.",
+                        "Không thể cập nhật thông tin ưu đãi thành viên.\n Vui lòng kiểm tra lại thông tin.",
                         "Cảnh báo", JOptionPane.WARNING_MESSAGE);
                 break;
             case 2:
-                JOptionPane.showMessageDialog(null, "Thông tin ưu đãi thành viên không có thay đổi nào mới. Vui lòng kiểm tra lại dữ liệu đã nhập!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Thông tin ưu đãi thành viên không có thay đổi nào mới.\n Vui lòng kiểm tra lại dữ liệu đã nhập!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 break;
             default:
                 break;
@@ -261,14 +266,26 @@ public class n7_KhuyenMai_UuDaiBUS {
     }
 
     private String checkHan(Date start, Date end) {
-        String thongTin = "Ngừng";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String thongTin = "Ngưng";
 
-        Date currentDate = new Date(); // Lấy ngày hiện tại
+        if (start == null || end == null) {
+            return thongTin; // Nếu start hoặc end null, trả về "Ngừng"
+        }
+
+        // Đặt giờ phút giây về 0 để chỉ so sánh ngày
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date currentDate = calendar.getTime();
+
         // Kiểm tra ngày hiện tại có nằm trong khoảng start và end
         if (!currentDate.before(start) && !currentDate.after(end)) {
-            thongTin = "Hoạt động";
+            thongTin = "Áp dụng";
         }
+
         return thongTin;
     }
 
@@ -314,54 +331,57 @@ public class n7_KhuyenMai_UuDaiBUS {
 
     public boolean check_input_Rong(JTextField ma, JTextField ten, JDateChooser bd, JDateChooser kt, JTextField phanTram, JTextField dieuKien) {
         boolean check = true;
-        if (ma.getText().equals("")) {
-            ma.requestFocus();
-            JOptionPane.showMessageDialog(null, "Vui lòng không bỏ trống mã!");
-            check = false;
-        }
 
-        if (ten.getText().equals("") && check == true) {
+        // Kiểm tra tên
+        if (ten.getText().equals("") && check) {
             ten.requestFocus();
-            JOptionPane.showMessageDialog(null, "Vui lòng không bỏ trống tên!");
+            JOptionPane.showMessageDialog(null, "Tên ưu đãi không được bỏ trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             check = false;
         }
 
-        if (bd.getDate() == null && check == true) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày bắt đầu áp dụng chương trình !");
+        // Kiểm tra ngày bắt đầu
+        if (bd.getDate() == null && check) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày bắt đầu áp dụng chương trình!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             check = false;
         }
 
-        if (kt.getDate() == null && check == true) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày kết thúc áp dụng chương trình !");
+        // Kiểm tra ngày kết thúc
+        if (kt.getDate() == null && check) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày kết thúc áp dụng chương trình!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             check = false;
         }
 
+        // Kiểm tra ngày kết thúc lớn hơn ngày bắt đầu
         if (kt.getDate().before(bd.getDate()) && check) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày bắt đầu nhỏ hơn ngày kết thúc áp dụng chương trình!");
+            JOptionPane.showMessageDialog(null, "Ngày kết thúc phải lớn hơn ngày bắt đầu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             check = false;
         }
 
-        if (phanTram.getText().equals("") && check == true) {
+        // Kiểm tra phần trăm giảm giá
+        if (phanTram.getText().equals("") && check) {
             phanTram.requestFocus();
-            JOptionPane.showMessageDialog(null, "Vui lòng không bỏ trống phần trăm giảm giá !");
+            JOptionPane.showMessageDialog(null, "Phần trăm giảm giá không được bỏ trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             check = false;
         }
 
-        if (!isNumeric(phanTram.getText()) && check == true) {
+        if (!isNumeric(phanTram.getText()) && check) {
             phanTram.requestFocus();
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập số vào điều kiện để áp mã!");
+            phanTram.setText("");
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ cho phần trăm giảm giá!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             check = false;
         }
 
-        if (dieuKien.getText().equals("") && check == true) {
+        // Kiểm tra điều kiện áp mã
+        if (dieuKien.getText().equals("") && check) {
             dieuKien.requestFocus();
-            JOptionPane.showMessageDialog(null, "Vui lòng không bỏ trống điều kiện để áp mã!");
+            JOptionPane.showMessageDialog(null, "Điều kiện áp mã không được bỏ trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             check = false;
         }
 
-        if (!isNumeric(dieuKien.getText()) && check == true) {
+        if (!isNumeric(dieuKien.getText()) && check) {
             dieuKien.requestFocus();
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập số vào điều kiện để áp mã!");
+            dieuKien.setText("");
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ cho điều kiện áp mã!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             check = false;
         }
 

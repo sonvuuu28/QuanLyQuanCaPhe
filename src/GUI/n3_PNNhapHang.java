@@ -776,6 +776,7 @@ public class n3_PNNhapHang extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Vui lòng nhập số lượng lớn hơn 0.", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            soLuong = Math.round(soLuong * 100.0) / 100.0;
             int row = jTable_KhoHang.getSelectedRow();
             if (row != -1) {
                 String maNguyenLieu = (String) jTable_KhoHang.getValueAt(row, 0);

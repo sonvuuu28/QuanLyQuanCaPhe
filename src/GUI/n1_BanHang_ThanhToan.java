@@ -72,14 +72,18 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
 
     private void comboBox() {
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        BanHangBUS.getInstance().getAllAndSelectBestKhuyenMai(tien_Goc, today, km);
+        KhuyenMaiDTO dto = BanHangBUS.getInstance().getAllAndSelectBestKhuyenMai(tien_Goc, today, km);
         // Tổng tiền
-        KhuyenMaiDTO khuyenmai = BanHangBUS.getInstance().get_KhuyenMai_theoTen(
-                tien_Goc, today, km.getSelectedItem().toString()
-        );
-        MaKhuyenMai = khuyenmai.getMaKhuyenMai();
-        phanTramKhuyenMai = khuyenmai.getPhanTramKhuyenMai();
-        tinh_GiamGia(tien_Goc, phanTramKhuyenMai, 0);
+        if (dto != null) {
+            KhuyenMaiDTO khuyenmai = BanHangBUS.getInstance().get_KhuyenMai_theoTen(
+                    tien_Goc, today, km.getSelectedItem().toString()
+            );
+            MaKhuyenMai = khuyenmai.getMaKhuyenMai();
+            phanTramKhuyenMai = khuyenmai.getPhanTramKhuyenMai();
+            tinh_GiamGia(tien_Goc, phanTramKhuyenMai, 0);
+        } else {
+            tong.setText(Util.BanHang.set_Tien_VND(tien_Goc));
+        }
     }
 
     private void nhomNutChucNang() {
