@@ -436,6 +436,7 @@ public class n3_PNThongTinPhieuNhap extends javax.swing.JPanel {
                     // Nguyên liệu đã tồn tại, cập nhật khối lượng
                     double khoiLuongHienTai = rs.getDouble("KhoiLuongNguyenLieu");
                     double khoiLuongMoi = khoiLuongHienTai + khoiLuongNhap;
+                    khoiLuongMoi = Math.round(khoiLuongMoi * 100.0) / 100.0;
                     String sqlUpdate = "UPDATE NguyenLieu SET KhoiLuongNguyenLieu = ? WHERE MaNguyenLieu = ?";
                     pstmt = conn.prepareStatement(sqlUpdate);
                     pstmt.setDouble(1, khoiLuongMoi);
