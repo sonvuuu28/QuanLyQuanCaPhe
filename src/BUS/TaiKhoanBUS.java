@@ -73,6 +73,19 @@ public class TaiKhoanBUS {
         LocalDate localDate = LocalDate.now();
         return Date.valueOf(localDate);
     }
+
+    // public boolean  updateNgayNghiViecTaiKhoan(String ma){
+    //     Date currentDate = getCurrentDate();
+    //     TaiKhoanDTO tk = new TaiKhoanDTO(null,"tenDangNhap","tenDangNhap", "maQuyen",ma,null,currentDate, 1);
+    //     boolean flag = taiKhoanDAO.insert(tk);
+    //     return flag;
+    // }
+
+    // public boolean  updateNgayMoKhoaTaiKhoan(String ma){
+    //     TaiKhoanDTO tk = new TaiKhoanDTO(null,"tenDangNhap","tenDangNhap", "maQuyen",ma,null,null, 1);
+    //     boolean flag = taiKhoanDAO.updateMoKhoaTK(tk);
+    //     return flag;
+    // }
     
 
     public boolean themTaiKhoan(String ma, String tenDangNhap, String tenQuyen) {

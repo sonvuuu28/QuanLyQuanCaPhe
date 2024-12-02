@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 // import BUS.DangNhapBUS;
@@ -100,8 +101,6 @@ public class TaiKhoanDAO {
         }
         return false;
     }
-
-    // pu
 
     public int update(TaiKhoanDTO tk) {
         int ketQua = 0;
@@ -274,10 +273,11 @@ public class TaiKhoanDAO {
 
     public boolean khoaTaiKhoan(String ma) {
         try {
-            String sql = "UPDATE TaiKhoan SET TrangThaiTaiKhoan=0 WHERE MaNhanVien=?";
+            String sql = "UPDATE TaiKhoan SET TrangThaiTaiKhoan=0, NgayNghiViec=? WHERE MaNhanVien=?";
             Connection c = JDBCUtil.getConnection();
             PreparedStatement pre = c.prepareStatement(sql);
-            pre.setString(1, ma);
+            pre.setDate(1, getCurrentSqlDate());
+            pre.setString(2, ma);
             return pre.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -285,12 +285,18 @@ public class TaiKhoanDAO {
         return false;
     }
 
+    public static Date getCurrentSqlDate() {
+        LocalDate currentDate = LocalDate.now();
+        return Date.valueOf(currentDate);
+    }
+
     public boolean moKhoaTaiKhoan(String ma) {
         try {
-            String sql = "UPDATE TaiKhoan SET TrangThaiTaiKhoan=1 WHERE MaNhanVien=?";
+            String sql = "UPDATE TaiKhoan SET TrangThaiTaiKhoan=1, NgayNghiViec=? WHERE MaNhanVien=?";
             Connection c = JDBCUtil.getConnection();
             PreparedStatement pre = c.prepareStatement(sql);
-            pre.setString(1, ma);
+            pre.setDate(1, null);
+            pre.setString(2, ma);
             return pre.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
