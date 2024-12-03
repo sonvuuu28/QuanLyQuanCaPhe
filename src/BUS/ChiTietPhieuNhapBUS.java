@@ -42,28 +42,7 @@ public class ChiTietPhieuNhapBUS {
             model.addRow(new Object[]{maNguyenLieu, tenNguyenLieu, khoiLuong, donGiaStr, thanhTienStr});
         }
     }
-
     public void addChiTietPhieuNhap(String maPhieuNhap, String maNguyenLieu, double khoiLuong, int donGia, int thanhTien) {
-        Connection c = JDBCUtil.getConnection();
-        PreparedStatement pstms = null;
-        try {
-            String sql = "insert into ChiTietPhieuNhap(MaPhieuNhap, MaNguyenLieu, KhoiLuong, DonGia, ThanhTien) values(?,?,?,?,?)";
-            pstms = c.prepareStatement(sql);
-            pstms.setString(1, maPhieuNhap);
-            pstms.setString(2, maNguyenLieu);
-            pstms.setDouble(3, khoiLuong);
-            pstms.setInt(4, donGia);
-            pstms.setInt(5, thanhTien);
-            pstms.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (pstms != null) try {
-                pstms.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            JDBCUtil.closeConnection(c);
-        }
-    }
+    chiTietPhieuNhapDAO.addChiTietPhieuNhap(maPhieuNhap, maNguyenLieu, khoiLuong, donGia, thanhTien);
+  }
 }

@@ -1314,12 +1314,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
     private javax.swing.JTextField txtTen;
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
-    
-    // public static void main(String[] args){
-    //     n9_NhanVienKeoTha n = new n9_NhanVienKeoTha();
-    //     // n.n9_NhanVienKeoTha();
-    //     n.setVisible(true);
-    // }
+  
 }
 
 
