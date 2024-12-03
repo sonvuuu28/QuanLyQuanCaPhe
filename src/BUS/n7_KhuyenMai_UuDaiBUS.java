@@ -12,6 +12,9 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 public class n7_KhuyenMai_UuDaiBUS {
 
@@ -312,9 +315,10 @@ public class n7_KhuyenMai_UuDaiBUS {
     }
 
     public String set_Tien_VND(int gia) {
-        DecimalFormat formatter = new DecimalFormat("#,###");
-        String gia_str = formatter.format(gia);
-        return gia_str;
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+        symbols.setGroupingSeparator('.');
+        DecimalFormat formatter = new DecimalFormat("#,###", symbols);
+        return formatter.format(gia);
     }
 
     public int set_Tien_VND_sang_int(String gia) {
