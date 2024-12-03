@@ -314,6 +314,10 @@ public class n0_LoginGUI extends javax.swing.JFrame {
         TaiKhoanDTO userLogin = loginBUS.checkLogin(taiKhoan, matKhau);
         //? Check Login ở đây
         if(userLogin != null) {
+            if(userLogin.getMaNhanVien() == null) {
+                JOptionPane.showMessageDialog(login, "Kết nối với Server thất bại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             JOptionPane.showMessageDialog(login, "Đăng nhập thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             login.dispose();
             n0_TrangChuGUI trang_mau = new n0_TrangChuGUI(userLogin);
