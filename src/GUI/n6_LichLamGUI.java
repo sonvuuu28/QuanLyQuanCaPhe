@@ -122,25 +122,51 @@ public class n6_LichLamGUI extends javax.swing.JPanel {
 
         PanelTao.setBackground(new java.awt.Color(0, 0, 0));
         PanelTao.setPreferredSize(new java.awt.Dimension(237, 30));
-        PanelTao.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Tao.setBackground(new java.awt.Color(0, 0, 0));
         Tao.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         Tao.setForeground(new java.awt.Color(255, 255, 255));
         Tao.setText("Tạo Tuần Làm");
         Tao.setOpaque(true);
-        PanelTao.add(Tao, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 5, -1, 20));
+
+        javax.swing.GroupLayout PanelTaoLayout = new javax.swing.GroupLayout(PanelTao);
+        PanelTao.setLayout(PanelTaoLayout);
+        PanelTaoLayout.setHorizontalGroup(
+            PanelTaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelTaoLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(Tao))
+        );
+        PanelTaoLayout.setVerticalGroup(
+            PanelTaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelTaoLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(Tao, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         PanelXoa.setBackground(new java.awt.Color(0, 0, 0));
         PanelXoa.setPreferredSize(new java.awt.Dimension(100, 30));
-        PanelXoa.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Xoa.setBackground(new java.awt.Color(0, 0, 0));
         Xoa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         Xoa.setForeground(new java.awt.Color(255, 255, 255));
         Xoa.setText("Hủy ca làm");
         Xoa.setOpaque(true);
-        PanelXoa.add(Xoa, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 5, -1, 20));
+
+        javax.swing.GroupLayout PanelXoaLayout = new javax.swing.GroupLayout(PanelXoa);
+        PanelXoa.setLayout(PanelXoaLayout);
+        PanelXoaLayout.setHorizontalGroup(
+            PanelXoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelXoaLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(Xoa))
+        );
+        PanelXoaLayout.setVerticalGroup(
+            PanelXoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelXoaLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(Xoa, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         PanelThongTin.setBackground(new java.awt.Color(219, 189, 142));
         PanelThongTin.setPreferredSize(new java.awt.Dimension(237, 277));
