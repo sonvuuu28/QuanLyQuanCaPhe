@@ -430,14 +430,27 @@ public class n6_CaLamKeoTha extends javax.swing.JPanel {
 
         PanelTaiLai.setBackground(new java.awt.Color(0, 0, 0));
         PanelTaiLai.setPreferredSize(new java.awt.Dimension(100, 30));
-        PanelTaiLai.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         LabelTaiLai.setBackground(new java.awt.Color(0, 0, 0));
         LabelTaiLai.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         LabelTaiLai.setForeground(new java.awt.Color(255, 255, 255));
         LabelTaiLai.setText("Tải Lại");
         LabelTaiLai.setOpaque(true);
-        PanelTaiLai.add(LabelTaiLai, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 5, -1, 20));
+
+        javax.swing.GroupLayout PanelTaiLaiLayout = new javax.swing.GroupLayout(PanelTaiLai);
+        PanelTaiLai.setLayout(PanelTaiLaiLayout);
+        PanelTaiLaiLayout.setHorizontalGroup(
+            PanelTaiLaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelTaiLaiLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(LabelTaiLai))
+        );
+        PanelTaiLaiLayout.setVerticalGroup(
+            PanelTaiLaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelTaiLaiLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(LabelTaiLai, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         javax.swing.GroupLayout PanelTongLayout = new javax.swing.GroupLayout(PanelTong);
         PanelTong.setLayout(PanelTongLayout);
