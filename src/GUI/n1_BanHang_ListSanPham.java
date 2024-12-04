@@ -132,7 +132,6 @@ public class n1_BanHang_ListSanPham extends javax.swing.JPanel {
         PanelTong.repaint();
     }
     public void hienThiAnhMon(String tenAnh) {
-        System.out.println("Alo"+tenAnh);
         // Đường dẫn tới hình ảnh
         String linkHinhAnh;
         java.net.URL imgURL;
