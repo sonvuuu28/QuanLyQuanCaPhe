@@ -566,16 +566,14 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
             }
         });
         
-        btn_Them.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        btn_Them.addActionListener(e -> {
                 if(validateFields())
                     xuLyThemKhachHang();
-            }
         });
 
         btn_Sua.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if(validateFields())
+                if(validateFieldsSua())
                     suaThongTinKhacHang();
             }
         });
@@ -647,6 +645,40 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         return true;
     }
     
+    public boolean validateFieldsSua() {
+        //Kiểm tra trường tên
+        String ten = TextFieldTen.getText().trim();
+        if (ten.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Tên không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (ten.length() > 50) {
+            JOptionPane.showMessageDialog(null, "Độ dài tên không quá 50 ký tự!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        else if ((ten.matches(".*[!@#$%^&*()_+=\\[\\]{};':\"\\\\|,.<>/?`~].*")||ten.matches(".*\\d.*"))) {
+            new dialog( "Tên không được chứa số hoặc ký tự đặc biệt!", dialog.ERROR_DIALOG);
+            return false;
+        }
+    
+        // Kiểm tra TextFieldSDT
+        String sdt = TextFieldSDT.getText().trim();
+        if (sdt.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (!sdt.matches("^0\\d{9}$")) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại phải bắt đầu bằng số 0 và chứa đúng 10 chữ số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (ComboBoxGioiTinh.getSelectedIndex() == 0) {
+            new dialog("Bạn chưa chọn giới tính!", dialog.ERROR_DIALOG);
+            return false;
+        }
+    
+        return true;
+    }
 
     private void xuLyXuatExcel() {
         XuLyFileExcel xuatExcel = new XuLyFileExcel();
@@ -713,6 +745,7 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
     }
 
     private void refresh(){
+        btn_Them.setEnabled(true);
         TextFeildTongChiTieu.setText("");
         TextFieldMa.setText("");
         TextFieldTen.setText("");
@@ -724,6 +757,15 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
 
     private void xuLyClickTblKhachHang() {
         int row = Table.getSelectedRow();
+        btn_Them.setEnabled(false);
+        btn_Them.addActionListener(e -> {
+            if (btn_Them.isEnabled()) {
+                System.out.println("Button clicked!");
+            } else {
+                System.out.println("Button is disabled.");
+            }
+        });
+
         if (row > -1) {
             TextFieldMa.setText(Table.getValueAt(row, 0) + "");
             TextFieldTen.setText(Table.getValueAt(row, 1) + "");
