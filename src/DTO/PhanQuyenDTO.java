@@ -16,13 +16,11 @@ public class PhanQuyenDTO {
     private boolean quyenThongKe;
     private boolean trangThaiPhanQuyen;
 
-    public PhanQuyenDTO() {
-
-    }
-
-    public PhanQuyenDTO(String maPhanQuyen, String tenQuyen, boolean quyenKhachHang, boolean quyenBanHang, boolean quyenNhapHang,
-            boolean quyenMon, boolean quyenNguyenLieu, boolean quyenLichLam, boolean quyenKhuyenMaiUuDai,
-            boolean quyenNhaCungCap, boolean quyenNhanVien, boolean quyenThongKe, boolean trangThaiPhanQuyen) {
+ 
+    public PhanQuyenDTO(String maPhanQuyen, String tenQuyen, boolean quyenKhachHang, boolean quyenBanHang,
+            boolean quyenNhapHang, boolean quyenMon, boolean quyenNguyenLieu, boolean quyenLichLam,
+            boolean quyenKhuyenMaiUuDai, boolean quyenNhaCungCap, boolean quyenNhanVien, boolean quyenThongKe,
+            boolean trangThaiPhanQuyen) {
         this.maPhanQuyen = maPhanQuyen;
         this.tenQuyen = tenQuyen;
         this.quyenKhachHang = quyenKhachHang;
@@ -36,6 +34,10 @@ public class PhanQuyenDTO {
         this.quyenNhanVien = quyenNhanVien;
         this.quyenThongKe = quyenThongKe;
         this.trangThaiPhanQuyen = trangThaiPhanQuyen;
+    }
+
+    public PhanQuyenDTO() {
+
     }
 
     public String getMaPhanQuyen() {

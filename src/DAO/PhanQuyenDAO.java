@@ -61,7 +61,7 @@ public class PhanQuyenDAO {
             pst.setBoolean(7, t.getQuyenKhuyenMaiUuDai());
             pst.setBoolean(8, t.getQuyenNhaCungCap());
             pst.setBoolean(9, t.getQuyenNhanVien());
-            pst.setBoolean(10, t.getQuyenThongKe());
+            pst.setBoolean(10,t.getQuyenThongKe());
             pst.setString(11, t.getMaPhanQuyen());
 
             ketQua = pst.executeUpdate();
@@ -263,14 +263,4 @@ public class PhanQuyenDAO {
         return ma;
     }
 
-    public static void main(String args[]) {
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                PhanQuyenDAO trang_mau = new PhanQuyenDAO();
-                System.err.println(trang_mau.LayMaPhanQuyenCuoiCung());
-
-            }
-        });
-    }
 }
