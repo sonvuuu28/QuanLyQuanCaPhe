@@ -4,7 +4,6 @@ import DAO.n7_KhuyenMaiDAO;
 import DAO.n7_UuDaiThanhVienDAO;
 import DTO.*;
 import com.toedter.calendar.JDateChooser;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,8 +12,6 @@ import java.util.Date;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
 
 public class n7_KhuyenMai_UuDaiBUS {
 
@@ -314,18 +311,15 @@ public class n7_KhuyenMai_UuDaiBUS {
         return ngayLucSau;
     }
 
-    public String set_Tien_VND(int gia) {
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
-        symbols.setGroupingSeparator('.');
-        DecimalFormat formatter = new DecimalFormat("#,###", symbols);
+    public String set_Tien_VND(long gia) {
+        DecimalFormat formatter = new DecimalFormat("#,###");
         return formatter.format(gia);
     }
 
     public int set_Tien_VND_sang_int(String gia) {
+        System.out.println(gia);
         try {
-            // Loại bỏ dấu phẩy khỏi chuỗi tiền tệ
-            gia = gia.replace(".", "");
-            // Chuyển chuỗi về số nguyên
+            gia = gia.replaceAll("[^\\d]", "");
             return Integer.parseInt(gia);
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -368,6 +362,7 @@ public class n7_KhuyenMai_UuDaiBUS {
             check = false;
         }
 
+        
         if (!isNumeric(phanTram.getText()) && check) {
             phanTram.requestFocus();
             phanTram.setText("");
@@ -393,6 +388,7 @@ public class n7_KhuyenMai_UuDaiBUS {
     }
 
     private boolean isNumeric(String str) {
+        str = str.replaceAll("[^\\d]", "");
         if (str == null || str.isEmpty()) {
             return false; // Không hợp lệ nếu null hoặc rỗng
         }
