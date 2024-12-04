@@ -491,6 +491,7 @@ public class n9_PhanQuyenGUI extends javax.swing.JPanel {
         ChBoxNhanVien1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         ChBoxNhanVien1.setText("Quản lý nhân viên");
         PanelChuaCheckBox.add(ChBoxNhanVien1);
+        ChBoxNhanVien1.setEnabled(false);
 
         CHBoxThongKe1.setBackground(new java.awt.Color(255, 255, 255));
         CHBoxThongKe1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
