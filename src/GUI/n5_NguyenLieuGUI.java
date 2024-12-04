@@ -118,9 +118,8 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         tf_MaNL.setPreferredSize(new java.awt.Dimension(150, 25));
         tf_MaNL.setEditable(false);
         tf_MaNL.setEnabled(false);
-        tf_MaNL.setForeground(Color.BLACK);
         tf_MaNL.setBackground(Color.WHITE);
-        tf_MaNL.setDisabledTextColor(Color.BLACK);
+        tf_MaNL.setDisabledTextColor(Color.BLUE);
 
         tf_TenNL.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 1, 0), null));
         tf_TenNL.setMaximumSize(new java.awt.Dimension(150, 25));
@@ -134,13 +133,18 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         tf_KhoiLuong.setEditable(false);
         tf_KhoiLuong.setEnabled(false);
         tf_KhoiLuong.setForeground(Color.BLACK);
-        tf_KhoiLuong.setBackground(Color.WHITE);
+        tf_KhoiLuong.setBackground(Color.LIGHT_GRAY);
         tf_KhoiLuong.setDisabledTextColor(Color.BLACK);
 
         tf_DonGia.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         tf_DonGia.setMaximumSize(new java.awt.Dimension(150, 25));
         tf_DonGia.setMinimumSize(new java.awt.Dimension(150, 25));
         tf_DonGia.setPreferredSize(new java.awt.Dimension(150, 25));
+        tf_DonGia.setEditable(false);
+        tf_DonGia.setEnabled(false);
+        tf_DonGia.setForeground(Color.BLACK);
+        tf_DonGia.setBackground(Color.LIGHT_GRAY);
+        tf_DonGia.setDisabledTextColor(Color.BLACK);
 
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator1.setForeground(new java.awt.Color(51, 51, 51));
@@ -538,6 +542,7 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         String input = String.valueOf(TextFieldTimKiem.getText()).toLowerCase().trim();
         if(input.length() ==  0) {
             JOptionPane.showMessageDialog(null, "Tìm kiếm không được để trống !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            reloadData();
             return;
         }
         if(input.length() > 50) {
@@ -592,23 +597,14 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(null, "Tên nguyên liệu không được chứa ký tự đặc biệt !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                // Double khoiLuong = Double.valueOf(tf_KhoiLuong.getText());
-                Double khoiLuong = 0.0;
-                String donGiaTF = String.valueOf(tf_DonGia.getText());
-                if(donGiaTF.length() == 0) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng nhập đơn giá nguyên liệu !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                //? Không cập nhật khối lượng và đơn giá
+                NguyenLieuDTO nguyenLieu = new NguyenLieuDTO(ma, ten, 0, 0, true);
+                for (NguyenLieuDTO a : nguyenLieuBUS.getAll()) {
+                    if(nguyenLieu.getTenNguyenLieu().toLowerCase().trim().equals(a.getTenNguyenLieu().toLowerCase().trim())) {
+                        JOptionPane.showMessageDialog(null, "Tên nguyên liệu đã tồn tại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                     return;
+                    }
                 }
-                int donGia;
-                if(checkMoneyMount(donGiaTF)) {
-                    donGia = Integer.valueOf(donGiaTF);
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "Đơn giá không hợp lệ !", "Thông báo", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                //? Không cập nhật khối lượng
-                NguyenLieuDTO nguyenLieu = new NguyenLieuDTO(ma, ten, khoiLuong, donGia, true);
                 if(nguyenLieuBUS.updateNguyenLieu(nguyenLieu)){
                     JOptionPane.showMessageDialog(null, "Sửa nguyên liệu thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                     reloadData();
@@ -621,6 +617,10 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
         }
     }
     public void btn_ThemAction() {
+        if(!tf_MaNL.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Nguyên liệu đã tồn tại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn thêm nguyên liệu này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
                 if (confirm == JOptionPane.YES_OPTION) {
                     String ten = String.valueOf(tf_TenNL.getText());
@@ -636,22 +636,14 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(null, "Tên nguyên liệu không được chứa ký tự đặc biệt !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-                    // Double khoiLuong = Double.valueOf(tf_KhoiLuong.getText());
-                    Double khoiLuong = 0.0;
-                    String donGiaTF = String.valueOf(tf_DonGia.getText());
-                    if(donGiaTF.length() == 0) {
-                        JOptionPane.showMessageDialog(null, "Vui lòng nhập đơn giá nguyên liệu !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                    // Khóa khối lượng và đơn giá
+                    NguyenLieuDTO nguyenLieu = new NguyenLieuDTO(null, ten, 0, 0, true);
+                    for (NguyenLieuDTO a : nguyenLieuBUS.getAll()) {
+                        if(nguyenLieu.getTenNguyenLieu().toLowerCase().trim().equals(a.getTenNguyenLieu().toLowerCase().trim())) {
+                            JOptionPane.showMessageDialog(null, "Tên nguyên liệu đã tồn tại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
                         return;
+                        }
                     }
-                    int donGia;
-                    if(checkMoneyMount(donGiaTF)) {
-                        donGia = Integer.valueOf(donGiaTF);
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(null, "Đơn giá không hợp lệ !", "Thông báo", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                    NguyenLieuDTO nguyenLieu = new NguyenLieuDTO(null, ten, khoiLuong, donGia, true);
                     if(nguyenLieuBUS.addNguyenLieu(nguyenLieu)){
                         JOptionPane.showMessageDialog(null, "Thêm nguyên liệu thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         reloadData();
