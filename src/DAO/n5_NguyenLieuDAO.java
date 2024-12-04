@@ -62,9 +62,8 @@ public class n5_NguyenLieuDAO {
                   PreparedStatement prep = c.prepareStatement(sql);
                   prep.setString(1, this.getNewId());
                   prep.setString(2, nguyenLieu.getTenNguyenLieu());
-                  // prep.setDouble(3, nguyenLieu.getKhoiLuongNguyenLieu());
-                  prep.setDouble(3, 0);
-                  prep.setInt(4, nguyenLieu.getDonGiaNguyenLieu());
+                  prep.setDouble(3, 0);//Khoi luong
+                  prep.setInt(4, 0);//Don gia
 
                   if(prep.executeUpdate() > 0) {
                         return true;
@@ -99,13 +98,10 @@ public class n5_NguyenLieuDAO {
             try {
                   Connection c = JDBCUtil.getConnection();
                   // String sql = "UPDATE NguyenLieu SET TenNguyenLieu=?, KhoiLuongNguyenLieu=?, DonGiaNguyenLieu=?, TrangThaiNguyenLieu=? WHERE MaNguyenLieu=?";
-                  String sql = "UPDATE NguyenLieu SET TenNguyenLieu=?, DonGiaNguyenLieu=?, TrangThaiNguyenLieu=? WHERE MaNguyenLieu=?";
+                  String sql = "UPDATE NguyenLieu SET TenNguyenLieu=? WHERE MaNguyenLieu=?";
                   PreparedStatement prep = c.prepareStatement(sql);
                   prep.setString(1, nguyenLieu.getTenNguyenLieu());
-                  // prep.setDouble(2, nguyenLieu.getKhoiLuongNguyenLieu());
-                  prep.setInt(2, nguyenLieu.getDonGiaNguyenLieu());
-                  prep.setBoolean(3, nguyenLieu.getTrangThaiNguyenLieu());
-                  prep.setString(4, nguyenLieu.getMaNguyenLieu());
+                  prep.setString(2, nguyenLieu.getMaNguyenLieu());
                   
                   if (prep.executeUpdate() > 0) {
                         result = true;
