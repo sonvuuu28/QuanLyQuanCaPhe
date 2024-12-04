@@ -758,14 +758,6 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
     private void xuLyClickTblKhachHang() {
         int row = Table.getSelectedRow();
         btn_Them.setEnabled(false);
-        btn_Them.addActionListener(e -> {
-            if (btn_Them.isEnabled()) {
-                System.out.println("Button clicked!");
-            } else {
-                System.out.println("Button is disabled.");
-            }
-        });
-
         if (row > -1) {
             TextFieldMa.setText(Table.getValueAt(row, 0) + "");
             TextFieldTen.setText(Table.getValueAt(row, 1) + "");
