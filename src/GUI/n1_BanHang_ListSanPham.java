@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 public class n1_BanHang_ListSanPham extends javax.swing.JPanel {
+
     private JLabel labelAnh;
     private n1_BanHangKeoTha banHangFrame;
 
@@ -87,7 +88,6 @@ public class n1_BanHang_ListSanPham extends javax.swing.JPanel {
             // Chỉnh sửa đường dẫn ảnh
             // String basePath = new File("").getAbsolutePath();
             // String Path = basePath + "/src/IMAGE/SanPham/" + mon.getHinhAnh();
-
             JPanel panelSanPham = new JPanel(new BorderLayout());
             panelSanPham.setBackground(Color.white);
             panelSanPham.setPreferredSize(new Dimension(152, 200));
@@ -131,45 +131,60 @@ public class n1_BanHang_ListSanPham extends javax.swing.JPanel {
         PanelTong.revalidate();
         PanelTong.repaint();
     }
+
     public void hienThiAnhMon(String tenAnh) {
-        System.out.println("Alo"+tenAnh);
         // Đường dẫn tới hình ảnh
         String linkHinhAnh;
         java.net.URL imgURL;
-        ImageIcon imageIcon;
-        if(tenAnh.equals("")) {
-            linkHinhAnh = "/IMAGE/Logo2.png";
-            imgURL = getClass().getResource(linkHinhAnh);
-            imageIcon = new ImageIcon(imgURL);
-        }else {
-            linkHinhAnh = "/IMAGE/SanPham/" + tenAnh;
-            imgURL = getClass().getResource(linkHinhAnh);
-            imageIcon = new ImageIcon(imgURL);
+        ImageIcon imageIcon = null;
+
+        try {
+            if (tenAnh == null || tenAnh.isEmpty()) {
+                linkHinhAnh = "/IMAGE/Logo2.png"; // Ảnh mặc định
+                imgURL = getClass().getResource(linkHinhAnh);
+            } else {
+                linkHinhAnh = "/IMAGE/SanPham/" + tenAnh;
+                imgURL = getClass().getResource(linkHinhAnh);
+            }
+
+            if (imgURL != null) {
+                imageIcon = new ImageIcon(imgURL);
+            } else {
+                imageIcon = null; // Đường dẫn ảnh không hợp lệ
+            }
+        } catch (Exception e) {
+            imageIcon = null; // Đặt null nếu có lỗi xảy ra
         }
-    
-        // Kích thước cố định của JLabel
-        int labelWidth = 130;
-        int labelHeight = 200;
-    
-        // Kích thước gốc của ảnh
-        int imageWidth = imageIcon.getIconWidth();
-        int imageHeight = imageIcon.getIconHeight();
-    
-        // Tính toán tỷ lệ thu phóng để giữ nguyên tỷ lệ ảnh
-        double widthRatio = (double) labelWidth / imageWidth;
-        double heightRatio = (double) labelHeight / imageHeight;
-        double scaleFactor = Math.min(widthRatio, heightRatio);  // Chọn tỷ lệ nhỏ hơn để ảnh không bị cắt
-    
-        int newWidth = (int) (imageWidth * scaleFactor);
-        int newHeight = (int) (imageHeight * scaleFactor);
-    
-        // Điều chỉnh kích thước ảnh theo tỷ lệ đã tính toán
-        Image scaledImage = imageIcon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(scaledImage);
-    
-        // Đặt ImageIcon vào JLabel
-        labelAnh.setIcon(imageIcon);
+
+        if (imageIcon != null) {
+            // Kích thước cố định của JLabel
+            int labelWidth = 130;
+            int labelHeight = 200;
+
+            // Kích thước gốc của ảnh
+            int imageWidth = imageIcon.getIconWidth();
+            int imageHeight = imageIcon.getIconHeight();
+
+            // Tính toán tỷ lệ thu phóng để giữ nguyên tỷ lệ ảnh
+            double widthRatio = (double) labelWidth / imageWidth;
+            double heightRatio = (double) labelHeight / imageHeight;
+            double scaleFactor = Math.min(widthRatio, heightRatio); // Chọn tỷ lệ nhỏ hơn để ảnh không bị cắt
+
+            int newWidth = (int) (imageWidth * scaleFactor);
+            int newHeight = (int) (imageHeight * scaleFactor);
+
+            // Điều chỉnh kích thước ảnh theo tỷ lệ đã tính toán
+            Image scaledImage = imageIcon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+            imageIcon = new ImageIcon(scaledImage);
+
+            // Đặt ImageIcon vào JLabel
+            labelAnh.setIcon(imageIcon);
+        } else {
+            // Nếu không tìm thấy ảnh, đặt JLabel không hiển thị ảnh
+            labelAnh.setIcon(null);
+        }
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelTong;
     private javax.swing.JScrollPane ScrollPane;
