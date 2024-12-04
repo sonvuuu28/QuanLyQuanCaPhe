@@ -111,7 +111,7 @@ public class PhanQuyenBUS {
    public void loadData(JTable table){
         DefaultTableModel model = new DefaultTableModel(
                 new String[] {
-                    "Mã", "Tên", "Nhân Viên", "Khách Hàng", "Bán Hàng", "Nhập Hàng", "Món", "Nguyên Liệu", "Lịch Làm", "Khuyến Mãi", "NCC", "Thống Kê"
+                    "Mã", "Tên","Khách Hàng","Bán Hàng", "Nhập Hàng", "Món", "Nguyên Liệu", "Lịch Làm", "Khuyến Mãi", "NCC","Nhân Viên", "Thống Kê"
                 }, 
                 0 // Bắt đầu với 0 hàng
             ){
@@ -128,7 +128,6 @@ public class PhanQuyenBUS {
                 Vector<Object> vec = new Vector<>();
                 vec.add(quyen.getMaPhanQuyen());
                 vec.add(quyen.getTenQuyen());
-                vec.add(quyen.getQuyenNhanVien());
                 vec.add(quyen.getQuyenKhachHang());
                 vec.add(quyen.getQuyenBanHang());
                 vec.add(quyen.getQuyenNhapHang());
@@ -137,6 +136,7 @@ public class PhanQuyenBUS {
                 vec.add(quyen.getQuyenLichLam());
                 vec.add(quyen.getQuyenKhuyenMaiUuDai());
                 vec.add(quyen.getQuyenNhaCungCap());
+                vec.add(quyen.getQuyenNhanVien());
                 vec.add(quyen.getQuyenThongKe());
                 model.addRow(vec);
             }
@@ -151,35 +151,36 @@ public class PhanQuyenBUS {
             new dialog("Không tìm thấy quyền", dialog.ERROR_DIALOG);
             return;
         }
-        if (phanQuyen.getQuyenNhanVien() == true) {
+        if (phanQuyen.getQuyenKhachHang() == true) {
             listckb.get(0).setSelected(true);
         }
-        if (phanQuyen.getQuyenNhapHang() == true) {
+        if (phanQuyen.getQuyenBanHang() == true) {
             listckb.get(1).setSelected(true);
         }
-        if (phanQuyen.getQuyenLichLam() == true) {
+        if (phanQuyen.getQuyenNhapHang() == true) {
             listckb.get(2).setSelected(true);
         }
-        if (phanQuyen.getQuyenThongKe() == true) {
+        if (phanQuyen.getQuyenMon() == true) {
             listckb.get(3).setSelected(true);
         }
-        if (phanQuyen.getQuyenKhachHang() == true) {
+        if (phanQuyen.getQuyenNguyenLieu() == true) {
             listckb.get(4).setSelected(true);
         }
-        if (phanQuyen.getQuyenMon() == true) {
+        if (phanQuyen.getQuyenLichLam() == true) {
             listckb.get(5).setSelected(true);
         }
         if (phanQuyen.getQuyenKhuyenMaiUuDai() == true) {
             listckb.get(6).setSelected(true);
         }
-        if (phanQuyen.getQuyenBanHang() == true) {
+        if (phanQuyen.getQuyenNhaCungCap() == true) {
             listckb.get(7).setSelected(true);
         }
-        if (phanQuyen.getQuyenNguyenLieu() == true) {
+        if (phanQuyen.getQuyenNhanVien() == true) {
             listckb.get(8).setSelected(true);
         }
-        if (phanQuyen.getQuyenNhaCungCap() == true) {
+        if (phanQuyen.getQuyenThongKe() == true) {
             listckb.get(9).setSelected(true);
         }
    }
 }
+
