@@ -14,6 +14,7 @@ public class TaiKhoanDTO {
     private int trangThaiTaiKhoan;
 
     public TaiKhoanDTO() {
+        this.maNhanVien = null;
     }
 
     public TaiKhoanDTO(String maTaiKhoan, String tenDangNhap, String matKhau, String maPhanQuyen, String maNhanVien,

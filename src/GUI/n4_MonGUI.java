@@ -532,16 +532,16 @@ public class n4_MonGUI extends javax.swing.JPanel {
             }
         };
         modelTable.addColumn("Mã Món");
-        modelTable.addColumn("Loại Món");
         modelTable.addColumn("Tên Món");
+        modelTable.addColumn("Loại Món");
         modelTable.addColumn("Đơn Giá");
 
         ArrayList<MonDTO> list = monBUS.getAll();
         for(int i = 0; i < list.size(); i++) {
             modelTable.addRow(new Object[] {
                 list.get(i).getMaMon(),
-                list.get(i).getMaLoaiMon(),
                 list.get(i).getTenMon(),
+                loaiMonBUS.getLoaiMonById(list.get(i).getMaLoaiMon()).getTenLoaiMon(),
                 toCurrency(list.get(i).getDonGiaMon()),
             });
         }
@@ -571,6 +571,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
         String input = String.valueOf(TextFieldTimKiem.getText()).toLowerCase().trim();
         if(input.length() ==  0) {
             JOptionPane.showMessageDialog(null, "Tìm kiếm không được để trống !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            reloadData();
             return;
         }
         if(input.length() > 50) {
@@ -596,14 +597,14 @@ public class n4_MonGUI extends javax.swing.JPanel {
         }
         DefaultTableModel modelTable = new DefaultTableModel();
         modelTable.addColumn("Mã Món");
-        modelTable.addColumn("Loại Món");
         modelTable.addColumn("Tên Món");
+        modelTable.addColumn("Loại Món");
         modelTable.addColumn("Đơn Giá");
         for(int i = 0; i < dsTimDuoc.size(); i++) {
             modelTable.addRow(new Object[] {
                 dsTimDuoc.get(i).getMaMon(),
-                loaiMonBUS.getLoaiMonById(dsTimDuoc.get(i).getMaLoaiMon()).getTenLoaiMon(),
                 dsTimDuoc.get(i).getTenMon(),
+                loaiMonBUS.getLoaiMonById(dsTimDuoc.get(i).getMaLoaiMon()).getTenLoaiMon(),
                 toCurrency(dsTimDuoc.get(i).getDonGiaMon()),
             });
         }
@@ -623,6 +624,11 @@ public class n4_MonGUI extends javax.swing.JPanel {
         }
     }
     public void btn_ThemAction() {
+        if(!tf_MaMon.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Món đã tồn tại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         int confirm = JOptionPane.showConfirmDialog(null,"Bạn có muốn thêm món này?","Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
                 if (confirm == JOptionPane.YES_OPTION) {
                     LoaiMonDTO temp;
@@ -795,7 +801,8 @@ public class n4_MonGUI extends javax.swing.JPanel {
         tf_MaMon.setEditable(false);
         tf_MaMon.setEnabled(false);
         tf_MaMon.setBackground(Color.WHITE);
-        tf_MaMon.setDisabledTextColor(Color.BLACK);
+        tf_MaMon.setForeground(Color.BLUE);
+        tf_MaMon.setDisabledTextColor(Color.BLUE);
         TextFieldTimKiem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -871,15 +878,15 @@ public class n4_MonGUI extends javax.swing.JPanel {
                                 // Lấy dữ liệu của hàng được chọn
                                 selectedFile = null;
                                 String maMon = String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 0));
-                                LoaiMonDTO loaiMon =  loaiMonBUS.getLoaiMonById(String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 1)));
-                                String tenMon =  String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 2));
+                                String loaiMon =  String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 2));
+                                String tenMon =  String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 1));
                                 String donGia =  String.valueOf(tb_DanhSachMon.getValueAt(selectedRow, 3));
                                 tf_MaMon.setText(maMon);
                                 tf_TenMon.setText(tenMon);
                                 tf_DonGia.setText(String.valueOf(convertCurrencyToInt(donGia)));
 
                                 for (int i = 0; i < comboboxLoaiMon.getItemCount(); i++) {
-                                    if (comboboxLoaiMon.getItemAt(i).toString().equals(loaiMon.toString())) {
+                                    if (comboboxLoaiMon.getItemAt(i).toString().equals(loaiMon)) {
                                         comboboxLoaiMon.setSelectedIndex(i);
                                         break;
                                     }

@@ -32,6 +32,7 @@ public class n0_LoginDAO {
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
+            return new TaiKhoanDTO();
         }
         return account;
     }
