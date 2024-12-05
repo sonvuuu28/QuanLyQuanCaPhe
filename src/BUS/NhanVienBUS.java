@@ -105,8 +105,13 @@ public class NhanVienBUS {
             new String[] {
                 "Mã NV", "Tên NV", "Giới tính", "SĐT", "Ngày sinh", "Chức vụ", "Địa chỉ", "Lương", "Trạng thái"
             }, 
-            0 // Bắt đầu với 0 hàng
-        );
+            0 
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
         tbl.setModel(model); 
        tuKhoa = tuKhoa.toLowerCase();
        ArrayList<NhanVienDTO> dsnv = new ArrayList<>();
@@ -146,8 +151,13 @@ public class NhanVienBUS {
             new String[] {
                 "Mã NV", "Tên NV", "Giới tính", "SĐT", "Ngày sinh", "Chức vụ", "Địa chỉ", "Lương", "Trạng thái"
             }, 
-            0 // Bắt đầu với 0 hàng
-        );
+            0 
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
         tbl.setModel(model);
         tuKhoa = tuKhoa.toLowerCase();
         ArrayList<NhanVienDTO> dsnv = new ArrayList<>();
@@ -166,7 +176,6 @@ public class NhanVienBUS {
             vec.add(nv.getChucVuNhanVien());
             vec.add(nv.getDiaChi());
             vec.add(nv.getLuongNhanVien());
-            // vec.add(nv.getTrangThaiNhanVien());
 
             int trangThai = nv.getTrangThaiNhanVien();
             if (trangThai == 1) {
@@ -217,11 +226,9 @@ public class NhanVienBUS {
        boolean ketqua = nvDAO.xoaAllInfor();
        return ketqua;
    }
-
+   
+   //Hàm nhập excel 
    public boolean nhapExcel(String ma,String ten, String gioitinh, String dienThoai,Date NgaySinh, String chucvu,String diachi,int luong, int trangThai) {
-    //    int tThai = Integer.parseInt(trangThai);
-       // int maNV = Integer.parseInt(manv);
-    //    int Luong = Integer.parseInt(luong);
        NhanVienDTO nv = new NhanVienDTO();
        nv.setMaNhanVien(ma);
        nv.setTenNhanVien(ten);
@@ -241,11 +248,11 @@ public class NhanVienBUS {
             new String[] {
                 "Mã NV", "Tên NV", "Giới tính", "SĐT", "Ngày sinh", "Chức vụ", "Địa chỉ", "Lương", "Trạng thái"
             }, 
-            0 // Bắt đầu với 0 hàng
+            0 
         ){
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Không cho phép chỉnh sửa ô
+                return false;
             }
         };
         tbl.setModel(model);
@@ -262,7 +269,7 @@ public class NhanVienBUS {
             vec.add(nv.getChucVuNhanVien());
             vec.add(nv.getDiaChi());
             vec.add(formatCurrency(nv.getLuongNhanVien()));
-            // vec.add(nv.getTrangThaiNhanVien());
+           
 
             int trangThai = nv.getTrangThaiNhanVien();
             if (trangThai == 1) {
@@ -279,13 +286,13 @@ public class NhanVienBUS {
 
     public String convertSqlDateToString(Date sqlDate) {
         if (sqlDate == null) {
-            return null; // Trả về null nếu date đầu vào là null
+            return null; 
         }
 
-        // Chuyển từ java.sql.Date sang java.util.Date
+        
         java.util.Date utilDate = new java.util.Date(sqlDate.getTime());
 
-        // Định dạng ngày theo dd/MM/yyyy
+        
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         return sdf.format(utilDate);
     }
