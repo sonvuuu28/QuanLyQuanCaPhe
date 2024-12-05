@@ -9,10 +9,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import DAO.KhachHangDAO;
-import DAO.NhanVienDAO;
 import DTO.KhachHangDTO;
-import DTO.NhanVienDTO;
-import Util.InputValidator;
 import Util.dialog;
 
 public class KhachHangBUS {
@@ -44,7 +41,12 @@ public class KhachHangBUS {
                 "Mã KH", "Tên KH", "Giới tính", "Số điện thoại", "Ngày sinh", "Tổng chi tiêu"
             }, 
             0 
-        );
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
         tbl.setModel(model); 
         tuKhoa = tuKhoa.toLowerCase();
         ArrayList<KhachHangDTO> dskh = new ArrayList<>();
@@ -72,7 +74,12 @@ public class KhachHangBUS {
                 "Mã KH", "Tên KH", "Giới tính", "Số điện thoại", "Ngày sinh", "Tổng chi tiêu"
             }, 
             0 
-        );
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
         tbl.setModel(model);
         tuKhoa = tuKhoa.toLowerCase();
         ArrayList<KhachHangDTO> dsKH = new ArrayList<>();
