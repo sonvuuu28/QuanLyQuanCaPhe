@@ -15,11 +15,8 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-
 import org.w3c.dom.events.MouseEvent;
-
 import com.toedter.calendar.JDateChooser;
-
 import BUS.CTHoaDonBUS;
 import BUS.HoaDonBUS;
 import BUS.TrangChuBUS;
@@ -421,8 +418,6 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    
     private void nhomNutChucNang() {
         PanelBanHang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -437,30 +432,11 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
                 PanelTong.removeAll();
                 n1_BanHangKeoTha bh = new n1_BanHangKeoTha(MaNhanVien);
                 PanelTong.setLayout(new BorderLayout());
-                PanelTong.add(bh, BorderLayout.CENTER); // Adjust the layout constraint as needed
+                PanelTong.add(bh, BorderLayout.CENTER); 
                 PanelTong.revalidate();
                 PanelTong.repaint();
             }
         });
-
-//        PanelHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
-//            public void mouseEntered(java.awt.event.MouseEvent evt) {
-//                PanelHoaDon.setBackground(new Color(199, 159, 95));
-//            }
-//
-//            public void mouseExited(java.awt.event.MouseEvent evt) {
-//                PanelHoaDon.setBackground(new Color(219, 189, 142));
-//            }
-//            
-//            public void mouseClicked(java.awt.event.MouseEvent evt) {
-//                PanelTong.removeAll();
-//                n1_HoaDonGUI bh = new n1_HoaDonGUI();
-//                PanelTong.setLayout(new BorderLayout());
-//                PanelTong.add(bh, BorderLayout.CENTER); // Adjust the layout constraint as needed
-//                PanelTong.revalidate();
-//                PanelTong.repaint();
-//            }
-//        });
 
         btn_TimKiemMa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -540,35 +516,22 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
         String giaTu = txtGiaTu.getText().trim();
         String denGia = txtDenGia.getText().trim();
 
-        
-
-        // Kiểm tra txtGiaTu: Chỉ cho phép số >= 0, không chứa ký tự chữ hoặc ký tự đặc biệt
-        try {
-            double giaTuValue = Double.parseDouble(giaTu);
-            if (giaTuValue < 0) {
-                JOptionPane.showMessageDialog(null, "Giá từ phải là số lớn hơn hoặc bằng 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                txtGiaTu.requestFocus();
+        if (!txtGiaTu.getText().equals("") && giaTu.matches("-?\\d+")) {
+            int giaTuValue = Integer.parseInt(giaTu);
+            if(giaTuValue < 0 ){
+                JOptionPane.showMessageDialog(null, "Trường giá từ phải là số lớn hơn hoặc bằng 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Giá từ không được chứa ký tự đặc biệt hoặc chữ cái!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            txtGiaTu.requestFocus();
-            return false;
         }
 
-        // Kiểm tra txtDenGia: Chỉ cho phép số >= 0, không chứa ký tự chữ hoặc ký tự đặc biệt
-        try {
-            double denGiaValue = Double.parseDouble(denGia);
-            if (denGiaValue < 0) {
-                JOptionPane.showMessageDialog(null, "Giá đến phải là số lớn hơn hoặc bằng 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                txtDenGia.requestFocus();
+        if (!txtDenGia.getText().equals("") && giaTu.matches("-?\\d+")) {
+            int denGiaValue = Integer.parseInt(denGia);
+            if(denGiaValue < 0){
+                JOptionPane.showMessageDialog(null, "Trường đến phải là số lớn hơn hoặc bằng 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Giá đến không được chứa ký tự đặc biệt hoặc chữ cái!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            txtDenGia.requestFocus();
-            return false;
         }
+
         return true;
     }
 
