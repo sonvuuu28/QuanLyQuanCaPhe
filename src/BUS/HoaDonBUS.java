@@ -55,8 +55,6 @@ public class HoaDonBUS {
         GiaMax = GiaMax.trim();
         java.sql.Date sqlMin = null;
         java.sql.Date sqlMax = null;
-        // java.sql.Date sqlMin = new java.sql.Date(Min.getTime());
-        // java.sql.Date sqlMax = new java.sql.Date(Max.getTime());
         if (Min != null) {
             sqlMin = new java.sql.Date(Min.getTime());
         }
@@ -102,6 +100,7 @@ public class HoaDonBUS {
                     return currentList;
                 }
             }
+
             if (InputValidator.IsEmpty(GiaMin)){
                 try {
                     int PriceMax = Integer.parseInt(GiaMax);
@@ -114,6 +113,7 @@ public class HoaDonBUS {
                 }
 
             }
+
             if (!InputValidator.IsEmpty(GiaMin) && !InputValidator.IsEmpty(GiaMax)) {
                 try{
                     int PriceMin = Integer.parseInt(GiaMin);
