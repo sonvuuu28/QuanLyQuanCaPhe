@@ -159,7 +159,7 @@ public class n1_HoaDonDAO {
     public ArrayList<HoaDonDTO> getListHoaDonTheoDateMax(Date dateMax) { // lấy list dshd theo ngày và tổng tiền
         try {
             Connection c = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM HoaDon WHERE NgayLapHoaDon >= ? ORDER BY MaHoaDon DESC";
+            String sql = "SELECT * FROM HoaDon WHERE NgayLapHoaDon <= ? ORDER BY MaHoaDon DESC";
             PreparedStatement pre = c.prepareStatement(sql);
             pre.setDate(1, dateMax);
             ResultSet rs = pre.executeQuery();
@@ -185,7 +185,7 @@ public class n1_HoaDonDAO {
     public ArrayList<HoaDonDTO> getListHoaDonTheoDateMin(Date dateMin) { // lấy list dshd theo ngày và tổng tiền
         try {
             Connection c = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM HoaDon WHERE NgayLapHoaDon <= ? ORDER BY MaHoaDon DESC";
+            String sql = "SELECT * FROM HoaDon WHERE NgayLapHoaDon >= ? ORDER BY MaHoaDon DESC";
             PreparedStatement pre = c.prepareStatement(sql);
             pre.setDate(1, dateMin);
             ResultSet rs = pre.executeQuery();
@@ -208,32 +208,30 @@ public class n1_HoaDonDAO {
         return null;
     }
 
-
     public String getNewId() {
-        String maHD = "HD001"; // Giá trị mặc định khi không có hóa đơn trong CSDL
+        String maHD = "HD001"; 
         try {
             Connection c = JDBCUtil.getConnection();
-            String sql = "SELECT MAX(maHoaDon) AS maHD FROM HoaDon"; // Câu truy vấn để lấy mã hóa đơn lớn nhất
+            String sql = "SELECT MAX(maHoaDon) AS maHD FROM HoaDon"; 
             Statement st = c.createStatement();
             ResultSet rs = st.executeQuery(sql);
 
             if (rs.next()) {
                 String lastMaHD = rs.getString("maHD");
                 if (lastMaHD != null) {
-                    // Tách phần số ra khỏi mã hóa đơn (VD: từ "HD005" -> "005")
-                    String numberPart = lastMaHD.substring(2); // Lấy phần số từ vị trí thứ 3
-                    int number = Integer.parseInt(numberPart); // Chuyển đổi thành số nguyên
-                    number++; // Tăng giá trị số lên 1
-
-                    // Đảm bảo mã mới có định dạng HD + 3 chữ số
-                    maHD = String.format("HD%03d", number); // Định dạng lại thành HDXXX
+                    
+                    String numberPart = lastMaHD.substring(2); 
+                    int number = Integer.parseInt(numberPart); 
+                    number++;
+                    
+                    maHD = String.format("HD%03d", number); 
                 }
             }
             JDBCUtil.closeConnection(c);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return maHD; // Trả về mã hóa đơn mới
+        return maHD; 
     }
 
     public int getMaxTongTien() {
