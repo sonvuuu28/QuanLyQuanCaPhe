@@ -134,6 +134,7 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         TextFieldTen.setMaximumSize(new java.awt.Dimension(160, 28));
         TextFieldTen.setMinimumSize(new java.awt.Dimension(160, 28));
         TextFieldTen.setPreferredSize(new java.awt.Dimension(160, 28));
+        TextFieldTen.setRequestFocusEnabled(false);
         TextFieldTen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TextFieldTenActionPerformed(evt);
@@ -196,7 +197,9 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         jSeparator5.setMaximumSize(new java.awt.Dimension(93, 5));
         jSeparator5.setMinimumSize(new java.awt.Dimension(93, 5));
         jSeparator5.setPreferredSize(new java.awt.Dimension(93, 5));
-        
+
+        jDNgaySinh.setBackground(new java.awt.Color(255, 255, 255));
+        jDNgaySinh.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jDNgaySinh.setDateFormatString("dd-MM-yyyy");
         JTextField dateEditor = ((JTextField) jDNgaySinh.getDateEditor().getUiComponent());
         dateEditor.setBackground(new java.awt.Color(211, 211, 211)); // Nền trắng
@@ -479,8 +482,8 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
                         .addContainerGap()
                         .addComponent(PanelInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(PanelTongLayout.createSequentialGroup()
-                        .addGap(120, 120, 120)
-                        .addComponent(btn_XuatExcel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(140, 140, 140)
+                        .addComponent(btn_XuatExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelTongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelTongLayout.createSequentialGroup()
