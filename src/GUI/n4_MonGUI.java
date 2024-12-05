@@ -161,7 +161,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
 
         lb_ThongTinMonAn.setAlignment(java.awt.Label.CENTER);
         lb_ThongTinMonAn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lb_ThongTinMonAn.setText("Thông Tin Món Ăn");
+        lb_ThongTinMonAn.setText("Thông Tin Món");
 
         lb_MaMon.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         lb_MaMon.setText("Mã Món");
