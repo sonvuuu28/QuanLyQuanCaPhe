@@ -155,8 +155,13 @@ public class HoaDonBUS {
             new String[] {
                 "Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Mã khuyến mãi","Mã ưu đãi", "Ngày lập", "Tổng tiền"
             }, 
-            0 // Bắt đầu với 0 hàng
-        );
+            0 
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
         table.setModel(model);
         HoaDonBUS list = new HoaDonBUS();
         ArrayList<HoaDonDTO> listHD = list.getlistHD();
@@ -172,11 +177,11 @@ public class HoaDonBUS {
             new String[] {
                 "Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Mã khuyến mãi", "Ngày lập" ,"Mã ưu đãi", "Tổng tiền"
             }, 
-            0 // Bắt đầu với 0 hàng
+            0 
         ){
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Không cho phép chỉnh sửa ô
+                return false; 
             }
         };
         table.setModel(model);
@@ -200,8 +205,13 @@ public class HoaDonBUS {
             new String[] {
                 "Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Mã khuyến mãi", "Ngày lập", "Mã ưu đãi", "Tổng tiền"
             }, 
-            0 // Bắt đầu với 0 hàng
-        );
+            0 
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         TblHoaDon.setModel(model);
         HoaDonBUS list = new HoaDonBUS();
         ArrayList<HoaDonDTO> listHD = null;
