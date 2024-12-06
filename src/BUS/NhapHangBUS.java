@@ -79,6 +79,13 @@ public class NhapHangBUS {
             model.addRow(new Object[]{maNguyenLieuResult, tenNguyenLieuResult, khoiLuong, trangThai});
         }
     }
+    public void updateNguyenLieu(DefaultTableModel model) {
+        try {
+            nhapHangDAO.updateNguyenLieu(model);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     
 }
