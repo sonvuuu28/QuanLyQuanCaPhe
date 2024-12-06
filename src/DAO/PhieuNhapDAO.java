@@ -135,6 +135,108 @@ public class PhieuNhapDAO {
         }
         return data;
     }
-    
-    
+    public String getMaxMaPhieuNhap() throws SQLException{
+        Connection c = JDBCUtil.getConnection();
+        PreparedStatement pstms = null;
+        ResultSet rs = null;
+        String maxMaPhieuNhap = null;
+        try{
+          String sql = "select max(maPhieuNhap) AS maxMaPhieuNhap from PhieuNhap";
+          pstms = c.prepareStatement(sql);
+          rs = pstms.executeQuery();
+          if(rs.next()){
+            maxMaPhieuNhap = rs.getString("maxMaPhieuNhap");
+          }
+        }catch(SQLException e){
+            e.printStackTrace();
+
+        }
+        return maxMaPhieuNhap;
+      }
+      public String addPhieuNhap(String maPhieuNhap, String ngayLapPhieuNhap, int tongTienPhieuNhap, String maNhaCungCap, String maNhanVien) throws SQLException {
+        Connection c = JDBCUtil.getConnection();
+        PreparedStatement pstms = null;
+
+        try {
+            String sql = "insert into PhieuNhap(MaPhieuNhap, NgayLapPhieuNhap, TongTienPhieuNhap, MaNhanVien, MaNhaCungCap) values(?,?,?,?,?)";
+            pstms = c.prepareStatement(sql);
+            pstms.setString(1, maPhieuNhap);
+            pstms.setString(2, ngayLapPhieuNhap);
+            pstms.setInt(3, tongTienPhieuNhap);
+            pstms.setString(4, maNhanVien);
+            pstms.setString(5, maNhaCungCap);
+            pstms.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (pstms != null) try { pstms.close(); } catch (SQLException e) { e.printStackTrace(); }
+            JDBCUtil.closeConnection(c);
+        }
+        return maPhieuNhap;
+    }
+    public boolean isMaNhanVienExists(String maNhanVien) throws SQLException {
+        Connection c = JDBCUtil.getConnection();
+        PreparedStatement pstms = null;
+        ResultSet rs = null;
+        boolean exists = false;
+        try {
+            String sql = "SELECT 1 FROM NhanVien WHERE MaNhanVien = ?";
+            pstms = c.prepareStatement(sql);
+            pstms.setString(1, maNhanVien);
+            rs = pstms.executeQuery();
+            exists = rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) rs.close();
+            if (pstms != null) pstms.close();
+            JDBCUtil.closeConnection(c);
+        }
+        return exists;
+    }
+    public String getMaNhanVien (String MaNhanVien) throws SQLException{
+        Connection c = JDBCUtil.getConnection();
+        PreparedStatement pstms = null;
+        ResultSet rs = null;
+        String maNhanVien = null;
+        try{
+            String sql = "SELECT MaNhanVien FROM NhanVien WHERE MaNhanVien = ?";
+            pstms = c.prepareStatement(sql);
+            pstms.setString(1, MaNhanVien);
+            rs = pstms.executeQuery();
+            if(rs.next()){
+            maNhanVien = rs.getString("MaNhanVien");
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            if(rs != null) rs.close();
+            if(pstms != null) pstms.close();
+            JDBCUtil.closeConnection(c);
+        }
+        return maNhanVien;
+    }
+    public String getMaNhaCungCap(String tenNhaCungCap) throws SQLException {
+        Connection c = JDBCUtil.getConnection();
+        PreparedStatement pstms = null;
+        ResultSet rs = null;
+        String maNhaCungCap = null;
+        try {
+            String sql = "SELECT MaNhaCungCap FROM NhaCungCap WHERE TenNhaCungCap = ?";
+            pstms = c.prepareStatement(sql);
+            pstms.setString(1, tenNhaCungCap);
+            rs = pstms.executeQuery();
+            if (rs.next()) {
+                maNhaCungCap = rs.getString("MaNhaCungCap");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) rs.close();
+            if (pstms != null) pstms.close();
+            JDBCUtil.closeConnection(c);
+        }
+        return maNhaCungCap;
+      }
 }
