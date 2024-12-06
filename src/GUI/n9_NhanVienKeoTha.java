@@ -15,6 +15,7 @@ import java.util.Vector;
 import com.toedter.calendar.JDateChooser;
 import Util.TableCustom;
 import Util.dialog;
+import java.awt.Component;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -1181,7 +1182,15 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         NVBUS.timNhanVienMa(txtTimKiem.getText(),Table);
     }
 
+    
     private void xuLyClickTblNhanVien() {
+        JPanel overlay = new JPanel();
+        overlay.setOpaque(false); 
+        overlay.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+            }
+        });
         int row = Table.getSelectedRow();
         String currentQuyen;
         if (row > -1) {
@@ -1190,18 +1199,18 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             txtSDT.setText(Table.getValueAt(row, 3) + "");
             Object ngaySinhObj = Table.getValueAt(row, 4);
             if (ngaySinhObj instanceof String) {
-                // Nếu giá trị là String, chuyển nó thành đối tượng java.sql.Date
+                
                 try {
                     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
                     java.util.Date utilDate = sdf.parse((String) ngaySinhObj); 
                     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); 
                     JDNgaySinh.setDate(sqlDate); 
-                    JDNgaySinh.setDateFormatString("dd-MM-yyyy"); // Đặt định dạng hiển thị
+                    JDNgaySinh.setDateFormatString("dd-MM-yyyy"); 
                 } catch (ParseException e) {
-                    e.printStackTrace(); // Nếu có lỗi, in stack trace
+                    e.printStackTrace(); 
                 }
             } else if (ngaySinhObj instanceof java.sql.Date) {
-                // Nếu giá trị đã là java.sql.Date
+                
                 JDNgaySinh.setDate((java.sql.Date) ngaySinhObj);
                 JDNgaySinh.setDateFormatString("dd-MM-yyyy");
             }
@@ -1231,7 +1240,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             }
         }
     }
-
+    
     public String formatCurrency(String amountStr) {
         try {
             double amount = Double.parseDouble(amountStr);
