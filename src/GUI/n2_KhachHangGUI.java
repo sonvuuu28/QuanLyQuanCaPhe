@@ -134,7 +134,7 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         TextFieldTen.setMaximumSize(new java.awt.Dimension(160, 28));
         TextFieldTen.setMinimumSize(new java.awt.Dimension(160, 28));
         TextFieldTen.setPreferredSize(new java.awt.Dimension(160, 28));
-        TextFieldTen.setRequestFocusEnabled(false);
+        
         TextFieldTen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TextFieldTenActionPerformed(evt);
