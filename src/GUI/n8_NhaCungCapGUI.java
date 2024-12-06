@@ -652,6 +652,9 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                 String tenNCC = TextFieldTen.getText();
                 String diachiNCC = TextFieldDiaChi.getText();
                 String sdtNCC = TextFieldSDT.getText();
+                if(btn_Them.isEnabled()== false){
+                        return;
+                }
                 if (check.IsEmpty(tenNCC) || check.IsEmpty(diachiNCC)
                         || check.IsEmpty(sdtNCC)) {
                     JOptionPane.showMessageDialog(null, "bạn chưa nhập thông tin nhà cung cấp mới", "lỗi",
@@ -710,6 +713,8 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                     TextFieldDiaChi.setText(model.getValueAt(Row, 2).toString());
                     TextFieldSDT.setText(model.getValueAt(Row, 3).toString());
                 }
+                btn_Them.setEnabled(false);
+                
             }
 
         });
