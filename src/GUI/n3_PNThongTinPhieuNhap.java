@@ -35,6 +35,7 @@ public class n3_PNThongTinPhieuNhap extends javax.swing.JPanel {
     private JTextField jT_ChonNcc;
     private JButton jBtn_Nhap;
     private JButton jBtn_ChonNcc;
+    private NhapHangBUS nhapHangBUS = new NhapHangBUS();
 
     public n3_PNThongTinPhieuNhap(n3_PNNhapHang framePhieuNhap, JTable jTable_ChoNhap, JTable jTable_KhoHang, String maNhanVien, String nhaCungCap, String ngayLap, JTextField jT_ChonNcc, JButton jBtn_ChonNcc, JButton jBtn_Nhap) {
         this.framePhieuNhap = framePhieuNhap;
@@ -421,29 +422,7 @@ public class n3_PNThongTinPhieuNhap extends javax.swing.JPanel {
                 chiTietPhieuNhapBUS.addChiTietPhieuNhap(maPhieuNhap, maNguyenLieu, khoiLuong, donGia, thanhTien);
             }
             // Cập nhật khối lượng nguyên liệu trong cơ sở dữ liệu
-            for (int i = 0; i < model.getRowCount(); i++) {
-                String maNguyenLieu = (String) model.getValueAt(i, 0);
-                double khoiLuongNhap = (double) model.getValueAt(i, 2);
-
-                // Kiểm tra xem nguyên liệu đã tồn tại trong cơ sở dữ liệu hay chưa
-                String sqlCheck = "SELECT KhoiLuongNguyenLieu FROM NguyenLieu WHERE MaNguyenLieu = ?";
-                pstmt = conn.prepareStatement(sqlCheck);
-                pstmt.setString(1, maNguyenLieu);
-                rs = pstmt.executeQuery();
-
-                if (rs.next()) {
-                    // Nguyên liệu đã tồn tại, cập nhật khối lượng
-                    double khoiLuongHienTai = rs.getDouble("KhoiLuongNguyenLieu");
-                    double khoiLuongMoi = khoiLuongHienTai + khoiLuongNhap;
-                    khoiLuongMoi = Math.round(khoiLuongMoi * 100.0) / 100.0;
-
-                    String sqlUpdate = "UPDATE NguyenLieu SET KhoiLuongNguyenLieu = ? WHERE MaNguyenLieu = ?";
-                    pstmt = conn.prepareStatement(sqlUpdate);
-                    pstmt.setDouble(1, khoiLuongMoi);
-                    pstmt.setString(2, maNguyenLieu);
-                    pstmt.executeUpdate();
-                }
-            }
+            nhapHangBUS.updateNguyenLieu(model);
 
             conn.commit(); // Kết thúc transaction
 
