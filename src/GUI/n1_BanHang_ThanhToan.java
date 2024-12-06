@@ -149,6 +149,8 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
                 tien_Goc = banHangFrame.TongTien;
                 uuDai.setText("none");
                 kh.setText("Anonymous");
+                tienNhan.setText("");
+                tienThua.setText("");
                 tien_Goc = banHangFrame.TongTien;
                 tong.setText(Util.BanHang.set_Tien_VND(tien_Goc));
             }
@@ -157,13 +159,22 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
         tienNhan.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                String text = tienNhan.getText().replaceAll("[^\\d]", ""); // Loại bỏ ký tự không phải số
-                if (!text.isEmpty()) {
-                    try {
-                        long number = Long.parseLong(text); // Chuyển sang số nguyên
-                        tienNhan.setText(String.format("%,d", number)); // Định dạng lại với dấu phẩy
-                    } catch (NumberFormatException e) {
+                String text = tienNhan.getText();
+
+                // Kiểm tra và xử lý bằng regex
+                if (text.matches("^\\d.*")) { // Nếu chuỗi bắt đầu bằng số
+                    text = text.replaceAll("[^\\d]", ""); // Loại bỏ ký tự không phải số
+                    if (!text.isEmpty()) {
+                        try {
+                            // Chuyển đổi chuỗi thành số và định dạng lại với dấu phẩy
+                            long number = Long.parseLong(text);
+                            tienNhan.setText(String.format("%,d", number));
+                        } catch (NumberFormatException e) {
+                            // Xử lý ngoại lệ nếu cần
+                        }
                     }
+                } else {
+                    tienNhan.setText("");
                 }
             }
 

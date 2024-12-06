@@ -244,6 +244,13 @@ public class BanHangBUS {
             sdt.requestFocus();
             return;
         }
+        
+        KhachHangBUS bus = new KhachHangBUS();
+        if (!bus.checkSDT(sdt.getText())) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại đã được đăng ký vào hệ thống !", "FAIL", JOptionPane.ERROR_MESSAGE);
+            sdt.requestFocus();
+            return;
+        }
 
         if (gioiTinh.getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn giới tính !", "FAIL", JOptionPane.ERROR_MESSAGE);

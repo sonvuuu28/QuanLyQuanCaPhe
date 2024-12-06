@@ -222,7 +222,7 @@ public class n0_LoginGUI extends javax.swing.JFrame {
         PanelLeft.setMaximumSize(new java.awt.Dimension(739, 763));
         PanelLeft.setMinimumSize(new java.awt.Dimension(739, 763));
         PanelLeft.setPreferredSize(new java.awt.Dimension(739, 763));
-
+        setResizable(false);
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGE/Logo2.png"))); // NOI18N
 
         javax.swing.GroupLayout PanelLeftLayout = new javax.swing.GroupLayout(PanelLeft);
