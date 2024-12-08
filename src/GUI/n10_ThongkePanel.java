@@ -99,7 +99,9 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         Slmondabanngay.setEditable(false);
         SoluongKH.setEditable(false);
         Dthuthanghientai.setEditable(false);
-        //////////////////////////////// biểu đồ đường mặc định
+
+        
+//////////////////////////////// biểu đồ đường mặc định
         List<Integer> xData = Arrays.asList(2,3,4,5,6,7,8);
         // List<Integer> yData = Arrays.asList(1.0, 4.0, 3.0, 5.0, 4.0, 3.0, 5.0, 4.0,
         // 3.0, 5.0, 5.0, 4.0, 3.0, 1.0, 4.0, 3.0, 5.0, 4.0);
@@ -112,7 +114,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         content_Panel.setLayout(new BorderLayout());
         content_Panel.add(chartPanel, BorderLayout.NORTH);
 
-        //////////////////////////////// biểu đồ đường doanh thu
+//////////////////////////////// biểu đồ đường doanh thu
         /// ////////////////theo tháng
         List<String> xdataDthu = Arrays.asList("tháng 1", "tháng 2", "tháng 3", "tháng 4", "tháng 5", "tháng 6", "tháng 7", "tháng 8", "tháng 9", "tháng 10", "tháng 11", "tháng 12");
         List<Integer> xIndexDThu = new ArrayList<>();
@@ -140,7 +142,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         Main_DtPn2.setLayout(new BorderLayout());
         Main_DtPn2.add(ChartPanelDthuquy, BorderLayout.NORTH);
 
-        ////////////////////////////////////// biểu đồ cột chi phí
+////////////////////////////////////// biểu đồ cột chi phí
         /// ////////////////tháng
         List<String> xdataCphi = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12");
         List<List<Integer>> yDataList = List.of(TK.getArrayTongLuongnhanvientheothang(), TK.getArrayphieunhapnam());
@@ -162,7 +164,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         XChartPanel<CategoryChart> ChartChiphipanelQuy = new XChartPanel<CategoryChart>(ChartChiphiQuy);
         ContentCphi2.setLayout(new BorderLayout());
         ContentCphi2.add(ChartChiphipanelQuy, BorderLayout.NORTH);
-        ////////////////////////////////////// biểu đồ cột lợi nhuận
+////////////////////////////////////// biểu đồ cột lợi nhuận
         List<String> xdataLoinhuan = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12");
         ArrayList<Integer> Dthu = TK.getArrayDoanhthunam();
         ArrayList<Integer> ChiPhi = TK.getArrayphieunhapnam();
@@ -197,7 +199,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         XChartPanel<CategoryChart> ChartLoinhuanpanelquy = new XChartPanel<CategoryChart>(ChartLoinhuanQuy);
         contentTKLnhuan2.setLayout(new BorderLayout());
         contentTKLnhuan2.add(ChartLoinhuanpanelquy, BorderLayout.NORTH);
-        ////////////////////////////////////// biểu đồ cột chi phí
+////////////////////////////////////// biểu đồ cột chi phí
         List<String> xdataCLuong = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12");
         List<List<Integer>> yDataList3 = new ArrayList<>();
         List<String> seriesName3 = new ArrayList<>();
@@ -290,8 +292,8 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         stringArrayChiphiquy[1][0] = "Lương nhân viên";
         stringArrayloinhuan[0][0] = "lợi nhuận";
         stringArrayloinhuanquy[0][0] = "Phí nhập hàng";
-
-        // Gán dữ liệu vào các cột tháng (1 đến 12)
+// EXPORT
+// Gán dữ liệu vào các cột tháng (1 đến 12)
         //mạc định
         
         // doanh thu
@@ -407,7 +409,7 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
         tableLuong.setModel(tableModelluongnv);
         tableKho.setModel(tableModeldsnl);
         tableDf.setModel(tableModelmDefaul);
-        
+
         ThongkePanel.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
             @Override
             protected int calculateTabHeight(int tabPlacement, int tabIndex, int fontHeight) {
@@ -568,6 +570,8 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 XuLyFileExcel ex = new XuLyFileExcel();
                 if (Combobox_TK.getSelectedItem().equals("Doanh Thu")) {
+                
+
                     if (CbboxDthu.getSelectedItem().equals("Tháng")) {
                         ex.xuatExcel(tableDT);
                     } else {
@@ -2311,6 +2315,8 @@ public class n10_ThongkePanel extends javax.swing.JPanel {
     private void Combobox_TKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_Combobox_TKActionPerformed
         int selectedIndex = Combobox_TK.getSelectedIndex();
         ThongkePanel.setSelectedIndex(selectedIndex);
+        
+
     }// GEN-LAST:event_Combobox_TKActionPerformed
 
     private void CbboxDthuActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_CbboxDthuActionPerformed
