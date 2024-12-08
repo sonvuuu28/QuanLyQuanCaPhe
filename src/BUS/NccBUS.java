@@ -82,12 +82,19 @@ public class NccBUS {
     }
 
     // Phương thức sửa thông tin nhà cung cấp
-    public void capNhatNhaCungCap(String maNCC, String TenNCC, String Diachi, String sodt) {
+    public boolean capNhatNhaCungCap(String maNCC, String TenNCC, String Diachi, String sodt) {
+        for(int i= 0;i<nccDAO.getDanhSachNhaCungCap().size();i++){
+            if(nccDAO.getDanhSachNhaCungCap().get(i).getSoDienThoaiNhaCungCap().equals(sodt)){
+                JOptionPane.showMessageDialog(null, "Số điện thoại đã tồn tại");
+                return false;
+            }
+        }
         NhaCungCapDTO ncc = new NhaCungCapDTO(maNCC, TenNCC, Diachi, sodt, true);
         boolean isUpdated = nccDAO.capNhat(ncc);
         if (isUpdated) {
             JOptionPane.showMessageDialog(null, "Cập nhật nhà cung cấp thành công!");
         }
+        return true;
     }
     public static void main(){
         NhaCungCapDTO a = new NhaCungCapDTO();
