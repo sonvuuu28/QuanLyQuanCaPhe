@@ -614,7 +614,7 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
                 }
                 System.out.println(temp);
                 if(temp==0){
-                        JOptionPane.showMessageDialog(null, "Mã nhà cung cấp chưa tồn tại, vui lòng chọn nhà cung cấp", "lỗi", dialog.ERROR_DIALOG);
+                        JOptionPane.showMessageDialog(null, "nhà cung cấp chưa tồn tại, vui lòng chọn thêm nhà cung cấp", "lỗi", dialog.ERROR_DIALOG);
                         return;
                         
                 }
