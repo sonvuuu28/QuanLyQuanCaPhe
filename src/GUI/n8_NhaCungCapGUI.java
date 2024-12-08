@@ -547,6 +547,7 @@ public class n8_NhaCungCapGUI extends javax.swing.JPanel {
         // TextFieldTimKiem.setText("");
         TextFieldSDT.setText("");
         nccBUS.loadDataToTable_NhaCungCap(Table);
+        btn_Them.setEnabled(true);
     }
 
     private void taoMaNCC() {
