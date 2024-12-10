@@ -339,4 +339,8 @@ public class NhanVienBUS {
         return true;
     }
 
+       public String getChucVuNhanVienTheoMa(String ma){
+        return nvDAO.getChucVuTheoMa(ma);
+    }
+
 }
