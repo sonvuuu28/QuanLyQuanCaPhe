@@ -96,13 +96,30 @@ public class NhanVienDAO {
             pre.setString(1,ma); // Truyền tham số vào câu lệnh SQL
             ResultSet rs = pre.executeQuery();
             while (rs.next()) {
-                System.out.println(rs.getInt(1));
                 flag = rs.getInt(1);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        return flag;
+    }
+
+    public String getChucVuTheoMa(String ma){
+        String flag="";
+        System.out.println(ma);
+        try {
+            String sql = "SELECT ChucVuNhanVien FROM NhanVien WHERE MaNhanVien = ?";
+            Connection c = JDBCUtil.getConnection();
+            PreparedStatement pre = c.prepareStatement(sql);
+            pre.setString(1,ma); // Truyền tham số vào câu lệnh SQL
+            ResultSet rs = pre.executeQuery();
+            while (rs.next()) {
+                flag = rs.getString(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return flag;
     }
 
