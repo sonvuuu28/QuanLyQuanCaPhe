@@ -948,8 +948,13 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
     public boolean validateFieldsSua() {
         // Biểu thức chính quy để kiểm tra không chứa ký tự đặc biệt (chỉ chứa ký tự và số)
         String regexNoSpecialChars = "^[0-9]{1,3}(?:,\\d{3})*VNĐ$";
-        String regexNoSpecialChars2 = "^[a-zA-Z0-9]*$";  // Không chứa ký tự đặc biệt
+        String regexNoSpecialChars2 = "^[a-zA-Z0-9]*$"; 
         // Kiểm tra txtTen (Tên người dùng)
+        if(txtMa.getText().equals("")){
+            new dialog("Bạn chưa chọn nhân viên", dialog.ERROR_DIALOG);
+            return false;
+        }
+
         if (txtTen.getText().equals("")) {
             new dialog("Tên không được để trống!", dialog.ERROR_DIALOG);
             return false;
@@ -992,18 +997,14 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             return false;
         } 
         else {
-            // Lấy ngày hiện tại
             LocalDate currentDate = LocalDate.now();
 
-            // Lấy ngày sinh từ JDateChooser
             LocalDate birthDate = JDNgaySinh.getDate().toInstant()
                                     .atZone(java.time.ZoneId.systemDefault())
                                     .toLocalDate();
 
-            // Tính toán khoảng cách tuổi giữa ngày sinh và ngày hiện tại
             Period period = Period.between(birthDate, currentDate);
 
-            // Kiểm tra nếu tuổi nhỏ hơn 18
             if (period.getYears() < 18) {
                 new dialog("Chưa đủ 18 tuổi để làm nhân viên!", dialog.ERROR_DIALOG);
                 return false;
@@ -1019,12 +1020,10 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             return false;
         }
         
-        for (int i = 0; i < BoxChucVu.getItemCount(); i++) {
-            if ((BoxChucVu.getSelectedItem().toString().equals("Quản Trị Viên") && NVBUS.checkExistAdmin())) {
-                JOptionPane.showMessageDialog(null, "Admin không thể tự thay đổi thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            if (!txtMa.getText().equals("") && NVBUS.getChucVuNhanVienTheoMa(txtMa.getText()).equals("Quản Trị Viên") && NVBUS.checkExistAdmin()) {
+                JOptionPane.showMessageDialog(null, "Quản trị viên không thể tự thay đổi thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
-        }
         return true;
     }
 
