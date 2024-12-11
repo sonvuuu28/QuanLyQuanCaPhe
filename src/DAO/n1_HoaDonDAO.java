@@ -99,11 +99,10 @@ public class n1_HoaDonDAO {
         return getListHoaDon();
     }
 
-    public ArrayList<HoaDonDTO> getListHoaDonTheoDateVaTongTien(Date dateMin, Date dateMax, int tongtienMin, int tongtienMax) { // lấy list dshd theo ngày và tổng tiền
+    public ArrayList<HoaDonDTO> getListHoaDonTheoDateVaTongTien(Date dateMin, Date dateMax, int tongtienMin, int tongtienMax) { 
         try {
             Connection c = JDBCUtil.getConnection();
-            //String sql = "SELECT * FROM hoadon WHERE (NgayLap BETWEEN ? AND ?) AND (tongTien BETWEEN ? AND ?)";
-            String sql = "SELECT * FROM HoaDon WHERE (ngayLapHoaDon BETWEEN ? AND ?) AND (tongTienHoaDon BETWEEN ? AND ?) ORDER BY maHoaDon DESC";
+            String sql = "SELECT * FROM HoaDon WHERE (NgayLapHoaDon BETWEEN ? AND ?) AND (tongTienHoaDon BETWEEN ? AND ?) ORDER BY MaHoaDon DESC";
             PreparedStatement pre = c.prepareStatement(sql);
             pre.setDate(1, dateMin);
             pre.setDate(2, dateMax);
@@ -129,7 +128,259 @@ public class n1_HoaDonDAO {
         return null;
     }
 
-    public ArrayList<HoaDonDTO> getListHoaDonTheoDate(Date dateMin, Date dateMax) { // lấy list dshd theo ngày và tổng tiền
+    public ArrayList<HoaDonDTO> getListHoaDonTheoDateVaGiaMin(Date dateMin, Date dateMax, int tongtienMin) { 
+        try {
+            Connection c = JDBCUtil.getConnection();
+            //String sql = "SELECT * FROM hoadon WHERE (NgayLap BETWEEN ? AND ?) AND (tongTien BETWEEN ? AND ?)";
+            String sql = "SELECT * FROM HoaDon WHERE (NgayLapHoaDon BETWEEN ? AND ?) AND TongTienHoaDon >= ? ORDER BY MaHoaDon DESC";
+            PreparedStatement pre = c.prepareStatement(sql);
+            pre.setDate(1, dateMin);
+            pre.setDate(2, dateMax);
+            pre.setInt(3, tongtienMin);
+            ResultSet rs = pre.executeQuery();
+            ArrayList<HoaDonDTO> dshd = new ArrayList<>();
+            while (rs.next()) {
+                HoaDonDTO hd = new HoaDonDTO();
+                hd.setMaHoaDon(rs.getString(1));
+                hd.setNgayLapHoaDon(rs.getDate(2));
+                hd.setTongTienHoaDon(rs.getInt(3));
+                hd.setMaNhanVien(rs.getString(4));
+                hd.setMaKhachHang(rs.getString(5));
+                hd.setMaUuDai(rs.getString(6));
+                hd.setMaKhuyenMai(rs.getString(7));
+                dshd.add(hd);
+            }
+            return dshd;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<HoaDonDTO> getListHoaDonTheoDateVaGiaMax(Date dateMin, Date dateMax, int tongtienMax) { 
+        try {
+            Connection c = JDBCUtil.getConnection();
+            //String sql = "SELECT * FROM hoadon WHERE (NgayLap BETWEEN ? AND ?) AND (tongTien BETWEEN ? AND ?)";
+            String sql = "SELECT * FROM HoaDon WHERE (NgayLapHoaDon BETWEEN ? AND ?) AND TongTienHoaDon =< ? ORDER BY MaHoaDon DESC";
+            PreparedStatement pre = c.prepareStatement(sql);
+            pre.setDate(1, dateMin);
+            pre.setDate(2, dateMax);
+            pre.setInt(3, tongtienMax);
+            ResultSet rs = pre.executeQuery();
+            ArrayList<HoaDonDTO> dshd = new ArrayList<>();
+            while (rs.next()) {
+                HoaDonDTO hd = new HoaDonDTO();
+                hd.setMaHoaDon(rs.getString(1));
+                hd.setNgayLapHoaDon(rs.getDate(2));
+                hd.setTongTienHoaDon(rs.getInt(3));
+                hd.setMaNhanVien(rs.getString(4));
+                hd.setMaKhachHang(rs.getString(5));
+                hd.setMaUuDai(rs.getString(6));
+                hd.setMaKhuyenMai(rs.getString(7));
+                dshd.add(hd);
+            }
+            return dshd;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<HoaDonDTO> getListHoaDonTheoDateMinVaTongTien(Date dateMin,int tongtienMin, int tongtienMax) { 
+        try {
+            Connection c = JDBCUtil.getConnection();
+            //String sql = "SELECT * FROM hoadon WHERE (NgayLap BETWEEN ? AND ?) AND (tongTien BETWEEN ? AND ?)";
+            String sql = "SELECT * FROM HoaDon WHERE NgayLapHoaDon >= ? AND (TongTienHoaDon BETWEEN ? AND ?) ORDER BY MaHoaDon DESC";
+            PreparedStatement pre = c.prepareStatement(sql);
+            pre.setDate(1, dateMin);
+            pre.setInt(2, tongtienMin);
+            pre.setInt(3, tongtienMax);
+            ResultSet rs = pre.executeQuery();
+            ArrayList<HoaDonDTO> dshd = new ArrayList<>();
+            while (rs.next()) {
+                HoaDonDTO hd = new HoaDonDTO();
+                hd.setMaHoaDon(rs.getString(1));
+                hd.setNgayLapHoaDon(rs.getDate(2));
+                hd.setTongTienHoaDon(rs.getInt(3));
+                hd.setMaNhanVien(rs.getString(4));
+                hd.setMaKhachHang(rs.getString(5));
+                hd.setMaUuDai(rs.getString(6));
+                hd.setMaKhuyenMai(rs.getString(7));
+                dshd.add(hd);
+            }
+            return dshd;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<HoaDonDTO> getListHoaDonTheoDateBang(Date dateMin) { 
+        try {
+            Connection c = JDBCUtil.getConnection();
+            //String sql = "SELECT * FROM hoadon WHERE (NgayLap BETWEEN ? AND ?) AND (tongTien BETWEEN ? AND ?)";
+            String sql = "SELECT * FROM HoaDon WHERE NgayLapHoaDon = ?";
+            PreparedStatement pre = c.prepareStatement(sql);
+            pre.setDate(1, dateMin);
+            ResultSet rs = pre.executeQuery();
+            ArrayList<HoaDonDTO> dshd = new ArrayList<>();
+            while (rs.next()) {
+                HoaDonDTO hd = new HoaDonDTO();
+                hd.setMaHoaDon(rs.getString(1));
+                hd.setNgayLapHoaDon(rs.getDate(2));
+                hd.setTongTienHoaDon(rs.getInt(3));
+                hd.setMaNhanVien(rs.getString(4));
+                hd.setMaKhachHang(rs.getString(5));
+                hd.setMaUuDai(rs.getString(6));
+                hd.setMaKhuyenMai(rs.getString(7));
+                dshd.add(hd);
+            }
+            return dshd;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<HoaDonDTO> getListHoaDonTheoDateMaxVaTongTien(Date dateMax,int tongtienMin, int tongtienMax) { 
+        try {
+            Connection c = JDBCUtil.getConnection();
+            //String sql = "SELECT * FROM hoadon WHERE (NgayLap BETWEEN ? AND ?) AND (tongTien BETWEEN ? AND ?)";
+            String sql = "SELECT * FROM HoaDon WHERE NgayLapHoaDon <= ? AND (tongTienHoaDon BETWEEN ? AND ?) ORDER BY MaHoaDon DESC";
+            PreparedStatement pre = c.prepareStatement(sql);
+            pre.setDate(1, dateMax);
+            pre.setInt(2, tongtienMin);
+            pre.setInt(3, tongtienMax);
+            ResultSet rs = pre.executeQuery();
+            ArrayList<HoaDonDTO> dshd = new ArrayList<>();
+            while (rs.next()) {
+                HoaDonDTO hd = new HoaDonDTO();
+                hd.setMaHoaDon(rs.getString(1));
+                hd.setNgayLapHoaDon(rs.getDate(2));
+                hd.setTongTienHoaDon(rs.getInt(3));
+                hd.setMaNhanVien(rs.getString(4));
+                hd.setMaKhachHang(rs.getString(5));
+                hd.setMaUuDai(rs.getString(6));
+                hd.setMaKhuyenMai(rs.getString(7));
+                dshd.add(hd);
+            }
+            return dshd;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<HoaDonDTO> getListHoaDonTheoGiaMinandMax(int GiaMin,int GiaMax){
+        try {
+            Connection c = JDBCUtil.getConnection();
+            //String sql = "SELECT * FROM hoadon WHERE (NgayLap BETWEEN ? AND ?) AND (tongTien BETWEEN ? AND ?)";
+            String sql = "SELECT * FROM HoaDon WHERE(tongTienHoaDon BETWEEN ? AND ?) ORDER BY MaHoaDon DESC";
+            PreparedStatement pre = c.prepareStatement(sql);
+            pre.setInt(1, GiaMin);
+            pre.setInt(2, GiaMax);
+            ResultSet rs = pre.executeQuery();
+            ArrayList<HoaDonDTO> dshd = new ArrayList<>();
+            while (rs.next()) {
+                HoaDonDTO hd = new HoaDonDTO();
+                hd.setMaHoaDon(rs.getString(1));
+                hd.setNgayLapHoaDon(rs.getDate(2));
+                hd.setTongTienHoaDon(rs.getInt(3));
+                hd.setMaNhanVien(rs.getString(4));
+                hd.setMaKhachHang(rs.getString(5));
+                hd.setMaUuDai(rs.getString(6));
+                hd.setMaKhuyenMai(rs.getString(7));
+                dshd.add(hd);
+            }
+            return dshd;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<HoaDonDTO> getListHoaDonTheoGia(int Gia){
+        try {
+            Connection c = JDBCUtil.getConnection();
+            //String sql = "SELECT * FROM hoadon WHERE (NgayLap BETWEEN ? AND ?) AND (tongTien BETWEEN ? AND ?)";
+            String sql = "SELECT * FROM HoaDon WHERE TongTienHoaDon = ? ";
+            PreparedStatement pre = c.prepareStatement(sql);
+            pre.setInt(1, Gia);
+            ResultSet rs = pre.executeQuery();
+            ArrayList<HoaDonDTO> dshd = new ArrayList<>();
+            while (rs.next()) {
+                HoaDonDTO hd = new HoaDonDTO();
+                hd.setMaHoaDon(rs.getString(1));
+                hd.setNgayLapHoaDon(rs.getDate(2));
+                hd.setTongTienHoaDon(rs.getInt(3));
+                hd.setMaNhanVien(rs.getString(4));
+                hd.setMaKhachHang(rs.getString(5));
+                hd.setMaUuDai(rs.getString(6));
+                hd.setMaKhuyenMai(rs.getString(7));
+                dshd.add(hd);
+            }
+            return dshd;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<HoaDonDTO> getListHoaDonTheoGiaMin(int GiaMin){
+        try {
+            Connection c = JDBCUtil.getConnection();
+            //String sql = "SELECT * FROM hoadon WHERE (NgayLap BETWEEN ? AND ?) AND (tongTien BETWEEN ? AND ?)";
+            String sql = "SELECT * FROM HoaDon WHERE TongTienHoaDon >= ? ORDER BY MaHoaDon DESC";
+            PreparedStatement pre = c.prepareStatement(sql);
+            pre.setInt(1, GiaMin);
+            ResultSet rs = pre.executeQuery();
+            ArrayList<HoaDonDTO> dshd = new ArrayList<>();
+            while (rs.next()) {
+                HoaDonDTO hd = new HoaDonDTO();
+                hd.setMaHoaDon(rs.getString(1));
+                hd.setNgayLapHoaDon(rs.getDate(2));
+                hd.setTongTienHoaDon(rs.getInt(3));
+                hd.setMaNhanVien(rs.getString(4));
+                hd.setMaKhachHang(rs.getString(5));
+                hd.setMaUuDai(rs.getString(6));
+                hd.setMaKhuyenMai(rs.getString(7));
+                dshd.add(hd);
+            }
+            return dshd;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<HoaDonDTO> getListHoaDonTheoGiaMax(int GiaMax){
+        try {
+            Connection c = JDBCUtil.getConnection();
+            //String sql = "SELECT * FROM hoadon WHERE (NgayLap BETWEEN ? AND ?) AND (tongTien BETWEEN ? AND ?)";
+            String sql = "SELECT * FROM HoaDon WHERE TongTienHoaDon <= ? ORDER BY MaHoaDon DESC";
+            PreparedStatement pre = c.prepareStatement(sql);
+            pre.setInt(1, GiaMax);
+            ResultSet rs = pre.executeQuery();
+            ArrayList<HoaDonDTO> dshd = new ArrayList<>();
+            while (rs.next()) {
+                HoaDonDTO hd = new HoaDonDTO();
+                hd.setMaHoaDon(rs.getString(1));
+                hd.setNgayLapHoaDon(rs.getDate(2));
+                hd.setTongTienHoaDon(rs.getInt(3));
+                hd.setMaNhanVien(rs.getString(4));
+                hd.setMaKhachHang(rs.getString(5));
+                hd.setMaUuDai(rs.getString(6));
+                hd.setMaKhuyenMai(rs.getString(7));
+                dshd.add(hd);
+            }
+            return dshd;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<HoaDonDTO> getListHoaDonTheoDate(Date dateMin, Date dateMax) { 
         try {
             Connection c = JDBCUtil.getConnection();
             String sql = "SELECT * FROM HoaDon WHERE (NgayLapHoaDon BETWEEN CAST(? AS DATE) AND CAST(? AS DATE)) ORDER BY MaHoaDon DESC";
@@ -156,7 +407,7 @@ public class n1_HoaDonDAO {
         return null;
     }
 
-    public ArrayList<HoaDonDTO> getListHoaDonTheoDateMax(Date dateMax) { // lấy list dshd theo ngày và tổng tiền
+    public ArrayList<HoaDonDTO> getListHoaDonTheoDateMax(Date dateMax) { 
         try {
             Connection c = JDBCUtil.getConnection();
             String sql = "SELECT * FROM HoaDon WHERE NgayLapHoaDon <= ? ORDER BY MaHoaDon DESC";
@@ -182,7 +433,7 @@ public class n1_HoaDonDAO {
         return null;
     }
 
-    public ArrayList<HoaDonDTO> getListHoaDonTheoDateMin(Date dateMin) { // lấy list dshd theo ngày và tổng tiền
+    public ArrayList<HoaDonDTO> getListHoaDonTheoDateMin(Date dateMin) { 
         try {
             Connection c = JDBCUtil.getConnection();
             String sql = "SELECT * FROM HoaDon WHERE NgayLapHoaDon >= ? ORDER BY MaHoaDon DESC";
@@ -234,6 +485,114 @@ public class n1_HoaDonDAO {
         return maHD; 
     }
 
+    public ArrayList<HoaDonDTO> getListHoaDonTheoDateMinAndGiaMin(Date dateMin, int giaMin) { 
+        try {
+            Connection c = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM HoaDon WHERE NgayLapHoaDon >= ? AND TongTienHoaDon >=? ORDER BY MaHoaDon DESC";
+            PreparedStatement pre = c.prepareStatement(sql);
+            pre.setDate(1, dateMin);
+            pre.setInt(2, giaMin);
+            ResultSet rs = pre.executeQuery();
+            ArrayList<HoaDonDTO> dshd = new ArrayList<>();
+            while (rs.next()) {
+                HoaDonDTO hd = new HoaDonDTO();
+                hd.setMaHoaDon(rs.getString(1));
+                hd.setNgayLapHoaDon(rs.getDate(2));
+                hd.setTongTienHoaDon(rs.getInt(3));
+                hd.setMaNhanVien(rs.getString(4));
+                hd.setMaKhachHang(rs.getString(5));
+                hd.setMaUuDai(rs.getString(6));
+                hd.setMaKhuyenMai(rs.getString(7));
+                dshd.add(hd);
+            }
+            return dshd;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<HoaDonDTO> getListHoaDonTheoDateMinAndGiaMax(Date dateMin, int giaMax) { 
+        try {
+            Connection c = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM HoaDon WHERE NgayLapHoaDon >= ? AND TongTienHoaDon <=? ORDER BY MaHoaDon DESC";
+            PreparedStatement pre = c.prepareStatement(sql);
+            pre.setDate(1, dateMin);
+            pre.setInt(2, giaMax);
+            ResultSet rs = pre.executeQuery();
+            ArrayList<HoaDonDTO> dshd = new ArrayList<>();
+            while (rs.next()) {
+                HoaDonDTO hd = new HoaDonDTO();
+                hd.setMaHoaDon(rs.getString(1));
+                hd.setNgayLapHoaDon(rs.getDate(2));
+                hd.setTongTienHoaDon(rs.getInt(3));
+                hd.setMaNhanVien(rs.getString(4));
+                hd.setMaKhachHang(rs.getString(5));
+                hd.setMaUuDai(rs.getString(6));
+                hd.setMaKhuyenMai(rs.getString(7));
+                dshd.add(hd);
+            }
+            return dshd;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<HoaDonDTO> getListHoaDonTheoDateMaxAndGiaMax(Date dateMax, int giaMax) { 
+        try {
+            Connection c = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM HoaDon WHERE NgayLapHoaDon <= ? AND TongTienHoaDon <= ? ORDER BY MaHoaDon DESC";
+            PreparedStatement pre = c.prepareStatement(sql);
+            pre.setDate(1, dateMax);
+            pre.setInt(2, giaMax);
+            ResultSet rs = pre.executeQuery();
+            ArrayList<HoaDonDTO> dshd = new ArrayList<>();
+            while (rs.next()) {
+                HoaDonDTO hd = new HoaDonDTO();
+                hd.setMaHoaDon(rs.getString(1));
+                hd.setNgayLapHoaDon(rs.getDate(2));
+                hd.setTongTienHoaDon(rs.getInt(3));
+                hd.setMaNhanVien(rs.getString(4));
+                hd.setMaKhachHang(rs.getString(5));
+                hd.setMaUuDai(rs.getString(6));
+                hd.setMaKhuyenMai(rs.getString(7));
+                dshd.add(hd);
+            }
+            return dshd;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<HoaDonDTO> getListHoaDonTheoDateMaxAndGiaMin(Date dateMax, int giaMin) { 
+        try {
+            Connection c = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM HoaDon WHERE NgayLapHoaDon <= ? AND TongTienHoaDon >= ? ORDER BY MaHoaDon DESC";
+            PreparedStatement pre = c.prepareStatement(sql);
+            pre.setDate(1, dateMax);
+            pre.setInt(2, giaMin);
+            ResultSet rs = pre.executeQuery();
+            ArrayList<HoaDonDTO> dshd = new ArrayList<>();
+            while (rs.next()) {
+                HoaDonDTO hd = new HoaDonDTO();
+                hd.setMaHoaDon(rs.getString(1));
+                hd.setNgayLapHoaDon(rs.getDate(2));
+                hd.setTongTienHoaDon(rs.getInt(3));
+                hd.setMaNhanVien(rs.getString(4));
+                hd.setMaKhachHang(rs.getString(5));
+                hd.setMaUuDai(rs.getString(6));
+                hd.setMaKhuyenMai(rs.getString(7));
+                dshd.add(hd);
+            }
+            return dshd;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public int getMaxTongTien() {
         int max = 0;
         Connection c = null;
@@ -256,21 +615,6 @@ public class n1_HoaDonDAO {
         }
         return max;
     }
-    // public static void main(String[] args) {
-    //     n1_HoaDonDAO list = new n1_HoaDonDAO();
-    //     Date currentDate = new Date(System.currentTimeMillis());
-
-    //     HoaDonDTO hd1 = new HoaDonDTO(list.getNewId(), currentDate, 3, "NV001", "KH001", "UD001", "KM001");
-
-    //     list.addHoaDon(hd1);
-    //     ArrayList<HoaDonDTO> listhd = list.getListHoaDon();
-    //     ArrayList<HoaDonDTO> listhd1 = list.getHoaDonTheoMHD("hd001");
-    //     ArrayList<HoaDonDTO> listhd2 = list.getListHoaDonTheoDateVaTongTien(currentDate, currentDate, 0, 100000000);
-    //     ArrayList<HoaDonDTO> listhd3 = list.getListHoaDonTheoDate(currentDate, currentDate);
-    //     System.out.println("1-            " + listhd);
-    //     System.out.println("2-            " + listhd1);
-    //     System.out.println("3-            " + listhd2);
-    //     System.out.println("4-            " + listhd3);
-    // }
+    
 }
 

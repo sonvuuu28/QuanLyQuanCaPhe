@@ -24,6 +24,7 @@ import javax.swing.table.TableModel;
 
 
 import DTO.LoaiMonDTO;
+import DTO.MonDTO;
 import BUS.n4_LoaiMonBUS;
 /**
  *
@@ -295,6 +296,13 @@ public class n4_LoaiMonDialog extends javax.swing.JFrame {
                         return;
                     };
                     LoaiMonDTO loaiMon = new LoaiMonDTO(maLoaiMon, tenLoaiMon, true);
+                    
+                for (LoaiMonDTO a : loaiMonBUS.getAll()) {
+                    if(loaiMon.getTenLoaiMon().toLowerCase().trim().equals(a.getTenLoaiMon().toLowerCase().trim())) {
+                        JOptionPane.showMessageDialog(null, "Tên loại món đã tồn tại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                }
                     if(loaiMonBUS.addLoaiMon(loaiMon)){
                         JOptionPane.showMessageDialog(null, "Thêm loại món thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         reloadData();

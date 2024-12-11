@@ -599,12 +599,6 @@ public class n5_NguyenLieuGUI extends javax.swing.JPanel {
                 }
                 //? Không cập nhật khối lượng và đơn giá
                 NguyenLieuDTO nguyenLieu = new NguyenLieuDTO(ma, ten, 0, 0, true);
-                for (NguyenLieuDTO a : nguyenLieuBUS.getAll()) {
-                    if(nguyenLieu.getTenNguyenLieu().toLowerCase().trim().equals(a.getTenNguyenLieu().toLowerCase().trim())) {
-                        JOptionPane.showMessageDialog(null, "Tên nguyên liệu đã tồn tại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
-                    return;
-                    }
-                }
                 if(nguyenLieuBUS.updateNguyenLieu(nguyenLieu)){
                     JOptionPane.showMessageDialog(null, "Sửa nguyên liệu thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                     reloadData();

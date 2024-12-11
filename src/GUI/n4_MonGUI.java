@@ -32,6 +32,7 @@ import java.awt.*;
 import BUS.n4_MonBUS;
 import BUS.n4_LoaiMonBUS;
 import DTO.MonDTO;
+import DTO.NguyenLieuDTO;
 import DTO.LoaiMonDTO;
 import Util.TableCustom;
 
@@ -161,7 +162,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
 
         lb_ThongTinMonAn.setAlignment(java.awt.Label.CENTER);
         lb_ThongTinMonAn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lb_ThongTinMonAn.setText("Thông Tin Món");
+        lb_ThongTinMonAn.setText("Thông Tin Món Ăn");
 
         lb_MaMon.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         lb_MaMon.setText("Mã Món");
@@ -511,6 +512,7 @@ public class n4_MonGUI extends javax.swing.JPanel {
         return Integer.parseInt(cleanString); // Trả về giá trị kiểu int
     }
     public void reloadData() {
+        TextFieldTimKiem.setText("");
         tf_MaMon.setText("");
         tf_TenMon.setText("");
         hienThiAnhMon("abc");//? Chọn tên ảnh không tồn tại để hiển thị ảnh mặc định
@@ -678,6 +680,13 @@ public class n4_MonGUI extends javax.swing.JPanel {
                         return;
                     }
                     MonDTO mon = new MonDTO(null, maLoaiMon, tenMon, hinhAnh, donGia, true);
+                    
+                    for (MonDTO a : monBUS.getAll()) {
+                        if(mon.getTenMon().toLowerCase().trim().equals(a.getTenMon().toLowerCase().trim())) {
+                            JOptionPane.showMessageDialog(null, "Tên món đã tồn tại !", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                    }
                     if(monBUS.addMon(mon)){
                         JOptionPane.showMessageDialog(null, "Thêm món thành công !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         reloadData();
@@ -753,6 +762,10 @@ public class n4_MonGUI extends javax.swing.JPanel {
                         LoaiMonDTO temp = (LoaiMonDTO) comboboxLoaiMon.getSelectedItem();
                         String maLoaiMon = temp.getMaLoaiMon();
                         String tenMon = String.valueOf(tf_TenMon.getText());
+                        if(tenMon.isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Vui lòng nhập tên món !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        }
                         if(tenMon.length() > 50) {
                             JOptionPane.showMessageDialog(null, "Tên món không được vượt quá 50 ký tự !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                             return;

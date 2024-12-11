@@ -7,6 +7,9 @@ import Util.dialog;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.sql.SQLException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -488,7 +491,7 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
     }
 
     private void TimTheoMa(){
-        HDBUS.TimHoaDonTheoMa(TblHoaDon,txtMaHoaDon);
+        HDBUS.TimHoaDonTheoMa(TblHoaDon,txtMaHoaDon.getText());
     }
     
     private void TimKiemTheoGiaTien_Date() {
@@ -497,7 +500,6 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
 
     public boolean validateFields2(){
         String maHoaDon = txtMaHoaDon.getText().trim();
-        // Kiểm tra txtMaHoaDon: Không được chứa ký tự đặc biệt
 
         if (maHoaDon.trim().isEmpty()){
             new dialog("Mã hóa đơn đang để trống, không thể tìm", 1);
@@ -524,6 +526,13 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
             }
         }
 
+        if( !giaTu.equals("") && !denGia.equals("")) { 
+            if((Integer.parseInt(giaTu)>Integer.parseInt(denGia)) ){
+                JOptionPane.showMessageDialog(null, "Trường giá từ phải nhỏ hơn trường giá đến\nVui lòng chọn lại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+
         if (!txtDenGia.getText().equals("") && giaTu.matches("-?\\d+")) {
             int denGiaValue = Integer.parseInt(denGia);
             if(denGiaValue < 0){
@@ -531,6 +540,29 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
                 return false;
             }
         }
+        if (JDTuNgay.getDate() != null && JDDenNgay.getDate() != null) {
+            if (JDTuNgay.getDate().after(JDDenNgay.getDate())) {
+                JOptionPane.showMessageDialog(null, "Từ ngày phải nhỏ hơn hoặc bằng trường Đến ngày\nVui lòng chọn lại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        if (JDTuNgay.getDate() != null ) {
+            Instant localDateInstant = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
+            if (JDTuNgay.getDate().toInstant().isAfter(localDateInstant)) {
+                JOptionPane.showMessageDialog(null, "Ngày được chọn phải nhỏ hơn hoặc bằng ngày hiện tại\nVui lòng chọn lại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+
+        if (JDDenNgay.getDate() != null ) {
+            Instant localDateInstant = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
+            if (JDDenNgay.getDate().toInstant().isAfter(localDateInstant)) {
+                JOptionPane.showMessageDialog(null, "Ngày được chọn phải nhỏ hơn hoặc bằng ngày hiện tại\nVui lòng chọn lại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+
+        
 
         return true;
     }
@@ -576,3 +608,4 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
     private javax.swing.JTextField txtMaHoaDon;
     // End of variables declaration//GEN-END:variables
 }
+

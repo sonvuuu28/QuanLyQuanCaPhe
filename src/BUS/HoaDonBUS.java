@@ -4,11 +4,13 @@ import Util.InputValidator;
 import Util.dialog;
 import DAO.n1_HoaDonDAO;
 import DTO.HoaDonDTO;
+import DTO.NhanVienDTO;
 
 import java.security.PublicKey;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JTable;
@@ -29,16 +31,16 @@ public class HoaDonBUS {
     }
 
 
-    public ArrayList<HoaDonDTO> getlistHDtheoDateVaTongTien(Date DateMin, Date DateMax, int TongTienMin, int TongTienMax) {
-        if (DateMin.after(DateMax)) {
-            new dialog("Khoảng ngày không hợp lệ!", dialog.ERROR_DIALOG);
-            return null;
-        }
-        if (TongTienMin > TongTienMax) {
-            new dialog("Khoảng tiền không hợp lệ", dialog.ERROR_DIALOG);
-        }
-        return HDDAO.getListHoaDonTheoDateVaTongTien((java.sql.Date) DateMin, (java.sql.Date) DateMax, TongTienMin, TongTienMax);
-    }
+    // public ArrayList<HoaDonDTO> getlistHDtheoDateVaTongTien(Date DateMin, Date DateMax, int TongTienMin, int TongTienMax) {
+    //     if (DateMin.after(DateMax)) {
+    //         new dialog("Khoảng ngày không hợp lệ!", dialog.ERROR_DIALOG);
+    //         return null;
+    //     }
+    //     if (TongTienMin > TongTienMax) {
+    //         new dialog("Khoảng tiền không hợp lệ", dialog.ERROR_DIALOG);
+    //     }
+    //     return HDDAO.getListHoaDonTheoDateVaTongTien((java.sql.Date) DateMin, (java.sql.Date) DateMax, TongTienMin, TongTienMax);
+    // }
 
     public HoaDonDTO getlisttheoMHD(String MHD) {
         if (HDDAO.getHoaDonTheoMHD(MHD) == null) {
@@ -64,76 +66,81 @@ public class HoaDonBUS {
         
         if (GiaMin.equals("") && GiaMax.equals("")) {
             if (sqlMin == null && sqlMax == null) {
-                currentList = HDDAO.getListHoaDon(); 
+                return currentList = HDDAO.getListHoaDon(); 
             } 
             else if (sqlMin != null && sqlMax == null) {
                 // Chỉ có ngày bắt đầu
-                currentList = HDDAO.getListHoaDonTheoDateMin(sqlMin);
+                return currentList = HDDAO.getListHoaDonTheoDateMin(sqlMin);
             } 
             else if (sqlMin == null && sqlMax != null) {
                 
-                currentList = HDDAO.getListHoaDonTheoDateMax( sqlMax);
+                return currentList = HDDAO.getListHoaDonTheoDateMax( sqlMax);
             } 
+            else if(sqlMin==sqlMax){
+                return currentList=HDDAO.getListHoaDonTheoDateBang(sqlMin);
+            }
             else {
                 
-                currentList = HDDAO.getListHoaDonTheoDate(sqlMin, sqlMax);
+                return currentList = HDDAO.getListHoaDonTheoDate(sqlMin, sqlMax);
             }
-            return currentList;
         }
 
-        if (!Min.after(Max)) {
-            if (InputValidator.IsEmpty(GiaMin) && InputValidator.IsEmpty(GiaMax)) {
-                currentList = HDDAO.getListHoaDonTheoDate(sqlMin, sqlMax);
+        if (Min==null && Max==null) {
+
+            if (GiaMax.equals("") && !GiaMin.equals("")){
+                int PriceMin = Integer.parseInt(GiaMin);
+                currentList = HDDAO.getListHoaDonTheoGiaMin(PriceMin);
+                return currentList;
+            }
+            if (!GiaMax.equals("") && GiaMin.equals("")){
+                int PriceMin = Integer.parseInt(GiaMin);
+                currentList = HDDAO.getListHoaDonTheoGiaMin(PriceMin);
                 return currentList;
             }
 
-            if (InputValidator.IsEmpty(GiaMax)){
-                try {
-                    int PriceMin = Integer.parseInt(GiaMin);
-                    int PriceMax = HDDAO.getMaxTongTien();
-                    currentList = HDDAO.getListHoaDonTheoDateVaTongTien(sqlMin,sqlMax,PriceMin,PriceMax);
-                    return currentList;
-
-                }
-                catch (Exception e){
-                    new dialog("Vui lòng nhập đúng định dạng là số tiền", dialog.ERROR_DIALOG);
-                    return currentList;
-                }
+            if(Integer.parseInt(GiaMax)==Integer.parseInt(GiaMin)){
+                currentList = HDDAO.getListHoaDonTheoGia(Integer.parseInt(GiaMin));
+                return currentList;
             }
+        } 
 
-            if (InputValidator.IsEmpty(GiaMin)){
-                try {
-                    int PriceMax = Integer.parseInt(GiaMax);
-                    currentList = HDDAO.getListHoaDonTheoDateVaTongTien(sqlMin,sqlMax,0,PriceMax);
-                    return currentList;
-                }
-                catch (Exception e){
-                    new dialog("Vui lòng nhập đúng định dạng là số tiền", dialog.ERROR_DIALOG);
-                    return currentList;
-                }
+        if (!InputValidator.IsEmpty(GiaMin) && !InputValidator.IsEmpty(GiaMax) && Max !=null && Min != null) {
+            int giamin=Integer.parseInt(GiaMin);
+            int giamax=Integer.parseInt(GiaMax);
+            return currentList = HDDAO.getListHoaDonTheoDateVaTongTien(sqlMin, sqlMax, giamin, giamax);
 
-            }
-
-            if (!InputValidator.IsEmpty(GiaMin) && !InputValidator.IsEmpty(GiaMax)) {
-                try{
-                    int PriceMin = Integer.parseInt(GiaMin);
-                    int PriceMax = Integer.parseInt(GiaMax);
-                    if (PriceMin > PriceMax || PriceMin < 0 || PriceMax < 0) {
-                        new dialog("Vui lòng nhập khoảng giá hợp lệ", dialog.ERROR_DIALOG);
-                        return currentList;
-                    } else {
-                        return currentList = HDDAO.getListHoaDonTheoDateVaTongTien(sqlMin, sqlMax, PriceMin, PriceMax);
-                    }
-                }
-                catch (Exception e){
-                    new dialog("Vui lòng nhập đúng định dạng", dialog.ERROR_DIALOG);
-                    return currentList;
-                }
-            }
-        } else {
-            new dialog("Vui lòng nhập đúng khoảng ngày!", dialog.ERROR_DIALOG);
-            return currentList;
         }
+
+        if(Max !=null && Min != null&&!InputValidator.IsEmpty(GiaMin)){
+            return currentList = HDDAO.getListHoaDonTheoDateVaGiaMin(sqlMin, sqlMax, Integer.parseInt(GiaMin));
+        }
+
+        if(Max !=null && Min != null&&!InputValidator.IsEmpty(GiaMax)){
+            return currentList = HDDAO.getListHoaDonTheoDateVaGiaMax(sqlMin, sqlMax, Integer.parseInt(GiaMax));
+        }
+
+        if(!InputValidator.IsEmpty(GiaMin) && !InputValidator.IsEmpty(GiaMax)&& Max !=null){
+            return currentList=HDDAO.getListHoaDonTheoDateMaxVaTongTien(sqlMax,Integer.parseInt(GiaMin),Integer.parseInt(GiaMax));
+        }
+
+        if(!InputValidator.IsEmpty(GiaMin) && !InputValidator.IsEmpty(GiaMax)&& Min !=null){
+            System.out.println("min");
+            return currentList=HDDAO.getListHoaDonTheoDateMinVaTongTien(sqlMin,Integer.parseInt(GiaMin),Integer.parseInt(GiaMax));
+        }
+        if(!InputValidator.IsEmpty(GiaMin)&& Min !=null){
+            return currentList=HDDAO.getListHoaDonTheoDateMinAndGiaMin(sqlMin,Integer.parseInt(GiaMin));
+        }
+
+        if(!InputValidator.IsEmpty(GiaMax)&& Min !=null){
+            return currentList=HDDAO.getListHoaDonTheoDateMinAndGiaMax(sqlMin,Integer.parseInt(GiaMax));
+        }
+        if(!InputValidator.IsEmpty(GiaMin)&& Max !=null){
+            return currentList=HDDAO.getListHoaDonTheoDateMaxAndGiaMin(sqlMax,Integer.parseInt(GiaMin));
+        }
+        if(!InputValidator.IsEmpty(GiaMax)&& Max !=null){
+            return currentList=HDDAO.getListHoaDonTheoDateMaxAndGiaMax(sqlMax,Integer.parseInt(GiaMax));
+        }
+
         return currentList;
     }
 
@@ -172,7 +179,7 @@ public class HoaDonBUS {
         modelTmp = model;
     }
 
-    public void TimHoaDonTheoMa(JTable table, JTextField txtMaHD){
+    public void TimHoaDonTheoMa(JTable table, String MAHD){
         DefaultTableModel model = new DefaultTableModel(
             new String[] {
                 "Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Mã khuyến mãi", "Ngày lập" ,"Mã ưu đãi", "Tổng tiền"
@@ -185,18 +192,23 @@ public class HoaDonBUS {
             }
         };
         table.setModel(model);
-        
-        for (int i = 0; i < modelTmp.getRowCount(); i++) {
-            String maHD = modelTmp.getValueAt(i, 0).toString(); 
-            if (maHD.toLowerCase().contains(txtMaHD.getText())) {
-                Object[] rowData = new Object[modelTmp.getColumnCount()];
-                    
-                for (int j = 0; j < modelTmp.getColumnCount(); j++) {
-                    rowData[j] = modelTmp.getValueAt(i, j);
-                }
-                model.addRow(rowData);
-                break; 
+        ArrayList<HoaDonDTO> dshd1=getlistHD();
+        MAHD=MAHD.toLowerCase();
+        ArrayList<HoaDonDTO> dshd = new ArrayList<>();
+        for (HoaDonDTO hd:dshd1) {
+            if (hd.getMaHoaDon().toLowerCase().contains(MAHD) )
+                dshd.add(hd);
             }
+        for (HoaDonDTO hd : dshd) {
+        Vector<Object> vec = new Vector<>();
+        vec.add(hd.getMaHoaDon());
+        vec.add((hd.getMaKhachHang()));
+        vec.add((hd.getMaNhanVien()));
+        vec.add((hd.getMaKhuyenMai()));
+        vec.add((hd.getNgayLapHoaDon()));
+        vec.add((hd.getMaUuDai()));
+        vec.add((hd.getTongTienHoaDon()));
+        model.addRow(vec);
         }
     }
 
