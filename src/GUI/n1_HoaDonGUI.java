@@ -608,3 +608,4 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
     private javax.swing.JTextField txtMaHoaDon;
     // End of variables declaration//GEN-END:variables
 }
+
