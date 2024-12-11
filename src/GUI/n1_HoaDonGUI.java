@@ -7,6 +7,9 @@ import Util.dialog;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.sql.SQLException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -543,6 +546,23 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
                 return false;
             }
         }
+        if (JDTuNgay.getDate() != null ) {
+            Instant localDateInstant = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
+            if (JDTuNgay.getDate().toInstant().isAfter(localDateInstant)) {
+                JOptionPane.showMessageDialog(null, "Ngày được chọn phải nhỏ hơn hoặc bằng ngày hiện tại\nVui lòng chọn lại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+
+        if (JDDenNgay.getDate() != null ) {
+            Instant localDateInstant = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
+            if (JDDenNgay.getDate().toInstant().isAfter(localDateInstant)) {
+                JOptionPane.showMessageDialog(null, "Ngày được chọn phải nhỏ hơn hoặc bằng ngày hiện tại\nVui lòng chọn lại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+
+        
 
         return true;
     }
