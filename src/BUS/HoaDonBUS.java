@@ -120,11 +120,25 @@ public class HoaDonBUS {
         }
 
         if(!InputValidator.IsEmpty(GiaMin) && !InputValidator.IsEmpty(GiaMax)&& Max !=null){
-            return currentList=HDDAO.getListHoaDonTheoDateMinVaTongTien(sqlMin,Integer.parseInt(GiaMin),Integer.parseInt(GiaMax));
+            return currentList=HDDAO.getListHoaDonTheoDateMaxVaTongTien(sqlMax,Integer.parseInt(GiaMin),Integer.parseInt(GiaMax));
         }
 
         if(!InputValidator.IsEmpty(GiaMin) && !InputValidator.IsEmpty(GiaMax)&& Min !=null){
-            return currentList=HDDAO.getListHoaDonTheoDateMinVaTongTien(sqlMax,Integer.parseInt(GiaMin),Integer.parseInt(GiaMax));
+            System.out.println("min");
+            return currentList=HDDAO.getListHoaDonTheoDateMinVaTongTien(sqlMin,Integer.parseInt(GiaMin),Integer.parseInt(GiaMax));
+        }
+        if(!InputValidator.IsEmpty(GiaMin)&& Min !=null){
+            return currentList=HDDAO.getListHoaDonTheoDateMinAndGiaMin(sqlMin,Integer.parseInt(GiaMin));
+        }
+
+        if(!InputValidator.IsEmpty(GiaMax)&& Min !=null){
+            return currentList=HDDAO.getListHoaDonTheoDateMinAndGiaMax(sqlMin,Integer.parseInt(GiaMax));
+        }
+        if(!InputValidator.IsEmpty(GiaMin)&& Max !=null){
+            return currentList=HDDAO.getListHoaDonTheoDateMaxAndGiaMin(sqlMax,Integer.parseInt(GiaMin));
+        }
+        if(!InputValidator.IsEmpty(GiaMax)&& Max !=null){
+            return currentList=HDDAO.getListHoaDonTheoDateMaxAndGiaMax(sqlMax,Integer.parseInt(GiaMax));
         }
 
         return currentList;
