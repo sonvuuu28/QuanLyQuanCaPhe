@@ -186,13 +186,13 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
 
                         int TienNhan = Integer.parseInt(rawText);
 
-                        if (TienNhan < tien_Goc) {
+                        if (TienNhan < tien_discount) {
                             JOptionPane.showMessageDialog(null, "Tiền nhận phải lớn hơn tổng tiền!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                             tienNhan.requestFocus();
                             return;
                         }
 
-                        int TienThua = TienNhan - tien_Goc;
+                        int TienThua = TienNhan - tien_discount;
 
                         tienThua.setText(Util.BanHang.set_Tien_VND(TienThua));
 
