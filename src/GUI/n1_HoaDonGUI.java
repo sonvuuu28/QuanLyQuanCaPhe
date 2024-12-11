@@ -488,7 +488,7 @@ public class n1_HoaDonGUI extends javax.swing.JPanel {
     }
 
     private void TimTheoMa(){
-        HDBUS.TimHoaDonTheoMa(TblHoaDon,txtMaHoaDon);
+        HDBUS.TimHoaDonTheoMa(TblHoaDon,txtMaHoaDon.getText());
     }
     
     private void TimKiemTheoGiaTien_Date() {
