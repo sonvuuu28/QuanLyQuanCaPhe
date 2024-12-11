@@ -134,7 +134,7 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
         TextFieldTen.setMaximumSize(new java.awt.Dimension(160, 28));
         TextFieldTen.setMinimumSize(new java.awt.Dimension(160, 28));
         TextFieldTen.setPreferredSize(new java.awt.Dimension(160, 28));
-        
+        // TextFieldTen.setRequestFocusEnabled(false);
         TextFieldTen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TextFieldTenActionPerformed(evt);
@@ -651,6 +651,11 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
     public boolean validateFieldsSua() {
         //Kiểm tra trường tên
         String ten = TextFieldTen.getText().trim();
+
+        if(TextFieldMa.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Bạn chưa chọn khách hàng!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
         if (ten.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Tên không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
