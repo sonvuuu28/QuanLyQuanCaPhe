@@ -161,7 +161,7 @@ public class n1_HoaDonDAO {
         try {
             Connection c = JDBCUtil.getConnection();
             //String sql = "SELECT * FROM hoadon WHERE (NgayLap BETWEEN ? AND ?) AND (tongTien BETWEEN ? AND ?)";
-            String sql = "SELECT * FROM HoaDon WHERE (NgayLapHoaDon BETWEEN ? AND ?) AND TongTienHoaDon =< ? ORDER BY MaHoaDon DESC";
+            String sql = "SELECT * FROM HoaDon WHERE (NgayLapHoaDon BETWEEN ? AND ?) AND TongTienHoaDon <= ? ORDER BY MaHoaDon DESC";
             PreparedStatement pre = c.prepareStatement(sql);
             pre.setDate(1, dateMin);
             pre.setDate(2, dateMax);
