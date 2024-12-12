@@ -1,4 +1,5 @@
 package GUI;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Date;
@@ -703,10 +704,11 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
 
         btnTimKiem.addMouseListener((new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                if(cmbTimKiemNV.getSelectedItem().equals("Tìm theo Mã NV"))
+                if (cmbTimKiemNV.getSelectedItem().equals("Tìm theo Mã NV")) {
                     xuLyTimKiemNhanVienTheoma();
-                else
+                } else {
                     xuLyTimKiemNhanVienTheoTen();
+                }
             }
         }));
 
@@ -714,10 +716,11 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         btnTimKiem.getActionMap().put("pressEnter", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(cmbTimKiemNV.getSelectedItem().equals("Tìm theo Mã NV"))
+                if (cmbTimKiemNV.getSelectedItem().equals("Tìm theo Mã NV")) {
                     xuLyTimKiemNhanVienTheoma();
-                else
+                } else {
                     xuLyTimKiemNhanVienTheoTen();
+                }
             }
         });
 
@@ -734,7 +737,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
                 LblThongTinTK.setBackground(new Color(0, 0, 0));
             }
 
-            public void mouseClicked(MouseEvent e){
+            public void mouseClicked(MouseEvent e) {
                 ThongTinTK();
             }
         });
@@ -751,8 +754,8 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
                 LblThem.setBackground(new Color(0, 0, 0));
             }
 
-            public void mouseClicked(MouseEvent e){
-                if(validateFields()){
+            public void mouseClicked(MouseEvent e) {
+                if (validateFields()) {
                     xuLyThemNhanVien();
                     refresh();
                     loadDataTblNhanVien();
@@ -773,8 +776,8 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
                 LblSua.setBackground(new Color(0, 0, 0));
             }
 
-            public void mouseClicked(MouseEvent e){
-                if(validateFieldsSua()){
+            public void mouseClicked(MouseEvent e) {
+                if (validateFieldsSua()) {
                     xuLySuaNhanVien();
                     refresh();
                     loadDataTblNhanVien();
@@ -795,12 +798,12 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
                 LblXuat.setBackground(new Color(0, 0, 0));
             }
 
-            public void mouseClicked(MouseEvent e){
+            public void mouseClicked(MouseEvent e) {
                 xuLyXuatExcel();
             }
 
         });
-        
+
         BtnKhoaTK.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 BtnKhoaTK.setBackground(new Color(106, 105, 105));
@@ -814,12 +817,12 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
                 LblKhoaTK.setBackground(new Color(0, 0, 0));
             }
 
-            public void mouseClicked(MouseEvent e){
+            public void mouseClicked(MouseEvent e) {
                 xuLyKhoaTaiKhoan();
                 loadDataTblNhanVien();
             }
         });
-        
+
         BtnThemTaiKhoan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 BtnThemTaiKhoan.setBackground(new Color(199, 159, 95));
@@ -833,7 +836,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
                 LblThemTK.setBackground(new Color(219, 189, 142));
             }
 
-            public void mouseClicked(MouseEvent e){
+            public void mouseClicked(MouseEvent e) {
                 xuLyCapTaiKhoan();
                 loadDataTblNhanVien();
             }
@@ -850,7 +853,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
                 LblRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGE/reload.png")));
             }
 
-            public void mouseClicked(MouseEvent e){
+            public void mouseClicked(MouseEvent e) {
                 refresh();
             }
         });
@@ -864,7 +867,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
 
     public boolean validateFields() {
         // Biểu thức chính quy để kiểm tra không chứa ký tự đặc biệt (chỉ chứa ký tự và số)
-        String regexNoSpecialChars = "^[0-9]{1,3}(?:,\\d{3})*VNĐ$";
+        String regexNoSpecialChars = "^[0-9]{1,3}(?:[,.]\\d{3})*VNĐ$";
         String regexNoSpecialChars2 = "^[a-zA-Z0-9]*$";  // Không chứa ký tự đặc biệt
         // Kiểm tra txtTen (Tên người dùng)
         if (txtTen.getText().equals("")) {
@@ -873,17 +876,15 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         } else if (txtTen.getText().length() > 50) {
             new dialog("Tên không được quá 50 ký tự!", dialog.ERROR_DIALOG);
             return false;
-        } else if ((txtTen.getText().matches(".*[!@#$%^&*()_+=\\[\\]{};':\"\\\\|,.<>/?`~].*")||txtTen.getText().matches(".*\\d.*"))) {
-            new dialog( "Tên không được chứa số hoặc ký tự đặc biệt!", dialog.ERROR_DIALOG);
+        } else if ((txtTen.getText().matches(".*[!@#$%^&*()_+=\\[\\]{};':\"\\\\|,.<>/?`~].*") || txtTen.getText().matches(".*\\d.*"))) {
+            new dialog("Tên không được chứa số hoặc ký tự đặc biệt!", dialog.ERROR_DIALOG);
             return false;
         }
 
-        if(BoxGioiTinh.getSelectedItem().toString().equals("Chọn giới tính")){
+        if (BoxGioiTinh.getSelectedItem().toString().equals("Chọn giới tính")) {
             new dialog("Bạn phải chọn giới tính!", dialog.ERROR_DIALOG);
             return false;
-        }
-
-        // Kiểm tra txtSDT (Số điện thoại)
+        } // Kiểm tra txtSDT (Số điện thoại)
         else if (txtSDT.getText().equals("")) {
             new dialog("Số điện thoại không được để trống!", dialog.ERROR_DIALOG);
             return false;
@@ -898,7 +899,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             return false;
         }
         // Kiểm tra txtDiaChi (địa chỉ)
-        if(txtDiaChi.getText().equals("")){
+        if (txtDiaChi.getText().equals("")) {
             new dialog("Địa chỉ không được để trống!", dialog.ERROR_DIALOG);
             return false;
         }
@@ -907,15 +908,14 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         if (JDNgaySinh.getDate() == null) {
             new dialog("Ngày sinh không được để trống!", dialog.ERROR_DIALOG);
             return false;
-        } 
-        else {
+        } else {
             // Lấy ngày hiện tại
             LocalDate currentDate = LocalDate.now();
 
             // Lấy ngày sinh từ JDateChooser
             LocalDate birthDate = JDNgaySinh.getDate().toInstant()
-                                    .atZone(java.time.ZoneId.systemDefault())
-                                    .toLocalDate();
+                    .atZone(java.time.ZoneId.systemDefault())
+                    .toLocalDate();
 
             // Tính toán khoảng cách tuổi giữa ngày sinh và ngày hiện tại
             Period period = Period.between(birthDate, currentDate);
@@ -932,10 +932,10 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             new dialog("Lương không được để trống!", dialog.ERROR_DIALOG);
             return false;
         } else if (!txtLuong.getText().matches(regexNoSpecialChars) && !txtLuong.getText().matches(regexNoSpecialChars2)) {
-            
+
             return false;
         }
-        
+
         for (int i = 0; i < BoxChucVu.getItemCount(); i++) {
             if ((BoxChucVu.getSelectedItem().toString().equals("Quản Trị Viên") && NVBUS.checkExistAdmin())) {
                 JOptionPane.showMessageDialog(null, "Chỉ được tồn tại 1 nhân viên có quyền Admin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -948,9 +948,11 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
     public boolean validateFieldsSua() {
         // Biểu thức chính quy để kiểm tra không chứa ký tự đặc biệt (chỉ chứa ký tự và số)
         String regexNoSpecialChars = "^[0-9]{1,3}(?:,\\d{3})*VNĐ$";
-        String regexNoSpecialChars2 = "^[a-zA-Z0-9]*$"; 
+        String regexNoSpecialChars1 = "^[0-9]{1,3}(?:.\\d{3})*VNĐ$";
+
+        String regexNoSpecialChars2 = "^[a-zA-Z0-9]*$";
         // Kiểm tra txtTen (Tên người dùng)
-        if(txtMa.getText().equals("")){
+        if (txtMa.getText().equals("")) {
             new dialog("Bạn chưa chọn nhân viên", dialog.ERROR_DIALOG);
             return false;
         }
@@ -961,17 +963,15 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         } else if (txtTen.getText().length() > 50) {
             new dialog("Tên không được quá 50 ký tự!", dialog.ERROR_DIALOG);
             return false;
-        } else if ((txtTen.getText().matches(".*[!@#$%^&*()_+=\\[\\]{};':\"\\\\|,.<>/?`~].*")||txtTen.getText().matches(".*\\d.*"))) {
-            new dialog( "Tên không được chứa số hoặc ký tự đặc biệt!", dialog.ERROR_DIALOG);
+        } else if ((txtTen.getText().matches(".*[!@#$%^&*()_+=\\[\\]{};':\"\\\\|,.<>/?`~].*") || txtTen.getText().matches(".*\\d.*"))) {
+            new dialog("Tên không được chứa số hoặc ký tự đặc biệt!", dialog.ERROR_DIALOG);
             return false;
         }
 
-        if(BoxGioiTinh.getSelectedItem().toString().equals("Chọn giới tính")){
+        if (BoxGioiTinh.getSelectedItem().toString().equals("Chọn giới tính")) {
             new dialog("Bạn phải chọn giới tính!", dialog.ERROR_DIALOG);
             return false;
-        }
-
-        // Kiểm tra txtSDT (Số điện thoại)
+        } // Kiểm tra txtSDT (Số điện thoại)
         else if (txtSDT.getText().equals("")) {
             new dialog("Số điện thoại không được để trống!", dialog.ERROR_DIALOG);
             return false;
@@ -981,12 +981,12 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         } else if (txtSDT.getText().contains(" ")) { // Không có khoảng trắng giữa các số
             new dialog("Số điện thoại không được chứa khoảng trắng!", dialog.ERROR_DIALOG);
             return false;
-        }else if (!NVBUS.checkSDTBanThan(txtSDT.getText(),txtMa.getText())) { // Không có khoảng trắng giữa các số
+        } else if (!NVBUS.checkSDTBanThan(txtSDT.getText(), txtMa.getText())) { // Không có khoảng trắng giữa các số
             new dialog("Số điện thoại đã tồn tại!", dialog.ERROR_DIALOG);
             return false;
         }
         // Kiểm tra txtDiaChi (địa chỉ)
-        if(txtDiaChi.getText().equals("")){
+        if (txtDiaChi.getText().equals("")) {
             new dialog("Địa chỉ không được để trống!", dialog.ERROR_DIALOG);
             return false;
         }
@@ -995,13 +995,12 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         if (JDNgaySinh.getDate() == null) {
             new dialog("Ngày sinh không được để trống!", dialog.ERROR_DIALOG);
             return false;
-        } 
-        else {
+        } else {
             LocalDate currentDate = LocalDate.now();
 
             LocalDate birthDate = JDNgaySinh.getDate().toInstant()
-                                    .atZone(java.time.ZoneId.systemDefault())
-                                    .toLocalDate();
+                    .atZone(java.time.ZoneId.systemDefault())
+                    .toLocalDate();
 
             Period period = Period.between(birthDate, currentDate);
 
@@ -1015,15 +1014,16 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         if (txtLuong.getText().equals("")) {
             new dialog("Lương không được để trống!", dialog.ERROR_DIALOG);
             return false;
-        } else if (!txtLuong.getText().matches(regexNoSpecialChars) && !txtLuong.getText().matches(regexNoSpecialChars2)) {
-            
+        } else if (!txtLuong.getText().matches(regexNoSpecialChars) && !txtLuong.getText().matches(regexNoSpecialChars2) && !txtLuong.getText().matches(regexNoSpecialChars1)) {
+            new dialog("Nhập sai định dạng(### hoặc #,###VNĐ)!", dialog.ERROR_DIALOG);
+            System.out.println(txtLuong.getText());
             return false;
         }
-        
-            if (!txtMa.getText().equals("") && NVBUS.getChucVuNhanVienTheoMa(txtMa.getText()).equals("Quản Trị Viên") && NVBUS.checkExistAdmin()) {
-                JOptionPane.showMessageDialog(null, "Quản trị viên không thể tự thay đổi thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
+
+        if (!txtMa.getText().equals("") && NVBUS.getChucVuNhanVienTheoMa(txtMa.getText()).equals("Quản Trị Viên") && NVBUS.checkExistAdmin()) {
+            JOptionPane.showMessageDialog(null, "Quản trị viên không thể tự thay đổi thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
         return true;
     }
 
@@ -1032,7 +1032,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         String tenDangNhap = TKBUS.getTenDangNhapTheoMa(txtMa.getText());
         if (tenDangNhap.equals("")) {
             new dialog("Nhân viên này chưa có tài khoản!", dialog.ERROR_DIALOG);
-            return ;
+            return;
         }
         dialog dlg = new dialog("Có chắc muốn khóa tài khoản này!", dialog.WARNING_DIALOG);
         if (dlg.getAction() != dialog.OK_OPTION) {
@@ -1041,7 +1041,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         TKBUS.khoaTaiKhoan(txtMa.getText());
     }
 
-    private void ThongTinTK(){
+    private void ThongTinTK() {
         String maNV = txtMa.getText();
         if (maNV.trim().equals("")) {
             new dialog("Bạn chưa chọn nhân viên!", dialog.ERROR_DIALOG);
@@ -1049,21 +1049,20 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         }
         JDialog dialog = new JDialog();
         dialog.setTitle("Thông tin tài khoản");
-        dialog.setModal(true); 
+        dialog.setModal(true);
         dialog.setSize(450, 350);
         dialog.setLocationRelativeTo(null);
         dlgInforAcc_QuyenNV pnTTTK = new dlgInforAcc_QuyenNV(maNV);
         dialog.add(pnTTTK);
         boolean cf = pnTTTK.loadData();
-        if(cf){
+        if (cf) {
             dialog.setVisible(true);
             loadDataTblNhanVien();
-        }
-        else{
+        } else {
             dialog.setVisible(false);
             loadDataTblNhanVien();
         }
-        
+
     }
 
     private void xuLyCapTaiKhoan() {
@@ -1076,13 +1075,13 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         }
         JDialog dialogCTK = new JDialog();
         dialogCTK.setTitle("Cấp Tài Khoản");
-        dialogCTK.setModal(true); 
+        dialogCTK.setModal(true);
         dialogCTK.setSize(450, 350);
         dialogCTK.setLocationRelativeTo(null);
         dlgCapTaiKhoan pnCapTaiKhoan = new dlgCapTaiKhoan(txtMa.getText());
         dialogCTK.add(pnCapTaiKhoan);
         dialogCTK.setVisible(true);
-        
+
     }
 
     private void xuLyXuatExcel() {
@@ -1097,7 +1096,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             return;
         }
         //? check Admin không được sửa thông tin
-        if(NVBUS.getById(txtMa.getText()).getChucVuNhanVien().equals("Quản trị")) {
+        if (NVBUS.getById(txtMa.getText()).getChucVuNhanVien().equals("Quản trị")) {
             new dialog("Bạn là Quản Trị Viên,\n không thể sủa thông tin của chính mình", dialog.ERROR_DIALOG);
             return;
         }
@@ -1106,62 +1105,63 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         String sdt = txtSDT.getText();
         // Khai báo biến ngaysinh
         java.sql.Date ngaysinh = null; // Khởi tạo với null
-        
-        java.util.Date utilDate = JDNgaySinh.getDate(); 
+
+        java.util.Date utilDate = JDNgaySinh.getDate();
         // Kiểm tra nếu ngày không phải là null
         if (utilDate != null) {
-            ngaysinh = new java.sql.Date(utilDate.getTime()); 
+            ngaysinh = new java.sql.Date(utilDate.getTime());
         } else {
         }
         String diachi = txtDiaChi.getText();
         String chucvu = BoxChucVu.getSelectedItem() + "";
+        System.out.println(txtLuong.getText());
+
         int luong = parseCurrency(txtLuong.getText());
-        if (NVBUS.updateNhanVien(txtMa.getText(), ten, gioiTinh, sdt,ngaysinh,chucvu, diachi,luong,1)) {
+        if (NVBUS.updateNhanVien(txtMa.getText(), ten, gioiTinh, sdt, ngaysinh, chucvu, diachi, luong, 1)) {
             refresh();
             NVBUS.docDanhSach();
         }
     }
 
     public int parseCurrency(String currencyStr) {
-       
-        String cleanedStr = currencyStr.replace(",", "").replace("VNĐ", "").trim();
+        String cleanedStr = currencyStr.replace(",", "").replace(".", "").replace("VNĐ", "").trim();
         return Integer.parseInt(cleanedStr);
     }
 
     private void xuLyThemNhanVien() {
-            if (BoxGioiTinh.getSelectedIndex() == 0) {
-                new dialog("Bạn chưa chọn giới tính!", dialog.ERROR_DIALOG);
-                return;
-            }
-            String ho = txtTen.getText();
-            String gioiTinh = BoxGioiTinh.getSelectedItem() + "";
-            String dienthoai = txtSDT.getText();
-            // Khai báo biến ngaysinh
-            java.sql.Date ngaysinh = null; 
-    
-            java.util.Date utilDate = JDNgaySinh.getDate(); 
-            if (utilDate != null) {
-                ngaysinh = new java.sql.Date(utilDate.getTime());
-            } else {
-            }
-    
-            String diachi = txtDiaChi.getText();
-            String chucvu = BoxChucVu.getSelectedItem() + "";
-            int luong = parseCurrency(txtLuong.getText());
-    
-            if (ngaysinh == null) {
-                new dialog("Ngày sinh không được để trống", dialog.ERROR_DIALOG); 
-            }
-            boolean check;
-            check = NVBUS.themNhanVien(ho, gioiTinh, dienthoai, ngaysinh, chucvu, diachi, luong, 1);
-            if(check){
-                refresh();
-                NVBUS.docDanhSach();
-                loadDataCmbQuyen();
-            }
+        if (BoxGioiTinh.getSelectedIndex() == 0) {
+            new dialog("Bạn chưa chọn giới tính!", dialog.ERROR_DIALOG);
+            return;
+        }
+        String ho = txtTen.getText();
+        String gioiTinh = BoxGioiTinh.getSelectedItem() + "";
+        String dienthoai = txtSDT.getText();
+        // Khai báo biến ngaysinh
+        java.sql.Date ngaysinh = null;
+
+        java.util.Date utilDate = JDNgaySinh.getDate();
+        if (utilDate != null) {
+            ngaysinh = new java.sql.Date(utilDate.getTime());
+        } else {
+        }
+
+        String diachi = txtDiaChi.getText();
+        String chucvu = BoxChucVu.getSelectedItem() + "";
+        int luong = parseCurrency(txtLuong.getText());
+
+        if (ngaysinh == null) {
+            new dialog("Ngày sinh không được để trống", dialog.ERROR_DIALOG);
+        }
+        boolean check;
+        check = NVBUS.themNhanVien(ho, gioiTinh, dienthoai, ngaysinh, chucvu, diachi, luong, 1);
+        if (check) {
+            refresh();
+            NVBUS.docDanhSach();
+            loadDataCmbQuyen();
+        }
     }
-    
-    private void refresh(){
+
+    private void refresh() {
         txtDiaChi.setText("");
         txtMa.setText("");
         txtLuong.setText("");
@@ -1174,17 +1174,16 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
     }
 
     private void xuLyTimKiemNhanVienTheoTen() {
-        NVBUS.timNhanVienTheoTen(txtTimKiem.getText(),Table);
+        NVBUS.timNhanVienTheoTen(txtTimKiem.getText(), Table);
     }
 
     private void xuLyTimKiemNhanVienTheoma() {
-        NVBUS.timNhanVienMa(txtTimKiem.getText(),Table);
+        NVBUS.timNhanVienMa(txtTimKiem.getText(), Table);
     }
 
-    
     private void xuLyClickTblNhanVien() {
         JPanel overlay = new JPanel();
-        overlay.setOpaque(false); 
+        overlay.setOpaque(false);
         overlay.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -1198,18 +1197,18 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             txtSDT.setText(Table.getValueAt(row, 3) + "");
             Object ngaySinhObj = Table.getValueAt(row, 4);
             if (ngaySinhObj instanceof String) {
-                
+
                 try {
                     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-                    java.util.Date utilDate = sdf.parse((String) ngaySinhObj); 
-                    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); 
-                    JDNgaySinh.setDate(sqlDate); 
-                    JDNgaySinh.setDateFormatString("dd-MM-yyyy"); 
+                    java.util.Date utilDate = sdf.parse((String) ngaySinhObj);
+                    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+                    JDNgaySinh.setDate(sqlDate);
+                    JDNgaySinh.setDateFormatString("dd-MM-yyyy");
                 } catch (ParseException e) {
-                    e.printStackTrace(); 
+                    e.printStackTrace();
                 }
             } else if (ngaySinhObj instanceof java.sql.Date) {
-                
+
                 JDNgaySinh.setDate((java.sql.Date) ngaySinhObj);
                 JDNgaySinh.setDateFormatString("dd-MM-yyyy");
             }
@@ -1221,11 +1220,10 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             } else {
                 BoxGioiTinh.setSelectedIndex(2);
             }
-            currentQuyen = NVBUS.LayQuyenTheoMa(txtMa.getText()); 
+            currentQuyen = NVBUS.LayQuyenTheoMa(txtMa.getText());
             if (currentQuyen == null) {
                 return;
-            }
-            else {
+            } else {
                 boolean found = false;
                 for (int i = 0; i < BoxChucVu.getItemCount(); i++) {
                     if (BoxChucVu.getItemAt(i).toString().trim().equals(currentQuyen.trim())) {
@@ -1239,7 +1237,7 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
             }
         }
     }
-    
+
     public String formatCurrency(String amountStr) {
         try {
             double amount = Double.parseDouble(amountStr);
@@ -1251,9 +1249,9 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
         }
     }
 
-    private void loadDataCmbQuyen(){
+    private void loadDataCmbQuyen() {
         List<String> danhSachQuyen = PQBUS.getListTenPhanQuyen();
-        String[] quyenArray = danhSachQuyen.toArray(new String[0]);     
+        String[] quyenArray = danhSachQuyen.toArray(new String[0]);
         BoxChucVu.setModel(new javax.swing.DefaultComboBoxModel<>(quyenArray));
     }
 
@@ -1322,7 +1320,5 @@ public class n9_NhanVienKeoTha extends javax.swing.JPanel {
     private javax.swing.JTextField txtTen;
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
-  
+
 }
-
-

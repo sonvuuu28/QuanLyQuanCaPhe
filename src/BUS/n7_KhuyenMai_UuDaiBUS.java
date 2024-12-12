@@ -361,8 +361,13 @@ public class n7_KhuyenMai_UuDaiBUS {
             JOptionPane.showMessageDialog(null, "Phần trăm giảm giá không được bỏ trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             check = false;
         }
-
         
+        if (Integer.parseInt(phanTram.getText()) < 0 && check) {
+            phanTram.requestFocus();
+            JOptionPane.showMessageDialog(null, "Phần trăm giảm giá phải lớn hơn 0%!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            check = false;
+        }
+
         if (!isNumeric(phanTram.getText()) && check) {
             phanTram.requestFocus();
             phanTram.setText("");

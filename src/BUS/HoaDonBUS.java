@@ -215,7 +215,7 @@ public class HoaDonBUS {
     public void TimKiemHoaDonTheoNgay_TongTien(JDateChooser JDTuNgay,JDateChooser JDDenNgay,JTextField TextFieldGiaTu,JTextField TextFieldDenGia,JTable TblHoaDon){
         DefaultTableModel model = new DefaultTableModel(
             new String[] {
-                "Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Mã khuyến mãi", "Ngày lập", "Mã ưu đãi", "Tổng tiền"
+                "Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Mã khuyến mãi", "Mã ưu đãi", "Ngày lập", "Tổng tiền"
             }, 
             0 
         ){

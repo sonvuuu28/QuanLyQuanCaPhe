@@ -182,8 +182,7 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
                     try {
-                        String rawText = tienNhan.getText().replace(".", "").trim();
-
+                        String rawText = tienNhan.getText().replace(",", "").replace(".", "").trim();
                         int TienNhan = Integer.parseInt(rawText);
 
                         if (TienNhan < tien_discount) {
