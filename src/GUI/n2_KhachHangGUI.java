@@ -790,10 +790,10 @@ public class n2_KhachHangGUI extends javax.swing.JPanel {
     }
 
     public int parseCurrency(String currencyStr) {
-       
-        String cleanedStr = currencyStr.replace(",", "").replace("VNĐ", "").trim();
+        String cleanedStr = currencyStr.replace(",", "").replace(".", "").replace("VNĐ", "").trim();
         return Integer.parseInt(cleanedStr);
     }
+    
 
     public String formatCurrency(String amountStr) {
         try {
