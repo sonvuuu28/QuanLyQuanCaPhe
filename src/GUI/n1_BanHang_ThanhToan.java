@@ -182,7 +182,8 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
                     try {
-                        String rawText = tienNhan.getText().replace("[.,]", "").trim();
+                        String rawText = tienNhan.getText().replace(".", "").trim();
+
                         int TienNhan = Integer.parseInt(rawText);
 
                         if (TienNhan < tien_discount) {
@@ -191,9 +192,14 @@ public class n1_BanHang_ThanhToan extends javax.swing.JFrame {
                             return;
                         }
 
-                        int TienThua = TienNhan - tien_discount;
+                        if (tien_discount == 0) {
+                            int TienThua = TienNhan - tien_Goc;
+                            tienThua.setText(Util.BanHang.set_Tien_VND(TienThua));
+                        } else {
+                            int TienThua = TienNhan - tien_discount;
+                            tienThua.setText(Util.BanHang.set_Tien_VND(TienThua));
+                        }
 
-                        tienThua.setText(Util.BanHang.set_Tien_VND(TienThua));
 
                     } catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
